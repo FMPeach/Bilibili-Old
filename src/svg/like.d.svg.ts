@@ -1,3 +1,3 @@
-const svgLike: string;
+const svgDislike: string;
 
-export default svgLike;
+export default svgDislike;

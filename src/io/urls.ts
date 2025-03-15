@@ -10,6 +10,7 @@ export class URLS {
     private static readonly D_WWW = 'www.bilibili.com';
     private static readonly D_API = 'api.bilibili.com';
     private static readonly D_APP = 'app.bilibili.com';
+    private static readonly D_APPAPI = 'app.biliapi.net';
     private static readonly D_MANAGER = 'manager.bilibili.co';
     private static readonly D_INTERFACE = 'interface.bilibili.com';
     private static readonly D_PASSPORT = 'passport.bilibili.com';
@@ -63,6 +64,7 @@ export class URLS {
     static readonly PLAYURL_INTERFACE = URLS.P_AUTO + URLS.D_INTERFACE + '/v2/playurl';
     static readonly PLAYURL_BANGUMI = URLS.P_AUTO + URLS.D_BANGUMI + '/player/web_api/v2/playurl';
     static readonly LIKE = URLS.P_AUTO + URLS.D_API + '/x/web-interface/archive/like';
+    static readonly DISLIKE = URLS.P_AUTO + URLS.D_APPAPI + '/x/v2/view/dislike';
     static readonly HAS_LIKE = URLS.P_AUTO + URLS.D_API + '/x/web-interface/archive/has/like';
     static readonly DM_WEB_VIEW = URLS.P_AUTO + URLS.D_API + '/x/v2/dm/web/view';
     static readonly DM_WEB_SEG_SO = URLS.P_AUTO + URLS.D_API + '/x/v2/dm/web/seg.so';
