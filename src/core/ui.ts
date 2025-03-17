@@ -245,6 +245,7 @@ export class UI {
             this.switch('commentJumpUrlTitle', '评论超链接标题', '还原为链接或短链接', undefined, undefined, '直接显示链接标题固然方便，但有些时候还是直接显示链接合适。'),
             this.switch('like', '添加点赞功能', '不支持一键三连'),
             this.switch('dynamicBanner', '动态Banner', '启用动态分层视差Banner', undefined, undefined, '启用动态Banner，渲染支持鼠标视差。关闭则使用静态Banner图片。'),
+            this.switch('copyright', '向视频标题左侧添加搬运提示', '使用"活动作品"的样式'),
             this.switch('episodeData', '分集数据', 'bangumi', undefined, undefined, '显示bangumi分集播放和弹幕数，原始合计数据移动到鼠标浮动提示中。'),
             this.switch('simpleChinese', '繁 -> 简', '将繁体字幕翻译为简体', undefined, undefined, '识别并替换CC字幕繁体并转化为简体，使用内置的简繁对照表机械翻译。'),
             this.switch('commentPicture', '评论图片', '显示评论中的图片')
