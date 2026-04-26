@@ -22,6 +22,7 @@ import { debug } from "../utils/debug";
 import { addCss } from "../utils/element";
 import { unitFormat } from "../utils/format/unit";
 import { urlObj } from "../utils/format/url";
+import { FetchHook } from "../utils/hook/fetch";
 import { propertyHook } from "../utils/hook/method";
 import { xhrHook } from "../utils/hook/xhr";
 import { poll } from "../utils/poll";
@@ -76,9 +77,9 @@ export class PageBangumi extends Page {
         this.pgc = true;
         location.href.replace(/[sS][sS]\d+/, d => this.ssid = <any>Number(d.substring(2)));
         location.href.replace(/[eE][pP]\d+/, d => this.epid = <any>Number(d.substring(2)));
-        this.followSeason();
         this.recommend();
         this.seasonCount();
+        this.followAction();
         this.season();
         this.review();
         this.sponsorRank();
@@ -91,12 +92,6 @@ export class PageBangumi extends Page {
         Header.primaryMenu();
         Header.banner();
         this.updateDom();
-    }
-
-    /** 获取csrf */
-    protected getCsrf(): string {
-        const match = document.cookie.match(/bili_jct=([^;]+)/);
-        return match ? match[1] : '';
     }
 
     /** 修复：末尾番剧推荐 */
@@ -123,7 +118,6 @@ export class PageBangumi extends Page {
     /** 修复追番数据 */
     protected seasonCount() {
         xhrHook("bangumi.bilibili.com/ext/web_api/season_count", args => {
-            // bangumi接口已追番数据恒等于0
             args[1] = args[1].replace("bangumi.bilibili.com/ext/web_api/season_count", "api.bilibili.com/pgc/web/season/stat");
         }, r => {
             try {
@@ -134,100 +128,76 @@ export class PageBangumi extends Page {
         }, true);
     }
 
-    /** 修复追番按钮 */
-    protected followSeason() {
-        const originalFetch = window.fetch;
-        const self = this;
-        window.fetch = async function(input: RequestInfo | URL, init?: RequestInit) {
-            const url = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url;
-            
-            // 拦截追番接口
-            if (url.includes('bangumi.bilibili.com/follow/web_api/season/follow')) {
-                try {
-                    let seasonId = '';
-                    const urlObj = new URL(url, location.origin);
-                    seasonId = urlObj.searchParams.get('season_id') || '';
-                    if (!seasonId && init?.body) {
-                        const bodyStr = init.body.toString();
-                        const bodyParams = new URLSearchParams(bodyStr);
-                        seasonId = bodyParams.get('season_id') || '';
-                    }
-                    if (!seasonId) {
-                        seasonId = String((<any>window).__INITIAL_STATE__?.ssId || self.ssid || '');
-                    }
-                    const csrf = self.getCsrf();
+    /** 拦截旧版追番接口，重定向到新版 PGC 接口 */
+    protected followAction() {
+        // XHR 拦截（旧版页面脚本使用 XMLHttpRequest）
+        xhrHook("bangumi.bilibili.com/follow/web_api/season/follow", args => {
+            const url = new URL(args[1], location.origin);
+            const seasonId = url.searchParams.get('season_id') || String(this.ssid);
+            const csrf = document.cookie.match(/bili_jct=([^;]+)/)?.[1] || '';
+            args[1] = `//api.bilibili.com/pgc/web/follow/add?season_id=${seasonId}&csrf=${csrf}`;
+            args[0] = 'POST';
+        }, undefined, false);
+        xhrHook(["bangumi.bilibili.com/follow/web_api/season/unfollow", "bangumi.bilibili.com/follow/web_api/season/cancel"], args => {
+            const url = new URL(args[1], location.origin);
+            const seasonId = url.searchParams.get('season_id') || String(this.ssid);
+            const csrf = document.cookie.match(/bili_jct=([^;]+)/)?.[1] || '';
+            args[1] = `//api.bilibili.com/pgc/web/follow/del?season_id=${seasonId}&csrf=${csrf}`;
+            args[0] = 'POST';
+        }, undefined, false);
 
-                    const newUrl = `https://api.bilibili.com/pgc/web/follow/add`;
-                    const newInit: RequestInit = {
-                        ...init,
-                        method: 'POST',
-                        credentials: 'include',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                        },
-                        body: new URLSearchParams({
-                            season_id: seasonId,
-                            csrf: csrf
-                        }).toString()
-                    };
-                    return originalFetch.call(this, newUrl, newInit);
-                } catch (e) {}
-            }
-            
-            // 拦截取消追番接口
-            if (url.includes('bangumi.bilibili.com/follow/web_api/season/unfollow') || 
-                url.includes('bangumi.bilibili.com/follow/web_api/season/cancel')) {
-                try {
-                    let seasonId = '';
-                    const urlObj = new URL(url, location.origin);
-                    seasonId = urlObj.searchParams.get('season_id') || '';
-                    if (!seasonId && init?.body) {
-                        const bodyParams = new URLSearchParams(init.body.toString());
-                        seasonId = bodyParams.get('season_id') || '';
-                    }
-                    if (!seasonId) {
-                        seasonId = String((<any>window).__INITIAL_STATE__?.ssId || self.ssid || '');
-                    }
-                    const csrf = self.getCsrf();
-                    
-                    const newUrl = `https://api.bilibili.com/pgc/web/follow/del`;
-                    const newInit: RequestInit = {
-                        ...init,
-                        method: 'POST',
-                        credentials: 'include',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                        },
-                        body: new URLSearchParams({
-                            season_id: seasonId,
-                            csrf: csrf
-                        }).toString()
-                    };
-                    return originalFetch.call(this, newUrl, newInit);
-                } catch (e) {}
-            }
-            
-            return originalFetch.call(this, input, init);
-        };
-    }
-    // 同步追番状态到 INITIAL_STATE
-    protected async syncFollowState() {
-        try {
-            const seasonId =
-                this.ssid ||
-                (<any>window).__INITIAL_STATE__?.mediaInfo?.season_id;
-            if (!seasonId) return;
-            const res = await fetch(
-                `https://api.bilibili.com/pgc/view/web/season/user/status?season_id=${seasonId}`,
-                { credentials: 'include' }
-            );
-            const json = await res.json();
-            const follow = json?.result?.follow ?? 0;
-            const t = (<any>window).__INITIAL_STATE__;
-            t.userStat.follow = follow;
-            t.seasonFollowed = follow === 1;
-        } catch (e) {
-        }
+        // Fetch 拦截（新版残留脚本使用 fetch）
+        // 注意：FetchHook 的 urls 使用 every() 匹配，每个实例只能有一个 URL 模式
+        const followFetchHook = new FetchHook('bangumi.bilibili.com/follow/web_api/season/follow');
+        followFetchHook.request((req) => {
+            const url = req.input.toString();
+            const urlObj = new URL(url, location.origin);
+            const seasonId = urlObj.searchParams.get('season_id') || String(this.ssid);
+            const csrf = document.cookie.match(/bili_jct=([^;]+)/)?.[1] || '';
+            req.input = `//api.bilibili.com/pgc/web/follow/add?season_id=${seasonId}&csrf=${csrf}`;
+            req.init = {
+                ...req.init,
+                method: 'POST',
+                credentials: 'include'
+            };
+        });
+        followFetchHook.response(async (res) => {
+            return res.text();
+        });
+
+        const unfollowFetchHook = new FetchHook('bangumi.bilibili.com/follow/web_api/season/unfollow');
+        unfollowFetchHook.request((req) => {
+            const url = req.input.toString();
+            const urlObj = new URL(url, location.origin);
+            const seasonId = urlObj.searchParams.get('season_id') || String(this.ssid);
+            const csrf = document.cookie.match(/bili_jct=([^;]+)/)?.[1] || '';
+            req.input = `//api.bilibili.com/pgc/web/follow/del?season_id=${seasonId}&csrf=${csrf}`;
+            req.init = {
+                ...req.init,
+                method: 'POST',
+                credentials: 'include'
+            };
+        });
+        unfollowFetchHook.response(async (res) => {
+            return res.text();
+        });
+
+        const cancelFetchHook = new FetchHook('bangumi.bilibili.com/follow/web_api/season/cancel');
+        cancelFetchHook.request((req) => {
+            const url = req.input.toString();
+            const urlObj = new URL(url, location.origin);
+            const seasonId = urlObj.searchParams.get('season_id') || String(this.ssid);
+            const csrf = document.cookie.match(/bili_jct=([^;]+)/)?.[1] || '';
+            req.input = `//api.bilibili.com/pgc/web/follow/del?season_id=${seasonId}&csrf=${csrf}`;
+            req.init = {
+                ...req.init,
+                method: 'POST',
+                credentials: 'include'
+            };
+        });
+        cancelFetchHook.response(async (res) => {
+            return res.text();
+        });
     }
 
     /** 修复换季时请求 502 */ 
@@ -236,6 +206,9 @@ export class PageBangumi extends Page {
             args[1] = args[1].replace("bangumi.bilibili.com/view/web_api/season", "api.bilibili.com/pgc/view/web/season");
         }, r => {
             const bangumiResult = jsonCheck(r.response);
+            if (bangumiResult.result.season_id) {
+                this.ssid = bangumiResult.result.season_id;
+            }
             bangumiResult.result.episodes.forEach((e: any) => {
                 e.index_title = e.long_title;
                 e.index = e.title;
@@ -463,7 +436,6 @@ export class PageBangumi extends Page {
                                 this.limit = status.area_limit || 0;
                                 user.userStatus!.videoLimit.status || (t.area = this.limit);
                                 t.seasonFollowed = 1 === status.follow;
-                                setTimeout(() => this.syncFollowState?.(), 0);// 异步同步追番状态
                             }
                             const i = JSON.parse(JSON.stringify(bangumi));
                             delete i.episodes;

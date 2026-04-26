@@ -164,9 +164,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/crypt/crypt.js
+  // node_modules/crypt/crypt.js
   var require_crypt = __commonJS({
-    "../node_modules/crypt/crypt.js"(exports2, module2) {
+    "node_modules/crypt/crypt.js"(exports2, module2) {
       init_tampermonkey();
       (function() {
         var base64map = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", crypt = {
@@ -246,9 +246,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/charenc/charenc.js
+  // node_modules/charenc/charenc.js
   var require_charenc = __commonJS({
-    "../node_modules/charenc/charenc.js"(exports2, module2) {
+    "node_modules/charenc/charenc.js"(exports2, module2) {
       init_tampermonkey();
       var charenc = {
         // UTF-8 encoding
@@ -282,9 +282,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/is-buffer/index.js
+  // node_modules/is-buffer/index.js
   var require_is_buffer = __commonJS({
-    "../node_modules/is-buffer/index.js"(exports2, module2) {
+    "node_modules/is-buffer/index.js"(exports2, module2) {
       init_tampermonkey();
       module2.exports = function(obj) {
         return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer);
@@ -298,9 +298,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/md5/md5.js
+  // node_modules/md5/md5.js
   var require_md5 = __commonJS({
-    "../node_modules/md5/md5.js"(exports2, module2) {
+    "node_modules/md5/md5.js"(exports2, module2) {
       init_tampermonkey();
       (function() {
         var crypt = require_crypt(), utf8 = require_charenc().utf8, isBuffer = require_is_buffer(), bin = require_charenc().bin, md54 = function(message, options) {
@@ -421,9 +421,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/@protobufjs/aspromise/index.js
+  // node_modules/@protobufjs/aspromise/index.js
   var require_aspromise = __commonJS({
-    "../node_modules/@protobufjs/aspromise/index.js"(exports2, module2) {
+    "node_modules/@protobufjs/aspromise/index.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = asPromise;
@@ -458,9 +458,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/@protobufjs/base64/index.js
+  // node_modules/@protobufjs/base64/index.js
   var require_base64 = __commonJS({
-    "../node_modules/@protobufjs/base64/index.js"(exports2) {
+    "node_modules/@protobufjs/base64/index.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var base642 = exports2;
@@ -559,9 +559,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/@protobufjs/eventemitter/index.js
+  // node_modules/@protobufjs/eventemitter/index.js
   var require_eventemitter = __commonJS({
-    "../node_modules/@protobufjs/eventemitter/index.js"(exports2, module2) {
+    "node_modules/@protobufjs/eventemitter/index.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = EventEmitter;
@@ -606,9 +606,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/@protobufjs/float/index.js
+  // node_modules/@protobufjs/float/index.js
   var require_float = __commonJS({
-    "../node_modules/@protobufjs/float/index.js"(exports2, module2) {
+    "node_modules/@protobufjs/float/index.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = factory(factory);
@@ -801,9 +801,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/@protobufjs/inquire/index.js
+  // node_modules/@protobufjs/inquire/index.js
   var require_inquire = __commonJS({
-    "../node_modules/@protobufjs/inquire/index.js"(exports, module) {
+    "node_modules/@protobufjs/inquire/index.js"(exports, module) {
       "use strict";
       init_tampermonkey();
       module.exports = inquire;
@@ -819,9 +819,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/@protobufjs/utf8/index.js
+  // node_modules/@protobufjs/utf8/index.js
   var require_utf8 = __commonJS({
-    "../node_modules/@protobufjs/utf8/index.js"(exports2) {
+    "node_modules/@protobufjs/utf8/index.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var utf8 = exports2;
@@ -897,9 +897,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/@protobufjs/pool/index.js
+  // node_modules/@protobufjs/pool/index.js
   var require_pool = __commonJS({
-    "../node_modules/@protobufjs/pool/index.js"(exports2, module2) {
+    "node_modules/@protobufjs/pool/index.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = pool;
@@ -924,9 +924,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/util/longbits.js
+  // node_modules/protobufjs/src/util/longbits.js
   var require_longbits = __commonJS({
-    "../node_modules/protobufjs/src/util/longbits.js"(exports2, module2) {
+    "node_modules/protobufjs/src/util/longbits.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = LongBits;
@@ -1027,9 +1027,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/util/minimal.js
+  // node_modules/protobufjs/src/util/minimal.js
   var require_minimal = __commonJS({
-    "../node_modules/protobufjs/src/util/minimal.js"(exports2) {
+    "node_modules/protobufjs/src/util/minimal.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var util = exports2;
@@ -1203,9 +1203,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/writer.js
+  // node_modules/protobufjs/src/writer.js
   var require_writer = __commonJS({
-    "../node_modules/protobufjs/src/writer.js"(exports2, module2) {
+    "node_modules/protobufjs/src/writer.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Writer2;
@@ -1395,9 +1395,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/writer_buffer.js
+  // node_modules/protobufjs/src/writer_buffer.js
   var require_writer_buffer = __commonJS({
-    "../node_modules/protobufjs/src/writer_buffer.js"(exports2, module2) {
+    "node_modules/protobufjs/src/writer_buffer.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = BufferWriter;
@@ -1446,9 +1446,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/reader.js
+  // node_modules/protobufjs/src/reader.js
   var require_reader = __commonJS({
-    "../node_modules/protobufjs/src/reader.js"(exports2, module2) {
+    "node_modules/protobufjs/src/reader.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Reader2;
@@ -1671,9 +1671,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/reader_buffer.js
+  // node_modules/protobufjs/src/reader_buffer.js
   var require_reader_buffer = __commonJS({
-    "../node_modules/protobufjs/src/reader_buffer.js"(exports2, module2) {
+    "node_modules/protobufjs/src/reader_buffer.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = BufferReader;
@@ -1695,9 +1695,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/rpc/service.js
+  // node_modules/protobufjs/src/rpc/service.js
   var require_service = __commonJS({
-    "../node_modules/protobufjs/src/rpc/service.js"(exports2, module2) {
+    "node_modules/protobufjs/src/rpc/service.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Service;
@@ -1771,9 +1771,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/rpc.js
+  // node_modules/protobufjs/src/rpc.js
   var require_rpc = __commonJS({
-    "../node_modules/protobufjs/src/rpc.js"(exports2) {
+    "node_modules/protobufjs/src/rpc.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var rpc = exports2;
@@ -1781,18 +1781,18 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/roots.js
+  // node_modules/protobufjs/src/roots.js
   var require_roots = __commonJS({
-    "../node_modules/protobufjs/src/roots.js"(exports2, module2) {
+    "node_modules/protobufjs/src/roots.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = {};
     }
   });
 
-  // ../node_modules/protobufjs/src/index-minimal.js
+  // node_modules/protobufjs/src/index-minimal.js
   var require_index_minimal = __commonJS({
-    "../node_modules/protobufjs/src/index-minimal.js"(exports2) {
+    "node_modules/protobufjs/src/index-minimal.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var protobuf = exports2;
@@ -1814,9 +1814,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/@protobufjs/codegen/index.js
+  // node_modules/@protobufjs/codegen/index.js
   var require_codegen = __commonJS({
-    "../node_modules/@protobufjs/codegen/index.js"(exports2, module2) {
+    "node_modules/@protobufjs/codegen/index.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = codegen;
@@ -1877,9 +1877,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/@protobufjs/fetch/index.js
+  // node_modules/@protobufjs/fetch/index.js
   var require_fetch = __commonJS({
-    "../node_modules/@protobufjs/fetch/index.js"(exports2, module2) {
+    "node_modules/@protobufjs/fetch/index.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = fetch2;
@@ -1929,9 +1929,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/@protobufjs/path/index.js
+  // node_modules/@protobufjs/path/index.js
   var require_path = __commonJS({
-    "../node_modules/@protobufjs/path/index.js"(exports2) {
+    "node_modules/@protobufjs/path/index.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var path = exports2;
@@ -1984,9 +1984,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/namespace.js
+  // node_modules/protobufjs/src/namespace.js
   var require_namespace = __commonJS({
-    "../node_modules/protobufjs/src/namespace.js"(exports2, module2) {
+    "node_modules/protobufjs/src/namespace.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Namespace;
@@ -2256,9 +2256,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/mapfield.js
+  // node_modules/protobufjs/src/mapfield.js
   var require_mapfield = __commonJS({
-    "../node_modules/protobufjs/src/mapfield.js"(exports2, module2) {
+    "node_modules/protobufjs/src/mapfield.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = MapField;
@@ -2313,9 +2313,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/method.js
+  // node_modules/protobufjs/src/method.js
   var require_method = __commonJS({
-    "../node_modules/protobufjs/src/method.js"(exports2, module2) {
+    "node_modules/protobufjs/src/method.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Method;
@@ -2382,9 +2382,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/service.js
+  // node_modules/protobufjs/src/service.js
   var require_service2 = __commonJS({
-    "../node_modules/protobufjs/src/service.js"(exports2, module2) {
+    "node_modules/protobufjs/src/service.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Service;
@@ -2493,9 +2493,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/message.js
+  // node_modules/protobufjs/src/message.js
   var require_message = __commonJS({
-    "../node_modules/protobufjs/src/message.js"(exports2, module2) {
+    "node_modules/protobufjs/src/message.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Message2;
@@ -2539,9 +2539,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/decoder.js
+  // node_modules/protobufjs/src/decoder.js
   var require_decoder = __commonJS({
-    "../node_modules/protobufjs/src/decoder.js"(exports2, module2) {
+    "node_modules/protobufjs/src/decoder.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = decoder;
@@ -2591,9 +2591,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/verifier.js
+  // node_modules/protobufjs/src/verifier.js
   var require_verifier = __commonJS({
-    "../node_modules/protobufjs/src/verifier.js"(exports2, module2) {
+    "node_modules/protobufjs/src/verifier.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = verifier;
@@ -2697,9 +2697,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/converter.js
+  // node_modules/protobufjs/src/converter.js
   var require_converter = __commonJS({
-    "../node_modules/protobufjs/src/converter.js"(exports2) {
+    "node_modules/protobufjs/src/converter.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var converter = exports2;
@@ -2902,9 +2902,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/wrappers.js
+  // node_modules/protobufjs/src/wrappers.js
   var require_wrappers = __commonJS({
-    "../node_modules/protobufjs/src/wrappers.js"(exports2) {
+    "node_modules/protobufjs/src/wrappers.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var wrappers = exports2;
@@ -2954,9 +2954,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/type.js
+  // node_modules/protobufjs/src/type.js
   var require_type = __commonJS({
-    "../node_modules/protobufjs/src/type.js"(exports2, module2) {
+    "node_modules/protobufjs/src/type.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Type3;
@@ -3292,9 +3292,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/root.js
+  // node_modules/protobufjs/src/root.js
   var require_root = __commonJS({
-    "../node_modules/protobufjs/src/root.js"(exports2, module2) {
+    "node_modules/protobufjs/src/root.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Root4;
@@ -3542,9 +3542,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/util.js
+  // node_modules/protobufjs/src/util.js
   var require_util = __commonJS({
-    "../node_modules/protobufjs/src/util.js"(exports2, module2) {
+    "node_modules/protobufjs/src/util.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       var util = module2.exports = require_minimal();
@@ -3657,9 +3657,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/types.js
+  // node_modules/protobufjs/src/types.js
   var require_types = __commonJS({
-    "../node_modules/protobufjs/src/types.js"(exports2) {
+    "node_modules/protobufjs/src/types.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var types = exports2;
@@ -3837,9 +3837,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/field.js
+  // node_modules/protobufjs/src/field.js
   var require_field = __commonJS({
-    "../node_modules/protobufjs/src/field.js"(exports2, module2) {
+    "node_modules/protobufjs/src/field.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Field2;
@@ -4035,9 +4035,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/oneof.js
+  // node_modules/protobufjs/src/oneof.js
   var require_oneof = __commonJS({
-    "../node_modules/protobufjs/src/oneof.js"(exports2, module2) {
+    "node_modules/protobufjs/src/oneof.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = OneOf2;
@@ -4144,9 +4144,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/object.js
+  // node_modules/protobufjs/src/object.js
   var require_object = __commonJS({
-    "../node_modules/protobufjs/src/object.js"(exports2, module2) {
+    "node_modules/protobufjs/src/object.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = ReflectionObject2;
@@ -4347,9 +4347,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/enum.js
+  // node_modules/protobufjs/src/enum.js
   var require_enum = __commonJS({
-    "../node_modules/protobufjs/src/enum.js"(exports2, module2) {
+    "node_modules/protobufjs/src/enum.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Enum;
@@ -4457,9 +4457,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/encoder.js
+  // node_modules/protobufjs/src/encoder.js
   var require_encoder = __commonJS({
-    "../node_modules/protobufjs/src/encoder.js"(exports2, module2) {
+    "node_modules/protobufjs/src/encoder.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = encoder;
@@ -4507,9 +4507,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/index-light.js
+  // node_modules/protobufjs/src/index-light.js
   var require_index_light = __commonJS({
-    "../node_modules/protobufjs/src/index-light.js"(exports2, module2) {
+    "node_modules/protobufjs/src/index-light.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       var protobuf = module2.exports = require_index_minimal();
@@ -4554,18 +4554,18 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/light.js
+  // node_modules/protobufjs/light.js
   var require_light = __commonJS({
-    "../node_modules/protobufjs/light.js"(exports2, module2) {
+    "node_modules/protobufjs/light.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = require_index_light();
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/value-types.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/value-types.js
   var require_value_types = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/value-types.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/value-types.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -4618,9 +4618,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/InsertData.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/InsertData.js
   var require_InsertData = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/InsertData.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/InsertData.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -4643,9 +4643,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/lodash.isequal/index.js
+  // node_modules/lodash.isequal/index.js
   var require_lodash = __commonJS({
-    "../node_modules/lodash.isequal/index.js"(exports2, module2) {
+    "node_modules/lodash.isequal/index.js"(exports2, module2) {
       init_tampermonkey();
       var LARGE_ARRAY_SIZE = 200;
       var HASH_UNDEFINED = "__lodash_hash_undefined__";
@@ -5345,9 +5345,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/DeltaInsertOp.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/DeltaInsertOp.js
   var require_DeltaInsertOp = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/DeltaInsertOp.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/DeltaInsertOp.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var __importDefault = exports2 && exports2.__importDefault || function(mod2) {
@@ -5468,9 +5468,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/mentions/MentionSanitizer.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/mentions/MentionSanitizer.js
   var require_MentionSanitizer = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/mentions/MentionSanitizer.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/mentions/MentionSanitizer.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -5518,9 +5518,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/url.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/url.js
   var require_url = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/url.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/url.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -5537,9 +5537,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/funcs-html.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/funcs-html.js
   var require_funcs_html = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/funcs-html.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/funcs-html.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -5628,9 +5628,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/array.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/array.js
   var require_array = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/array.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/array.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -5703,9 +5703,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/OpAttributeSanitizer.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/OpAttributeSanitizer.js
   var require_OpAttributeSanitizer = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/OpAttributeSanitizer.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/OpAttributeSanitizer.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var __importStar = exports2 && exports2.__importStar || function(mod2) {
@@ -5879,9 +5879,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/string.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/string.js
   var require_string = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/string.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/string.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -5912,9 +5912,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/object.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/object.js
   var require_object2 = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/object.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/object.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -5943,9 +5943,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpDenormalizer.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpDenormalizer.js
   var require_InsertOpDenormalizer = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpDenormalizer.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpDenormalizer.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var __importStar = exports2 && exports2.__importStar || function(mod2) {
@@ -5991,9 +5991,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpsConverter.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpsConverter.js
   var require_InsertOpsConverter = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpsConverter.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpsConverter.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -6045,9 +6045,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/OpToHtmlConverter.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/OpToHtmlConverter.js
   var require_OpToHtmlConverter = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/OpToHtmlConverter.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/OpToHtmlConverter.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var __importStar = exports2 && exports2.__importStar || function(mod2) {
@@ -6362,9 +6362,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/group-types.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/group-types.js
   var require_group_types = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/group-types.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/group-types.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var __extends = exports2 && exports2.__extends || (function() {
@@ -6461,9 +6461,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/Grouper.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/Grouper.js
   var require_Grouper = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/Grouper.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/Grouper.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -6555,9 +6555,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/ListNester.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/ListNester.js
   var require_ListNester = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/ListNester.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/ListNester.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -6657,9 +6657,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/TableGrouper.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/TableGrouper.js
   var require_TableGrouper = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/TableGrouper.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/TableGrouper.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -6703,9 +6703,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/QuillDeltaToHtmlConverter.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/QuillDeltaToHtmlConverter.js
   var require_QuillDeltaToHtmlConverter = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/QuillDeltaToHtmlConverter.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/QuillDeltaToHtmlConverter.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var __importStar = exports2 && exports2.__importStar || function(mod2) {
@@ -6942,9 +6942,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/main.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/main.js
   var require_main = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/main.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/main.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -12001,7 +12001,7 @@ const MODULES = `
     }
   };
 
-  // ../node_modules/fflate/esm/browser.js
+  // node_modules/fflate/esm/browser.js
   init_tampermonkey();
   var u8 = Uint8Array;
   var u16 = Uint16Array;
@@ -38106,9 +38106,9 @@ const MODULES = `
       this.pgc = true;
       location.href.replace(/[sS][sS]\\d+/, (d) => this.ssid = Number(d.substring(2)));
       location.href.replace(/[eE][pP]\\d+/, (d) => this.epid = Number(d.substring(2)));
-      this.followSeason();
       this.recommend();
       this.seasonCount();
+      this.followAction();
       this.season();
       this.review();
       this.sponsorRank();
@@ -38121,11 +38121,6 @@ const MODULES = `
       Header.primaryMenu();
       Header.banner();
       this.updateDom();
-    }
-    /** 获取csrf */
-    getCsrf() {
-      const match = document.cookie.match(/bili_jct=([^;]+)/);
-      return match ? match[1] : "";
     }
     /** 修复：末尾番剧推荐 */
     recommend() {
@@ -38160,94 +38155,75 @@ const MODULES = `
         }
       }, true);
     }
-    /** 修复追番按钮 */
-    followSeason() {
-      const originalFetch = window.fetch;
-      const self2 = this;
-      window.fetch = async function(input, init) {
-        var _a3, _b2;
-        const url = typeof input === "string" ? input : input instanceof URL ? input.href : input.url;
-        if (url.includes("bangumi.bilibili.com/follow/web_api/season/follow")) {
-          try {
-            let seasonId = "";
-            const urlObj2 = new URL(url, location.origin);
-            seasonId = urlObj2.searchParams.get("season_id") || "";
-            if (!seasonId && (init == null ? void 0 : init.body)) {
-              const bodyStr = init.body.toString();
-              const bodyParams = new URLSearchParams(bodyStr);
-              seasonId = bodyParams.get("season_id") || "";
-            }
-            if (!seasonId) {
-              seasonId = String(((_a3 = window.__INITIAL_STATE__) == null ? void 0 : _a3.ssId) || self2.ssid || "");
-            }
-            const csrf = self2.getCsrf();
-            const newUrl = \`https://api.bilibili.com/pgc/web/follow/add\`;
-            const newInit = {
-              ...init,
-              method: "POST",
-              credentials: "include",
-              headers: {
-                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
-              },
-              body: new URLSearchParams({
-                season_id: seasonId,
-                csrf
-              }).toString()
-            };
-            return originalFetch.call(this, newUrl, newInit);
-          } catch (e) {
-          }
-        }
-        if (url.includes("bangumi.bilibili.com/follow/web_api/season/unfollow") || url.includes("bangumi.bilibili.com/follow/web_api/season/cancel")) {
-          try {
-            let seasonId = "";
-            const urlObj2 = new URL(url, location.origin);
-            seasonId = urlObj2.searchParams.get("season_id") || "";
-            if (!seasonId && (init == null ? void 0 : init.body)) {
-              const bodyParams = new URLSearchParams(init.body.toString());
-              seasonId = bodyParams.get("season_id") || "";
-            }
-            if (!seasonId) {
-              seasonId = String(((_b2 = window.__INITIAL_STATE__) == null ? void 0 : _b2.ssId) || self2.ssid || "");
-            }
-            const csrf = self2.getCsrf();
-            const newUrl = \`https://api.bilibili.com/pgc/web/follow/del\`;
-            const newInit = {
-              ...init,
-              method: "POST",
-              credentials: "include",
-              headers: {
-                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
-              },
-              body: new URLSearchParams({
-                season_id: seasonId,
-                csrf
-              }).toString()
-            };
-            return originalFetch.call(this, newUrl, newInit);
-          } catch (e) {
-          }
-        }
-        return originalFetch.call(this, input, init);
-      };
-    }
-    // 同步追番状态到 INITIAL_STATE
-    async syncFollowState() {
-      var _a3, _b2, _c, _d;
-      try {
-        const seasonId = this.ssid || ((_b2 = (_a3 = window.__INITIAL_STATE__) == null ? void 0 : _a3.mediaInfo) == null ? void 0 : _b2.season_id);
-        if (!seasonId) return;
-        const res = await fetch(
-          \`https://api.bilibili.com/pgc/view/web/season/user/status?season_id=\${seasonId}\`,
-          { credentials: "include" }
-        );
-        const json = await res.json();
-        const follow = (_d = (_c = json == null ? void 0 : json.result) == null ? void 0 : _c.follow) != null ? _d : 0;
-        const t = window.__INITIAL_STATE__;
-        t.userStat.follow = follow;
-        t.seasonFollowed = follow === 1;
-      } catch (e) {
-      }
+    /** 拦截旧版追番接口，重定向到新版 PGC 接口 */
+    followAction() {
+      xhrHook("bangumi.bilibili.com/follow/web_api/season/follow", (args) => {
+        var _a3;
+        const url = new URL(args[1], location.origin);
+        const seasonId = url.searchParams.get("season_id") || String(this.ssid);
+        const csrf = ((_a3 = document.cookie.match(/bili_jct=([^;]+)/)) == null ? void 0 : _a3[1]) || "";
+        args[1] = \`//api.bilibili.com/pgc/web/follow/add?season_id=\${seasonId}&csrf=\${csrf}\`;
+        args[0] = "POST";
+      }, void 0, false);
+      xhrHook(["bangumi.bilibili.com/follow/web_api/season/unfollow", "bangumi.bilibili.com/follow/web_api/season/cancel"], (args) => {
+        var _a3;
+        const url = new URL(args[1], location.origin);
+        const seasonId = url.searchParams.get("season_id") || String(this.ssid);
+        const csrf = ((_a3 = document.cookie.match(/bili_jct=([^;]+)/)) == null ? void 0 : _a3[1]) || "";
+        args[1] = \`//api.bilibili.com/pgc/web/follow/del?season_id=\${seasonId}&csrf=\${csrf}\`;
+        args[0] = "POST";
+      }, void 0, false);
+      const followFetchHook = new FetchHook("bangumi.bilibili.com/follow/web_api/season/follow");
+      followFetchHook.request((req) => {
+        var _a3;
+        const url = req.input.toString();
+        const urlObj2 = new URL(url, location.origin);
+        const seasonId = urlObj2.searchParams.get("season_id") || String(this.ssid);
+        const csrf = ((_a3 = document.cookie.match(/bili_jct=([^;]+)/)) == null ? void 0 : _a3[1]) || "";
+        req.input = \`//api.bilibili.com/pgc/web/follow/add?season_id=\${seasonId}&csrf=\${csrf}\`;
+        req.init = {
+          ...req.init,
+          method: "POST",
+          credentials: "include"
+        };
+      });
+      followFetchHook.response(async (res) => {
+        return res.text();
+      });
+      const unfollowFetchHook = new FetchHook("bangumi.bilibili.com/follow/web_api/season/unfollow");
+      unfollowFetchHook.request((req) => {
+        var _a3;
+        const url = req.input.toString();
+        const urlObj2 = new URL(url, location.origin);
+        const seasonId = urlObj2.searchParams.get("season_id") || String(this.ssid);
+        const csrf = ((_a3 = document.cookie.match(/bili_jct=([^;]+)/)) == null ? void 0 : _a3[1]) || "";
+        req.input = \`//api.bilibili.com/pgc/web/follow/del?season_id=\${seasonId}&csrf=\${csrf}\`;
+        req.init = {
+          ...req.init,
+          method: "POST",
+          credentials: "include"
+        };
+      });
+      unfollowFetchHook.response(async (res) => {
+        return res.text();
+      });
+      const cancelFetchHook = new FetchHook("bangumi.bilibili.com/follow/web_api/season/cancel");
+      cancelFetchHook.request((req) => {
+        var _a3;
+        const url = req.input.toString();
+        const urlObj2 = new URL(url, location.origin);
+        const seasonId = urlObj2.searchParams.get("season_id") || String(this.ssid);
+        const csrf = ((_a3 = document.cookie.match(/bili_jct=([^;]+)/)) == null ? void 0 : _a3[1]) || "";
+        req.input = \`//api.bilibili.com/pgc/web/follow/del?season_id=\${seasonId}&csrf=\${csrf}\`;
+        req.init = {
+          ...req.init,
+          method: "POST",
+          credentials: "include"
+        };
+      });
+      cancelFetchHook.response(async (res) => {
+        return res.text();
+      });
     }
     /** 修复换季时请求 502 */
     season() {
@@ -38255,6 +38231,9 @@ const MODULES = `
         args[1] = args[1].replace("bangumi.bilibili.com/view/web_api/season", "api.bilibili.com/pgc/view/web/season");
       }, (r) => {
         const bangumiResult = jsonCheck(r.response);
+        if (bangumiResult.result.season_id) {
+          this.ssid = bangumiResult.result.season_id;
+        }
         bangumiResult.result.episodes.forEach((e) => {
           e.index_title = e.long_title;
           e.index = e.title;
@@ -38477,10 +38456,6 @@ const MODULES = `
               this.limit = status2.area_limit || 0;
               user.userStatus.videoLimit.status || (t2.area = this.limit);
               t2.seasonFollowed = 1 === status2.follow;
-              setTimeout(() => {
-                var _a3;
-                return (_a3 = this.syncFollowState) == null ? void 0 : _a3.call(this);
-              }, 0);
             }
             const i = JSON.parse(JSON.stringify(bangumi));
             delete i.episodes;
@@ -42715,7 +42690,7 @@ const MODULES = `
   init_tampermonkey();
 
   // src/html/online.html
-  var online_default = '<!DOCTYPE html>\\n<html>\\n<head>\\n  <title>当前在线 - 哔哩哔哩 (゜-゜)つロ 干杯~-bilibili</title>\\n  <meta charset="utf-8">\\n  <meta http-equiv="X-UA-Compatible" content="IE=edge">\\n  <meta name="renderer" content="webkit">\\n  <meta name="description" content="bilibili是国内知名的视频弹幕网站，这里有最及时的动漫新番，最棒的ACG氛围，最有创意的Up主。大家可以在这里找到许多欢乐。">\\n  <meta name="keywords" content="B站,弹幕,字幕,AMV,MAD,MTV,ANIME,动漫,动漫音乐,游戏,游戏解说,ACG,galgame,动画,番组,新番,初音,洛天依,vocaloid">\\n  <meta name="spm_prefix" content="333.155">\\n  <script type="text/javascript">\\n    window.spmReportData = {};\\n    window.reportConfig = { sample: 1, scrollTracker: true, msgObjects: "spmReportData", errorTracker: true };\\n  <\\/script>\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/jinkela/short/config/biliconfig.js"><\\/script>\\n  <script type="text/javascript">window.isForceNarrow = true;<\\/script>\\n  <link href="https://s1.hdslb.com/bfs/static/jinkela/online/css/online.0.a1513c351b5a8523705a0ee1793b4f1bcd064865.css" rel="stylesheet">\\n</head>\\n<body>\\n  <div id="biliMainHeader" type="all" style="height:263px"></div>\\n  <div id="online-app"></div>\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/static/jinkela/long/js/jquery/jquery1.7.2.min.js"><\\/script>\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/log/report/log-reporter.js" crossorigin><\\/script>\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/jinkela/header-v2/header.js" defer><\\/script>\\n  <div class="footer bili-footer report-wrap-module"></div>\\n  <script type="text/javascript" charset="utf-8" src="https://s1.hdslb.com/bfs/seed/jinkela/footer-v2/footer.js"><\\/script>\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/jinkela/short/auto-append-spmid.js"><\\/script>\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/static/jinkela/online/1.online.a1513c351b5a8523705a0ee1793b4f1bcd064865.js"><\\/script>\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/static/jinkela/online/online.a1513c351b5a8523705a0ee1793b4f1bcd064865.js"><\\/script>\\n\\n</body>\\n</html>\\n';
+  var online_default = '<!DOCTYPE html>\\r\\n<html>\\r\\n<head>\\r\\n  <title>当前在线 - 哔哩哔哩 (゜-゜)つロ 干杯~-bilibili</title>\\r\\n  <meta charset="utf-8">\\r\\n  <meta http-equiv="X-UA-Compatible" content="IE=edge">\\r\\n  <meta name="renderer" content="webkit">\\r\\n  <meta name="description" content="bilibili是国内知名的视频弹幕网站，这里有最及时的动漫新番，最棒的ACG氛围，最有创意的Up主。大家可以在这里找到许多欢乐。">\\r\\n  <meta name="keywords" content="B站,弹幕,字幕,AMV,MAD,MTV,ANIME,动漫,动漫音乐,游戏,游戏解说,ACG,galgame,动画,番组,新番,初音,洛天依,vocaloid">\\r\\n  <meta name="spm_prefix" content="333.155">\\r\\n  <script type="text/javascript">\\r\\n    window.spmReportData = {};\\r\\n    window.reportConfig = { sample: 1, scrollTracker: true, msgObjects: "spmReportData", errorTracker: true };\\r\\n  <\\/script>\\r\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/jinkela/short/config/biliconfig.js"><\\/script>\\r\\n  <script type="text/javascript">window.isForceNarrow = true;<\\/script>\\r\\n  <link href="https://s1.hdslb.com/bfs/static/jinkela/online/css/online.0.a1513c351b5a8523705a0ee1793b4f1bcd064865.css" rel="stylesheet">\\r\\n</head>\\r\\n<body>\\r\\n  <div id="biliMainHeader" type="all" style="height:263px"></div>\\r\\n  <div id="online-app"></div>\\r\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/static/jinkela/long/js/jquery/jquery1.7.2.min.js"><\\/script>\\r\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/log/report/log-reporter.js" crossorigin><\\/script>\\r\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/jinkela/header-v2/header.js" defer><\\/script>\\r\\n  <div class="footer bili-footer report-wrap-module"></div>\\r\\n  <script type="text/javascript" charset="utf-8" src="https://s1.hdslb.com/bfs/seed/jinkela/footer-v2/footer.js"><\\/script>\\r\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/jinkela/short/auto-append-spmid.js"><\\/script>\\r\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/static/jinkela/online/1.online.a1513c351b5a8523705a0ee1793b4f1bcd064865.js"><\\/script>\\r\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/static/jinkela/online/online.a1513c351b5a8523705a0ee1793b4f1bcd064865.js"><\\/script>\\r\\n\\r\\n</body>\\r\\n</html>\\r\\n';
 
   // src/page/online.ts
   var PageOnline = class extends Page {

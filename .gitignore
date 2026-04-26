@@ -1,5 +1,8 @@
 node_modules
+.trae
 dist
 *.crx
 *.pem
 *.map
+AGENTS.md
+bilibili-api-17.4.1
