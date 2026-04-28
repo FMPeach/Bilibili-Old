@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bilibili 旧播放页
 // @namespace    MotooriKashin
-// @version      10.12.0-df9d4596601ff44eb57c91478414d53966444434
+// @version      10.12.2-c3dd748427ccbbefce8d3423714030e5ad97afd7
 // @description  恢复Bilibili旧版页面，为了那些念旧的人。
 // @author       MotooriKashin, wly5556, FMPeach
 // @homepage     https://github.com/FMPeach/Bilibili-Old
@@ -8929,7 +8929,7 @@ const MODULES = `
       }
     }
   };
-  customElements.get(\`toast-\${"df9d459"}\`) || customElements.define(\`toast-\${"df9d459"}\`, Toast, { extends: "div" });
+  customElements.get(\`toast-\${"c3dd748"}\`) || customElements.define(\`toast-\${"c3dd748"}\`, Toast, { extends: "div" });
   var ToastContainer = class extends HTMLElement {
     /** 实际根节点 */
     container;
@@ -9056,7 +9056,7 @@ const MODULES = `
       }
     }
   };
-  customElements.get(\`toast-container-\${"df9d459"}\`) || customElements.define(\`toast-container-\${"df9d459"}\`, ToastContainer);
+  customElements.get(\`toast-container-\${"c3dd748"}\`) || customElements.define(\`toast-container-\${"c3dd748"}\`, ToastContainer);
   var toast = new ToastContainer();
 
   // src/core/user.ts
@@ -9129,7 +9129,7 @@ const MODULES = `
       }
     }
   };
-  customElements.get("biliold-entry-df9d459") || customElements.define("bilibili-entry-df9d459", BilioldEntry);
+  customElements.get("biliold-entry-c3dd748") || customElements.define("bilibili-entry-c3dd748", BilioldEntry);
 
   // src/core/userstatus.ts
   var userStatus = {
@@ -9412,7 +9412,7 @@ const MODULES = `
       this._button.textContent = v;
     }
   };
-  customElements.get(\`button-\${"df9d459"}\`) || customElements.define(\`button-\${"df9d459"}\`, PushButton);
+  customElements.get(\`button-\${"c3dd748"}\`) || customElements.define(\`button-\${"c3dd748"}\`, PushButton);
 
   // src/core/ui/utils/popupbox.ts
   init_tampermonkey();
@@ -9515,7 +9515,7 @@ const MODULES = `
       }
     }
   };
-  customElements.get(\`popupbox-\${"df9d459"}\`) || customElements.define(\`popupbox-\${"df9d459"}\`, PopupBox);
+  customElements.get(\`popupbox-\${"c3dd748"}\`) || customElements.define(\`popupbox-\${"c3dd748"}\`, PopupBox);
 
   // src/core/ui/alert.ts
   function alert(msg, title, buttons, fork = false) {
@@ -13526,7 +13526,7 @@ const MODULES = `
       this._container.replaceChildren(this._noData);
     }
   };
-  customElements.get(\`download-\${"df9d459"}\`) || customElements.define(\`download-\${"df9d459"}\`, BilioldDownload);
+  customElements.get(\`download-\${"c3dd748"}\`) || customElements.define(\`download-\${"c3dd748"}\`, BilioldDownload);
 
   // src/core/ui/preview-image.ts
   init_tampermonkey();
@@ -13758,7 +13758,7 @@ const MODULES = `
       document.body.style.overflow = "hidden";
     }
   };
-  customElements.get(\`preview-image-\${"df9d459"}\`) || customElements.define(\`preview-image-\${"df9d459"}\`, PreviewImage);
+  customElements.get(\`preview-image-\${"c3dd748"}\`) || customElements.define(\`preview-image-\${"c3dd748"}\`, PreviewImage);
 
   // src/core/videolimit.ts
   init_tampermonkey();
@@ -30613,7 +30613,7 @@ const MODULES = `
           debug.error("获取点赞情况失败", e);
         });
       }
-      addCss(".ulike {cursor: pointer;}.ulike svg{vertical-align: middle;margin-right: 10px;transform: translateY(-1px);}", \`ulike\${"df9d459"}\`);
+      addCss(".ulike {cursor: pointer;}.ulike svg{vertical-align: middle;margin-right: 10px;transform: translateY(-1px);}", \`ulike\${"c3dd748"}\`);
     }
     /** 更新点赞数 */
     get likes() {
@@ -30631,7 +30631,7 @@ const MODULES = `
       this.innerHTML = (this.liked ? like_default : dislike_default) + "点赞 " + unitFormat(this.number);
     }
   };
-  customElements.get(\`like-\${"df9d459"}\`) || customElements.define(\`like-\${"df9d459"}\`, Like, { extends: "span" });
+  customElements.get(\`like-\${"c3dd748"}\`) || customElements.define(\`like-\${"c3dd748"}\`, Like, { extends: "span" });
 
   // src/css/uplist.css
   var uplist_default = ".up-info-m .up-card-box {\\r\\n    white-space: nowrap;\\r\\n    overflow: auto;\\r\\n}\\r\\n\\r\\n.up-info-m .up-card {\\r\\n    display: inline-block;\\r\\n    margin-top: 10px;\\r\\n}\\r\\n\\r\\n.up-info-m .avatar img {\\r\\n    cursor: pointer;\\r\\n    width: 40px;\\r\\n    height: 40px;\\r\\n    border-radius: 50%;\\r\\n}\\r\\n\\r\\n.up-info-m .avatar {\\r\\n    position: relative;\\r\\n}\\r\\n\\r\\n.up-info-m .avatar .info-tag {\\r\\n    position: absolute;\\r\\n    background: #fff;\\r\\n    border: 1px solid #fb7299;\\r\\n    border-radius: 2px;\\r\\n    display: inline-block;\\r\\n    font-size: 12px;\\r\\n    color: #fb7299;\\r\\n    padding: 0 3px;\\r\\n    top: -10px;\\r\\n    right: -10px;\\r\\n    white-space: nowrap;\\r\\n}\\r\\n\\r\\n.up-info-m .avatar {\\r\\n    width: 60px;\\r\\n    height: 30px;\\r\\n    display: -ms-flexbox;\\r\\n    display: flex;\\r\\n    -ms-flex-pack: center;\\r\\n    justify-content: center;\\r\\n    -ms-flex-align: start;\\r\\n    align-items: flex-start;\\r\\n}\\r\\n\\r\\n.up-info-m .avatar .name-text {\\r\\n    font-family: PingFangSC-Regular, sans-serif;\\r\\n    line-height: 30px;\\r\\n    color: #222;\\r\\n    word-break: break-all;\\r\\n    overflow: hidden;\\r\\n    text-overflow: ellipsis;\\r\\n    display: -webkit-box;\\r\\n    -webkit-line-clamp: 2;\\r\\n    -webkit-box-orient: vertical;\\r\\n    white-space: nowrap;\\r\\n}\\r\\n\\r\\n.up-info-m .avatar .name-text.is-vip,\\r\\n.up-info-m .avatar .name-text:hover {\\r\\n    color: #fb7299;\\r\\n}\\r\\n\\r\\n.up-info-m .title {\\r\\n    display: block;\\r\\n    font-size: 14px;\\r\\n    margin-right: 80px;\\r\\n    color: #525659;\\r\\n    overflow: hidden;\\r\\n    height: 24px;\\r\\n    font-weight: 400;\\r\\n    padding: 8px 0;\\r\\n}";
@@ -38793,7 +38793,7 @@ const MODULES = `
   var PageAV = class extends Page {
     /** 销毁标记，当前已不是av页，部分回调禁止生效 */
     destroy = false;
-    /** 当前upinfo是否处于合作UP主卡片布局 */
+    /** 合作UP主模式 */
     _isStaffMode = false;
     like;
     webpackJsonp = true;
@@ -38984,82 +38984,47 @@ const MODULES = `
         throw e;
       }
     }
-    /** 合作UP */
+    /** 合作UP主卡片 */
     staff(staff) {
-      this._isStaffMode = true;
-      poll(() => document.querySelector("#v_upinfo"), (node) => {
-        let fl2 = '<span class="title">UP主列表</span><div class="up-card-box">';
-        fl2 = staff.reduce((s, d) => {
-          s = s + \`<div class="up-card">
-                    <a href="//space.bilibili.com/\${d.mid}" data-usercard-mid="\${d.mid}" target="_blank" class="avatar">
-                    <img src="\${d.face}@48w_48h.webp" /><!---->
-                    <span class="info-tag">\${d.title}</span><!----></a>
-                    <div class="avatar">
-                    <a href="//space.bilibili.com/\${d.mid}" data-usercard-mid="\${d.mid}" target="_blank" class="\${d.vip && d.vip.status ? "name-text is-vip" : "name-text"}">\${d.name}</a>
-                    </div></div>\`;
-          return s;
-        }, fl2) + \`</div>\`;
-        node.innerHTML = fl2;
-        addCss(uplist_default, "up-list");
-        const box = node.querySelector(".up-card-box");
-        box && new Scrollbar(box, true, false);
-      });
-    }
-    /** 从合作UP主布局恢复为单UP主结构 */
-    restoreSingleUp(up, card, view) {
-      var _a3, _b2, _c, _d;
-      this._isStaffMode = false;
-      if (!(up == null ? void 0 : up.mid)) return;
+      var _a3;
       const upinfo = document.querySelector("#v_upinfo");
       if (!upinfo) return;
-      const isVip = !!((_a3 = up.vip) == null ? void 0 : _a3.status);
-      const sign = up.sign || "";
-      const follower = card == null ? void 0 : card.follower;
-      const archiveCount = card == null ? void 0 : card.archive_count;
-      const formatNum = (n) => n > 1e4 ? \`\${(n / 1e4).toFixed(1)}万\` : String(n);
-      upinfo.innerHTML = \`<div class="u-face fl">
-            <a href="//space.bilibili.com/\${up.mid}" target="_blank" report-id="head" class="a">
-                <img src="\${up.face}@68w_68h.webp" width="68" height="68" class="up-face">
-            </a>
-        </div>
-        <div class="info">
-            <div class="user clearfix">
-                <a href="//space.bilibili.com/\${up.mid}" target="_blank" report-id="name" class="name\${isVip ? " is-vip" : ""}">\${up.name}</a>
-                <a href="//message.bilibili.com/#whisper/mid\${up.mid}" target="_blank" report-id="message" class="message icon">发消息</a>
-            </div>
-            <div class="sign static"><span style="">\${sign}</span></div>
-            <div class="number clearfix">
-                <span title="投稿数\${archiveCount != null ? archiveCount : ""}">投稿：\${archiveCount != null ? formatNum(archiveCount) : "-"}</span>
-                <span title="粉丝数\${follower != null ? follower : ""}">粉丝：\${follower != null ? formatNum(follower) : "-"}</span>
-            </div>
-            <div class="btn followe">
-                <a report-id="follow1" class="bi-btn b-gz"><span class="gz">+ 关注</span><span class="ygz">已关注</span><span class="qxgz">取消关注</span></a>
-                <a report-id="charge" class="bi-btn b-cd elecrank-btn"><span class="cd">充电</span><span class="wtcd">为TA充电</span></a>
-            </div>
-        </div>\`;
-      const faceLink = upinfo.querySelector(".u-face .a");
-      if (faceLink && ((_b2 = up.pendant) == null ? void 0 : _b2.image)) {
-        const pendantDiv = document.createElement("div");
-        pendantDiv.className = "lazy-img pendant";
-        const img = document.createElement("img");
-        img.alt = "";
-        img.src = \`\${up.pendant.image}@112w_112h.webp\`;
-        pendantDiv.appendChild(img);
-        faceLink.appendChild(pendantDiv);
+      this._isStaffMode = true;
+      upinfo.style.display = "none";
+      let container = document.querySelector("#v_upinfo_staff");
+      if (!container) {
+        container = document.createElement("div");
+        container.id = "v_upinfo_staff";
+        container.className = "up-info-m report-wrap-module report-scroll-module";
+        (_a3 = upinfo.parentNode) == null ? void 0 : _a3.insertBefore(container, upinfo.nextSibling);
+        addCss(uplist_default, "up-list");
       }
-      if (faceLink && ((_c = up.official_verify) == null ? void 0 : _c.type) !== void 0 && up.official_verify.type !== -1) {
-        const authIcon = document.createElement("i");
-        authIcon.className = up.official_verify.type === 0 ? "auth p-auth" : "auth b-auth";
-        authIcon.title = up.official_verify.type === 0 ? "个人认证" : "机构认证";
-        faceLink.appendChild(authIcon);
+      let fl2 = '<span class="title">UP主列表</span><div class="up-card-box">';
+      fl2 = staff.reduce((s, d) => {
+        s = s + \`<div class="up-card">
+                <a href="//space.bilibili.com/\${d.mid}" data-usercard-mid="\${d.mid}" target="_blank" class="avatar">
+                <img src="\${d.face}@48w_48h.webp" /><!---->
+                <span class="info-tag">\${d.title}</span><!----></a>
+                <div class="avatar">
+                <a href="//space.bilibili.com/\${d.mid}" data-usercard-mid="\${d.mid}" target="_blank" class="\${d.vip && d.vip.status ? "name-text is-vip" : "name-text"}">\${d.name}</a>
+                </div></div>\`;
+        return s;
+      }, fl2) + \`</div>\`;
+      container.innerHTML = fl2;
+      container.style.display = "";
+      const box = container.querySelector(".up-card-box");
+      box && new Scrollbar(box, true, false);
+    }
+    /** 合作UP切单UP */
+    restoreSingleUp(up) {
+      this._isStaffMode = false;
+      const upinfo = document.querySelector("#v_upinfo");
+      const staffContainer = document.querySelector("#v_upinfo_staff");
+      if (staffContainer) {
+        staffContainer.style.display = "none";
       }
-      const chargeBtn = upinfo.querySelector('[report-id="charge"]');
-      if (chargeBtn) {
-        chargeBtn.style.display = ((_d = view == null ? void 0 : view.rights) == null ? void 0 : _d.elec) ? "" : "none";
-      }
-      const upinfoVue = upinfo.__vue__;
-      if (upinfoVue == null ? void 0 : upinfoVue.\$data) {
-        upinfoVue.\$set(upinfoVue.\$data, "following", { is: false, type: 0 });
+      if (upinfo) {
+        upinfo.style.display = "";
       }
     }
     /** 合集（使用播单模拟） */
@@ -39121,15 +39086,23 @@ const MODULES = `
       if (vue) {
         vue.\$store.state.aid = state.aid;
         apiViewDetail(state.aid).then((d) => {
-          var _a4, _b2, _c;
+          var _a4, _b2, _c, _d;
           vue.setVideoData(d.View);
           (_a4 = document.querySelector("#recommend_report")) == null ? void 0 : _a4.__vue__.init(d.Related);
           document.querySelector("#v_tag").__vue__.\$data.tags = d.Tags;
           videoInfo.aidDatail(d.View);
           if (((_b2 = user.userStatus) == null ? void 0 : _b2.staff) && d.View.staff) {
             this.staff(d.View.staff);
-          } else if (this._isStaffMode) {
-            this.restoreSingleUp((_c = d.Card) == null ? void 0 : _c.card, d.Card, d.View);
+          } else {
+            const newMid = (_c = d.Card.card) == null ? void 0 : _c.mid;
+            if (newMid) {
+              vue.mid = String(newMid);
+            }
+            vue.\$store.commit("setUpData", { ...d.Card.card, archiveCount: d.Card.archive_count });
+            vue.getElecState();
+            if (this._isStaffMode) {
+              this.restoreSingleUp((_d = d.Card) == null ? void 0 : _d.card);
+            }
           }
         }).catch((e) => {
           toast.error("更新视频信息失败", e)();
@@ -39263,16 +39236,6 @@ const MODULES = `
   // src/html/list.html
   var list_default = '<!DOCTYPE html>\\r\\n<html lang="zh-CN">\\r\\n\\r\\n<head>\\r\\n    <meta charset="utf-8" />\\r\\n    <title>哔哩哔哩 (゜-゜)つロ 干杯~-bilibili</title>\\r\\n    <meta name="description" content="bilibili是国内知名的视频弹幕网站，这里有最及时的动漫新番，最棒的ACG氛围，最有创意的Up主。大家可以在这里找到许多欢乐。" />\\r\\n    <meta name="keywords"\\r\\n        content="Bilibili,哔哩哔哩,哔哩哔哩动画,哔哩哔哩弹幕网,弹幕视频,B站,弹幕,字幕,AMV,MAD,MTV,ANIME,动漫,动漫音乐,游戏,游戏解说,二次元,游戏视频,ACG,galgame,动画,番组,新番,初音,洛天依,vocaloid,日本动漫,国产动漫,手机游戏,网络游戏,电子竞技,ACG燃曲,ACG神曲,追新番,新番动漫,新番吐槽,巡音,镜音双子,千本樱,初音MIKU,舞蹈MMD,MIKUMIKUDANCE,洛天依原创曲,洛天依翻唱曲,洛天依投食歌,洛天依MMD,vocaloid家族,OST,BGM,动漫歌曲,日本动漫音乐,宫崎骏动漫音乐,动漫音乐推荐,燃系mad,治愈系mad,MAD MOVIE,MAD高燃" />\\r\\n    <meta name="renderer" content="webkit" />\\r\\n    <meta http-equiv="X-UA-Compatible" content="IE=edge" />\\r\\n    <link rel="search" type="application/opensearchdescription+xml" href="//static.hdslb.com/opensearch.xml"\\r\\n        title="哔哩哔哩" />\\r\\n    <link rel="stylesheet"\\r\\n        href="//s1.hdslb.com/bfs/static/jinkela/videoplay/css/video.0.406cee7878545872b8dfbe73071d665dfb287c67.css" />\\r\\n    <style type="text/css">\\r\\n        #bofqi .player {\\r\\n            width: 980px;\\r\\n            height: 620px;\\r\\n            display: block;\\r\\n        }\\r\\n\\r\\n        @media screen and (min-width:1400px) {\\r\\n\\r\\n            #bofqi .player {\\r\\n                width: 1160px;\\r\\n                height: 720px\\r\\n            }\\r\\n        }\\r\\n    </style>\\r\\n</head>\\r\\n\\r\\n<body>\\r\\n    <div class="z-top-container has-menu"></div>\\r\\n    <div id="video-page-app"></div>\\r\\n    <div id="app" data-server-rendered="true"></div>\\r\\n    <div class="footer bili-footer report-wrap-module"></div>\\r\\n    <script type="text/javascript">\\r\\n        window.getInternetExplorerVersion = function () {\\r\\n            var e = -1; if ("Microsoft Internet Explorer" == navigator.appName) {\\r\\n                var r = navigator.userAgent;\\r\\n                null != new RegExp("MSIE ([0-9]{1,}[.0-9]{0,})").exec(r) && (e = parseFloat(RegExp.\$1))\\r\\n            }\\r\\n            return e\\r\\n        };\\r\\n        function getQueryString(e) {\\r\\n            var r = new RegExp("(^|&)" + e + "=([^&]*)(&|\$)"),\\r\\n                i = window.location.search.substr(1).match(r);\\r\\n            return null != i ? unescape(i[2]) : null\\r\\n        }\\r\\n        window.commentAgent = { seek: t => window.player && window.player.seek(t) };\\r\\n    <\\/script>\\r\\n    <script type="text/javascript" src="//static.hdslb.com/js/jquery.min.js"><\\/script>\\r\\n    <script type="text/javascript" src="//static.hdslb.com/js/jquery.qrcode.min.js"><\\/script>\\r\\n    <script type="text/javascript" src="//s1.hdslb.com/bfs/seed/jinkela/header/header.js"><\\/script>\\r\\n    <script src="//s1.hdslb.com/bfs/static/jinkela/videoplay/manifest.b1b7706abd590dd295794f540f7669a5d8d978b3.js"\\r\\n        crossorigin=""><\\/script>\\r\\n    <script src="//s1.hdslb.com/bfs/static/jinkela/videoplay/vendor.b1b7706abd590dd295794f540f7669a5d8d978b3.js"\\r\\n        crossorigin=""><\\/script>\\r\\n    <script src="//s1.hdslb.com/bfs/static/jinkela/videoplay/video.b1b7706abd590dd295794f540f7669a5d8d978b3.js"\\r\\n        crossorigin=""><\\/script>\\r\\n    <script type="text/javascript" charset="utf-8" src="//static.hdslb.com/common/js/footer.js"><\\/script>\\r\\n</body>\\r\\n\\r\\n</html>';
 
-  // src/io/api-relation.ts
-  init_tampermonkey();
-  async function apiRelation(fid) {
-    const response = await fetch(objUrl(URLS.RELATION, { fid }), {
-      credentials: "include"
-    });
-    const json = await response.json();
-    return jsonCheck(json).data;
-  }
-
   // src/page/list.ts
   var PageList = class extends Page {
     /** 销毁标记 */
@@ -39297,10 +39260,10 @@ const MODULES = `
     listDataReady = false;
     /** URL是否已修改为列表格式 */
     urlUpdated = false;
-    /** 缓存粉丝数（供 rebuildSingleUp 使用） */
-    _lastFollower;
-    /** 缓存投稿数（供 rebuildSingleUp 使用） */
-    _lastArchiveCount;
+    /** 合作UP主模式 */
+    _isStaffMode = false;
+    /** 合作UP主卡片容器 */
+    _staffContainer = null;
     get aid() {
       return BLOD.aid;
     }
@@ -39633,7 +39596,7 @@ const MODULES = `
       if (vue) {
         vue.\$store.state.aid = state.aid;
         apiViewDetail(state.aid).then((d) => {
-          var _a4, _b2, _c;
+          var _a4, _b2, _c, _d;
           vue.setVideoData(d.View);
           (_b2 = (_a4 = document.querySelector("#recommend_report")) == null ? void 0 : _a4.__vue__) == null ? void 0 : _b2.init(d.Related);
           try {
@@ -39644,7 +39607,13 @@ const MODULES = `
           if (((_c = user.userStatus) == null ? void 0 : _c.staff) && d.View.staff) {
             this.updateStaff(d.View.staff);
           } else {
-            this.updateUpInfo(d.Card, d.View);
+            const newMid = (_d = d.Card.card) == null ? void 0 : _d.mid;
+            if (newMid) {
+              vue.mid = String(newMid);
+            }
+            vue.\$store.commit("setUpData", { ...d.Card.card, archiveCount: d.Card.archive_count });
+            vue.getElecState();
+            vue.\$nextTick(() => vue.\$forceUpdate());
           }
         }).catch((e) => {
           toast.error("更新视频信息失败", e)();
@@ -39659,43 +39628,32 @@ const MODULES = `
         });
       }
     };
-    /** 从合作UP主布局恢复为单UP主结构（根据 card 数据重建 DOM） */
-    rebuildSingleUp(upinfo, up) {
-      var _a3;
-      const isVip = !!((_a3 = up.vip) == null ? void 0 : _a3.status);
-      const sign = up.sign || "";
-      const followerNum = typeof this._lastFollower === "number" ? this._lastFollower : 0;
-      const archiveNum = typeof this._lastArchiveCount === "number" ? this._lastArchiveCount : 0;
-      const formatNum = (n) => n > 1e4 ? \`\${(n / 1e4).toFixed(1)}万\` : String(n);
-      upinfo.innerHTML = \`<div class="u-face fl">
-            <a href="//space.bilibili.com/\${up.mid}" target="_blank" report-id="head" class="a">
-                <img src="\${up.face}@68w_68h.webp" width="68" height="68" class="up-face">
-            </a>
-        </div>
-        <div class="info">
-            <div class="user clearfix">
-                <a href="//space.bilibili.com/\${up.mid}" target="_blank" report-id="name" class="name\${isVip ? " is-vip" : ""}">\${up.name}</a>
-                <a href="//message.bilibili.com/#whisper/mid\${up.mid}" target="_blank" report-id="message" class="message icon">发消息</a>
-            </div>
-            <div class="sign static"><span style="">\${sign}</span></div>
-            <div class="number clearfix">
-                <span title="投稿数\${archiveNum}">投稿：\${formatNum(archiveNum)}</span>
-                <span title="粉丝数\${followerNum}">粉丝：\${formatNum(followerNum)}</span>
-            </div>
-            <div class="btn followe">
-                <a report-id="follow1" class="bi-btn b-gz"><span class="gz">+ 关注</span><span class="ygz">已关注</span><span class="qxgz">取消关注</span></a>
-                <a report-id="charge" class="bi-btn b-cd elecrank-btn"><span class="cd">充电</span><span class="wtcd">为TA充电</span></a>
-            </div>
-        </div>\`;
-      const upinfoVue = upinfo.__vue__;
-      if (upinfoVue == null ? void 0 : upinfoVue.\$data) {
-        upinfoVue.\$set(upinfoVue.\$data, "following", { is: false, type: 0 });
+    /** 合作UP切单UP主 */
+    _switchToSingleUp(up) {
+      const upinfo = document.querySelector("#v_upinfo");
+      const staffContainer = document.querySelector("#v_upinfo_staff");
+      if (staffContainer) {
+        staffContainer.style.display = "none";
+      }
+      if (upinfo) {
+        upinfo.style.display = "";
       }
     }
-    /** 合作UP主 — 将 #v_upinfo 覆写为合作UP主卡片列表 */
+    /** 合作UP主卡片 */
     updateStaff(staff) {
+      var _a3;
       const upinfo = document.querySelector("#v_upinfo");
       if (!upinfo) return;
+      this._isStaffMode = true;
+      upinfo.style.display = "none";
+      let container = document.querySelector("#v_upinfo_staff");
+      if (!container) {
+        container = document.createElement("div");
+        container.id = "v_upinfo_staff";
+        container.className = "up-info-m report-wrap-module report-scroll-module";
+        (_a3 = upinfo.parentNode) == null ? void 0 : _a3.insertBefore(container, upinfo.nextSibling);
+        addCss(uplist_default, "up-list");
+      }
       let html = '<span class="title">UP主列表</span><div class="up-card-box">';
       html = staff.reduce((s, d) => {
         return s + \`<div class="up-card">
@@ -39706,133 +39664,25 @@ const MODULES = `
                 <a href="//space.bilibili.com/\${d.mid}" data-usercard-mid="\${d.mid}" target="_blank" class="\${d.vip && d.vip.status ? "name-text is-vip" : "name-text"}">\${d.name}</a>
                 </div></div>\`;
       }, html) + \`</div>\`;
-      upinfo.innerHTML = html;
-      addCss(uplist_default, "up-list");
-      const box = upinfo.querySelector(".up-card-box");
+      container.innerHTML = html;
+      container.style.display = "";
+      const box = container.querySelector(".up-card-box");
       box && new Scrollbar(box, true, false);
     }
-    //  UP主信息更新
+    /** 单UP主模式 */
     updateUpInfo(card, view) {
-      var _a3, _b2, _c, _d, _e;
       if (!(card == null ? void 0 : card.card)) return;
-      const up = card.card;
-      const follower = card.follower;
-      const archiveCount = card.archive_count;
-      const following = card.following;
-      if (typeof follower === "number") this._lastFollower = follower;
-      if (typeof archiveCount === "number") this._lastArchiveCount = archiveCount;
       const upinfo = document.querySelector("#v_upinfo");
       if (!upinfo) return;
-      if (!upinfo.querySelector(".u-face")) {
-        this.rebuildSingleUp(upinfo, up);
-      }
-      try {
-        const faceImg = upinfo.querySelector(".u-face .up-face");
-        if (faceImg) {
-          faceImg.src = \`\${up.face}@68w_68h.webp\`;
-        }
-        const faceLink = upinfo.querySelector(".u-face .a");
-        if (faceLink && up.mid) {
-          faceLink.href = \`//space.bilibili.com/\${up.mid}\`;
-        }
-        const faceContainer = faceLink;
-        if (faceContainer) {
-          const oldPendant = faceContainer.querySelector(".lazy-img.pendant");
-          if (oldPendant) oldPendant.remove();
-          const pendantImg = (_a3 = up.pendant) == null ? void 0 : _a3.image;
-          if (pendantImg) {
-            const pendantDiv = document.createElement("div");
-            pendantDiv.className = "lazy-img pendant";
-            const img = document.createElement("img");
-            img.alt = "";
-            img.src = \`\${pendantImg}@112w_112h.webp\`;
-            pendantDiv.appendChild(img);
-            faceContainer.appendChild(pendantDiv);
-          }
-        }
-        if (faceContainer) {
-          const oldAuth = faceContainer.querySelector(".auth");
-          if (oldAuth) oldAuth.remove();
-          const verifyType = (_b2 = up.official_verify) == null ? void 0 : _b2.type;
-          if (verifyType !== void 0 && verifyType !== -1) {
-            const authIcon = document.createElement("i");
-            authIcon.className = verifyType === 0 ? "auth p-auth" : "auth b-auth";
-            authIcon.title = verifyType === 0 ? "个人认证" : "机构认证";
-            faceContainer.appendChild(authIcon);
-          }
-        }
-        const nameEl = upinfo.querySelector(".user .name");
-        if (nameEl) {
-          nameEl.textContent = up.name;
-          nameEl.classList.toggle("is-vip", !!((_c = up.vip) == null ? void 0 : _c.status));
-        }
-        const msgLink = upinfo.querySelector(".user .message");
-        if (msgLink && up.mid) {
-          msgLink.href = \`//message.bilibili.com/#whisper/mid\${up.mid}\`;
-        }
-        const signContainer = upinfo.querySelector(".sign.static");
-        if (signContainer) {
-          const signSpan = signContainer.querySelector("span");
-          const expandBtn = signContainer.querySelector(".bi-btn.text-only");
-          if (signSpan) {
-            signSpan.textContent = up.sign || "";
-            signSpan.style.display = up.sign ? "" : "none";
-          }
-          if (expandBtn) {
-            expandBtn.style.display = up.sign && up.sign.length > 50 ? "" : "none";
-          }
-        }
-        if (typeof archiveCount === "number" || typeof follower === "number") {
-          const numberSpans = upinfo.querySelectorAll(".number span");
-          numberSpans.forEach((span) => {
-            const title = span.getAttribute("title");
-            if (title == null ? void 0 : title.startsWith("投稿数")) {
-              if (typeof archiveCount === "number") {
-                const formatted = archiveCount > 1e4 ? \`\${(archiveCount / 1e4).toFixed(1)}万\` : String(archiveCount);
-                span.textContent = \`投稿：\${formatted}\`;
-                span.setAttribute("title", \`投稿数\${archiveCount}\`);
-              }
-            } else if (title == null ? void 0 : title.startsWith("粉丝数")) {
-              if (typeof follower === "number") {
-                const formatted = follower > 1e4 ? \`\${(follower / 1e4).toFixed(1)}万\` : String(follower);
-                span.textContent = \`粉丝：\${formatted}\`;
-                span.setAttribute("title", \`粉丝数\${follower}\`);
-              }
-            }
-          });
-        }
-        const upinfoVue = upinfo.__vue__;
-        if ((upinfoVue == null ? void 0 : upinfoVue.\$data) && up.mid) {
-          apiRelation(up.mid).then((rel) => {
-            if (this.destroy) return;
-            const attr = rel.attribute;
-            const isFollowed = attr === 2 || attr === 6;
-            upinfoVue.\$set(upinfoVue.\$data, "following", { is: isFollowed, type: isFollowed ? attr : 0 });
-          }).catch(() => {
-          });
-        }
-        if (up.mid) {
-          const vtagVue = document.querySelector("#v_tag") && document.querySelector("#v_tag").__vue__;
-          if (vtagVue == null ? void 0 : vtagVue.\$data) {
-            vtagVue.\$data.mid = String(up.mid);
-          }
-          const appVue = document.querySelector("#app") && document.querySelector("#app").__vue__;
-          if (((_d = appVue == null ? void 0 : appVue.\$data) == null ? void 0 : _d.mid) !== void 0) {
-            appVue.\$data.mid = String(up.mid);
-          }
-        }
-        const chargeBtn = upinfo.querySelector('[report-id="charge"]');
-        if (chargeBtn) {
-          chargeBtn.style.display = ((_e = view == null ? void 0 : view.rights) == null ? void 0 : _e.elec) ? "" : "none";
-        }
-      } catch (e) {
-        console.warn("更新UP主DOM失败:", e);
+      if (this._isStaffMode) {
+        this._switchToSingleUp(card.card);
+        this._isStaffMode = false;
       }
       try {
         const crumbEl = document.querySelector('.crumb .a-crumbs a[href*="space.bilibili.com"], .video-info-m .a-crumbs a[href*="space.bilibili.com"]');
-        if (crumbEl && up.mid) {
-          crumbEl.href = \`//space.bilibili.com/\${up.mid}\`;
-          crumbEl.textContent = up.name;
+        if (crumbEl && card.card.mid) {
+          crumbEl.href = \`//space.bilibili.com/\${card.card.mid}\`;
+          crumbEl.textContent = card.card.name;
         }
       } catch {
       }
@@ -39985,23 +39835,34 @@ const MODULES = `
     }
     /** 合作UP主列表 */
     staff(staff) {
-      poll(() => document.querySelector("#v_upinfo"), (node) => {
-        let fl2 = '<span class="title">UP主列表</span><div class="up-card-box">';
-        fl2 = staff.reduce((s, d) => {
-          s = s + \`<div class="up-card">
-                    <a href="//space.bilibili.com/\${d.mid}" data-usercard-mid="\${d.mid}" target="_blank" class="avatar">
-                    <img src="\${d.face}@48w_48h.webp" /><!---->
-                    <span class="info-tag">\${d.title}</span><!----></a>
-                    <div class="avatar">
-                    <a href="//space.bilibili.com/\${d.mid}" data-usercard-mid="\${d.mid}" target="_blank" class="\${d.vip && d.vip.status ? "name-text is-vip" : "name-text"}">\${d.name}</a>
-                    </div></div>\`;
-          return s;
-        }, fl2) + \`</div>\`;
-        node.innerHTML = fl2;
+      var _a3;
+      const upinfo = document.querySelector("#v_upinfo");
+      if (!upinfo) return;
+      this._isStaffMode = true;
+      upinfo.style.display = "none";
+      let container = document.querySelector("#v_upinfo_staff");
+      if (!container) {
+        container = document.createElement("div");
+        container.id = "v_upinfo_staff";
+        container.className = "up-info-m report-wrap-module report-scroll-module";
+        (_a3 = upinfo.parentNode) == null ? void 0 : _a3.insertBefore(container, upinfo.nextSibling);
         addCss(uplist_default, "up-list");
-        const box = node.querySelector(".up-card-box");
-        box && new Scrollbar(box, true, false);
-      });
+      }
+      let fl2 = '<span class="title">UP主列表</span><div class="up-card-box">';
+      fl2 = staff.reduce((s, d) => {
+        s = s + \`<div class="up-card">
+                <a href="//space.bilibili.com/\${d.mid}" data-usercard-mid="\${d.mid}" target="_blank" class="avatar">
+                <img src="\${d.face}@48w_48h.webp" /><!---->
+                <span class="info-tag">\${d.title}</span><!----></a>
+                <div class="avatar">
+                <a href="//space.bilibili.com/\${d.mid}" data-usercard-mid="\${d.mid}" target="_blank" class="\${d.vip && d.vip.status ? "name-text is-vip" : "name-text"}">\${d.name}</a>
+                </div></div>\`;
+        return s;
+      }, fl2) + \`</div>\`;
+      container.innerHTML = fl2;
+      container.style.display = "";
+      const box = container.querySelector(".up-card-box");
+      box && new Scrollbar(box, true, false);
     }
     /** 点赞功能 */
     enLike() {
@@ -41049,7 +40910,7 @@ const MODULES = `
       }
     }
   };
-  customElements.get(\`desc-\${"df9d459"}\`) || customElements.define(\`desc-\${"df9d459"}\`, Desc);
+  customElements.get(\`desc-\${"c3dd748"}\`) || customElements.define(\`desc-\${"c3dd748"}\`, Desc);
 
   // src/core/ui/interface.ts
   init_tampermonkey();
@@ -41127,7 +40988,7 @@ const MODULES = `
       this._value.appendChild(value);
     }
   };
-  customElements.get(\`item-\${"df9d459"}\`) || customElements.define(\`item-\${"df9d459"}\`, SettingItem, { extends: "div" });
+  customElements.get(\`item-\${"c3dd748"}\`) || customElements.define(\`item-\${"c3dd748"}\`, SettingItem, { extends: "div" });
 
   // src/core/ui/menu.ts
   init_tampermonkey();
@@ -41161,7 +41022,7 @@ const MODULES = `
       this._card.append(...item);
     }
   };
-  customElements.get(\`item-container-\${"df9d459"}\`) || customElements.define(\`item-container-\${"df9d459"}\`, ItemContainer, { extends: "div" });
+  customElements.get(\`item-container-\${"c3dd748"}\`) || customElements.define(\`item-container-\${"c3dd748"}\`, ItemContainer, { extends: "div" });
 
   // src/core/ui/menu.ts
   var Menuitem = class extends HTMLDivElement {
@@ -41221,7 +41082,7 @@ const MODULES = `
       return this.container;
     }
   };
-  customElements.get(\`menuitem-\${"df9d459"}\`) || customElements.define(\`menuitem-\${"df9d459"}\`, Menuitem, { extends: "div" });
+  customElements.get(\`menuitem-\${"c3dd748"}\`) || customElements.define(\`menuitem-\${"c3dd748"}\`, Menuitem, { extends: "div" });
 
   // src/core/ui/utils/checkbox.ts
   init_tampermonkey();
@@ -41310,7 +41171,7 @@ const MODULES = `
       Object.entries(value).forEach((d) => this[d[0]] = d[1]);
     }
   };
-  customElements.get(\`checkbox-\${"df9d459"}\`) || customElements.define(\`checkbox-\${"df9d459"}\`, CheckBox);
+  customElements.get(\`checkbox-\${"c3dd748"}\`) || customElements.define(\`checkbox-\${"c3dd748"}\`, CheckBox);
   var CheckBoxs = class extends HTMLDivElement {
     \$value = [];
     checkboxs = {};
@@ -41361,7 +41222,7 @@ const MODULES = `
       });
     }
   };
-  customElements.get(\`checkboxs-\${"df9d459"}\`) || customElements.define(\`checkboxs-\${"df9d459"}\`, CheckBoxs, { extends: "div" });
+  customElements.get(\`checkboxs-\${"c3dd748"}\`) || customElements.define(\`checkboxs-\${"c3dd748"}\`, CheckBoxs, { extends: "div" });
 
   // src/core/ui/utils/input.ts
   init_tampermonkey();
@@ -41437,7 +41298,7 @@ const MODULES = `
       Object.entries(value).forEach((d) => this[d[0]] = d[1]);
     }
   };
-  customElements.get(\`input-\${"df9d459"}\`) || customElements.define(\`input-\${"df9d459"}\`, InputArea);
+  customElements.get(\`input-\${"c3dd748"}\`) || customElements.define(\`input-\${"c3dd748"}\`, InputArea);
 
   // src/core/ui/utils/select.ts
   init_tampermonkey();
@@ -41504,7 +41365,7 @@ const MODULES = `
       Object.entries(value).forEach((d) => this[d[0]] = d[1]);
     }
   };
-  customElements.get(\`select-\${"df9d459"}\`) || customElements.define(\`select-\${"df9d459"}\`, SelectMenu);
+  customElements.get(\`select-\${"c3dd748"}\`) || customElements.define(\`select-\${"c3dd748"}\`, SelectMenu);
 
   // src/core/ui/utils/slider.ts
   init_tampermonkey();
@@ -41668,7 +41529,7 @@ const MODULES = `
       Object.entries(value).forEach((d) => this[d[0]] = d[1]);
     }
   };
-  customElements.get(\`slider-\${"df9d459"}\`) || customElements.define(\`slider-\${"df9d459"}\`, SliderBlock);
+  customElements.get(\`slider-\${"c3dd748"}\`) || customElements.define(\`slider-\${"c3dd748"}\`, SliderBlock);
 
   // src/core/ui/utils/switch.ts
   init_tampermonkey();
@@ -41717,7 +41578,7 @@ const MODULES = `
       return this;
     }
   };
-  customElements.get(\`switch-\${"df9d459"}\`) || customElements.define(\`switch-\${"df9d459"}\`, SwitchButton);
+  customElements.get(\`switch-\${"c3dd748"}\`) || customElements.define(\`switch-\${"c3dd748"}\`, SwitchButton);
 
   // src/core/ui.ts
   var Menus = {

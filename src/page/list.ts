@@ -77,11 +77,11 @@ export class PageList extends Page {
     /** URL是否已修改为列表格式 */
     protected urlUpdated = false;
 
-    /** 缓存粉丝数（供 rebuildSingleUp 使用） */
-    protected _lastFollower?: number;
+    /** 合作UP主模式 */
+    protected _isStaffMode = false;
 
-    /** 缓存投稿数（供 rebuildSingleUp 使用） */
-    protected _lastArchiveCount?: number;
+    /** 合作UP主卡片容器 */
+    protected _staffContainer: HTMLElement | null = null;
 
     protected get aid() {
         return BLOD.aid;
@@ -514,11 +514,18 @@ export class PageList extends Page {
                     } catch { }
                     // 记录视频数据
                     videoInfo.aidDatail(d.View);
-                    // 更新UP主信息：合作UP主 → 覆写为合作列表，普通UP主 → 更新单个UP主信息
+                    // 更新UP主信息
                     if (user.userStatus?.staff && d.View.staff) {
                         this.updateStaff(d.View.staff as unknown as IStaf[]);
                     } else {
-                        this.updateUpInfo(d.Card, d.View);
+                        const newMid = d.Card.card?.mid;
+                        if (newMid) {
+                            vue.mid = String(newMid);
+                        }
+                        vue.$store.commit('setUpData', { ...d.Card.card, archiveCount: d.Card.archive_count });
+                        // 刷新充电按钮状态（异步，等回调完成后再强制更新UI）
+                        vue.getElecState();
+                        vue.$nextTick(() => vue.$forceUpdate());
                     }
                 })
                 .catch(e => {
@@ -539,46 +546,36 @@ export class PageList extends Page {
         }
     }
 
-    /** 从合作UP主布局恢复为单UP主结构（根据 card 数据重建 DOM） */
-    protected rebuildSingleUp(upinfo: HTMLElement, up: any) {
-        const isVip = !!up.vip?.status;
-        const sign = up.sign || '';
-        const followerNum = typeof this._lastFollower === 'number' ? this._lastFollower : 0;
-        const archiveNum = typeof this._lastArchiveCount === 'number' ? this._lastArchiveCount : 0;
-        const formatNum = (n: number) => n > 10000 ? `${(n / 10000).toFixed(1)}万` : String(n);
+    /** 合作UP切单UP主 */
+    protected _switchToSingleUp(up: any) {
+        const upinfo = document.querySelector<HTMLDivElement>('#v_upinfo');
+        const staffContainer = document.querySelector<HTMLElement>('#v_upinfo_staff');
 
-        upinfo.innerHTML = `<div class="u-face fl">
-            <a href="//space.bilibili.com/${up.mid}" target="_blank" report-id="head" class="a">
-                <img src="${up.face}@68w_68h.webp" width="68" height="68" class="up-face">
-            </a>
-        </div>
-        <div class="info">
-            <div class="user clearfix">
-                <a href="//space.bilibili.com/${up.mid}" target="_blank" report-id="name" class="name${isVip ? ' is-vip' : ''}">${up.name}</a>
-                <a href="//message.bilibili.com/#whisper/mid${up.mid}" target="_blank" report-id="message" class="message icon">发消息</a>
-            </div>
-            <div class="sign static"><span style="">${sign}</span></div>
-            <div class="number clearfix">
-                <span title="投稿数${archiveNum}">投稿：${formatNum(archiveNum)}</span>
-                <span title="粉丝数${followerNum}">粉丝：${formatNum(followerNum)}</span>
-            </div>
-            <div class="btn followe">
-                <a report-id="follow1" class="bi-btn b-gz"><span class="gz">+ 关注</span><span class="ygz">已关注</span><span class="qxgz">取消关注</span></a>
-                <a report-id="charge" class="bi-btn b-cd elecrank-btn"><span class="cd">充电</span><span class="wtcd">为TA充电</span></a>
-            </div>
-        </div>`;
+        if (staffContainer) {
+            staffContainer.style.display = 'none';
+        }
 
-        // 重建后设置 Vue 数据（关注按钮依赖 Vue）
-        const upinfoVue = (<any>upinfo).__vue__;
-        if (upinfoVue?.$data) {
-            upinfoVue.$set(upinfoVue.$data, 'following', { is: false, type: 0 });
+        if (upinfo) {
+            upinfo.style.display = '';
         }
     }
 
-    /** 合作UP主 — 将 #v_upinfo 覆写为合作UP主卡片列表 */
+    /** 合作UP主卡片 */
     protected updateStaff(staff: IStaf[]) {
         const upinfo = document.querySelector<HTMLDivElement>('#v_upinfo');
         if (!upinfo) return;
+        this._isStaffMode = true;
+        // 隐藏原始 UpInfo Vue 组件（实例保留）
+        upinfo.style.display = 'none';
+        // 创建或显示合作UP卡片容器
+        let container = document.querySelector<HTMLElement>('#v_upinfo_staff');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'v_upinfo_staff';
+            container.className = 'up-info-m report-wrap-module report-scroll-module';
+            upinfo.parentNode?.insertBefore(container, upinfo.nextSibling);
+            addCss(cssUplist, "up-list");
+        }
 
         let html = '<span class="title">UP主列表</span><div class="up-card-box">';
         html = staff.reduce((s, d) => {
@@ -590,169 +587,32 @@ export class PageList extends Page {
                 <a href="//space.bilibili.com/${d.mid}" data-usercard-mid="${d.mid}" target="_blank" class="${(d.vip && d.vip.status) ? 'name-text is-vip' : 'name-text'}">${d.name}</a>
                 </div></div>`;
         }, html) + `</div>`;
-        upinfo.innerHTML = html;
-        addCss(cssUplist, "up-list");
-        const box = upinfo.querySelector<HTMLElement>('.up-card-box');
+        container.innerHTML = html;
+        container.style.display = '';
+
+        const box = container.querySelector<HTMLElement>('.up-card-box');
         box && new Scrollbar(box, true, false);
     }
 
-    //  UP主信息更新
+    /** 单UP主模式 */
     protected updateUpInfo(card: any, view?: any) {
         if (!card?.card) return;
 
-        const up = card.card; 
-        const follower = card.follower;
-        const archiveCount = card.archive_count;
-        const following = card.following; 
-
-        // 缓存粉丝数和投稿数
-        if (typeof follower === 'number') this._lastFollower = follower;
-        if (typeof archiveCount === 'number') this._lastArchiveCount = archiveCount;
-
-        const upinfo = document.querySelector<HTMLElement>('#v_upinfo');
+        const upinfo = document.querySelector<HTMLDivElement>('#v_upinfo');
         if (!upinfo) return;
 
-        // 如果当前是合作UP主卡片布局，需要先重建单UP主结构
-        if (!upinfo.querySelector('.u-face')) {
-            this.rebuildSingleUp(upinfo, up);
+        // 合作UP主切单UP
+        if (this._isStaffMode) {
+            this._switchToSingleUp(card.card);
+            this._isStaffMode = false;
         }
 
-        try {
-            // 头像图片
-            const faceImg = upinfo.querySelector<HTMLImageElement>('.u-face .up-face');
-            if (faceImg) {
-                faceImg.src = `${up.face}@68w_68h.webp`;
-            }
-
-            // 头像链接
-            const faceLink = upinfo.querySelector<HTMLAnchorElement>('.u-face .a');
-            if (faceLink && up.mid) {
-                faceLink.href = `//space.bilibili.com/${up.mid}`;
-            }
-
-            // 头像框
-            const faceContainer = faceLink;
-            if (faceContainer) {
-                const oldPendant = faceContainer.querySelector('.lazy-img.pendant');
-                if (oldPendant) oldPendant.remove();
-                const pendantImg = up.pendant?.image;
-                if (pendantImg) {
-                    const pendantDiv = document.createElement('div');
-                    pendantDiv.className = 'lazy-img pendant';
-                    const img = document.createElement('img');
-                    img.alt = '';
-                    img.src = `${pendantImg}@112w_112h.webp`;
-                    pendantDiv.appendChild(img);
-                    faceContainer.appendChild(pendantDiv);
-                }
-            }
-
-            // 认证角标
-            if (faceContainer) {
-                const oldAuth = faceContainer.querySelector('.auth');
-                if (oldAuth) oldAuth.remove();
-                const verifyType = up.official_verify?.type;
-                if (verifyType !== undefined && verifyType !== -1) {
-                    const authIcon = document.createElement('i');
-                    authIcon.className = verifyType === 0 ? 'auth p-auth' : 'auth b-auth';
-                    authIcon.title = verifyType === 0 ? '个人认证' : '机构认证';
-                    faceContainer.appendChild(authIcon);
-                }
-            }
-
-            // 昵称
-            const nameEl = upinfo.querySelector<HTMLAnchorElement>('.user .name');
-            if (nameEl) {
-                nameEl.textContent = up.name;
-                nameEl.classList.toggle('is-vip', !!up.vip?.status);
-            }
-
-            // 发消息链接
-            const msgLink = upinfo.querySelector<HTMLAnchorElement>('.user .message');
-            if (msgLink && up.mid) {
-                msgLink.href = `//message.bilibili.com/#whisper/mid${up.mid}`;
-            }
-
-            // 签名
-            const signContainer = upinfo.querySelector<HTMLElement>('.sign.static');
-            if (signContainer) {
-                const signSpan = signContainer.querySelector<HTMLSpanElement>('span');
-                const expandBtn = signContainer.querySelector<HTMLButtonElement>('.bi-btn.text-only');
-                if (signSpan) {
-                    signSpan.textContent = up.sign || '';
-                    signSpan.style.display = up.sign ? '' : 'none';
-                }
-                if (expandBtn) {
-                    // 签名够长时显示展开按钮，否则隐藏
-                    expandBtn.style.display = (up.sign && up.sign.length > 50) ? '' : 'none';
-                }
-            }
-
-            // 投稿数和粉丝数
-            if (typeof archiveCount === 'number' || typeof follower === 'number') {
-                const numberSpans = upinfo.querySelectorAll<HTMLElement>('.number span');
-                numberSpans.forEach(span => {
-                    const title = span.getAttribute('title');
-                    if (title?.startsWith('投稿数')) {
-                        if (typeof archiveCount === 'number') {
-                            const formatted = archiveCount > 10000
-                                ? `${(archiveCount / 10000).toFixed(1)}万`
-                                : String(archiveCount);
-                            span.textContent = `投稿：${formatted}`;
-                            span.setAttribute('title', `投稿数${archiveCount}`);
-                        }
-                    } else if (title?.startsWith('粉丝数')) {
-                        if (typeof follower === 'number') {
-                            const formatted = follower > 10000
-                                ? `${(follower / 10000).toFixed(1)}万`
-                                : String(follower);
-                            span.textContent = `粉丝：${formatted}`;
-                            span.setAttribute('title', `粉丝数${follower}`);
-                        }
-                    }
-                });
-            }
-
-            // 关注按钮
-            const upinfoVue = (<any>upinfo).__vue__;
-            if (upinfoVue?.$data && up.mid) {
-                apiRelation(up.mid).then(rel => {
-                    if (this.destroy) return;
-                    const attr = rel.attribute;
-                    const isFollowed = attr === 2 || attr === 6;
-                    upinfoVue.$set(upinfoVue.$data, 'following', { is: isFollowed, type: isFollowed ? attr : 0 });
-                }).catch(() => {
-                    // 接口失败时不设置关注状态
-                });
-            }
-
-            // 更新当前UP主mid
-            if (up.mid) {
-                const vtagVue = document.querySelector('#v_tag') && (<any>document.querySelector('#v_tag')).__vue__;
-                if (vtagVue?.$data) {
-                    vtagVue.$data.mid = String(up.mid);
-                }
-                const appVue = document.querySelector('#app') && (<any>document.querySelector('#app')).__vue__;
-                if (appVue?.$data?.mid !== undefined) {
-                    appVue.$data.mid = String(up.mid);
-                }
-            }
-
-            // 充电按钮
-            const chargeBtn = upinfo.querySelector<HTMLAnchorElement>('[report-id="charge"]');
-            if (chargeBtn) {
-                chargeBtn.style.display = view?.rights?.elec ? '' : 'none';
-            }
-        } catch (e) {
-            console.warn('更新UP主DOM失败:', e);
-        }
-
-        // 更新面包屑中的UP主链接
+        // 面包屑UP主链接更新
         try {
             const crumbEl = document.querySelector<HTMLAnchorElement>('.crumb .a-crumbs a[href*="space.bilibili.com"], .video-info-m .a-crumbs a[href*="space.bilibili.com"]');
-            if (crumbEl && up.mid) {
-                crumbEl.href = `//space.bilibili.com/${up.mid}`;
-                crumbEl.textContent = up.name;
+            if (crumbEl && card.card.mid) {
+                crumbEl.href = `//space.bilibili.com/${card.card.mid}`;
+                crumbEl.textContent = card.card.name;
             }
         } catch { }
     }
@@ -914,23 +774,40 @@ export class PageList extends Page {
 
     /** 合作UP主列表 */
     protected staff(staff: IStaf[]) {
-        poll(() => document.querySelector<HTMLDivElement>("#v_upinfo"), node => {
-            let fl = '<span class="title">UP主列表</span><div class="up-card-box">';
-            fl = staff.reduce((s, d) => {
-                s = s + `<div class="up-card">
-                    <a href="//space.bilibili.com/${d.mid}" data-usercard-mid="${d.mid}" target="_blank" class="avatar">
-                    <img src="${d.face}@48w_48h.webp" /><!---->
-                    <span class="info-tag">${d.title}</span><!----></a>
-                    <div class="avatar">
-                    <a href="//space.bilibili.com/${d.mid}" data-usercard-mid="${d.mid}" target="_blank" class="${(d.vip && d.vip.status) ? 'name-text is-vip' : 'name-text'}">${d.name}</a>
-                    </div></div>`
-                return s;
-            }, fl) + `</div>`;
-            node.innerHTML = fl;
+        const upinfo = document.querySelector<HTMLDivElement>('#v_upinfo');
+        if (!upinfo) return;
+
+        this._isStaffMode = true;
+
+        // 隐藏原始 UpInfo Vue 组件
+        upinfo.style.display = 'none';
+
+        // 创建或显示合作UP卡片容器
+        let container = document.querySelector<HTMLElement>('#v_upinfo_staff');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'v_upinfo_staff';
+            container.className = 'up-info-m report-wrap-module report-scroll-module';
+            upinfo.parentNode?.insertBefore(container, upinfo.nextSibling);
             addCss(cssUplist, "up-list");
-            const box = node.querySelector<HTMLElement>('.up-card-box');
-            box && new Scrollbar(box, true, false);
-        });
+        }
+
+        let fl = '<span class="title">UP主列表</span><div class="up-card-box">';
+        fl = staff.reduce((s, d) => {
+            s = s + `<div class="up-card">
+                <a href="//space.bilibili.com/${d.mid}" data-usercard-mid="${d.mid}" target="_blank" class="avatar">
+                <img src="${d.face}@48w_48h.webp" /><!---->
+                <span class="info-tag">${d.title}</span><!----></a>
+                <div class="avatar">
+                <a href="//space.bilibili.com/${d.mid}" data-usercard-mid="${d.mid}" target="_blank" class="${(d.vip && d.vip.status) ? 'name-text is-vip' : 'name-text'}">${d.name}</a>
+                </div></div>`
+            return s;
+        }, fl) + `</div>`;
+        container.innerHTML = fl;
+        container.style.display = '';
+
+        const box = container.querySelector<HTMLElement>('.up-card-box');
+        box && new Scrollbar(box, true, false);
     }
 
     /** 点赞功能 */
