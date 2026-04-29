@@ -162,6 +162,17 @@ export class PageAV extends Page {
             } else {
                 if (res.data) {
                     if (res.data.View) {
+                        if (res.data.View.redirect_url) {
+                            const redirectUrl = res.data.View.redirect_url;
+                            setTimeout(() => {
+                                urlCleaner.updateLocation(redirectUrl);
+                                new PageBangumi();
+                                BLOD.flushToast();
+                                this.destroy = true;
+                            }, 100);
+                            call(new ApiViewDetail());
+                            return true;
+                        }
                         const response = `{ "code": 0, "message": "0", "ttl": 1, "data": ${JSON.stringify(res.data.View.stat)} }`;
                         xhrHook.async('/x/web-interface/archive/stat?', undefined, async () => {
                             // 原接口被429，使用本处数据替代

@@ -65,6 +65,8 @@ export class PageRead extends Page {
     protected webpackJsonp = true;
     constructor() {
         super(html);
+        Reflect.deleteProperty(window, '__INITIAL_STATE__');
+        Reflect.defineProperty(window, '__NEXT_DATA__', { value: true });
         this.initState();
     }
     /** 处理webpackJsonp污染 */

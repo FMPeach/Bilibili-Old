@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bilibili 旧播放页
 // @namespace    MotooriKashin
-// @version      10.12.3-c3dd748427ccbbefce8d3423714030e5ad97afd7
+// @version      10.12.4-c3dd748427ccbbefce8d3423714030e5ad97afd7
 // @description  恢复Bilibili旧版页面，为了那些念旧的人。
 // @author       MotooriKashin, wly5556, FMPeach
 // @homepage     https://github.com/FMPeach/Bilibili-Old
@@ -38205,7 +38205,7 @@ const MODULES = `
       jsonpHook.async(
         "api.live.bilibili.com/bili/living_v2/",
         (url) => /living_v2\\/(?:null|undefined|0)\\b/.test(url),
-        async () => ({ code: 0, data: { status: 0 } }),
+        async () => ({ code: 0, data: null }),
         false
       );
       this.updateDom();
@@ -39092,6 +39092,17 @@ html.blod-follow-global-pending #app [class*="follow"] {
         } else {
           if (res.data) {
             if (res.data.View) {
+              if (res.data.View.redirect_url) {
+                const redirectUrl = res.data.View.redirect_url;
+                setTimeout(() => {
+                  urlCleaner.updateLocation(redirectUrl);
+                  new PageBangumi();
+                  BLOD.flushToast();
+                  this.destroy = true;
+                }, 100);
+                call(new ApiViewDetail());
+                return true;
+              }
               const response = \`{ "code": 0, "message": "0", "ttl": 1, "data": \${JSON.stringify(res.data.View.stat)} }\`;
               xhrHook.async("/x/web-interface/archive/stat?", void 0, async () => {
                 return { response, responseText: response, responseType: "json" };
@@ -40329,6 +40340,8 @@ html.blod-follow-global-pending #app [class*="follow"] {
     webpackJsonp = true;
     constructor() {
       super(read_default);
+      Reflect.deleteProperty(window, "__INITIAL_STATE__");
+      Reflect.defineProperty(window, "__NEXT_DATA__", { value: true });
       this.initState();
     }
     /** 处理webpackJsonp污染 */
@@ -42763,7 +42776,7 @@ html.blod-follow-global-pending #app [class*="follow"] {
   jsonpHook.async(
     "api.live.bilibili.com/bili/living_v2/",
     (url) => /living_v2\\/(?:null|undefined|0)\\b/.test(url),
-    async () => ({ code: 0, data: { status: 0 } }),
+    async () => ({ code: 0, data: null }),
     false
   );
   user.addCallback((status) => {
