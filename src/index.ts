@@ -12,6 +12,7 @@ import { PageIndex } from './page';
 import { urlCleaner } from './core/url';
 import { cdn } from './utils/cdn';
 import { player } from './core/player';
+import { jsonpHook } from './utils/hook/node';
 import { PageAV } from './page/av';
 import { PageBangumi } from './page/bangumi';
 import { PageWatchlater } from './page/watchalter';
@@ -41,6 +42,12 @@ document.domain = 'bilibili.com';
 
 // 提取版本哈希（仅限用户脚本）
 BLOD.version = GM.info?.script.version.slice(-40);
+// 全局拦截无效 mid 的直播请求，防止 404 → Vue crash → error boundary
+jsonpHook.async('api.live.bilibili.com/bili/living_v2/',
+    url => /living_v2\/(?:null|undefined|0)\b/.test(url),
+    async () => ({ code: 0, data: null }),
+    false
+);
 // 获取用户数据后初始化
 user.addCallback(status => {
     toast.update(status.toast);

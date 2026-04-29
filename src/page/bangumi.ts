@@ -23,6 +23,7 @@ import { addCss } from "../utils/element";
 import { unitFormat } from "../utils/format/unit";
 import { urlObj } from "../utils/format/url";
 import { FetchHook } from "../utils/hook/fetch";
+import { jsonpHook } from "../utils/hook/node";
 import { propertyHook } from "../utils/hook/method";
 import { xhrHook } from "../utils/hook/xhr";
 import { poll } from "../utils/poll";
@@ -80,6 +81,7 @@ export class PageBangumi extends Page {
         this.recommend();
         this.seasonCount();
         this.followAction();
+        this.followButtonFeedback();
         this.season();
         this.review();
         this.sponsorRank();
@@ -91,6 +93,12 @@ export class PageBangumi extends Page {
         Header.prid = 1612;
         Header.primaryMenu();
         Header.banner();
+        // 拦截无效 mid 的直播请求，防止 404 → Vue crash → error boundary
+        jsonpHook.async('api.live.bilibili.com/bili/living_v2/',
+            url => /living_v2\/(?:null|undefined|0)\b/.test(url),
+            async () => ({ code: 0, data: null }),
+            false
+        );
         this.updateDom();
     }
 
@@ -130,26 +138,63 @@ export class PageBangumi extends Page {
 
     /** 拦截旧版追番接口，重定向到新版 PGC 接口 */
     protected followAction() {
+        let followPendingTimer = 0;
+        const triggerFollowPendingFeedback = () => {
+            document.documentElement.classList.add('blod-follow-global-pending');
+            followPendingTimer && window.clearTimeout(followPendingTimer);
+            followPendingTimer = window.setTimeout(() => {
+                document.documentElement.classList.remove('blod-follow-global-pending');
+            }, 1000);
+        };
+        const normalizeFollowResponse = (payload: string, followed: boolean, seasonId: number) => {
+            try {
+                const result = jsonCheck(payload);
+                if (result?.code !== 0) return payload;
+                const legacyResult = typeof result.result === "object" && result.result ? result.result : {};
+                result.result = {
+                    ...legacyResult,
+                    season_id: seasonId,
+                    follow_status: followed ? 1 : 0,
+                    is_follow: followed ? 1 : 0,
+                    status: followed ? 1 : 2
+                };
+                return JSON.stringify(result);
+            } catch {
+                return payload;
+            }
+        };
+        const patchXhrFollowResponse = (r: any, followed: boolean) => {
+            try {
+                const seasonId = Number(new URL(r.responseURL || location.href, location.origin).searchParams.get('season_id')) || this.ssid;
+                const raw = typeof r.response === "string" ? r.response : JSON.stringify(r.response);
+                const patched = normalizeFollowResponse(raw, followed, seasonId);
+                r.responseType === "json" ? r.response = jsonCheck(patched) : r.response = r.responseText = patched;
+            } catch { }
+        };
+
         // XHR 拦截（旧版页面脚本使用 XMLHttpRequest）
         xhrHook("bangumi.bilibili.com/follow/web_api/season/follow", args => {
+            triggerFollowPendingFeedback();
             const url = new URL(args[1], location.origin);
             const seasonId = url.searchParams.get('season_id') || String(this.ssid);
             const csrf = document.cookie.match(/bili_jct=([^;]+)/)?.[1] || '';
             args[1] = `//api.bilibili.com/pgc/web/follow/add?season_id=${seasonId}&csrf=${csrf}`;
             args[0] = 'POST';
-        }, undefined, false);
+        }, r => patchXhrFollowResponse(r, true), false);
         xhrHook(["bangumi.bilibili.com/follow/web_api/season/unfollow", "bangumi.bilibili.com/follow/web_api/season/cancel"], args => {
+            triggerFollowPendingFeedback();
             const url = new URL(args[1], location.origin);
             const seasonId = url.searchParams.get('season_id') || String(this.ssid);
             const csrf = document.cookie.match(/bili_jct=([^;]+)/)?.[1] || '';
             args[1] = `//api.bilibili.com/pgc/web/follow/del?season_id=${seasonId}&csrf=${csrf}`;
             args[0] = 'POST';
-        }, undefined, false);
+        }, r => patchXhrFollowResponse(r, false), false);
 
         // Fetch 拦截（新版残留脚本使用 fetch）
         // 注意：FetchHook 的 urls 使用 every() 匹配，每个实例只能有一个 URL 模式
         const followFetchHook = new FetchHook('bangumi.bilibili.com/follow/web_api/season/follow');
         followFetchHook.request((req) => {
+            triggerFollowPendingFeedback();
             const url = req.input.toString();
             const urlObj = new URL(url, location.origin);
             const seasonId = urlObj.searchParams.get('season_id') || String(this.ssid);
@@ -162,11 +207,13 @@ export class PageBangumi extends Page {
             };
         });
         followFetchHook.response(async (res) => {
-            return res.text();
+            const seasonId = Number(new URL(res.url || location.href, location.origin).searchParams.get('season_id')) || this.ssid;
+            return normalizeFollowResponse(await res.text(), true, seasonId);
         });
 
         const unfollowFetchHook = new FetchHook('bangumi.bilibili.com/follow/web_api/season/unfollow');
         unfollowFetchHook.request((req) => {
+            triggerFollowPendingFeedback();
             const url = req.input.toString();
             const urlObj = new URL(url, location.origin);
             const seasonId = urlObj.searchParams.get('season_id') || String(this.ssid);
@@ -179,11 +226,13 @@ export class PageBangumi extends Page {
             };
         });
         unfollowFetchHook.response(async (res) => {
-            return res.text();
+            const seasonId = Number(new URL(res.url || location.href, location.origin).searchParams.get('season_id')) || this.ssid;
+            return normalizeFollowResponse(await res.text(), false, seasonId);
         });
 
         const cancelFetchHook = new FetchHook('bangumi.bilibili.com/follow/web_api/season/cancel');
         cancelFetchHook.request((req) => {
+            triggerFollowPendingFeedback();
             const url = req.input.toString();
             const urlObj = new URL(url, location.origin);
             const seasonId = urlObj.searchParams.get('season_id') || String(this.ssid);
@@ -196,8 +245,53 @@ export class PageBangumi extends Page {
             };
         });
         cancelFetchHook.response(async (res) => {
-            return res.text();
+            const seasonId = Number(new URL(res.url || location.href, location.origin).searchParams.get('season_id')) || this.ssid;
+            return normalizeFollowResponse(await res.text(), false, seasonId);
         });
+    }
+    /** 追番按钮点击反馈：缓解接口回包期间“点了没反应”的体感 */
+    protected followButtonFeedback() {
+        addCss(`
+#bangumi_header .btn-follow,
+#bangumi_header .btn-unfollow,
+#bangumi_header .bangumi-info-right .info-right .bangumi-follow-btn,
+#bangumi_header .bangumi-info-right .info-right .btn,
+#bangumi_header .header-info .media-right .btn,
+#bangumi_header [class*="follow"],
+#app .btn-follow,
+#app .btn-unfollow,
+#app [class*="follow"] {
+    transition: transform .16s ease, filter .2s ease, opacity .2s ease, box-shadow .2s ease;
+    will-change: transform, filter, opacity;
+}
+.blod-follow-clicking {
+    transform: translateY(-1px) scale(0.985);
+    filter: saturate(1.12) brightness(1.02);
+    box-shadow: 0 0 0 2px rgba(0, 161, 214, .16) inset;
+}
+.blod-follow-pending {
+    opacity: .84;
+    cursor: progress;
+}
+html.blod-follow-global-pending #bangumi_header .btn,
+html.blod-follow-global-pending #bangumi_header button,
+html.blod-follow-global-pending #bangumi_header a,
+html.blod-follow-global-pending #bangumi_header [class*="follow"],
+html.blod-follow-global-pending #app .btn-follow,
+html.blod-follow-global-pending #app .btn-unfollow,
+html.blod-follow-global-pending #app [class*="follow"] {
+    opacity: .84;
+    filter: saturate(1.1);
+}
+`, 'follow-click-feedback');
+
+        document.addEventListener('click', (e) => {
+            const target = <HTMLElement | null>(<HTMLElement>e.target).closest('#bangumi_header .btn, #bangumi_header button, #bangumi_header a, #bangumi_header [class*=\"follow\"], #app .btn-follow, #app .btn-unfollow, #app [class*=\"follow\"]');
+            if (!target) return;
+            target!.classList.add('blod-follow-clicking', 'blod-follow-pending');
+            window.setTimeout(() => target!.classList.remove('blod-follow-clicking'), 180);
+            window.setTimeout(() => target!.classList.remove('blod-follow-pending'), 900);
+        }, true);
     }
 
     /** 修复换季时请求 502 */ 
@@ -487,13 +581,7 @@ export class PageBangumi extends Page {
                                 this.th = true;
                             }
                             const title = this.setTitle(t.epInfo.index, t.mediaInfo.title, this.Q(t.mediaInfo.season_type), !0);
-                            function loopTitle() {
-                                poll(() => document.title != title, () => {
-                                    document.title = title;
-                                    if (document.title != title) loopTitle();
-                                })
-                            }
-                            loopTitle();
+                            this.lockTitle(title);
                             // 记录视频数据
                             videoInfo.bangumiSeason(<any>bangumi);
                         })
@@ -538,6 +626,19 @@ export class PageBangumi extends Page {
             vipNeedPay: o,
             payPack: r
         }
+    }
+    /** 锁定标题：监听 <title> DOM 变化，阻止外部脚本修改 */
+    protected lockTitle(title: string) {
+        const ERROR_TITLE = 'Application error: a client-side exception has occurred';
+        document.title = title;
+        poll(() => document.querySelector('title'), titleEl => {
+            const observer = new MutationObserver(() => {
+                if (document.title !== title && document.title !== ERROR_TITLE) {
+                    document.title = title;
+                }
+            });
+            observer.observe(titleEl, { subtree: true, characterData: true, childList: true });
+        });
     }
     /** 更新标题 */
     protected setTitle(t: any, e: any, i: any, n: any) {
@@ -688,14 +789,7 @@ export class PageBangumi extends Page {
         this.player();
         toast.warning("这大概是一个泰区专属Bangumi，可能没有弹幕和评论区，可以使用【在线弹幕】【播放本地文件】等功能载入弹幕~", "另外：播放泰区番剧还可能导致历史记录错乱，请多担待🤣");
         const title = this.setTitle(t.epInfo.index, t.mediaInfo.title, this.Q(t.mediaInfo.season_type), !0);
-        function loopTitle() {
-            poll(() => document.title != title, () => {
-                document.title = title;
-                if (document.title != title)
-                    loopTitle();
-            });
-        }
-        loopTitle();
+        this.lockTitle(title);
         // 记录视频数据
         videoInfo.bangumiEpisode(episodes, i.title, i.actor?.info, i.cover, t.mediaInfo.bkg_cover);
     }
@@ -764,16 +858,21 @@ export class PageBangumi extends Page {
     }
     /** 页面死循环检查 */
     protected reloadCheck() {
+        const ERROR_TITLE = 'Application error: a client-side exception has occurred';
+        let alerted = false;
         function reload() {
-            if (document.title === 'Application error: a client-side exception has occurred') {
-                alert('新版页面出现死循环，CPU占用飙升，尝试刷新页面解决？', '死循环', [
-                    {
-                        text: '刷新',
-                        callback: () => {
-                            location.reload();
+            if (document.title === ERROR_TITLE) {
+                if (!alerted) {
+                    alerted = true;
+                    alert('新版页面出现死循环，CPU占用飙升，尝试刷新页面解决？', '死循环', [
+                        {
+                            text: '刷新',
+                            callback: () => {
+                                location.reload();
+                            }
                         }
-                    }
-                ])
+                    ])
+                }
             }
         }
         if (document.readyState === 'complete') {
@@ -781,6 +880,7 @@ export class PageBangumi extends Page {
         } else {
             window.addEventListener('load', reload, { once: true });
         }
+        poll(() => document.title === ERROR_TITLE, reload, 1000, 0);
     }
     protected loadedCallback() {
         super.loadedCallback();

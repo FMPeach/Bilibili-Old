@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bilibili 旧播放页
 // @namespace    MotooriKashin
-// @version      10.12.2-c3dd748427ccbbefce8d3423714030e5ad97afd7
+// @version      10.12.3-c3dd748427ccbbefce8d3423714030e5ad97afd7
 // @description  恢复Bilibili旧版页面，为了那些念旧的人。
 // @author       MotooriKashin, wly5556, FMPeach
 // @homepage     https://github.com/FMPeach/Bilibili-Old
@@ -29,11 +29,17 @@ const MODULES = `
   var __getOwnPropNames = Object.getOwnPropertyNames;
   var __getProtoOf = Object.getPrototypeOf;
   var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x, {
+    get: (a, b) => (typeof require !== "undefined" ? require : a)[b]
+  }) : x)(function(x) {
+    if (typeof require !== "undefined") return require.apply(this, arguments);
+    throw Error('Dynamic require of "' + x + '" is not supported');
+  });
   var __esm = (fn, res) => function __init() {
     return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
   };
-  var __commonJS = (cb, mod2) => function __require() {
-    return mod2 || (0, cb[__getOwnPropNames(cb)[0]])((mod2 = { exports: {} }).exports, mod2), mod2.exports;
+  var __commonJS = (cb, mod) => function __require2() {
+    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
   var __copyProps = (to, from, except, desc) => {
     if (from && typeof from === "object" || typeof from === "function") {
@@ -43,13 +49,13 @@ const MODULES = `
     }
     return to;
   };
-  var __toESM = (mod2, isNodeMode, target) => (target = mod2 != null ? __create(__getProtoOf(mod2)) : {}, __copyProps(
+  var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
     // If the importer is in node compatibility mode or this is not an ESM
     // file that has been converted to a CommonJS file using a Babel-
     // compatible transform (i.e. "__esModule" has not been set), then set
     // "default" to the CommonJS "module.exports" for node compatibility.
-    isNodeMode || !mod2 || !mod2.__esModule ? __defProp(target, "default", { value: mod2, enumerable: true }) : target,
-    mod2
+    isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+    mod
   ));
 
   // tampermonkey/gm.ts
@@ -166,7 +172,7 @@ const MODULES = `
 
   // node_modules/crypt/crypt.js
   var require_crypt = __commonJS({
-    "node_modules/crypt/crypt.js"(exports2, module2) {
+    "node_modules/crypt/crypt.js"(exports, module) {
       init_tampermonkey();
       (function() {
         var base64map = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", crypt = {
@@ -241,14 +247,14 @@ const MODULES = `
             return bytes;
           }
         };
-        module2.exports = crypt;
+        module.exports = crypt;
       })();
     }
   });
 
   // node_modules/charenc/charenc.js
   var require_charenc = __commonJS({
-    "node_modules/charenc/charenc.js"(exports2, module2) {
+    "node_modules/charenc/charenc.js"(exports, module) {
       init_tampermonkey();
       var charenc = {
         // UTF-8 encoding
@@ -278,15 +284,15 @@ const MODULES = `
           }
         }
       };
-      module2.exports = charenc;
+      module.exports = charenc;
     }
   });
 
   // node_modules/is-buffer/index.js
   var require_is_buffer = __commonJS({
-    "node_modules/is-buffer/index.js"(exports2, module2) {
+    "node_modules/is-buffer/index.js"(exports, module) {
       init_tampermonkey();
-      module2.exports = function(obj) {
+      module.exports = function(obj) {
         return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer);
       };
       function isBuffer(obj) {
@@ -300,7 +306,7 @@ const MODULES = `
 
   // node_modules/md5/md5.js
   var require_md5 = __commonJS({
-    "node_modules/md5/md5.js"(exports2, module2) {
+    "node_modules/md5/md5.js"(exports, module) {
       init_tampermonkey();
       (function() {
         var crypt = require_crypt(), utf8 = require_charenc().utf8, isBuffer = require_is_buffer(), bin = require_charenc().bin, md54 = function(message, options) {
@@ -411,7 +417,7 @@ const MODULES = `
         };
         md54._blocksize = 16;
         md54._digestsize = 16;
-        module2.exports = function(message, options) {
+        module.exports = function(message, options) {
           if (message === void 0 || message === null)
             throw new Error("Illegal argument " + message);
           var digestbytes = crypt.wordsToBytes(md54(message, options));
@@ -421,12 +427,12 @@ const MODULES = `
     }
   });
 
-  // node_modules/@protobufjs/aspromise/index.js
+  // node_modules/protobufjs/src/util/aspromise.js
   var require_aspromise = __commonJS({
-    "node_modules/@protobufjs/aspromise/index.js"(exports2, module2) {
+    "node_modules/protobufjs/src/util/aspromise.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = asPromise;
+      module.exports = asPromise;
       function asPromise(fn, ctx) {
         var params = new Array(arguments.length - 1), offset3 = 0, index = 2, pending = true;
         while (index < arguments.length)
@@ -458,12 +464,12 @@ const MODULES = `
     }
   });
 
-  // node_modules/@protobufjs/base64/index.js
+  // node_modules/protobufjs/src/util/base64.js
   var require_base64 = __commonJS({
-    "node_modules/@protobufjs/base64/index.js"(exports2) {
+    "node_modules/protobufjs/src/util/base64.js"(exports) {
       "use strict";
       init_tampermonkey();
-      var base642 = exports2;
+      var base642 = exports;
       base642.length = function length2(string) {
         var p = string.length;
         if (!p)
@@ -559,12 +565,12 @@ const MODULES = `
     }
   });
 
-  // node_modules/@protobufjs/eventemitter/index.js
+  // node_modules/protobufjs/src/util/eventemitter.js
   var require_eventemitter = __commonJS({
-    "node_modules/@protobufjs/eventemitter/index.js"(exports2, module2) {
+    "node_modules/protobufjs/src/util/eventemitter.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = EventEmitter;
+      module.exports = EventEmitter;
       function EventEmitter() {
         this._listeners = {};
       }
@@ -606,13 +612,13 @@ const MODULES = `
     }
   });
 
-  // node_modules/@protobufjs/float/index.js
+  // node_modules/protobufjs/src/util/float.js
   var require_float = __commonJS({
-    "node_modules/@protobufjs/float/index.js"(exports2, module2) {
+    "node_modules/protobufjs/src/util/float.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = factory(factory);
-      function factory(exports3) {
+      module.exports = factory(factory);
+      function factory(exports2) {
         if (typeof Float32Array !== "undefined") (function() {
           var f32 = new Float32Array([-0]), f8b = new Uint8Array(f32.buffer), le = f8b[3] === 128;
           function writeFloat_f32_cpy(val, buf, pos) {
@@ -629,8 +635,8 @@ const MODULES = `
             buf[pos + 2] = f8b[1];
             buf[pos + 3] = f8b[0];
           }
-          exports3.writeFloatLE = le ? writeFloat_f32_cpy : writeFloat_f32_rev;
-          exports3.writeFloatBE = le ? writeFloat_f32_rev : writeFloat_f32_cpy;
+          exports2.writeFloatLE = le ? writeFloat_f32_cpy : writeFloat_f32_rev;
+          exports2.writeFloatBE = le ? writeFloat_f32_rev : writeFloat_f32_cpy;
           function readFloat_f32_cpy(buf, pos) {
             f8b[0] = buf[pos];
             f8b[1] = buf[pos + 1];
@@ -645,8 +651,8 @@ const MODULES = `
             f8b[0] = buf[pos + 3];
             return f32[0];
           }
-          exports3.readFloatLE = le ? readFloat_f32_cpy : readFloat_f32_rev;
-          exports3.readFloatBE = le ? readFloat_f32_rev : readFloat_f32_cpy;
+          exports2.readFloatLE = le ? readFloat_f32_cpy : readFloat_f32_rev;
+          exports2.readFloatBE = le ? readFloat_f32_rev : readFloat_f32_cpy;
         })();
         else (function() {
           function writeFloat_ieee754(writeUint, val, buf, pos) {
@@ -672,14 +678,14 @@ const MODULES = `
               writeUint((sign << 31 | exponent + 127 << 23 | mantissa) >>> 0, buf, pos);
             }
           }
-          exports3.writeFloatLE = writeFloat_ieee754.bind(null, writeUintLE);
-          exports3.writeFloatBE = writeFloat_ieee754.bind(null, writeUintBE);
+          exports2.writeFloatLE = writeFloat_ieee754.bind(null, writeUintLE);
+          exports2.writeFloatBE = writeFloat_ieee754.bind(null, writeUintBE);
           function readFloat_ieee754(readUint, buf, pos) {
             var uint = readUint(buf, pos), sign = (uint >> 31) * 2 + 1, exponent = uint >>> 23 & 255, mantissa = uint & 8388607;
             return exponent === 255 ? mantissa ? NaN : sign * Infinity : exponent === 0 ? sign * 1401298464324817e-60 * mantissa : sign * Math.pow(2, exponent - 150) * (mantissa + 8388608);
           }
-          exports3.readFloatLE = readFloat_ieee754.bind(null, readUintLE);
-          exports3.readFloatBE = readFloat_ieee754.bind(null, readUintBE);
+          exports2.readFloatLE = readFloat_ieee754.bind(null, readUintLE);
+          exports2.readFloatBE = readFloat_ieee754.bind(null, readUintBE);
         })();
         if (typeof Float64Array !== "undefined") (function() {
           var f64 = new Float64Array([-0]), f8b = new Uint8Array(f64.buffer), le = f8b[7] === 128;
@@ -705,8 +711,8 @@ const MODULES = `
             buf[pos + 6] = f8b[1];
             buf[pos + 7] = f8b[0];
           }
-          exports3.writeDoubleLE = le ? writeDouble_f64_cpy : writeDouble_f64_rev;
-          exports3.writeDoubleBE = le ? writeDouble_f64_rev : writeDouble_f64_cpy;
+          exports2.writeDoubleLE = le ? writeDouble_f64_cpy : writeDouble_f64_rev;
+          exports2.writeDoubleBE = le ? writeDouble_f64_rev : writeDouble_f64_cpy;
           function readDouble_f64_cpy(buf, pos) {
             f8b[0] = buf[pos];
             f8b[1] = buf[pos + 1];
@@ -729,8 +735,8 @@ const MODULES = `
             f8b[0] = buf[pos + 7];
             return f64[0];
           }
-          exports3.readDoubleLE = le ? readDouble_f64_cpy : readDouble_f64_rev;
-          exports3.readDoubleBE = le ? readDouble_f64_rev : readDouble_f64_cpy;
+          exports2.readDoubleLE = le ? readDouble_f64_cpy : readDouble_f64_rev;
+          exports2.readDoubleBE = le ? readDouble_f64_rev : readDouble_f64_cpy;
         })();
         else (function() {
           function writeDouble_ieee754(writeUint, off0, off1, val, buf, pos) {
@@ -768,17 +774,17 @@ const MODULES = `
               }
             }
           }
-          exports3.writeDoubleLE = writeDouble_ieee754.bind(null, writeUintLE, 0, 4);
-          exports3.writeDoubleBE = writeDouble_ieee754.bind(null, writeUintBE, 4, 0);
+          exports2.writeDoubleLE = writeDouble_ieee754.bind(null, writeUintLE, 0, 4);
+          exports2.writeDoubleBE = writeDouble_ieee754.bind(null, writeUintBE, 4, 0);
           function readDouble_ieee754(readUint, off0, off1, buf, pos) {
             var lo = readUint(buf, pos + off0), hi = readUint(buf, pos + off1);
             var sign = (hi >> 31) * 2 + 1, exponent = hi >>> 20 & 2047, mantissa = 4294967296 * (hi & 1048575) + lo;
             return exponent === 2047 ? mantissa ? NaN : sign * Infinity : exponent === 0 ? sign * 5e-324 * mantissa : sign * Math.pow(2, exponent - 1075) * (mantissa + 4503599627370496);
           }
-          exports3.readDoubleLE = readDouble_ieee754.bind(null, readUintLE, 0, 4);
-          exports3.readDoubleBE = readDouble_ieee754.bind(null, readUintBE, 4, 0);
+          exports2.readDoubleLE = readDouble_ieee754.bind(null, readUintLE, 0, 4);
+          exports2.readDoubleBE = readDouble_ieee754.bind(null, readUintBE, 4, 0);
         })();
-        return exports3;
+        return exports2;
       }
       function writeUintLE(val, buf, pos) {
         buf[pos] = val & 255;
@@ -801,30 +807,34 @@ const MODULES = `
     }
   });
 
-  // node_modules/@protobufjs/inquire/index.js
+  // node_modules/protobufjs/src/util/inquire.js
   var require_inquire = __commonJS({
-    "node_modules/@protobufjs/inquire/index.js"(exports, module) {
+    "node_modules/protobufjs/src/util/inquire.js"(exports, module) {
       "use strict";
       init_tampermonkey();
       module.exports = inquire;
       function inquire(moduleName) {
         try {
-          var mod = eval("quire".replace(/^/, "re"))(moduleName);
-          if (mod && (mod.length || Object.keys(mod).length))
-            return mod;
-        } catch (e) {
+          if (typeof __require !== "function") {
+            return null;
+          }
+          var mod = __require(moduleName);
+          if (mod && (mod.length || Object.keys(mod).length)) return mod;
+          return null;
+        } catch (err2) {
+          return null;
         }
-        return null;
       }
     }
   });
 
-  // node_modules/@protobufjs/utf8/index.js
+  // node_modules/protobufjs/src/util/utf8.js
   var require_utf8 = __commonJS({
-    "node_modules/@protobufjs/utf8/index.js"(exports2) {
+    "node_modules/protobufjs/src/util/utf8.js"(exports) {
       "use strict";
       init_tampermonkey();
-      var utf8 = exports2;
+      var utf8 = exports;
+      var replacementChar = "�";
       utf8.length = function utf8_length(string) {
         var len = 0, c = 0;
         for (var i = 0; i < string.length; ++i) {
@@ -842,33 +852,32 @@ const MODULES = `
         return len;
       };
       utf8.read = function utf8_read(buffer, start, end) {
-        var len = end - start;
-        if (len < 1)
+        if (end - start < 1) {
           return "";
-        var parts = null, chunk = [], i = 0, t;
-        while (start < end) {
-          t = buffer[start++];
-          if (t < 128)
-            chunk[i++] = t;
-          else if (t > 191 && t < 224)
-            chunk[i++] = (t & 31) << 6 | buffer[start++] & 63;
-          else if (t > 239 && t < 365) {
-            t = ((t & 7) << 18 | (buffer[start++] & 63) << 12 | (buffer[start++] & 63) << 6 | buffer[start++] & 63) - 65536;
-            chunk[i++] = 55296 + (t >> 10);
-            chunk[i++] = 56320 + (t & 1023);
-          } else
-            chunk[i++] = (t & 15) << 12 | (buffer[start++] & 63) << 6 | buffer[start++] & 63;
-          if (i > 8191) {
-            (parts || (parts = [])).push(String.fromCharCode.apply(String, chunk));
-            i = 0;
+        }
+        var str = "";
+        for (var i = start; i < end; ) {
+          var t = buffer[i++];
+          if (t <= 127) {
+            str += String.fromCharCode(t);
+          } else if (t >= 192 && t < 224) {
+            var c2 = (t & 31) << 6 | buffer[i++] & 63;
+            str += c2 >= 128 ? String.fromCharCode(c2) : replacementChar;
+          } else if (t >= 224 && t < 240) {
+            var c3 = (t & 15) << 12 | (buffer[i++] & 63) << 6 | buffer[i++] & 63;
+            str += c3 >= 2048 ? String.fromCharCode(c3) : replacementChar;
+          } else if (t >= 240) {
+            var t2 = (t & 7) << 18 | (buffer[i++] & 63) << 12 | (buffer[i++] & 63) << 6 | buffer[i++] & 63;
+            if (t2 < 65536 || t2 > 1114111)
+              str += replacementChar;
+            else {
+              t2 -= 65536;
+              str += String.fromCharCode(55296 + (t2 >> 10));
+              str += String.fromCharCode(56320 + (t2 & 1023));
+            }
           }
         }
-        if (parts) {
-          if (i)
-            parts.push(String.fromCharCode.apply(String, chunk.slice(0, i)));
-          return parts.join("");
-        }
-        return String.fromCharCode.apply(String, chunk.slice(0, i));
+        return str;
       };
       utf8.write = function utf8_write(string, buffer, offset3) {
         var start = offset3, c1, c2;
@@ -897,12 +906,12 @@ const MODULES = `
     }
   });
 
-  // node_modules/@protobufjs/pool/index.js
+  // node_modules/protobufjs/src/util/pool.js
   var require_pool = __commonJS({
-    "node_modules/@protobufjs/pool/index.js"(exports2, module2) {
+    "node_modules/protobufjs/src/util/pool.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = pool;
+      module.exports = pool;
       function pool(alloc, slice, size) {
         var SIZE = size || 8192;
         var MAX = SIZE >>> 1;
@@ -926,10 +935,10 @@ const MODULES = `
 
   // node_modules/protobufjs/src/util/longbits.js
   var require_longbits = __commonJS({
-    "node_modules/protobufjs/src/util/longbits.js"(exports2, module2) {
+    "node_modules/protobufjs/src/util/longbits.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = LongBits;
+      module.exports = LongBits;
       var util = require_minimal();
       function LongBits(lo, hi) {
         this.lo = lo >>> 0;
@@ -1029,10 +1038,10 @@ const MODULES = `
 
   // node_modules/protobufjs/src/util/minimal.js
   var require_minimal = __commonJS({
-    "node_modules/protobufjs/src/util/minimal.js"(exports2) {
+    "node_modules/protobufjs/src/util/minimal.js"(exports) {
       "use strict";
       init_tampermonkey();
-      var util = exports2;
+      var util = exports;
       util.asPromise = require_aspromise();
       util.base64 = require_base64();
       util.EventEmitter = require_eventemitter();
@@ -1042,7 +1051,7 @@ const MODULES = `
       util.pool = require_pool();
       util.LongBits = require_longbits();
       util.isNode = Boolean(typeof global !== "undefined" && global && global.process && global.process.versions && global.process.versions.node);
-      util.global = util.isNode && global || typeof window !== "undefined" && window || typeof self !== "undefined" && self || exports2;
+      util.global = util.isNode && global || typeof window !== "undefined" && window || typeof self !== "undefined" && self || exports;
       util.emptyArray = Object.freeze ? Object.freeze([]) : (
         /* istanbul ignore next */
         []
@@ -1108,11 +1117,21 @@ const MODULES = `
       };
       function merge(dst, src, ifNotSet) {
         for (var keys = Object.keys(src), i = 0; i < keys.length; ++i)
-          if (dst[keys[i]] === void 0 || !ifNotSet)
-            dst[keys[i]] = src[keys[i]];
+          if (dst[keys[i]] === void 0 || !ifNotSet) {
+            if (keys[i] !== "__proto__")
+              dst[keys[i]] = src[keys[i]];
+          }
         return dst;
       }
       util.merge = merge;
+      util.recursionLimit = 100;
+      util.makeProp = function makeProp(obj, key) {
+        Object.defineProperty(obj, key, {
+          enumerable: true,
+          configurable: true,
+          writable: true
+        });
+      };
       util.lcFirst = function lcFirst(str) {
         return str.charAt(0).toLowerCase() + str.substring(1);
       };
@@ -1205,10 +1224,10 @@ const MODULES = `
 
   // node_modules/protobufjs/src/writer.js
   var require_writer = __commonJS({
-    "node_modules/protobufjs/src/writer.js"(exports2, module2) {
+    "node_modules/protobufjs/src/writer.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = Writer2;
+      module.exports = Writer2;
       var util = require_minimal();
       var BufferWriter;
       var LongBits = util.LongBits;
@@ -1397,10 +1416,10 @@ const MODULES = `
 
   // node_modules/protobufjs/src/writer_buffer.js
   var require_writer_buffer = __commonJS({
-    "node_modules/protobufjs/src/writer_buffer.js"(exports2, module2) {
+    "node_modules/protobufjs/src/writer_buffer.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = BufferWriter;
+      module.exports = BufferWriter;
       var Writer2 = require_writer();
       (BufferWriter.prototype = Object.create(Writer2.prototype)).constructor = BufferWriter;
       var util = require_minimal();
@@ -1448,10 +1467,10 @@ const MODULES = `
 
   // node_modules/protobufjs/src/reader.js
   var require_reader = __commonJS({
-    "node_modules/protobufjs/src/reader.js"(exports2, module2) {
+    "node_modules/protobufjs/src/reader.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = Reader2;
+      module.exports = Reader2;
       var util = require_minimal();
       var BufferReader;
       var LongBits = util.LongBits;
@@ -1617,7 +1636,11 @@ const MODULES = `
         }
         return this;
       };
-      Reader2.prototype.skipType = function(wireType) {
+      Reader2.recursionLimit = util.recursionLimit;
+      Reader2.prototype.skipType = function(wireType, depth) {
+        if (depth === void 0) depth = 0;
+        if (depth > Reader2.recursionLimit)
+          throw Error("maximum nesting depth exceeded");
         switch (wireType) {
           case 0:
             this.skip();
@@ -1630,7 +1653,7 @@ const MODULES = `
             break;
           case 3:
             while ((wireType = this.uint32() & 7) !== 4) {
-              this.skipType(wireType);
+              this.skipType(wireType, depth + 1);
             }
             break;
           case 5:
@@ -1673,10 +1696,10 @@ const MODULES = `
 
   // node_modules/protobufjs/src/reader_buffer.js
   var require_reader_buffer = __commonJS({
-    "node_modules/protobufjs/src/reader_buffer.js"(exports2, module2) {
+    "node_modules/protobufjs/src/reader_buffer.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = BufferReader;
+      module.exports = BufferReader;
       var Reader2 = require_reader();
       (BufferReader.prototype = Object.create(Reader2.prototype)).constructor = BufferReader;
       var util = require_minimal();
@@ -1697,10 +1720,10 @@ const MODULES = `
 
   // node_modules/protobufjs/src/rpc/service.js
   var require_service = __commonJS({
-    "node_modules/protobufjs/src/rpc/service.js"(exports2, module2) {
+    "node_modules/protobufjs/src/rpc/service.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = Service;
+      module.exports = Service;
       var util = require_minimal();
       (Service.prototype = Object.create(util.EventEmitter.prototype)).constructor = Service;
       function Service(rpcImpl, requestDelimited, responseDelimited) {
@@ -1773,29 +1796,29 @@ const MODULES = `
 
   // node_modules/protobufjs/src/rpc.js
   var require_rpc = __commonJS({
-    "node_modules/protobufjs/src/rpc.js"(exports2) {
+    "node_modules/protobufjs/src/rpc.js"(exports) {
       "use strict";
       init_tampermonkey();
-      var rpc = exports2;
+      var rpc = exports;
       rpc.Service = require_service();
     }
   });
 
   // node_modules/protobufjs/src/roots.js
   var require_roots = __commonJS({
-    "node_modules/protobufjs/src/roots.js"(exports2, module2) {
+    "node_modules/protobufjs/src/roots.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = {};
+      module.exports = {};
     }
   });
 
   // node_modules/protobufjs/src/index-minimal.js
   var require_index_minimal = __commonJS({
-    "node_modules/protobufjs/src/index-minimal.js"(exports2) {
+    "node_modules/protobufjs/src/index-minimal.js"(exports) {
       "use strict";
       init_tampermonkey();
-      var protobuf = exports2;
+      var protobuf = exports;
       protobuf.build = "minimal";
       protobuf.Writer = require_writer();
       protobuf.BufferWriter = require_writer_buffer();
@@ -1814,12 +1837,27 @@ const MODULES = `
     }
   });
 
-  // node_modules/@protobufjs/codegen/index.js
-  var require_codegen = __commonJS({
-    "node_modules/@protobufjs/codegen/index.js"(exports2, module2) {
+  // node_modules/protobufjs/src/util/patterns.js
+  var require_patterns = __commonJS({
+    "node_modules/protobufjs/src/util/patterns.js"(exports) {
       "use strict";
       init_tampermonkey();
-      module2.exports = codegen;
+      var patterns = exports;
+      patterns.numberRe = /^(?![eE])[0-9]*(?:\\.[0-9]*)?(?:[eE][+-]?[0-9]+)?\$/;
+      patterns.typeRefRe = /^(?:\\.?[a-zA-Z_][a-zA-Z_0-9]*)(?:\\.[a-zA-Z_][a-zA-Z_0-9]*)*\$/;
+      patterns.reservedRe = /^(?:do|if|in|for|let|new|try|var|case|else|enum|eval|false|null|this|true|void|with|break|catch|class|const|super|throw|while|yield|delete|export|import|public|return|static|switch|typeof|default|extends|finally|package|private|continue|debugger|function|arguments|interface|protected|implements|instanceof)\$/;
+      patterns.unsafePropertyRe = /^(?:__proto__|prototype|constructor)\$/;
+    }
+  });
+
+  // node_modules/protobufjs/src/util/codegen.js
+  var require_codegen = __commonJS({
+    "node_modules/protobufjs/src/util/codegen.js"(exports, module) {
+      "use strict";
+      init_tampermonkey();
+      module.exports = codegen;
+      var patterns = require_patterns();
+      var reservedRe = patterns.reservedRe;
       function codegen(functionParams, functionName) {
         if (typeof functionParams === "string") {
           functionName = functionParams;
@@ -1868,24 +1906,34 @@ const MODULES = `
           return Codegen;
         }
         function toString2(functionNameOverride) {
-          return "function " + (functionNameOverride || functionName || "") + "(" + (functionParams && functionParams.join(",") || "") + "){\\n  " + body.join("\\n  ") + "\\n}";
+          return "function " + safeFunctionName(functionNameOverride || functionName) + "(" + (functionParams && functionParams.join(",") || "") + "){\\n  " + body.join("\\n  ") + "\\n}";
         }
         Codegen.toString = toString2;
         return Codegen;
       }
       codegen.verbose = false;
+      function safeFunctionName(name) {
+        if (!name)
+          return "";
+        name = String(name).replace(/[^\\w\$]/g, "");
+        if (!name)
+          return "";
+        if (/^\\d/.test(name))
+          name = "_" + name;
+        return reservedRe.test(name) ? name + "_" : name;
+      }
     }
   });
 
-  // node_modules/@protobufjs/fetch/index.js
+  // node_modules/protobufjs/src/util/fetch.js
   var require_fetch = __commonJS({
-    "node_modules/@protobufjs/fetch/index.js"(exports2, module2) {
+    "node_modules/protobufjs/src/util/fetch.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = fetch2;
+      module.exports = fetch2;
       var asPromise = require_aspromise();
-      var inquire2 = require_inquire();
-      var fs = inquire2("fs");
+      var inquire = require_inquire();
+      var fs = inquire("fs");
       function fetch2(filename, options, callback) {
         if (typeof options === "function") {
           callback = options;
@@ -1929,12 +1977,12 @@ const MODULES = `
     }
   });
 
-  // node_modules/@protobufjs/path/index.js
+  // node_modules/protobufjs/src/util/path.js
   var require_path = __commonJS({
-    "node_modules/@protobufjs/path/index.js"(exports2) {
+    "node_modules/protobufjs/src/util/path.js"(exports) {
       "use strict";
       init_tampermonkey();
-      var path = exports2;
+      var path = exports;
       var isAbsolute = (
         /**
          * Tests if the specified path is absolute.
@@ -1942,7 +1990,7 @@ const MODULES = `
          * @returns {boolean} \`true\` if path is absolute
          */
         path.isAbsolute = function isAbsolute2(path2) {
-          return /^(?:\\/|\\w+:)/.test(path2);
+          return /^(?:\\/|\\w+:|\\\\\\\\\\w+)/.test(path2);
         }
       );
       var normalize = (
@@ -1952,6 +2000,12 @@ const MODULES = `
          * @returns {string} Normalized path
          */
         path.normalize = function normalize2(path2) {
+          var firstTwoCharacters = path2.substring(0, 2);
+          var uncPrefix = "";
+          if (firstTwoCharacters === "\\\\\\\\") {
+            uncPrefix = firstTwoCharacters;
+            path2 = path2.substring(2);
+          }
           path2 = path2.replace(/\\\\/g, "/").replace(/\\/{2,}/g, "/");
           var parts = path2.split("/"), absolute = isAbsolute(path2), prefix = "";
           if (absolute)
@@ -1969,7 +2023,7 @@ const MODULES = `
             else
               ++i;
           }
-          return prefix + parts.join("/");
+          return uncPrefix + prefix + parts.join("/");
         }
       );
       path.resolve = function resolve(originPath, includePath, alreadyNormalized) {
@@ -1986,10 +2040,10 @@ const MODULES = `
 
   // node_modules/protobufjs/src/namespace.js
   var require_namespace = __commonJS({
-    "node_modules/protobufjs/src/namespace.js"(exports2, module2) {
+    "node_modules/protobufjs/src/namespace.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = Namespace;
+      module.exports = Namespace;
       var ReflectionObject2 = require_object();
       ((Namespace.prototype = Object.create(ReflectionObject2.prototype)).constructor = Namespace).className = "Namespace";
       var Field2 = require_field();
@@ -2030,16 +2084,16 @@ const MODULES = `
         ReflectionObject2.call(this, name, options);
         this.nested = void 0;
         this._nestedArray = null;
-        this._lookupCache = {};
+        this._lookupCache = /* @__PURE__ */ Object.create(null);
         this._needsRecursiveFeatureResolution = true;
         this._needsRecursiveResolve = true;
       }
       function clearCache(namespace) {
         namespace._nestedArray = null;
-        namespace._lookupCache = {};
+        namespace._lookupCache = /* @__PURE__ */ Object.create(null);
         var parent = namespace;
         while (parent = parent.parent) {
-          parent._lookupCache = {};
+          parent._lookupCache = /* @__PURE__ */ Object.create(null);
         }
         return namespace;
       }
@@ -2070,16 +2124,18 @@ const MODULES = `
         return this;
       };
       Namespace.prototype.get = function get(name) {
-        return this.nested && this.nested[name] || null;
+        return this.nested && Object.prototype.hasOwnProperty.call(this.nested, name) ? this.nested[name] : null;
       };
       Namespace.prototype.getEnum = function getEnum(name) {
-        if (this.nested && this.nested[name] instanceof Enum)
+        if (this.nested && Object.prototype.hasOwnProperty.call(this.nested, name) && this.nested[name] instanceof Enum)
           return this.nested[name].values;
         throw Error("no such enum: " + name);
       };
       Namespace.prototype.add = function add(object) {
         if (!(object instanceof Field2 && object.extend !== void 0 || object instanceof Type3 || object instanceof OneOf2 || object instanceof Enum || object instanceof Service || object instanceof Namespace))
           throw TypeError("object must be a valid nested object");
+        if (object.name === "__proto__")
+          return this;
         if (!this.nested)
           this.nested = {};
         else {
@@ -2258,10 +2314,10 @@ const MODULES = `
 
   // node_modules/protobufjs/src/mapfield.js
   var require_mapfield = __commonJS({
-    "node_modules/protobufjs/src/mapfield.js"(exports2, module2) {
+    "node_modules/protobufjs/src/mapfield.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = MapField;
+      module.exports = MapField;
       var Field2 = require_field();
       ((MapField.prototype = Object.create(Field2.prototype)).constructor = MapField).className = "MapField";
       var types = require_types();
@@ -2315,10 +2371,10 @@ const MODULES = `
 
   // node_modules/protobufjs/src/method.js
   var require_method = __commonJS({
-    "node_modules/protobufjs/src/method.js"(exports2, module2) {
+    "node_modules/protobufjs/src/method.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = Method;
+      module.exports = Method;
       var ReflectionObject2 = require_object();
       ((Method.prototype = Object.create(ReflectionObject2.prototype)).constructor = Method).className = "Method";
       var util = require_util();
@@ -2384,15 +2440,16 @@ const MODULES = `
 
   // node_modules/protobufjs/src/service.js
   var require_service2 = __commonJS({
-    "node_modules/protobufjs/src/service.js"(exports2, module2) {
+    "node_modules/protobufjs/src/service.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = Service;
+      module.exports = Service;
       var Namespace = require_namespace();
       ((Service.prototype = Object.create(Namespace.prototype)).constructor = Service).className = "Service";
       var Method = require_method();
       var util = require_util();
       var rpc = require_rpc();
+      var reservedRe = util.patterns.reservedRe;
       function Service(name, options) {
         Namespace.call(this, name, options);
         this.methods = {};
@@ -2438,7 +2495,7 @@ const MODULES = `
         return service;
       }
       Service.prototype.get = function get(name) {
-        return this.methods[name] || Namespace.prototype.get.call(this, name);
+        return Object.prototype.hasOwnProperty.call(this.methods, name) ? this.methods[name] : Namespace.prototype.get.call(this, name);
       };
       Service.prototype.resolveAll = function resolveAll() {
         if (!this._needsRecursiveResolve) return this;
@@ -2461,6 +2518,8 @@ const MODULES = `
         if (this.get(object.name))
           throw Error("duplicate name '" + object.name + "' in " + this);
         if (object instanceof Method) {
+          if (object.name === "__proto__")
+            return this;
           this.methods[object.name] = object;
           object.parent = this;
           return clearCache(this);
@@ -2482,7 +2541,7 @@ const MODULES = `
         for (var i = 0, method; i < /* initializes */
         this.methodsArray.length; ++i) {
           var methodName = util.lcFirst((method = this._methodsArray[i]).resolve().name).replace(/[^\$\\w_]/g, "");
-          rpcService[methodName] = util.codegen(["r", "c"], util.isReserved(methodName) ? methodName + "_" : methodName)("return this.rpcCall(m,q,s,r,c)")({
+          rpcService[methodName] = util.codegen(["r", "c"], reservedRe.test(methodName) ? methodName + "_" : methodName)("return this.rpcCall(m,q,s,r,c)")({
             m: method,
             q: method.resolvedRequestType.ctor,
             s: method.resolvedResponseType.ctor
@@ -2495,10 +2554,10 @@ const MODULES = `
 
   // node_modules/protobufjs/src/message.js
   var require_message = __commonJS({
-    "node_modules/protobufjs/src/message.js"(exports2, module2) {
+    "node_modules/protobufjs/src/message.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = Message2;
+      module.exports = Message2;
       var util = require_minimal();
       function Message2(properties) {
         if (properties)
@@ -2541,10 +2600,10 @@ const MODULES = `
 
   // node_modules/protobufjs/src/decoder.js
   var require_decoder = __commonJS({
-    "node_modules/protobufjs/src/decoder.js"(exports2, module2) {
+    "node_modules/protobufjs/src/decoder.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = decoder;
+      module.exports = decoder;
       var Enum = require_enum();
       var types = require_types();
       var util = require_util();
@@ -2552,7 +2611,7 @@ const MODULES = `
         return "missing required '" + field.name + "'";
       }
       function decoder(mtype) {
-        var gen = util.codegen(["r", "l", "e"], mtype.name + "\$decode")("if(!(r instanceof Reader))")("r=Reader.create(r)")("var c=l===undefined?r.len:r.pos+l,m=new this.ctor" + (mtype.fieldsArray.filter(function(field2) {
+        var gen = util.codegen(["r", "l", "e", "n"], mtype.name + "\$decode")("if(!(r instanceof Reader))")("r=Reader.create(r)")("if(n===undefined)n=0")("if(n>Reader.recursionLimit)")('throw Error("maximum nesting depth exceeded")')("var c=l===undefined?r.len:r.pos+l,m=new this.ctor" + (mtype.fieldsArray.filter(function(field2) {
           return field2.map;
         }).length ? ",k,value" : ""))("while(r.pos<c){")("var t=r.uint32()")("if(t===e)")("break")("switch(t>>>3){");
         var i = 0;
@@ -2567,21 +2626,24 @@ const MODULES = `
             if (types.defaults[type] !== void 0) gen("value=%j", types.defaults[type]);
             else gen("value=null");
             gen("while(r.pos<c2){")("var tag2=r.uint32()")("switch(tag2>>>3){")("case 1: k=r.%s(); break", field.keyType)("case 2:");
-            if (types.basic[type] === void 0) gen("value=types[%i].decode(r,r.uint32())", i);
+            if (types.basic[type] === void 0) gen("value=types[%i].decode(r,r.uint32(),undefined,n+1)", i);
             else gen("value=r.%s()", type);
-            gen("break")("default:")("r.skipType(tag2&7)")("break")("}")("}");
+            gen("break")("default:")("r.skipType(tag2&7,n)")("break")("}")("}");
             if (types.long[field.keyType] !== void 0) gen('%s[typeof k==="object"?util.longToHash(k):k]=value', ref);
-            else gen("%s[k]=value", ref);
+            else {
+              if (field.keyType === "string") gen('if(k==="__proto__")')("util.makeProp(%s,k)", ref);
+              gen("%s[k]=value", ref);
+            }
           } else if (field.repeated) {
             gen("if(!(%s&&%s.length))", ref, ref)("%s=[]", ref);
             if (types.packed[type] !== void 0) gen("if((t&7)===2){")("var c2=r.uint32()+r.pos")("while(r.pos<c2)")("%s.push(r.%s())", ref, type)("}else");
-            if (types.basic[type] === void 0) gen(field.delimited ? "%s.push(types[%i].decode(r,undefined,((t&~7)|4)))" : "%s.push(types[%i].decode(r,r.uint32()))", ref, i);
+            if (types.basic[type] === void 0) gen(field.delimited ? "%s.push(types[%i].decode(r,undefined,((t&~7)|4),n+1))" : "%s.push(types[%i].decode(r,r.uint32(),undefined,n+1))", ref, i);
             else gen("%s.push(r.%s())", ref, type);
-          } else if (types.basic[type] === void 0) gen(field.delimited ? "%s=types[%i].decode(r,undefined,((t&~7)|4))" : "%s=types[%i].decode(r,r.uint32())", ref, i);
+          } else if (types.basic[type] === void 0) gen(field.delimited ? "%s=types[%i].decode(r,undefined,((t&~7)|4),n+1)" : "%s=types[%i].decode(r,r.uint32(),undefined,n+1)", ref, i);
           else gen("%s=r.%s()", ref, type);
           gen("break")("}");
         }
-        gen("default:")("r.skipType(t&7)")("break")("}")("}");
+        gen("default:")("r.skipType(t&7,n)")("break")("}")("}");
         for (i = 0; i < mtype._fieldsArray.length; ++i) {
           var rfield = mtype._fieldsArray[i];
           if (rfield.required) gen("if(!m.hasOwnProperty(%j))", rfield.name)("throw util.ProtocolError(%j,{instance:m})", missing(rfield));
@@ -2593,10 +2655,10 @@ const MODULES = `
 
   // node_modules/protobufjs/src/verifier.js
   var require_verifier = __commonJS({
-    "node_modules/protobufjs/src/verifier.js"(exports2, module2) {
+    "node_modules/protobufjs/src/verifier.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = verifier;
+      module.exports = verifier;
       var Enum = require_enum();
       var util = require_util();
       function invalid(field, expected) {
@@ -2609,7 +2671,7 @@ const MODULES = `
             for (var keys = Object.keys(field.resolvedType.values), j = 0; j < keys.length; ++j) gen("case %i:", field.resolvedType.values[keys[j]]);
             gen("break")("}");
           } else {
-            gen("{")("var e=types[%i].verify(%s);", fieldIndex, ref)("if(e)")("return%j+e", field.name + ".")("}");
+            gen("{")("var e=types[%i].verify(%s,n+1);", fieldIndex, ref)("if(e)")("return%j+e", field.name + ".")("}");
           }
         } else {
           switch (field.type) {
@@ -2667,7 +2729,7 @@ const MODULES = `
         return gen;
       }
       function verifier(mtype) {
-        var gen = util.codegen(["m"], mtype.name + "\$verify")('if(typeof m!=="object"||m===null)')("return%j", "object expected");
+        var gen = util.codegen(["m", "n"], mtype.name + "\$verify")('if(typeof m!=="object"||m===null)')("return%j", "object expected")("if(n===undefined)n=0")("if(n>util.recursionLimit)")("return%j", "maximum nesting depth exceeded");
         var oneofs = mtype.oneofsArray, seenFirstField = {};
         if (oneofs.length) gen("var p={}");
         for (var i = 0; i < /* initializes */
@@ -2699,10 +2761,10 @@ const MODULES = `
 
   // node_modules/protobufjs/src/converter.js
   var require_converter = __commonJS({
-    "node_modules/protobufjs/src/converter.js"(exports2) {
+    "node_modules/protobufjs/src/converter.js"(exports) {
       "use strict";
       init_tampermonkey();
-      var converter = exports2;
+      var converter = exports;
       var Enum = require_enum();
       var util = require_util();
       function genValuePartial_fromObject(gen, field, fieldIndex, prop) {
@@ -2719,7 +2781,7 @@ const MODULES = `
               gen("case%j:", keys[i])("case %i:", values[keys[i]])("m%s=%j", prop, values[keys[i]])("break");
             }
             gen("}");
-          } else gen('if(typeof d%s!=="object")', prop)("throw TypeError(%j)", field.fullName + ": object expected")("m%s=types[%i].fromObject(d%s)", prop, fieldIndex, prop);
+          } else gen('if(typeof d%s!=="object")', prop)("throw TypeError(%j)", field.fullName + ": object expected")("m%s=types[%i].fromObject(d%s,n+1)", prop, fieldIndex, prop);
         } else {
           var isUnsigned = false;
           switch (field.type) {
@@ -2760,13 +2822,14 @@ const MODULES = `
       }
       converter.fromObject = function fromObject(mtype) {
         var fields = mtype.fieldsArray;
-        var gen = util.codegen(["d"], mtype.name + "\$fromObject")("if(d instanceof this.ctor)")("return d");
+        var gen = util.codegen(["d", "n"], mtype.name + "\$fromObject")("if(d instanceof this.ctor)")("return d")("if(n===undefined)n=0")("if(n>util.recursionLimit)")('throw Error("maximum nesting depth exceeded")');
         if (!fields.length) return gen("return new this.ctor");
         gen("var m=new this.ctor");
         for (var i = 0; i < fields.length; ++i) {
           var field = fields[i].resolve(), prop = util.safeProp(field.name);
           if (field.map) {
             gen("if(d%s){", prop)('if(typeof d%s!=="object")', prop)("throw TypeError(%j)", field.fullName + ": object expected")("m%s={}", prop)("for(var ks=Object.keys(d%s),i=0;i<ks.length;++i){", prop);
+            gen('if(ks[i]==="__proto__")')("util.makeProp(m%s,ks[i])", prop);
             genValuePartial_fromObject(
               gen,
               field,
@@ -2853,8 +2916,8 @@ const MODULES = `
             if (field.resolvedType instanceof Enum) gen("d%s=o.enums===String?%j:%j", prop, field.resolvedType.valuesById[field.typeDefault], field.typeDefault);
             else if (field.long) gen("if(util.Long){")("var n=new util.Long(%i,%i,%j)", field.typeDefault.low, field.typeDefault.high, field.typeDefault.unsigned)("d%s=o.longs===String?n.toString():o.longs===Number?n.toNumber():n", prop)("}else")("d%s=o.longs===String?%j:%i", prop, field.typeDefault.toString(), field.typeDefault.toNumber());
             else if (field.bytes) {
-              var arrayDefault = "[" + Array.prototype.slice.call(field.typeDefault).join(",") + "]";
-              gen("if(o.bytes===String)d%s=%j", prop, String.fromCharCode.apply(String, field.typeDefault))("else{")("d%s=%s", prop, arrayDefault)("if(o.bytes!==Array)d%s=util.newBuffer(d%s)", prop, prop)("}");
+              var arrayDefault = Array.prototype.slice.call(field.typeDefault);
+              gen("if(o.bytes===String)d%s=%j", prop, String.fromCharCode.apply(String, field.typeDefault))("else{")("d%s=%j", prop, arrayDefault)("if(o.bytes!==Array)d%s=util.newBuffer(d%s)", prop, prop)("}");
             } else gen("d%s=%j", prop, field.typeDefault);
           }
           gen("}");
@@ -2868,6 +2931,7 @@ const MODULES = `
               gen("var ks2");
             }
             gen("if(m%s&&(ks2=Object.keys(m%s)).length){", prop, prop)("d%s={}", prop)("for(var j=0;j<ks2.length;++j){");
+            gen('if(ks2[j]==="__proto__")')("util.makeProp(d%s,ks2[j])", prop);
             genValuePartial_toObject(
               gen,
               field,
@@ -2904,13 +2968,13 @@ const MODULES = `
 
   // node_modules/protobufjs/src/wrappers.js
   var require_wrappers = __commonJS({
-    "node_modules/protobufjs/src/wrappers.js"(exports2) {
+    "node_modules/protobufjs/src/wrappers.js"(exports) {
       "use strict";
       init_tampermonkey();
-      var wrappers = exports2;
+      var wrappers = exports;
       var Message2 = require_message();
       wrappers[".google.protobuf.Any"] = {
-        fromObject: function(object) {
+        fromObject: function(object, depth) {
           if (object && object["@type"]) {
             var name = object["@type"].substring(object["@type"].lastIndexOf("/") + 1);
             var type = this.lookup(name);
@@ -2919,13 +2983,14 @@ const MODULES = `
               if (type_url.indexOf("/") === -1) {
                 type_url = "/" + type_url;
               }
+              var nextDepth = depth === void 0 ? 1 : depth + 1;
               return this.create({
                 type_url,
-                value: type.encode(type.fromObject(object)).finish()
+                value: type.encode(type.fromObject(object, nextDepth)).finish()
               });
             }
           }
-          return this.fromObject(object);
+          return this.fromObject(object, depth);
         },
         toObject: function(message, options) {
           var googleApi = "type.googleapis.com/";
@@ -2956,10 +3021,10 @@ const MODULES = `
 
   // node_modules/protobufjs/src/type.js
   var require_type = __commonJS({
-    "node_modules/protobufjs/src/type.js"(exports2, module2) {
+    "node_modules/protobufjs/src/type.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = Type3;
+      module.exports = Type3;
       var Namespace = require_namespace();
       ((Type3.prototype = Object.create(Namespace.prototype)).constructor = Type3).className = "Type";
       var Enum = require_enum();
@@ -3072,7 +3137,7 @@ const MODULES = `
         for (var i = 0, field; i < mtype.fieldsArray.length; ++i)
           if ((field = mtype._fieldsArray[i]).map) gen("this%s={}", util.safeProp(field.name));
           else if (field.repeated) gen("this%s=[]", util.safeProp(field.name));
-        return gen("if(p)for(var ks=Object.keys(p),i=0;i<ks.length;++i)if(p[ks[i]]!=null)")("this[ks[i]]=p[ks[i]]");
+        return gen('if(p)for(var ks=Object.keys(p),i=0;i<ks.length;++i)if(p[ks[i]]!=null&&ks[i]!=="__proto__")')("this[ks[i]]=p[ks[i]]");
       };
       function clearCache(type) {
         type._fieldsById = type._fieldsArray = type._oneofsArray = null;
@@ -3165,7 +3230,13 @@ const MODULES = `
         return this;
       };
       Type3.prototype.get = function get(name) {
-        return this.fields[name] || this.oneofs && this.oneofs[name] || this.nested && this.nested[name] || null;
+        if (Object.prototype.hasOwnProperty.call(this.fields, name))
+          return this.fields[name];
+        if (this.oneofs && Object.prototype.hasOwnProperty.call(this.oneofs, name))
+          return this.oneofs[name];
+        if (this.nested && Object.prototype.hasOwnProperty.call(this.nested, name))
+          return this.nested[name];
+        return null;
       };
       Type3.prototype.add = function add(object) {
         if (this.get(object.name))
@@ -3180,6 +3251,8 @@ const MODULES = `
             throw Error("id " + object.id + " is reserved in " + this);
           if (this.isReservedName(object.name))
             throw Error("name '" + object.name + "' is reserved in " + this);
+          if (object.name === "__proto__")
+            return this;
           if (object.parent)
             object.parent.remove(object);
           this.fields[object.name] = object;
@@ -3188,6 +3261,8 @@ const MODULES = `
           return clearCache(this);
         }
         if (object instanceof OneOf2) {
+          if (object.name === "__proto__")
+            return this;
           if (!this.oneofs)
             this.oneofs = {};
           this.oneofs[object.name] = object;
@@ -3267,19 +3342,19 @@ const MODULES = `
       Type3.prototype.encodeDelimited = function encodeDelimited(message, writer) {
         return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
       };
-      Type3.prototype.decode = function decode_setup(reader, length2) {
-        return this.setup().decode(reader, length2);
+      Type3.prototype.decode = function decode_setup(reader, length2, end, depth) {
+        return this.setup().decode(reader, length2, end, depth);
       };
       Type3.prototype.decodeDelimited = function decodeDelimited(reader) {
         if (!(reader instanceof Reader2))
           reader = Reader2.create(reader);
         return this.decode(reader, reader.uint32());
       };
-      Type3.prototype.verify = function verify_setup(message) {
-        return this.setup().verify(message);
+      Type3.prototype.verify = function verify_setup(message, depth) {
+        return this.setup().verify(message, depth);
       };
-      Type3.prototype.fromObject = function fromObject(object) {
-        return this.setup().fromObject(object);
+      Type3.prototype.fromObject = function fromObject(object, depth) {
+        return this.setup().fromObject(object, depth);
       };
       Type3.prototype.toObject = function toObject2(message, options) {
         return this.setup().toObject(message, options);
@@ -3294,10 +3369,10 @@ const MODULES = `
 
   // node_modules/protobufjs/src/root.js
   var require_root = __commonJS({
-    "node_modules/protobufjs/src/root.js"(exports2, module2) {
+    "node_modules/protobufjs/src/root.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = Root4;
+      module.exports = Root4;
       var Namespace = require_namespace();
       ((Root4.prototype = Object.create(Namespace.prototype)).constructor = Root4).className = "Root";
       var Field2 = require_field();
@@ -3544,16 +3619,19 @@ const MODULES = `
 
   // node_modules/protobufjs/src/util.js
   var require_util = __commonJS({
-    "node_modules/protobufjs/src/util.js"(exports2, module2) {
+    "node_modules/protobufjs/src/util.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      var util = module2.exports = require_minimal();
+      var util = module.exports = require_minimal();
       var roots = require_roots();
       var Type3;
       var Enum;
       util.codegen = require_codegen();
       util.fetch = require_fetch();
       util.path = require_path();
+      util.patterns = require_patterns();
+      var reservedRe = util.patterns.reservedRe;
+      var unsafePropertyRe = util.patterns.unsafePropertyRe;
       util.fs = util.inquire("fs");
       util.toArray = function toArray(object) {
         if (object) {
@@ -3573,14 +3651,12 @@ const MODULES = `
         }
         return object;
       };
-      var safePropBackslashRe = /\\\\/g;
-      var safePropQuoteRe = /"/g;
       util.isReserved = function isReserved(name) {
-        return /^(?:do|if|in|for|let|new|try|var|case|else|enum|eval|false|null|this|true|void|with|break|catch|class|const|super|throw|while|yield|delete|export|import|public|return|static|switch|typeof|default|extends|finally|package|private|continue|debugger|function|arguments|interface|protected|implements|instanceof)\$/.test(name);
+        return reservedRe.test(name);
       };
       util.safeProp = function safeProp(prop) {
-        if (!/^[\$\\w_]+\$/.test(prop) || util.isReserved(prop))
-          return '["' + prop.replace(safePropBackslashRe, "\\\\\\\\").replace(safePropQuoteRe, '\\\\"') + '"]';
+        if (!/^[\$\\w_]+\$/.test(prop) || reservedRe.test(prop))
+          return "[" + JSON.stringify(prop) + "]";
         return "." + prop;
       };
       util.ucFirst = function ucFirst(str) {
@@ -3627,9 +3703,8 @@ const MODULES = `
       util.setProperty = function setProperty(dst, path, value, ifNotSet) {
         function setProp(dst2, path2, value2) {
           var part = path2.shift();
-          if (part === "__proto__" || part === "prototype") {
+          if (unsafePropertyRe.test(part))
             return dst2;
-          }
           if (path2.length > 0) {
             dst2[part] = setProp(dst2[part] || {}, path2, value2);
           } else {
@@ -3659,10 +3734,10 @@ const MODULES = `
 
   // node_modules/protobufjs/src/types.js
   var require_types = __commonJS({
-    "node_modules/protobufjs/src/types.js"(exports2) {
+    "node_modules/protobufjs/src/types.js"(exports) {
       "use strict";
       init_tampermonkey();
-      var types = exports2;
+      var types = exports;
       var util = require_util();
       var s = [
         "double",
@@ -3697,7 +3772,7 @@ const MODULES = `
         // 14
       ];
       function bake(values, offset3) {
-        var i = 0, o = {};
+        var i = 0, o = /* @__PURE__ */ Object.create(null);
         offset3 |= 0;
         while (i < values.length) o[s[i + offset3]] = values[i++];
         return o;
@@ -3839,10 +3914,10 @@ const MODULES = `
 
   // node_modules/protobufjs/src/field.js
   var require_field = __commonJS({
-    "node_modules/protobufjs/src/field.js"(exports2, module2) {
+    "node_modules/protobufjs/src/field.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = Field2;
+      module.exports = Field2;
       var ReflectionObject2 = require_object();
       ((Field2.prototype = Object.create(ReflectionObject2.prototype)).constructor = Field2).className = "Field";
       var Enum = require_enum();
@@ -4037,10 +4112,10 @@ const MODULES = `
 
   // node_modules/protobufjs/src/oneof.js
   var require_oneof = __commonJS({
-    "node_modules/protobufjs/src/oneof.js"(exports2, module2) {
+    "node_modules/protobufjs/src/oneof.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = OneOf2;
+      module.exports = OneOf2;
       var ReflectionObject2 = require_object();
       ((OneOf2.prototype = Object.create(ReflectionObject2.prototype)).constructor = OneOf2).className = "OneOf";
       var Field2 = require_field();
@@ -4146,10 +4221,10 @@ const MODULES = `
 
   // node_modules/protobufjs/src/object.js
   var require_object = __commonJS({
-    "node_modules/protobufjs/src/object.js"(exports2, module2) {
+    "node_modules/protobufjs/src/object.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = ReflectionObject2;
+      module.exports = ReflectionObject2;
       ReflectionObject2.className = "ReflectionObject";
       var OneOf2 = require_oneof();
       var util = require_util();
@@ -4289,6 +4364,8 @@ const MODULES = `
         return void 0;
       };
       ReflectionObject2.prototype.setOption = function setOption(name, value, ifNotSet) {
+        if (name === "__proto__")
+          return this;
         if (!this.options)
           this.options = {};
         if (/^features\\./.test(name)) {
@@ -4300,6 +4377,8 @@ const MODULES = `
         return this;
       };
       ReflectionObject2.prototype.setParsedOption = function setParsedOption(name, value, propName) {
+        if (name === "__proto__")
+          return this;
         if (!this.parsedOptions) {
           this.parsedOptions = [];
         }
@@ -4349,10 +4428,10 @@ const MODULES = `
 
   // node_modules/protobufjs/src/enum.js
   var require_enum = __commonJS({
-    "node_modules/protobufjs/src/enum.js"(exports2, module2) {
+    "node_modules/protobufjs/src/enum.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = Enum;
+      module.exports = Enum;
       var ReflectionObject2 = require_object();
       ((Enum.prototype = Object.create(ReflectionObject2.prototype)).constructor = Enum).className = "Enum";
       var Namespace = require_namespace();
@@ -4370,7 +4449,7 @@ const MODULES = `
         this.reserved = void 0;
         if (values) {
           for (var keys = Object.keys(values), i = 0; i < keys.length; ++i)
-            if (typeof values[keys[i]] === "number")
+            if (keys[i] !== "__proto__" && typeof values[keys[i]] === "number")
               this.valuesById[this.values[keys[i]] = values[keys[i]]] = keys[i];
         }
       }
@@ -4415,6 +4494,8 @@ const MODULES = `
           throw TypeError("name must be a string");
         if (!util.isInteger(id))
           throw TypeError("id must be an integer");
+        if (name === "__proto__")
+          return this;
         if (this.values[name] !== void 0)
           throw Error("duplicate name '" + name + "' in " + this);
         if (this.isReservedId(id))
@@ -4459,10 +4540,10 @@ const MODULES = `
 
   // node_modules/protobufjs/src/encoder.js
   var require_encoder = __commonJS({
-    "node_modules/protobufjs/src/encoder.js"(exports2, module2) {
+    "node_modules/protobufjs/src/encoder.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = encoder;
+      module.exports = encoder;
       var Enum = require_enum();
       var types = require_types();
       var util = require_util();
@@ -4509,10 +4590,10 @@ const MODULES = `
 
   // node_modules/protobufjs/src/index-light.js
   var require_index_light = __commonJS({
-    "node_modules/protobufjs/src/index-light.js"(exports2, module2) {
+    "node_modules/protobufjs/src/index-light.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      var protobuf = module2.exports = require_index_minimal();
+      var protobuf = module.exports = require_index_minimal();
       protobuf.build = "light";
       function load2(filename, root, callback) {
         if (typeof root === "function") {
@@ -4556,21 +4637,21 @@ const MODULES = `
 
   // node_modules/protobufjs/light.js
   var require_light = __commonJS({
-    "node_modules/protobufjs/light.js"(exports2, module2) {
+    "node_modules/protobufjs/light.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = require_index_light();
+      module.exports = require_index_light();
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/value-types.js
   var require_value_types = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/value-types.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/value-types.js"(exports) {
       "use strict";
       init_tampermonkey();
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       var NewLine = "\\n";
-      exports2.NewLine = NewLine;
+      exports.NewLine = NewLine;
       var ListType;
       (function(ListType2) {
         ListType2["Ordered"] = "ordered";
@@ -4578,18 +4659,18 @@ const MODULES = `
         ListType2["Checked"] = "checked";
         ListType2["Unchecked"] = "unchecked";
       })(ListType || (ListType = {}));
-      exports2.ListType = ListType;
+      exports.ListType = ListType;
       var ScriptType;
       (function(ScriptType2) {
         ScriptType2["Sub"] = "sub";
         ScriptType2["Super"] = "super";
       })(ScriptType || (ScriptType = {}));
-      exports2.ScriptType = ScriptType;
+      exports.ScriptType = ScriptType;
       var DirectionType;
       (function(DirectionType2) {
         DirectionType2["Rtl"] = "rtl";
       })(DirectionType || (DirectionType = {}));
-      exports2.DirectionType = DirectionType;
+      exports.DirectionType = DirectionType;
       var AlignType;
       (function(AlignType2) {
         AlignType2["Left"] = "left";
@@ -4597,7 +4678,7 @@ const MODULES = `
         AlignType2["Right"] = "right";
         AlignType2["Justify"] = "justify";
       })(AlignType || (AlignType = {}));
-      exports2.AlignType = AlignType;
+      exports.AlignType = AlignType;
       var DataType;
       (function(DataType2) {
         DataType2["Image"] = "image";
@@ -4605,7 +4686,7 @@ const MODULES = `
         DataType2["Formula"] = "formula";
         DataType2["Text"] = "text";
       })(DataType || (DataType = {}));
-      exports2.DataType = DataType;
+      exports.DataType = DataType;
       var GroupType;
       (function(GroupType2) {
         GroupType2["Block"] = "block";
@@ -4614,16 +4695,16 @@ const MODULES = `
         GroupType2["Video"] = "video";
         GroupType2["Table"] = "table";
       })(GroupType || (GroupType = {}));
-      exports2.GroupType = GroupType;
+      exports.GroupType = GroupType;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/InsertData.js
   var require_InsertData = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/InsertData.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/InsertData.js"(exports) {
       "use strict";
       init_tampermonkey();
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       var InsertDataQuill = /* @__PURE__ */ (function() {
         function InsertDataQuill2(type, value) {
           this.type = type;
@@ -4631,7 +4712,7 @@ const MODULES = `
         }
         return InsertDataQuill2;
       })();
-      exports2.InsertDataQuill = InsertDataQuill;
+      exports.InsertDataQuill = InsertDataQuill;
       var InsertDataCustom = /* @__PURE__ */ (function() {
         function InsertDataCustom2(type, value) {
           this.type = type;
@@ -4639,13 +4720,13 @@ const MODULES = `
         }
         return InsertDataCustom2;
       })();
-      exports2.InsertDataCustom = InsertDataCustom;
+      exports.InsertDataCustom = InsertDataCustom;
     }
   });
 
   // node_modules/lodash.isequal/index.js
   var require_lodash = __commonJS({
-    "node_modules/lodash.isequal/index.js"(exports2, module2) {
+    "node_modules/lodash.isequal/index.js"(exports, module) {
       init_tampermonkey();
       var LARGE_ARRAY_SIZE = 200;
       var HASH_UNDEFINED = "__lodash_hash_undefined__";
@@ -4692,8 +4773,8 @@ const MODULES = `
       var freeGlobal = typeof global == "object" && global && global.Object === Object && global;
       var freeSelf = typeof self == "object" && self && self.Object === Object && self;
       var root = freeGlobal || freeSelf || Function("return this")();
-      var freeExports = typeof exports2 == "object" && exports2 && !exports2.nodeType && exports2;
-      var freeModule = freeExports && typeof module2 == "object" && module2 && !module2.nodeType && module2;
+      var freeExports = typeof exports == "object" && exports && !exports.nodeType && exports;
+      var freeModule = freeExports && typeof module == "object" && module && !module.nodeType && module;
       var moduleExports = freeModule && freeModule.exports === freeExports;
       var freeProcess = moduleExports && freeGlobal.process;
       var nodeUtil = (function() {
@@ -5341,19 +5422,19 @@ const MODULES = `
       function stubFalse() {
         return false;
       }
-      module2.exports = isEqual;
+      module.exports = isEqual;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/DeltaInsertOp.js
   var require_DeltaInsertOp = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/DeltaInsertOp.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/DeltaInsertOp.js"(exports) {
       "use strict";
       init_tampermonkey();
-      var __importDefault = exports2 && exports2.__importDefault || function(mod2) {
-        return mod2 && mod2.__esModule ? mod2 : { "default": mod2 };
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
       };
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       var value_types_1 = require_value_types();
       var InsertData_1 = require_InsertData();
       var lodash_isequal_1 = __importDefault(require_lodash());
@@ -5464,16 +5545,16 @@ const MODULES = `
         };
         return DeltaInsertOp2;
       })();
-      exports2.DeltaInsertOp = DeltaInsertOp;
+      exports.DeltaInsertOp = DeltaInsertOp;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/mentions/MentionSanitizer.js
   var require_MentionSanitizer = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/mentions/MentionSanitizer.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/mentions/MentionSanitizer.js"(exports) {
       "use strict";
       init_tampermonkey();
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       var OpAttributeSanitizer_1 = require_OpAttributeSanitizer();
       var MentionSanitizer = (function() {
         function MentionSanitizer2() {
@@ -5514,16 +5595,16 @@ const MODULES = `
         };
         return MentionSanitizer2;
       })();
-      exports2.MentionSanitizer = MentionSanitizer;
+      exports.MentionSanitizer = MentionSanitizer;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/url.js
   var require_url = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/url.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/url.js"(exports) {
       "use strict";
       init_tampermonkey();
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       function sanitize(str) {
         var val = str;
         val = val.replace(/^\\s*/gm, "");
@@ -5533,16 +5614,16 @@ const MODULES = `
         }
         return "unsafe:" + val;
       }
-      exports2.sanitize = sanitize;
+      exports.sanitize = sanitize;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/funcs-html.js
   var require_funcs_html = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/funcs-html.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/funcs-html.js"(exports) {
       "use strict";
       init_tampermonkey();
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       var EncodeTarget;
       (function(EncodeTarget2) {
         EncodeTarget2[EncodeTarget2["Html"] = 0] = "Html";
@@ -5568,18 +5649,18 @@ const MODULES = `
         }
         return attrsStr ? "<" + tag + " " + attrsStr + closing : "<" + tag + closing;
       }
-      exports2.makeStartTag = makeStartTag;
+      exports.makeStartTag = makeStartTag;
       function makeEndTag(tag) {
         if (tag === void 0) {
           tag = "";
         }
         return tag && "</" + tag + ">" || "";
       }
-      exports2.makeEndTag = makeEndTag;
+      exports.makeEndTag = makeEndTag;
       function decodeHtml(str) {
         return encodeMappings(EncodeTarget.Html).reduce(decodeMapping, str);
       }
-      exports2.decodeHtml = decodeHtml;
+      exports.decodeHtml = decodeHtml;
       function encodeHtml(str, preventDoubleEncoding) {
         if (preventDoubleEncoding === void 0) {
           preventDoubleEncoding = true;
@@ -5589,13 +5670,13 @@ const MODULES = `
         }
         return encodeMappings(EncodeTarget.Html).reduce(encodeMapping, str);
       }
-      exports2.encodeHtml = encodeHtml;
+      exports.encodeHtml = encodeHtml;
       function encodeLink(str) {
         var linkMaps = encodeMappings(EncodeTarget.Url);
         var decoded = linkMaps.reduce(decodeMapping, str);
         return linkMaps.reduce(encodeMapping, decoded);
       }
-      exports2.encodeLink = encodeLink;
+      exports.encodeLink = encodeLink;
       function encodeMappings(mtype) {
         var maps = [
           ["&", "&amp;"],
@@ -5630,23 +5711,23 @@ const MODULES = `
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/array.js
   var require_array = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/array.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/array.js"(exports) {
       "use strict";
       init_tampermonkey();
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       function preferSecond(arr2) {
         if (arr2.length === 0) {
           return null;
         }
         return arr2.length >= 2 ? arr2[1] : arr2[0];
       }
-      exports2.preferSecond = preferSecond;
+      exports.preferSecond = preferSecond;
       function flatten(arr2) {
         return arr2.reduce(function(pv, v) {
           return pv.concat(Array.isArray(v) ? flatten(v) : v);
         }, []);
       }
-      exports2.flatten = flatten;
+      exports.flatten = flatten;
       function find(arr2, predicate) {
         if (Array.prototype.find) {
           return Array.prototype.find.call(arr2, predicate);
@@ -5657,7 +5738,7 @@ const MODULES = `
         }
         return void 0;
       }
-      exports2.find = find;
+      exports.find = find;
       function groupConsecutiveElementsWhile(arr2, predicate) {
         var groups = [];
         var currElm, currGroup;
@@ -5674,7 +5755,7 @@ const MODULES = `
           return g.length === 1 ? g[0] : g;
         });
       }
-      exports2.groupConsecutiveElementsWhile = groupConsecutiveElementsWhile;
+      exports.groupConsecutiveElementsWhile = groupConsecutiveElementsWhile;
       function sliceFromReverseWhile(arr2, startIndex, predicate) {
         var result = {
           elements: [],
@@ -5689,7 +5770,7 @@ const MODULES = `
         }
         return result;
       }
-      exports2.sliceFromReverseWhile = sliceFromReverseWhile;
+      exports.sliceFromReverseWhile = sliceFromReverseWhile;
       function intersperse(arr2, item) {
         return arr2.reduce(function(pv, v, index) {
           pv.push(v);
@@ -5699,25 +5780,25 @@ const MODULES = `
           return pv;
         }, []);
       }
-      exports2.intersperse = intersperse;
+      exports.intersperse = intersperse;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/OpAttributeSanitizer.js
   var require_OpAttributeSanitizer = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/OpAttributeSanitizer.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/OpAttributeSanitizer.js"(exports) {
       "use strict";
       init_tampermonkey();
-      var __importStar = exports2 && exports2.__importStar || function(mod2) {
-        if (mod2 && mod2.__esModule) return mod2;
+      var __importStar = exports && exports.__importStar || function(mod) {
+        if (mod && mod.__esModule) return mod;
         var result = {};
-        if (mod2 != null) {
-          for (var k in mod2) if (Object.hasOwnProperty.call(mod2, k)) result[k] = mod2[k];
+        if (mod != null) {
+          for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
         }
-        result["default"] = mod2;
+        result["default"] = mod;
         return result;
       };
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       var value_types_1 = require_value_types();
       var MentionSanitizer_1 = require_MentionSanitizer();
       var url = __importStar(require_url());
@@ -5875,16 +5956,16 @@ const MODULES = `
         };
         return OpAttributeSanitizer2;
       })();
-      exports2.OpAttributeSanitizer = OpAttributeSanitizer;
+      exports.OpAttributeSanitizer = OpAttributeSanitizer;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/string.js
   var require_string = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/string.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/string.js"(exports) {
       "use strict";
       init_tampermonkey();
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       function tokenizeWithNewLines(str) {
         var NewLine = "\\n";
         if (str === NewLine) {
@@ -5908,16 +5989,16 @@ const MODULES = `
           return pv;
         }, []);
       }
-      exports2.tokenizeWithNewLines = tokenizeWithNewLines;
+      exports.tokenizeWithNewLines = tokenizeWithNewLines;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/object.js
   var require_object2 = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/object.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/object.js"(exports) {
       "use strict";
       init_tampermonkey();
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       function assign(target) {
         var sources = [];
         for (var _i = 1; _i < arguments.length; _i++) {
@@ -5939,25 +6020,25 @@ const MODULES = `
         }
         return to;
       }
-      exports2.assign = assign;
+      exports.assign = assign;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpDenormalizer.js
   var require_InsertOpDenormalizer = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpDenormalizer.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpDenormalizer.js"(exports) {
       "use strict";
       init_tampermonkey();
-      var __importStar = exports2 && exports2.__importStar || function(mod2) {
-        if (mod2 && mod2.__esModule) return mod2;
+      var __importStar = exports && exports.__importStar || function(mod) {
+        if (mod && mod.__esModule) return mod;
         var result = {};
-        if (mod2 != null) {
-          for (var k in mod2) if (Object.hasOwnProperty.call(mod2, k)) result[k] = mod2[k];
+        if (mod != null) {
+          for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
         }
-        result["default"] = mod2;
+        result["default"] = mod;
         return result;
       };
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       var value_types_1 = require_value_types();
       var str = __importStar(require_string());
       var obj = __importStar(require_object2());
@@ -5987,16 +6068,16 @@ const MODULES = `
         };
         return InsertOpDenormalizer2;
       })();
-      exports2.InsertOpDenormalizer = InsertOpDenormalizer;
+      exports.InsertOpDenormalizer = InsertOpDenormalizer;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpsConverter.js
   var require_InsertOpsConverter = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpsConverter.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpsConverter.js"(exports) {
       "use strict";
       init_tampermonkey();
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       var DeltaInsertOp_1 = require_DeltaInsertOp();
       var value_types_1 = require_value_types();
       var InsertData_1 = require_InsertData();
@@ -6041,25 +6122,25 @@ const MODULES = `
         };
         return InsertOpsConverter2;
       })();
-      exports2.InsertOpsConverter = InsertOpsConverter;
+      exports.InsertOpsConverter = InsertOpsConverter;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/OpToHtmlConverter.js
   var require_OpToHtmlConverter = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/OpToHtmlConverter.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/OpToHtmlConverter.js"(exports) {
       "use strict";
       init_tampermonkey();
-      var __importStar = exports2 && exports2.__importStar || function(mod2) {
-        if (mod2 && mod2.__esModule) return mod2;
+      var __importStar = exports && exports.__importStar || function(mod) {
+        if (mod && mod.__esModule) return mod;
         var result = {};
-        if (mod2 != null) {
-          for (var k in mod2) if (Object.hasOwnProperty.call(mod2, k)) result[k] = mod2[k];
+        if (mod != null) {
+          for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
         }
-        result["default"] = mod2;
+        result["default"] = mod;
         return result;
       };
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       var funcs_html_1 = require_funcs_html();
       var value_types_1 = require_value_types();
       var obj = __importStar(require_object2());
@@ -6069,7 +6150,7 @@ const MODULES = `
         serif: "font-family: Georgia, Times New Roman, serif",
         monospace: "font-family: Monaco, Courier New, monospace"
       };
-      exports2.DEFAULT_INLINE_STYLES = {
+      exports.DEFAULT_INLINE_STYLES = {
         font: function(value) {
           return DEFAULT_INLINE_FONTS[value] || "font-family:" + value;
         },
@@ -6193,7 +6274,7 @@ const MODULES = `
           }).map(function(item) {
             var attribute = item[0];
             var attrValue = attrs[attribute];
-            var attributeConverter = _this.options.inlineStyles && _this.options.inlineStyles[attribute] || exports2.DEFAULT_INLINE_STYLES[attribute];
+            var attributeConverter = _this.options.inlineStyles && _this.options.inlineStyles[attribute] || exports.DEFAULT_INLINE_STYLES[attribute];
             if (typeof attributeConverter === "object") {
               return attributeConverter[attrValue];
             } else if (typeof attributeConverter === "function") {
@@ -6358,16 +6439,16 @@ const MODULES = `
         };
         return OpToHtmlConverter2;
       })();
-      exports2.OpToHtmlConverter = OpToHtmlConverter;
+      exports.OpToHtmlConverter = OpToHtmlConverter;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/group-types.js
   var require_group_types = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/group-types.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/group-types.js"(exports) {
       "use strict";
       init_tampermonkey();
-      var __extends = exports2 && exports2.__extends || (function() {
+      var __extends = exports && exports.__extends || (function() {
         var extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d, b) {
           d.__proto__ = b;
         } || function(d, b) {
@@ -6381,14 +6462,14 @@ const MODULES = `
           d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
         };
       })();
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       var InlineGroup = /* @__PURE__ */ (function() {
         function InlineGroup2(ops) {
           this.ops = ops;
         }
         return InlineGroup2;
       })();
-      exports2.InlineGroup = InlineGroup;
+      exports.InlineGroup = InlineGroup;
       var SingleItem = /* @__PURE__ */ (function() {
         function SingleItem2(op) {
           this.op = op;
@@ -6402,7 +6483,7 @@ const MODULES = `
         }
         return VideoItem2;
       })(SingleItem);
-      exports2.VideoItem = VideoItem;
+      exports.VideoItem = VideoItem;
       var BlotBlock = (function(_super) {
         __extends(BlotBlock2, _super);
         function BlotBlock2() {
@@ -6410,7 +6491,7 @@ const MODULES = `
         }
         return BlotBlock2;
       })(SingleItem);
-      exports2.BlotBlock = BlotBlock;
+      exports.BlotBlock = BlotBlock;
       var BlockGroup = /* @__PURE__ */ (function() {
         function BlockGroup2(op, ops) {
           this.op = op;
@@ -6418,14 +6499,14 @@ const MODULES = `
         }
         return BlockGroup2;
       })();
-      exports2.BlockGroup = BlockGroup;
+      exports.BlockGroup = BlockGroup;
       var ListGroup = /* @__PURE__ */ (function() {
         function ListGroup2(items) {
           this.items = items;
         }
         return ListGroup2;
       })();
-      exports2.ListGroup = ListGroup;
+      exports.ListGroup = ListGroup;
       var ListItem = /* @__PURE__ */ (function() {
         function ListItem2(item, innerList) {
           if (innerList === void 0) {
@@ -6436,37 +6517,37 @@ const MODULES = `
         }
         return ListItem2;
       })();
-      exports2.ListItem = ListItem;
+      exports.ListItem = ListItem;
       var TableGroup = /* @__PURE__ */ (function() {
         function TableGroup2(rows) {
           this.rows = rows;
         }
         return TableGroup2;
       })();
-      exports2.TableGroup = TableGroup;
+      exports.TableGroup = TableGroup;
       var TableRow = /* @__PURE__ */ (function() {
         function TableRow2(cells) {
           this.cells = cells;
         }
         return TableRow2;
       })();
-      exports2.TableRow = TableRow;
+      exports.TableRow = TableRow;
       var TableCell = /* @__PURE__ */ (function() {
         function TableCell2(item) {
           this.item = item;
         }
         return TableCell2;
       })();
-      exports2.TableCell = TableCell;
+      exports.TableCell = TableCell;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/Grouper.js
   var require_Grouper = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/Grouper.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/Grouper.js"(exports) {
       "use strict";
       init_tampermonkey();
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       var DeltaInsertOp_1 = require_DeltaInsertOp();
       var array_1 = require_array();
       var group_types_1 = require_group_types();
@@ -6551,16 +6632,16 @@ const MODULES = `
         };
         return Grouper2;
       })();
-      exports2.Grouper = Grouper;
+      exports.Grouper = Grouper;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/ListNester.js
   var require_ListNester = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/ListNester.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/ListNester.js"(exports) {
       "use strict";
       init_tampermonkey();
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       var group_types_1 = require_group_types();
       var array_1 = require_array();
       var ListNester = (function() {
@@ -6653,16 +6734,16 @@ const MODULES = `
         };
         return ListNester2;
       })();
-      exports2.ListNester = ListNester;
+      exports.ListNester = ListNester;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/TableGrouper.js
   var require_TableGrouper = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/TableGrouper.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/TableGrouper.js"(exports) {
       "use strict";
       init_tampermonkey();
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       var group_types_1 = require_group_types();
       var array_1 = require_array();
       var TableGrouper = (function() {
@@ -6699,25 +6780,25 @@ const MODULES = `
         };
         return TableGrouper2;
       })();
-      exports2.TableGrouper = TableGrouper;
+      exports.TableGrouper = TableGrouper;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/QuillDeltaToHtmlConverter.js
   var require_QuillDeltaToHtmlConverter = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/QuillDeltaToHtmlConverter.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/QuillDeltaToHtmlConverter.js"(exports) {
       "use strict";
       init_tampermonkey();
-      var __importStar = exports2 && exports2.__importStar || function(mod2) {
-        if (mod2 && mod2.__esModule) return mod2;
+      var __importStar = exports && exports.__importStar || function(mod) {
+        if (mod && mod.__esModule) return mod;
         var result = {};
-        if (mod2 != null) {
-          for (var k in mod2) if (Object.hasOwnProperty.call(mod2, k)) result[k] = mod2[k];
+        if (mod != null) {
+          for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
         }
-        result["default"] = mod2;
+        result["default"] = mod;
         return result;
       };
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       var InsertOpsConverter_1 = require_InsertOpsConverter();
       var OpToHtmlConverter_1 = require_OpToHtmlConverter();
       var Grouper_1 = require_Grouper();
@@ -6938,40 +7019,40 @@ const MODULES = `
         };
         return QuillDeltaToHtmlConverter3;
       })();
-      exports2.QuillDeltaToHtmlConverter = QuillDeltaToHtmlConverter2;
+      exports.QuillDeltaToHtmlConverter = QuillDeltaToHtmlConverter2;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/main.js
   var require_main = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/main.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/main.js"(exports) {
       "use strict";
       init_tampermonkey();
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       var QuillDeltaToHtmlConverter_1 = require_QuillDeltaToHtmlConverter();
-      exports2.QuillDeltaToHtmlConverter = QuillDeltaToHtmlConverter_1.QuillDeltaToHtmlConverter;
+      exports.QuillDeltaToHtmlConverter = QuillDeltaToHtmlConverter_1.QuillDeltaToHtmlConverter;
       var OpToHtmlConverter_1 = require_OpToHtmlConverter();
-      exports2.OpToHtmlConverter = OpToHtmlConverter_1.OpToHtmlConverter;
+      exports.OpToHtmlConverter = OpToHtmlConverter_1.OpToHtmlConverter;
       var group_types_1 = require_group_types();
-      exports2.InlineGroup = group_types_1.InlineGroup;
-      exports2.VideoItem = group_types_1.VideoItem;
-      exports2.BlockGroup = group_types_1.BlockGroup;
-      exports2.ListGroup = group_types_1.ListGroup;
-      exports2.ListItem = group_types_1.ListItem;
-      exports2.BlotBlock = group_types_1.BlotBlock;
+      exports.InlineGroup = group_types_1.InlineGroup;
+      exports.VideoItem = group_types_1.VideoItem;
+      exports.BlockGroup = group_types_1.BlockGroup;
+      exports.ListGroup = group_types_1.ListGroup;
+      exports.ListItem = group_types_1.ListItem;
+      exports.BlotBlock = group_types_1.BlotBlock;
       var DeltaInsertOp_1 = require_DeltaInsertOp();
-      exports2.DeltaInsertOp = DeltaInsertOp_1.DeltaInsertOp;
+      exports.DeltaInsertOp = DeltaInsertOp_1.DeltaInsertOp;
       var InsertData_1 = require_InsertData();
-      exports2.InsertDataQuill = InsertData_1.InsertDataQuill;
-      exports2.InsertDataCustom = InsertData_1.InsertDataCustom;
+      exports.InsertDataQuill = InsertData_1.InsertDataQuill;
+      exports.InsertDataCustom = InsertData_1.InsertDataCustom;
       var value_types_1 = require_value_types();
-      exports2.NewLine = value_types_1.NewLine;
-      exports2.ListType = value_types_1.ListType;
-      exports2.ScriptType = value_types_1.ScriptType;
-      exports2.DirectionType = value_types_1.DirectionType;
-      exports2.AlignType = value_types_1.AlignType;
-      exports2.DataType = value_types_1.DataType;
-      exports2.GroupType = value_types_1.GroupType;
+      exports.NewLine = value_types_1.NewLine;
+      exports.ListType = value_types_1.ListType;
+      exports.ScriptType = value_types_1.ScriptType;
+      exports.DirectionType = value_types_1.DirectionType;
+      exports.AlignType = value_types_1.AlignType;
+      exports.DataType = value_types_1.DataType;
+      exports.GroupType = value_types_1.GroupType;
     }
   });
 
@@ -8231,7 +8312,7 @@ const MODULES = `
     return open.call(this, ...args);
   };
   function xhrHook(url, modifyOpen, modifyResponse, once = true) {
-    let id;
+    let id = 0;
     const one = Array.isArray(url) ? url : [url];
     const two = function(args) {
       once && id && delete rules[id - 1];
@@ -14771,7 +14852,7 @@ const MODULES = `
     return insertBefore.call(this, newChild, refChild);
   };
   function jsonpHook(url, redirect, modifyResponse, once = true) {
-    let id;
+    let id = 0;
     const one = Array.isArray(url) ? url : [url];
     const two = function() {
       once && id && delete jsonp[id - 1];
@@ -14805,7 +14886,7 @@ const MODULES = `
     };
   }
   jsonpHook.async = (url, condition, modifyResponse, once = true) => {
-    let id;
+    let id = 0;
     const one = Array.isArray(url) ? url : [url];
     const two = function() {
       try {
@@ -38109,6 +38190,7 @@ const MODULES = `
       this.recommend();
       this.seasonCount();
       this.followAction();
+      this.followButtonFeedback();
       this.season();
       this.review();
       this.sponsorRank();
@@ -38120,6 +38202,12 @@ const MODULES = `
       Header.prid = 1612;
       Header.primaryMenu();
       Header.banner();
+      jsonpHook.async(
+        "api.live.bilibili.com/bili/living_v2/",
+        (url) => /living_v2\\/(?:null|undefined|0)\\b/.test(url),
+        async () => ({ code: 0, data: { status: 0 } }),
+        false
+      );
       this.updateDom();
     }
     /** 修复：末尾番剧推荐 */
@@ -38157,25 +38245,62 @@ const MODULES = `
     }
     /** 拦截旧版追番接口，重定向到新版 PGC 接口 */
     followAction() {
+      let followPendingTimer = 0;
+      const triggerFollowPendingFeedback = () => {
+        document.documentElement.classList.add("blod-follow-global-pending");
+        followPendingTimer && window.clearTimeout(followPendingTimer);
+        followPendingTimer = window.setTimeout(() => {
+          document.documentElement.classList.remove("blod-follow-global-pending");
+        }, 1e3);
+      };
+      const normalizeFollowResponse = (payload, followed, seasonId) => {
+        try {
+          const result = jsonCheck(payload);
+          if ((result == null ? void 0 : result.code) !== 0) return payload;
+          const legacyResult = typeof result.result === "object" && result.result ? result.result : {};
+          result.result = {
+            ...legacyResult,
+            season_id: seasonId,
+            follow_status: followed ? 1 : 0,
+            is_follow: followed ? 1 : 0,
+            status: followed ? 1 : 2
+          };
+          return JSON.stringify(result);
+        } catch {
+          return payload;
+        }
+      };
+      const patchXhrFollowResponse = (r, followed) => {
+        try {
+          const seasonId = Number(new URL(r.responseURL || location.href, location.origin).searchParams.get("season_id")) || this.ssid;
+          const raw = typeof r.response === "string" ? r.response : JSON.stringify(r.response);
+          const patched = normalizeFollowResponse(raw, followed, seasonId);
+          r.responseType === "json" ? r.response = jsonCheck(patched) : r.response = r.responseText = patched;
+        } catch {
+        }
+      };
       xhrHook("bangumi.bilibili.com/follow/web_api/season/follow", (args) => {
         var _a3;
+        triggerFollowPendingFeedback();
         const url = new URL(args[1], location.origin);
         const seasonId = url.searchParams.get("season_id") || String(this.ssid);
         const csrf = ((_a3 = document.cookie.match(/bili_jct=([^;]+)/)) == null ? void 0 : _a3[1]) || "";
         args[1] = \`//api.bilibili.com/pgc/web/follow/add?season_id=\${seasonId}&csrf=\${csrf}\`;
         args[0] = "POST";
-      }, void 0, false);
+      }, (r) => patchXhrFollowResponse(r, true), false);
       xhrHook(["bangumi.bilibili.com/follow/web_api/season/unfollow", "bangumi.bilibili.com/follow/web_api/season/cancel"], (args) => {
         var _a3;
+        triggerFollowPendingFeedback();
         const url = new URL(args[1], location.origin);
         const seasonId = url.searchParams.get("season_id") || String(this.ssid);
         const csrf = ((_a3 = document.cookie.match(/bili_jct=([^;]+)/)) == null ? void 0 : _a3[1]) || "";
         args[1] = \`//api.bilibili.com/pgc/web/follow/del?season_id=\${seasonId}&csrf=\${csrf}\`;
         args[0] = "POST";
-      }, void 0, false);
+      }, (r) => patchXhrFollowResponse(r, false), false);
       const followFetchHook = new FetchHook("bangumi.bilibili.com/follow/web_api/season/follow");
       followFetchHook.request((req) => {
         var _a3;
+        triggerFollowPendingFeedback();
         const url = req.input.toString();
         const urlObj2 = new URL(url, location.origin);
         const seasonId = urlObj2.searchParams.get("season_id") || String(this.ssid);
@@ -38188,11 +38313,13 @@ const MODULES = `
         };
       });
       followFetchHook.response(async (res) => {
-        return res.text();
+        const seasonId = Number(new URL(res.url || location.href, location.origin).searchParams.get("season_id")) || this.ssid;
+        return normalizeFollowResponse(await res.text(), true, seasonId);
       });
       const unfollowFetchHook = new FetchHook("bangumi.bilibili.com/follow/web_api/season/unfollow");
       unfollowFetchHook.request((req) => {
         var _a3;
+        triggerFollowPendingFeedback();
         const url = req.input.toString();
         const urlObj2 = new URL(url, location.origin);
         const seasonId = urlObj2.searchParams.get("season_id") || String(this.ssid);
@@ -38205,11 +38332,13 @@ const MODULES = `
         };
       });
       unfollowFetchHook.response(async (res) => {
-        return res.text();
+        const seasonId = Number(new URL(res.url || location.href, location.origin).searchParams.get("season_id")) || this.ssid;
+        return normalizeFollowResponse(await res.text(), false, seasonId);
       });
       const cancelFetchHook = new FetchHook("bangumi.bilibili.com/follow/web_api/season/cancel");
       cancelFetchHook.request((req) => {
         var _a3;
+        triggerFollowPendingFeedback();
         const url = req.input.toString();
         const urlObj2 = new URL(url, location.origin);
         const seasonId = urlObj2.searchParams.get("season_id") || String(this.ssid);
@@ -38222,8 +38351,52 @@ const MODULES = `
         };
       });
       cancelFetchHook.response(async (res) => {
-        return res.text();
+        const seasonId = Number(new URL(res.url || location.href, location.origin).searchParams.get("season_id")) || this.ssid;
+        return normalizeFollowResponse(await res.text(), false, seasonId);
       });
+    }
+    /** 追番按钮点击反馈：缓解接口回包期间“点了没反应”的体感 */
+    followButtonFeedback() {
+      addCss(\`
+#bangumi_header .btn-follow,
+#bangumi_header .btn-unfollow,
+#bangumi_header .bangumi-info-right .info-right .bangumi-follow-btn,
+#bangumi_header .bangumi-info-right .info-right .btn,
+#bangumi_header .header-info .media-right .btn,
+#bangumi_header [class*="follow"],
+#app .btn-follow,
+#app .btn-unfollow,
+#app [class*="follow"] {
+    transition: transform .16s ease, filter .2s ease, opacity .2s ease, box-shadow .2s ease;
+    will-change: transform, filter, opacity;
+}
+.blod-follow-clicking {
+    transform: translateY(-1px) scale(0.985);
+    filter: saturate(1.12) brightness(1.02);
+    box-shadow: 0 0 0 2px rgba(0, 161, 214, .16) inset;
+}
+.blod-follow-pending {
+    opacity: .84;
+    cursor: progress;
+}
+html.blod-follow-global-pending #bangumi_header .btn,
+html.blod-follow-global-pending #bangumi_header button,
+html.blod-follow-global-pending #bangumi_header a,
+html.blod-follow-global-pending #bangumi_header [class*="follow"],
+html.blod-follow-global-pending #app .btn-follow,
+html.blod-follow-global-pending #app .btn-unfollow,
+html.blod-follow-global-pending #app [class*="follow"] {
+    opacity: .84;
+    filter: saturate(1.1);
+}
+\`, "follow-click-feedback");
+      document.addEventListener("click", (e) => {
+        const target = e.target.closest('#bangumi_header .btn, #bangumi_header button, #bangumi_header a, #bangumi_header [class*="follow"], #app .btn-follow, #app .btn-unfollow, #app [class*="follow"]');
+        if (!target) return;
+        target.classList.add("blod-follow-clicking", "blod-follow-pending");
+        window.setTimeout(() => target.classList.remove("blod-follow-clicking"), 180);
+        window.setTimeout(() => target.classList.remove("blod-follow-pending"), 900);
+      }, true);
     }
     /** 修复换季时请求 502 */
     season() {
@@ -38507,13 +38680,7 @@ const MODULES = `
               this.th = true;
             }
             const title = this.setTitle(t2.epInfo.index, t2.mediaInfo.title, this.Q(t2.mediaInfo.season_type), true);
-            function loopTitle() {
-              poll(() => document.title != title, () => {
-                document.title = title;
-                if (document.title != title) loopTitle();
-              });
-            }
-            loopTitle();
+            this.lockTitle(title);
             videoInfo.bangumiSeason(bangumi);
           }).catch(() => {
             return this.initGlobal();
@@ -38546,6 +38713,19 @@ const MODULES = `
         vipNeedPay: o,
         payPack: r
       };
+    }
+    /** 锁定标题：监听 <title> DOM 变化，阻止外部脚本修改 */
+    lockTitle(title) {
+      const ERROR_TITLE = "Application error: a client-side exception has occurred";
+      document.title = title;
+      poll(() => document.querySelector("title"), (titleEl) => {
+        const observer = new MutationObserver(() => {
+          if (document.title !== title && document.title !== ERROR_TITLE) {
+            document.title = title;
+          }
+        });
+        observer.observe(titleEl, { subtree: true, characterData: true, childList: true });
+      });
     }
     /** 更新标题 */
     setTitle(t, e, i, n) {
@@ -38691,14 +38871,7 @@ const MODULES = `
       this.player();
       toast.warning("这大概是一个泰区专属Bangumi，可能没有弹幕和评论区，可以使用【在线弹幕】【播放本地文件】等功能载入弹幕~", "另外：播放泰区番剧还可能导致历史记录错乱，请多担待🤣");
       const title = this.setTitle(t.epInfo.index, t.mediaInfo.title, this.Q(t.mediaInfo.season_type), true);
-      function loopTitle() {
-        poll(() => document.title != title, () => {
-          document.title = title;
-          if (document.title != title)
-            loopTitle();
-        });
-      }
-      loopTitle();
+      this.lockTitle(title);
       videoInfo.bangumiEpisode(episodes, i.title, (_g = i.actor) == null ? void 0 : _g.info, i.cover, t.mediaInfo.bkg_cover);
     }
     /** 修复泰区player接口 */
@@ -38765,16 +38938,21 @@ const MODULES = `
     }
     /** 页面死循环检查 */
     reloadCheck() {
+      const ERROR_TITLE = "Application error: a client-side exception has occurred";
+      let alerted = false;
       function reload() {
-        if (document.title === "Application error: a client-side exception has occurred") {
-          alert("新版页面出现死循环，CPU占用飙升，尝试刷新页面解决？", "死循环", [
-            {
-              text: "刷新",
-              callback: () => {
-                location.reload();
+        if (document.title === ERROR_TITLE) {
+          if (!alerted) {
+            alerted = true;
+            alert("新版页面出现死循环，CPU占用飙升，尝试刷新页面解决？", "死循环", [
+              {
+                text: "刷新",
+                callback: () => {
+                  location.reload();
+                }
               }
-            }
-          ]);
+            ]);
+          }
         }
       }
       if (document.readyState === "complete") {
@@ -38782,6 +38960,7 @@ const MODULES = `
       } else {
         window.addEventListener("load", reload, { once: true });
       }
+      poll(() => document.title === ERROR_TITLE, reload, 1e3, 0);
     }
     loadedCallback() {
       super.loadedCallback();
@@ -41185,7 +41364,8 @@ const MODULES = `
             this.checkboxs[d].value = true;
           } else {
             this.update(Object.keys(this.checkboxs).concat(d));
-            this.checkboxs[d].value = true;
+            const checkbox = this.checkboxs[d];
+            checkbox && (checkbox.value = true);
           }
         }
       });
@@ -42580,6 +42760,12 @@ const MODULES = `
   document.domain = "bilibili.com";
   var _a2;
   BLOD.version = (_a2 = GM.info) == null ? void 0 : _a2.script.version.slice(-40);
+  jsonpHook.async(
+    "api.live.bilibili.com/bili/living_v2/",
+    (url) => /living_v2\\/(?:null|undefined|0)\\b/.test(url),
+    async () => ({ code: 0, data: { status: 0 } }),
+    false
+  );
   user.addCallback((status) => {
     toast.update(status.toast);
     cdn.update(status.cdn, BLOD.version);

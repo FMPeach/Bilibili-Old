@@ -101,7 +101,7 @@ export const GM = new (class GM {
     }
     /** cookie 提权 */
     cookie() {
-        return new Promise((resolve: (value: chrome.cookies.Cookie[]) => void, reject) => {
+        return new Promise((resolve: (value: any[]) => void, reject) => {
             const arr = location.host.split(".");
             arr.length > 2 && arr.shift();
             postMessage({ $type: 'cookie', url: arr.join(".") }, resolve, reject);
@@ -128,7 +128,7 @@ export const GM = new (class GM {
         });
     }
     /** 【扩展限定】更新网络拦截规则 */
-    updateSessionRules(rules: chrome.declarativeNetRequest.Rule[], tab = true) {
+    updateSessionRules(rules: any[], tab = true) {
         return new Promise((resolve: (value: void) => void, reject) => {
             postMessage({ $type: 'updateSessionRules', rules, tab }, resolve, reject);
         });

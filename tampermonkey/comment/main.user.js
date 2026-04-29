@@ -125,7 +125,7 @@ var URLS = class _URLS {
   static D_API_VC = "api.vc.bilibili.com";
   static WEBSHOW_LOCS = _URLS.P_AUTO + _URLS.D_API + "/x/web-show/res/locs";
   static INDEX_TOP_RCMD = _URLS.P_AUTO + _URLS.D_API + "/x/web-interface/index/top/rcmd";
-  static PAGE_HEADER = _URLS.P_AUTO + _URLS.D_API + "/x/web-show/page/header";
+  static PAGE_HEADER = _URLS.P_AUTO + _URLS.D_API + "/x/web-show/page/header/v2";
   static SEASON_RANK_LIST = _URLS.P_AUTO + _URLS.D_API + "/pgc/season/rank/web/list";
   static VIDEO = _URLS.P_AUTO + _URLS.D_STATIC_S + "/js/video.min.js";
   static JQUERY = _URLS.P_AUTO + _URLS.D_STATIC_S + "/js/jquery.min.js";
@@ -170,6 +170,7 @@ var URLS = class _URLS {
   static ARTICLE_UPCOVER = _URLS.P_AUTO + _URLS.D_API + "/x/article/creative/article/upcover";
   static DRAW_IMAGE_UPLOAD = _URLS.P_AUTO + _URLS.D_API_VC + "/api/v1/drawImage/upload";
   static DYNAMIC_UPLOAD_BFS = _URLS.P_AUTO + _URLS.D_API + "/x/dynamic/feed/draw/upload_bfs";
+  static RELATION = _URLS.P_AUTO + _URLS.D_API + "/x/relation";
   /** 退出登录 */
   static PASSPORT_LOGIN_EXIT = _URLS.P_AUTO + _URLS.D_PASSPORT + "/login/exit/v2";
   static PASSPORT_AUTH_CODE = _URLS.P_AUTO + _URLS.D_PASSPORT + "/x/passport-tv-login/qrcode/auth_code";
@@ -466,7 +467,7 @@ Element.prototype.insertBefore = function(newChild, refChild) {
   return insertBefore.call(this, newChild, refChild);
 };
 function jsonpHook(url, redirect, modifyResponse, once = true) {
-  let id;
+  let id = 0;
   const one = Array.isArray(url) ? url : [url];
   const two = function() {
     once && id && delete jsonp[id - 1];
@@ -500,7 +501,7 @@ function jsonpHook(url, redirect, modifyResponse, once = true) {
   };
 }
 jsonpHook.async = (url, condition, modifyResponse, once = true) => {
-  let id;
+  let id = 0;
   const one = Array.isArray(url) ? url : [url];
   const two = function() {
     try {
@@ -645,6 +646,10 @@ var Scrollbar = class _Scrollbar {
     side && ele.insertAdjacentElement("afterend", _Scrollbar.style.cloneNode(true));
     this.flesh();
   }
+  ele;
+  x;
+  y;
+  side;
   static mutex = getMetux();
   static prefix = "scrollbar-" + _Scrollbar.mutex;
   static style;
@@ -839,7 +844,7 @@ var PreviewImage = class extends HTMLElement {
     document.body.style.overflow = "hidden";
   }
 };
-customElements.get(`preview-image-${"b07bqg3eox5"}`) || customElements.define(`preview-image-${"b07bqg3eox5"}`, PreviewImage);
+customElements.get(`preview-image-${"aepz2dl1bad"}`) || customElements.define(`preview-image-${"aepz2dl1bad"}`, PreviewImage);
 
 // src/core/comment.ts
 var Feedback;
@@ -947,6 +952,7 @@ var Comment = class _Comment {
             super();
             this.arg = arg;
           }
+          arg;
           $parent;
           mount(parent) {
             if (load) {

@@ -7,20 +7,22 @@ const CORS_safelisted_request_header = [
     "user-agent",
     "referer"
 ];
+type ModifyHeaderInfo = any;
+type DnrRule = any;
 class Headers {
-    private headers: Record<string, chrome.declarativeNetRequest.ModifyHeaderInfo> = {}
+    private headers: Record<string, ModifyHeaderInfo> = {}
     /**
      * 拦截请求头
      * @param headers 要添加的请求头
      */
-    constructor(headers?: chrome.declarativeNetRequest.ModifyHeaderInfo | chrome.declarativeNetRequest.ModifyHeaderInfo[]) {
+    constructor(headers?: ModifyHeaderInfo | ModifyHeaderInfo[]) {
         if (headers) {
             Array.isArray(headers) || (headers = [headers]);
             this.push(...headers);
         }
     }
     /** 添加拦截请求头 */
-    push(...headers: chrome.declarativeNetRequest.ModifyHeaderInfo[]) {
+    push(...headers: ModifyHeaderInfo[]) {
         headers.forEach(d => {
             this.headers[d.header] = d;
         });
@@ -38,7 +40,7 @@ class Headers {
      * 移除请求头
      * @param headers 请求头数据
      */
-    pop(...headers: chrome.declarativeNetRequest.ModifyHeaderInfo[]) {
+    pop(...headers: ModifyHeaderInfo[]) {
         this.remove(...headers.map(d => d.header));
     }
     /** 输出请求头数据 */
@@ -47,7 +49,7 @@ class Headers {
     }
     set(obj: Record<string, string | undefined>) {
         this.push(...Object.entries(obj).map(d => {
-            const header: chrome.declarativeNetRequest.ModifyHeaderInfo = {
+            const header: ModifyHeaderInfo = {
                 header: d[0],
                 operation: d[1] ? <any>'set' : <any>'remove'
             };
@@ -94,7 +96,7 @@ export function escapeForbidHeader(input: RequestInfo | URL, requestHeaders?: Re
         }
     ]);
     /** 拦截规则 */
-    const rule: chrome.declarativeNetRequest.Rule = {
+    const rule: DnrRule = {
         id,
         action: {
             type: <any>'modifyHeaders'
@@ -135,7 +137,7 @@ export function escapeForbidHeader(input: RequestInfo | URL, requestHeaders?: Re
     const rpH = response.toJSON();
     reH.length && (rule.action.requestHeaders = reH);
     rpH.length && (rule.action.responseHeaders = rpH);
-    return <[chrome.declarativeNetRequest.Rule, number]>[rule, id];
+    return <[DnrRule, number]>[rule, id];
 }
 /**
  * 【后台脚本】拦截修改ajax禁止修改表头
@@ -159,7 +161,7 @@ export function swFetchHeader(input: RequestInfo | URL, requestHeaders?: Record<
     /** 预设返回头 */
     const response = new Headers();
     /** 拦截规则 */
-    const rule: chrome.declarativeNetRequest.Rule = {
+    const rule: DnrRule = {
         id,
         action: {
             type: <any>'modifyHeaders'
@@ -189,5 +191,5 @@ export function swFetchHeader(input: RequestInfo | URL, requestHeaders?: Record<
     const rpH = response.toJSON();
     reH.length && (rule.action.requestHeaders = reH);
     rpH.length && (rule.action.responseHeaders = rpH);
-    return <[chrome.declarativeNetRequest.Rule, number]>[rule, id];
+    return <[DnrRule, number]>[rule, id];
 }

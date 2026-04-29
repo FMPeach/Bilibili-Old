@@ -6,3 +6,7 @@ dist
 *.map
 AGENTS.md
 bilibili-api-17.4.1
+outputs
+docs
+CLAUDE.md
+.claude

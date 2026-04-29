@@ -25,7 +25,7 @@ Element.prototype.insertBefore = function <T extends Node>(newChild: T, refChild
  * @returns 取消拦截的方法
  */
 export function jsonpHook(url: string | string[], redirect?: (url: string) => string, modifyResponse?: (response: any, url: string, call: (res: any) => void) => any, once = true) {
-    let id: number;
+    let id = 0;
     const one = Array.isArray(url) ? url : [url];
     const two = function (this: HTMLScriptElement) {
         once && id && delete jsonp[id - 1];
@@ -57,7 +57,7 @@ export function jsonpHook(url: string | string[], redirect?: (url: string) => st
  * @returns 取消拦截的方法
  */
 jsonpHook.async = (url: string | string[], condition?: (url: string) => boolean, modifyResponse?: (url: string) => Promise<any>, once = true) => {
-    let id: number;
+    let id = 0;
     const one = Array.isArray(url) ? url : [url];
     const two = function (this: HTMLScriptElement) {
         try {

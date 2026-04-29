@@ -29,7 +29,7 @@ const open: any = XMLHttpRequest.prototype.open;
  * @returns 取消拦截的方法
  */
 export function xhrHook(url: string | string[], modifyOpen?: (args: XMLHttpRequestOpenParams) => void, modifyResponse?: (response: XMLHttpRequestResponses) => void, once = true) {
-    let id: number;
+    let id = 0;
     const one = Array.isArray(url) ? url : [url];
     const two = function (this: XMLHttpRequest, args: XMLHttpRequestOpenParams) {
         once && id && delete rules[id - 1];
