@@ -22,7 +22,9 @@ export class ApiViewDetail {
 export async function apiViewDetail(aid: number) {
     const response = await fetch(objUrl(URLS.VIEW_DETAIL, {
         aid
-    }));
+    }), {
+        credentials: 'include'
+    });
     const json = await response.json();
     return <IApiViewDetailResponse>jsonCheck(json).data;
 }
