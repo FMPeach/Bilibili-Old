@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bilibili 旧播放页
 // @namespace    MotooriKashin
-// @version      10.12.2-c3dd748427ccbbefce8d3423714030e5ad97afd7
+// @version      10.12.5-c3dd748427ccbbefce8d3423714030e5ad97afd7
 // @description  恢复Bilibili旧版页面，为了那些念旧的人。
 // @author       MotooriKashin, wly5556, FMPeach
 // @homepage     https://github.com/FMPeach/Bilibili-Old
@@ -8410,7 +8410,9 @@ const MODULES = `
   async function apiViewDetail(aid) {
     const response = await fetch(objUrl(URLS.VIEW_DETAIL, {
       aid
-    }));
+    }), {
+      credentials: "include"
+    });
     const json = await response.json();
     return jsonCheck(json).data;
   }
