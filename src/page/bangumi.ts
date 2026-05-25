@@ -29,6 +29,7 @@ import { Header } from "./header";
 import { Page } from "./page";
 
 export class PageBangumi extends Page {
+    protected keepNextHeadMarker = true;
     protected like: Like;
     protected get ssid() {
         return BLOD.ssid;
