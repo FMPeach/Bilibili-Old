@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bilibili 旧播放页
 // @namespace    MotooriKashin
-// @version      10.12.2-c3dd748427ccbbefce8d3423714030e5ad97afd7
+// @version      10.12.6-c3dd748427ccbbefce8d3423714030e5ad97afd7
 // @description  恢复Bilibili旧版页面，为了那些念旧的人。
 // @author       MotooriKashin, wly5556, FMPeach
 // @homepage     https://github.com/FMPeach/Bilibili-Old
@@ -8410,7 +8410,9 @@ const MODULES = `
   async function apiViewDetail(aid) {
     const response = await fetch(objUrl(URLS.VIEW_DETAIL, {
       aid
-    }));
+    }), {
+      credentials: "include"
+    });
     const json = await response.json();
     return jsonCheck(json).data;
   }
@@ -25870,6 +25872,8 @@ const MODULES = `
     webpackJsonp = false;
     /** 保留__INITIAL_STATE__（仅特定页面需要） */
     keepInitialState = false;
+    /** 保留新版next-head-count */
+    keepNextHeadMarker = false;
     /**
      * @param html 页面框架
      */
@@ -25886,7 +25890,9 @@ const MODULES = `
     }
     /** 重写页面 */
     updateDom() {
+      var _a3;
       const title = document.title;
+      const keepNextHeadMarker = this.keepNextHeadMarker || !!((_a3 = document.head) == null ? void 0 : _a3.querySelector('meta[name="next-head-count"]'));
       try {
         if (!this.keepInitialState) {
           Reflect.deleteProperty(window, "__INITIAL_STATE__");
@@ -25895,8 +25901,21 @@ const MODULES = `
       }
       this.webpackJsonp || Reflect.deleteProperty(window, "webpackJsonp");
       this.vdom.replace(document.documentElement);
+      keepNextHeadMarker && this.restoreNextHeadMarker();
       title && !title.includes("404") && (document.title = title);
       setTimeout(() => this.loadedCallback());
+    }
+    // 恢复新版next-head-count标记，避免新版页面注入的样式被清理掉爆死循环
+    restoreNextHeadMarker() {
+      const head = document.head;
+      if (!head) return;
+      let marker = head.querySelector('meta[name="next-head-count"]');
+      if (!marker) {
+        marker = document.createElement("meta");
+        marker.name = "next-head-count";
+      }
+      marker.content = "0";
+      head.appendChild(marker);
     }
     /** 重写完成回调 */
     loadedCallback() {
@@ -38060,6 +38079,7 @@ const MODULES = `
 
   // src/page/bangumi.ts
   var PageBangumi = class extends Page {
+    keepNextHeadMarker = true;
     like;
     get ssid() {
       return BLOD.ssid;
