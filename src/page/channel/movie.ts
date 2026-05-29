@@ -1,9 +1,9 @@
 import htmlMovie from "../../html/movie.html";
 import { xhrHook } from "../../utils/hook/xhr";
 import { Header } from "../header";
-import { Page } from "../page";
+import { PageLegacyChannel } from "./legacy-channel";
 
-export class PageMovie extends Page {
+export class PageMovie extends PageLegacyChannel {
     constructor() {
         super(htmlMovie);
         Header.prid = 1634;

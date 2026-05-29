@@ -1,9 +1,9 @@
 import htmlAnime from "../../html/anime.html";
 import { xhrHook } from "../../utils/hook/xhr";
 import { Header } from "../header";
-import { Page } from "../page";
+import { PageLegacyChannel } from "./legacy-channel";
 
-export class PageAnime extends Page {
+export class PageAnime extends PageLegacyChannel {
     constructor() {
         super(htmlAnime);
         Header.prid = location.pathname.includes('anime') ? 1612 : 1920;

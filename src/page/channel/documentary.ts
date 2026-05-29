@@ -1,9 +1,9 @@
 import { toast } from "../../core/toast";
 import htmlDocumentary from "../../html/documentary.html";
 import { Header } from "../header";
-import { Page } from "../page";
+import { PageLegacyChannel } from "./legacy-channel";
 
-export class PageDocumentary extends Page {
+export class PageDocumentary extends PageLegacyChannel {
     constructor() {
         super(htmlDocumentary);
         Header.prid = 1634;

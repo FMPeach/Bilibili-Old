@@ -2,9 +2,9 @@ import { BLOD } from "../../core/bilibili-old";
 import htmlChannel from "../../html/channel.html";
 import { poll } from "../../utils/poll";
 import { Header } from "../header";
-import { Page } from "../page";
+import { PageLegacyChannel } from "./legacy-channel";
 
-export class PageChannel extends Page {
+export class PageChannel extends PageLegacyChannel {
     constructor() {
         super(htmlChannel);
         Header.primaryMenu();

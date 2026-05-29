@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bilibili 旧播放页
 // @namespace    MotooriKashin
-// @version      10.12.6-c3dd748427ccbbefce8d3423714030e5ad97afd7
+// @version      10.12.7-c3dd748427ccbbefce8d3423714030e5ad97afd7
 // @description  恢复Bilibili旧版页面，为了那些念旧的人。
 // @author       MotooriKashin, wly5556, FMPeach
 // @homepage     https://github.com/FMPeach/Bilibili-Old
@@ -25874,6 +25874,8 @@ const MODULES = `
     keepInitialState = false;
     /** 保留新版next-head-count */
     keepNextHeadMarker = false;
+    /** 阻止原新版页面脚本在旧版模板接管后继续抢占运行时 */
+    neutralizeScriptPatterns;
     /**
      * @param html 页面框架
      */
@@ -25893,6 +25895,8 @@ const MODULES = `
       var _a3;
       const title = document.title;
       const keepNextHeadMarker = this.keepNextHeadMarker || !!((_a3 = document.head) == null ? void 0 : _a3.querySelector('meta[name="next-head-count"]'));
+      const neutralizeScriptPatterns = this.neutralizeScriptPatterns;
+      this.neutralizeOriginalScripts();
       try {
         if (!this.keepInitialState) {
           Reflect.deleteProperty(window, "__INITIAL_STATE__");
@@ -25900,12 +25904,69 @@ const MODULES = `
       } catch (e) {
       }
       this.webpackJsonp || Reflect.deleteProperty(window, "webpackJsonp");
+      (neutralizeScriptPatterns == null ? void 0 : neutralizeScriptPatterns.length) && this.guardWebpackJsonp(neutralizeScriptPatterns);
       this.vdom.replace(document.documentElement);
       keepNextHeadMarker && this.restoreNextHeadMarker();
       title && !title.includes("404") && (document.title = title);
       setTimeout(() => this.loadedCallback());
     }
-    // 恢复新版next-head-count标记，避免新版页面注入的样式被清理掉爆死循环
+    /** 阻止原新版页面脚本与旧版模板脚本抢同一个 webpackJsonp/DOM 运行时 */
+    neutralizeOriginalScripts() {
+      const patterns = this.neutralizeScriptPatterns;
+      if (!(patterns == null ? void 0 : patterns.length)) return;
+      Array.from(document.scripts).forEach((script) => {
+        if (script === document.currentScript) return;
+        const src = script.src || script.getAttribute("src") || "";
+        if (src && patterns.some((pattern) => pattern.test(src))) {
+          script.type = "javascript/blocked";
+          script.removeAttribute("src");
+          script.textContent = "";
+          script.remove();
+        }
+      });
+    }
+    guardWebpackJsonp(patterns) {
+      const win = window;
+      let value = win.webpackJsonp;
+      const shouldBlock = () => {
+        const currentScript = document.currentScript;
+        const src = currentScript instanceof HTMLScriptElement ? currentScript.src : "";
+        return !!src && patterns.some((pattern) => pattern.test(src));
+      };
+      const wrapPush = () => {
+        const target = value;
+        if (!target || typeof target.push !== "function" || target.push.__BLOD_WEBPACK_GUARD__) return;
+        const originalPush = target.push;
+        const guardedPush = function(...args) {
+          return shouldBlock() ? this.length : originalPush.apply(this, args);
+        };
+        Object.defineProperty(guardedPush, "__BLOD_WEBPACK_GUARD__", { value: true });
+        target.push = guardedPush;
+      };
+      Reflect.defineProperty(window, "webpackJsonp", {
+        configurable: true,
+        get: () => value,
+        set: (next) => {
+          value = next;
+          if (shouldBlock() && Array.isArray(value)) {
+            value.length = 0;
+          }
+          wrapPush();
+        }
+      });
+      wrapPush();
+      const timer = setInterval(wrapPush, 50);
+      setTimeout(() => {
+        clearInterval(timer);
+        try {
+          const current = win.webpackJsonp;
+          Reflect.deleteProperty(window, "webpackJsonp");
+          win.webpackJsonp = current;
+        } catch (e) {
+        }
+      }, 1e4);
+    }
+    // Restore next-head-count for residual Next.js head updates.
     restoreNextHeadMarker() {
       const head = document.head;
       if (!head) return;
@@ -42384,8 +42445,19 @@ const MODULES = `
   // src/html/anime.html
   var anime_default = '<!DOCTYPE html>\\r\\n<html lang="zh-Hans">\\r\\n\\r\\n<head>\\r\\n    <meta charset="utf-8">\\r\\n    <title>番剧 - 哔哩哔哩 (゜-゜)つロ 干杯~-bilibili</title>\\r\\n    <meta name="description" content="bilibili是国内知名的视频弹幕网站，这里有最及时的动漫新番，最棒的ACG氛围，最有创意的Up主。大家可以在这里找到许多欢乐。">\\r\\n    <meta name="keywords" content="B站,弹幕,字幕,AMV,MAD,MTV,ANIME,动漫,动漫音乐,游戏,游戏解说,ACG,galgame,动画,番组,新番,初音,洛天依,vocaloid">\\r\\n    <meta name="renderer" content="webkit">\\r\\n    <meta http-equiv="X-UA-Compatible" content="IE=edge">\\r\\n    <meta name="baidu-site-verification" content="gbRdPloQBZ">\\r\\n    <link rel="dns-prefetch" href="//s1.hdslb.com">\\r\\n    <link rel="dns-prefetch" href="//s2.hdslb.com">\\r\\n    <link rel="dns-prefetch" href="//s3.hdslb.com">\\r\\n    <link rel="dns-prefetch" href="//i0.hdslb.com">\\r\\n    <link rel="dns-prefetch" href="//i1.hdslb.com">\\r\\n    <link rel="dns-prefetch" href="//i2.hdslb.com">\\r\\n    <link rel="dns-prefetch" href="//static.hdslb.com">\\r\\n    <link rel="shortcut icon" href="//static.hdslb.com/images/favicon.ico">\\r\\n    <link rel="search" type="application/opensearchdescription+xml" href="//static.hdslb.com/opensearch.xml"\\r\\n        title="哔哩哔哩">\\r\\n    <link rel="stylesheet"\\r\\n        href="//s1.hdslb.com/bfs/static/bangumi-home/css/bangumi-home.1.73141fb5868615cb4fe6bc969ccd02cb7c1c7d4c.css">\\r\\n    <link rel="stylesheet"\\r\\n        href="//s1.hdslb.com/bfs/static/bangumi-home/css/bangumi-home.0.73141fb5868615cb4fe6bc969ccd02cb7c1c7d4c.css">\\r\\n    <style>\\r\\n        .pgc-rank-list .rank-item.highlight .ri-num {\\r\\n            background: #f25d8e;\\r\\n        }\\r\\n    </style>\\r\\n</head>\\r\\n\\r\\n<body>\\r\\n    <div class="z-top-container has-menu"></div>\\r\\n    <div id="client-app"></div>\\r\\n    <div id="app" data-server-rendered="true" class="cinema-home-wrapper"></div>\\r\\n    <script type="text/javascript" src="//static.hdslb.com/js/jquery.min.js"><\\/script>\\r\\n    <script type="text/javascript" src="//s1.hdslb.com/bfs/seed/jinkela/header/header.js"><\\/script>\\r\\n    <script type="text/javascript" src="//s2.hdslb.com/bfs/cm/st/bundle.js"><\\/script>\\r\\n    <script type="text/javascript" src="//static.hdslb.com/js/promise.auto.min.js"><\\/script>\\r\\n    <script type="text/javascript"\\r\\n        src="//www.bilibili.com/gentleman/polyfill.js?features=Promise%2CObject.assign%2CString.prototype.includes%2CNumber.isNaN"><\\/script>\\r\\n    <script type="text/javascript" src="//s1.hdslb.com/bfs/static/ogv/fe/iris.min.js"><\\/script>\\r\\n    <script src="//s1.hdslb.com/bfs/static/bangumi-home/1.bangumi-home.73141fb5868615cb4fe6bc969ccd02cb7c1c7d4c.js"\\r\\n        crossorigin defer><\\/script>\\r\\n    <script src="//s1.hdslb.com/bfs/static/bangumi-home/bangumi-home.73141fb5868615cb4fe6bc969ccd02cb7c1c7d4c.js"\\r\\n        crossorigin defer><\\/script>\\r\\n    <div class="footer bili-footer report-wrap-module"></div>\\r\\n    <script type="text/javascript" charset="utf-8" src="//static.hdslb.com/common/js/footer.js"><\\/script>\\r\\n</body>\\r\\n\\r\\n</html>';
 
+  // src/page/channel/legacy-channel.ts
+  init_tampermonkey();
+  var modernChannelScriptPatterns = [
+    /\\/bfs\\/static\\/home(?:-v3)?\\//,
+    /\\/bfs\\/static\\/player\\/main\\//,
+    /\\/bfs\\/seed\\/laputa-(?:header|footer)\\//
+  ];
+  var PageLegacyChannel = class extends Page {
+    neutralizeScriptPatterns = modernChannelScriptPatterns;
+  };
+
   // src/page/channel/anime.ts
-  var PageAnime = class extends Page {
+  var PageAnime = class extends PageLegacyChannel {
     constructor() {
       super(anime_default);
       Header.prid = location.pathname.includes("anime") ? 1612 : 1920;
@@ -42414,7 +42486,7 @@ const MODULES = `
   var movie_default = '<!DOCTYPE html>\\r\\n<html lang="zh-Hans">\\r\\n\\r\\n<head>\\r\\n    <meta charset="utf-8">\\r\\n    <title>电影 - 哔哩哔哩 (゜-゜)つロ 干杯~-bilibili</title>\\r\\n    <meta name="description" content="bilibili是国内知名的视频弹幕网站，这里有最及时的动漫新番，最棒的ACG氛围，最有创意的Up主。大家可以在这里找到许多欢乐。">\\r\\n    <meta name="keywords" content="B站,弹幕,字幕,AMV,MAD,MTV,ANIME,动漫,动漫音乐,游戏,游戏解说,ACG,galgame,动画,番组,新番,初音,洛天依,vocaloid">\\r\\n    <meta name="renderer" content="webkit">\\r\\n    <meta http-equiv="X-UA-Compatible" content="IE=edge">\\r\\n    <meta name="baidu-site-verification" content="gbRdPloQBZ">\\r\\n    <link rel="dns-prefetch" href="//s1.hdslb.com">\\r\\n    <link rel="dns-prefetch" href="//s2.hdslb.com">\\r\\n    <link rel="dns-prefetch" href="//s3.hdslb.com">\\r\\n    <link rel="dns-prefetch" href="//i0.hdslb.com">\\r\\n    <link rel="dns-prefetch" href="//i1.hdslb.com">\\r\\n    <link rel="dns-prefetch" href="//i2.hdslb.com">\\r\\n    <link rel="dns-prefetch" href="//static.hdslb.com">\\r\\n    <link rel="shortcut icon" href="//static.hdslb.com/images/favicon.ico">\\r\\n    <link rel="search" type="application/opensearchdescription+xml" href="//static.hdslb.com/opensearch.xml"\\r\\n        title="哔哩哔哩">\\r\\n    <link rel="stylesheet"\\r\\n        href="//s1.hdslb.com/bfs/static/cinema/movie/css/cinema-movie.0.20b925f03d0da5e0e0262157a0f44e4bdb547b33.css">\\r\\n    <style>\\r\\n        .pgc-rank-list .rank-item.highlight .ri-num {\\r\\n            background: #f25d8e;\\r\\n        }\\r\\n\\r\\n        .pgc-rank-list.v2 .rank-item.highlight .ri-num {\\r\\n            background: #f25d8e;\\r\\n        }\\r\\n    </style>\\r\\n</head>\\r\\n\\r\\n<body>\\r\\n    <div class="z-top-container has-menu"></div>\\r\\n    <div id="client-app"></div>\\r\\n    <div id="app" data-server-rendered="true" class="cinema-home-wrapper"></div>\\r\\n    <script type="text/javascript" src="//static.hdslb.com/js/jquery.min.js"><\\/script>\\r\\n    <script type="text/javascript" src="//s1.hdslb.com/bfs/seed/jinkela/header/header.js"><\\/script>\\r\\n    <script type="text/javascript" src="//s2.hdslb.com/bfs/cm/st/bundle.js"><\\/script>\\r\\n    <script type="text/javascript" src="//static.hdslb.com/js/promise.auto.min.js"><\\/script>\\r\\n    <script type="text/javascript"\\r\\n        src="//www.bilibili.com/gentleman/polyfill.js?features=Promise%2CObject.assign%2CString.prototype.includes%2CNumber.isNaN"><\\/script>\\r\\n    <script type="text/javascript" src="//s1.hdslb.com/bfs/static/ogv/fe/iris.min.js"><\\/script>\\r\\n    <script src="//s1.hdslb.com/bfs/static/cinema/movie/1.cinema-movie.20b925f03d0da5e0e0262157a0f44e4bdb547b33.js"\\r\\n        crossorigin defer><\\/script>\\r\\n    <script src="//s1.hdslb.com/bfs/static/cinema/movie/cinema-movie.20b925f03d0da5e0e0262157a0f44e4bdb547b33.js"\\r\\n        crossorigin defer><\\/script>\\r\\n    <div class="footer bili-footer report-wrap-module"></div>\\r\\n    <script type="text/javascript" charset="utf-8" src="//static.hdslb.com/common/js/footer.js"><\\/script>\\r\\n</body>\\r\\n\\r\\n</html>';
 
   // src/page/channel/movie.ts
-  var PageMovie = class extends Page {
+  var PageMovie = class extends PageLegacyChannel {
     constructor() {
       super(movie_default);
       Header.prid = 1634;
@@ -42455,7 +42527,7 @@ const MODULES = `
   var tv_default = '<!DOCTYPE html>\\r\\n<html lang="zh-Hans">\\r\\n\\r\\n<head>\\r\\n    <meta charset="utf-8">\\r\\n    <title>电影 - 哔哩哔哩 (゜-゜)つロ 干杯~-bilibili</title>\\r\\n    <meta name="description" content="bilibili是国内知名的视频弹幕网站，这里有最及时的动漫新番，最棒的ACG氛围，最有创意的Up主。大家可以在这里找到许多欢乐。">\\r\\n    <meta name="keywords" content="B站,弹幕,字幕,AMV,MAD,MTV,ANIME,动漫,动漫音乐,游戏,游戏解说,ACG,galgame,动画,番组,新番,初音,洛天依,vocaloid">\\r\\n    <meta name="renderer" content="webkit">\\r\\n    <meta http-equiv="X-UA-Compatible" content="IE=edge">\\r\\n    <meta name="baidu-site-verification" content="gbRdPloQBZ">\\r\\n    <link rel="dns-prefetch" href="//s1.hdslb.com">\\r\\n    <link rel="dns-prefetch" href="//s2.hdslb.com">\\r\\n    <link rel="dns-prefetch" href="//s3.hdslb.com">\\r\\n    <link rel="dns-prefetch" href="//i0.hdslb.com">\\r\\n    <link rel="dns-prefetch" href="//i1.hdslb.com">\\r\\n    <link rel="dns-prefetch" href="//i2.hdslb.com">\\r\\n    <link rel="dns-prefetch" href="//static.hdslb.com">\\r\\n    <link rel="shortcut icon" href="//static.hdslb.com/images/favicon.ico">\\r\\n    <link rel="search" type="application/opensearchdescription+xml" href="//static.hdslb.com/opensearch.xml"\\r\\n        title="哔哩哔哩">\\r\\n    <link rel="stylesheet"\\r\\n        href="//s1.hdslb.com/bfs/static/cinema/tv/css/cinema-tv.0.dae7f35e3e7f34cdb2cc931ef41eaf978b15becf.css">\\r\\n    <style>\\r\\n        .pgc-rank-list .rank-item.highlight .ri-num {\\r\\n            background: #f25d8e;\\r\\n        }\\r\\n\\r\\n        .pgc-rank-list.v2 .rank-item.highlight .ri-num {\\r\\n            background: #f25d8e;\\r\\n        }\\r\\n    </style>\\r\\n</head>\\r\\n\\r\\n<body>\\r\\n    <div class="z-top-container has-menu"></div>\\r\\n    <div id="client-app"></div>\\r\\n    <div id="app" data-server-rendered="true" class="cinema-home-wrapper"></div>\\r\\n    <script>window.__INITIAL_STATE__ = { "ver": {}, "tid": 11, "carouselList": [], "hotRecomSpec": [], "hotRecomList": [], "showBv": false }; (function () { var s; (s = document.currentScript || document.scripts[document.scripts.length - 1]).parentNode.removeChild(s); }());<\\/script>\\r\\n    <script type="text/javascript" src="//static.hdslb.com/js/jquery.min.js"><\\/script>\\r\\n    <script type="text/javascript" src="//s1.hdslb.com/bfs/seed/jinkela/header/header.js"><\\/script>\\r\\n    <script type="text/javascript" src="//s2.hdslb.com/bfs/cm/st/bundle.js"><\\/script>\\r\\n    <script type="text/javascript" src="//static.hdslb.com/js/promise.auto.min.js"><\\/script>\\r\\n    <script type="text/javascript"\\r\\n        src="//www.bilibili.com/gentleman/polyfill.js?features=Promise%2CObject.assign%2CString.prototype.includes%2CNumber.isNaN"><\\/script>\\r\\n    <script type="text/javascript" src="//s1.hdslb.com/bfs/static/ogv/fe/iris.min.js"><\\/script>\\r\\n    <script src="//s1.hdslb.com/bfs/static/cinema/tv/1.cinema-tv.dae7f35e3e7f34cdb2cc931ef41eaf978b15becf.js"\\r\\n        crossorigin defer><\\/script>\\r\\n    <script src="//s1.hdslb.com/bfs/static/cinema/tv/cinema-tv.dae7f35e3e7f34cdb2cc931ef41eaf978b15becf.js" crossorigin\\r\\n        defer><\\/script>\\r\\n    <div class="footer bili-footer report-wrap-module"></div>\\r\\n    <script type="text/javascript" charset="utf-8" src="//static.hdslb.com/common/js/footer.js"><\\/script>\\r\\n</body>\\r\\n\\r\\n</html>';
 
   // src/page/channel/tv.ts
-  var PageTv = class extends Page {
+  var PageTv = class extends PageLegacyChannel {
     constructor() {
       super(tv_default);
       Header.prid = 1616;
@@ -42502,7 +42574,7 @@ const MODULES = `
   var documentary_default = '<!DOCTYPE html>\\r\\n<html lang="zh-Hans">\\r\\n\\r\\n<head>\\r\\n    <meta charset="utf-8">\\r\\n    <title>电影 - 哔哩哔哩 (゜-゜)つロ 干杯~-bilibili</title>\\r\\n    <meta name="description" content="bilibili是国内知名的视频弹幕网站，这里有最及时的动漫新番，最棒的ACG氛围，最有创意的Up主。大家可以在这里找到许多欢乐。">\\r\\n    <meta name="keywords" content="B站,弹幕,字幕,AMV,MAD,MTV,ANIME,动漫,动漫音乐,游戏,游戏解说,ACG,galgame,动画,番组,新番,初音,洛天依,vocaloid">\\r\\n    <meta name="renderer" content="webkit">\\r\\n    <meta http-equiv="X-UA-Compatible" content="IE=edge">\\r\\n    <meta name="baidu-site-verification" content="gbRdPloQBZ">\\r\\n    <link rel="dns-prefetch" href="//s1.hdslb.com">\\r\\n    <link rel="dns-prefetch" href="//s2.hdslb.com">\\r\\n    <link rel="dns-prefetch" href="//s3.hdslb.com">\\r\\n    <link rel="dns-prefetch" href="//i0.hdslb.com">\\r\\n    <link rel="dns-prefetch" href="//i1.hdslb.com">\\r\\n    <link rel="dns-prefetch" href="//i2.hdslb.com">\\r\\n    <link rel="dns-prefetch" href="//static.hdslb.com">\\r\\n    <link rel="shortcut icon" href="//static.hdslb.com/images/favicon.ico">\\r\\n    <link rel="search" type="application/opensearchdescription+xml" href="//static.hdslb.com/opensearch.xml"\\r\\n        title="哔哩哔哩">\\r\\n    <link rel="stylesheet"\\r\\n        href="//s1.hdslb.com/bfs/static/cinema/documentary/css/cinema-documentary.0.dae7f35e3e7f34cdb2cc931ef41eaf978b15becf.css">\\r\\n    <style>\\r\\n        .pgc-rank-list .rank-item.highlight .ri-num {\\r\\n            background: #f25d8e;\\r\\n        }\\r\\n\\r\\n        .pgc-rank-list.v2 .rank-item.highlight .ri-num {\\r\\n            background: #f25d8e;\\r\\n        }\\r\\n    </style>\\r\\n</head>\\r\\n\\r\\n<body>\\r\\n    <div class="z-top-container has-menu"></div>\\r\\n    <div id="client-app"></div>\\r\\n    <div id="app" data-server-rendered="true" class="cinema-home-wrapper"></div>\\r\\n    <script>window.__INITIAL_STATE__ = { "ver": {}, "carouselList": [], "hotRecomSpec": [], "hotRecomList": [], "showBv": false }; (function () { var s; (s = document.currentScript || document.scripts[document.scripts.length - 1]).parentNode.removeChild(s); }());<\\/script>\\r\\n    <script type="text/javascript" src="//static.hdslb.com/js/jquery.min.js"><\\/script>\\r\\n    <script type="text/javascript" src="//s1.hdslb.com/bfs/seed/jinkela/header/header.js"><\\/script>\\r\\n    <script type="text/javascript" src="//s2.hdslb.com/bfs/cm/st/bundle.js"><\\/script>\\r\\n    <script type="text/javascript" src="//static.hdslb.com/js/promise.auto.min.js"><\\/script>\\r\\n    <script type="text/javascript"\\r\\n        src="//www.bilibili.com/gentleman/polyfill.js?features=Promise%2CObject.assign%2CString.prototype.includes%2CNumber.isNaN"><\\/script>\\r\\n    <script type="text/javascript" src="//s1.hdslb.com/bfs/static/ogv/fe/iris.min.js"><\\/script>\\r\\n    <script\\r\\n        src="//s1.hdslb.com/bfs/static/cinema/documentary/1.cinema-documentary.dae7f35e3e7f34cdb2cc931ef41eaf978b15becf.js"\\r\\n        crossorigin defer><\\/script>\\r\\n    <script\\r\\n        src="//s1.hdslb.com/bfs/static/cinema/documentary/cinema-documentary.dae7f35e3e7f34cdb2cc931ef41eaf978b15becf.js"\\r\\n        crossorigin defer><\\/script>\\r\\n    <div class="footer bili-footer report-wrap-module"></div>\\r\\n    <script type="text/javascript" charset="utf-8" src="//static.hdslb.com/common/js/footer.js"><\\/script>\\r\\n</body>\\r\\n\\r\\n</html>';
 
   // src/page/channel/documentary.ts
-  var PageDocumentary = class extends Page {
+  var PageDocumentary = class extends PageLegacyChannel {
     constructor() {
       super(documentary_default);
       Header.prid = 1634;

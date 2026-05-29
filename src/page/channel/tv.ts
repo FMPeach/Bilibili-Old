@@ -1,9 +1,9 @@
 import { toast } from "../../core/toast";
 import htmlTv from "../../html/tv.html";
 import { Header } from "../header";
-import { Page } from "../page";
+import { PageLegacyChannel } from "./legacy-channel";
 
-export class PageTv extends Page {
+export class PageTv extends PageLegacyChannel {
     constructor() {
         super(htmlTv);
         Header.prid = 1616;
