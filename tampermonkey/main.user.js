@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bilibili 旧播放页
 // @namespace    MotooriKashin
-// @version      10.12.7-c3dd748427ccbbefce8d3423714030e5ad97afd7
+// @version      10.12.8-c3dd748427ccbbefce8d3423714030e5ad97afd7
 // @description  恢复Bilibili旧版页面，为了那些念旧的人。
 // @author       MotooriKashin, wly5556, FMPeach
 // @homepage     https://github.com/FMPeach/Bilibili-Old
@@ -164,9 +164,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/crypt/crypt.js
+  // node_modules/crypt/crypt.js
   var require_crypt = __commonJS({
-    "../node_modules/crypt/crypt.js"(exports2, module2) {
+    "node_modules/crypt/crypt.js"(exports2, module2) {
       init_tampermonkey();
       (function() {
         var base64map = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", crypt = {
@@ -246,9 +246,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/charenc/charenc.js
+  // node_modules/charenc/charenc.js
   var require_charenc = __commonJS({
-    "../node_modules/charenc/charenc.js"(exports2, module2) {
+    "node_modules/charenc/charenc.js"(exports2, module2) {
       init_tampermonkey();
       var charenc = {
         // UTF-8 encoding
@@ -282,9 +282,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/is-buffer/index.js
+  // node_modules/is-buffer/index.js
   var require_is_buffer = __commonJS({
-    "../node_modules/is-buffer/index.js"(exports2, module2) {
+    "node_modules/is-buffer/index.js"(exports2, module2) {
       init_tampermonkey();
       module2.exports = function(obj) {
         return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer);
@@ -298,9 +298,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/md5/md5.js
+  // node_modules/md5/md5.js
   var require_md5 = __commonJS({
-    "../node_modules/md5/md5.js"(exports2, module2) {
+    "node_modules/md5/md5.js"(exports2, module2) {
       init_tampermonkey();
       (function() {
         var crypt = require_crypt(), utf8 = require_charenc().utf8, isBuffer = require_is_buffer(), bin = require_charenc().bin, md54 = function(message, options) {
@@ -421,9 +421,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/@protobufjs/aspromise/index.js
+  // node_modules/@protobufjs/aspromise/index.js
   var require_aspromise = __commonJS({
-    "../node_modules/@protobufjs/aspromise/index.js"(exports2, module2) {
+    "node_modules/@protobufjs/aspromise/index.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = asPromise;
@@ -458,9 +458,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/@protobufjs/base64/index.js
+  // node_modules/@protobufjs/base64/index.js
   var require_base64 = __commonJS({
-    "../node_modules/@protobufjs/base64/index.js"(exports2) {
+    "node_modules/@protobufjs/base64/index.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var base642 = exports2;
@@ -559,9 +559,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/@protobufjs/eventemitter/index.js
+  // node_modules/@protobufjs/eventemitter/index.js
   var require_eventemitter = __commonJS({
-    "../node_modules/@protobufjs/eventemitter/index.js"(exports2, module2) {
+    "node_modules/@protobufjs/eventemitter/index.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = EventEmitter;
@@ -606,9 +606,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/@protobufjs/float/index.js
+  // node_modules/@protobufjs/float/index.js
   var require_float = __commonJS({
-    "../node_modules/@protobufjs/float/index.js"(exports2, module2) {
+    "node_modules/@protobufjs/float/index.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = factory(factory);
@@ -801,9 +801,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/@protobufjs/inquire/index.js
+  // node_modules/@protobufjs/inquire/index.js
   var require_inquire = __commonJS({
-    "../node_modules/@protobufjs/inquire/index.js"(exports, module) {
+    "node_modules/@protobufjs/inquire/index.js"(exports, module) {
       "use strict";
       init_tampermonkey();
       module.exports = inquire;
@@ -819,9 +819,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/@protobufjs/utf8/index.js
+  // node_modules/@protobufjs/utf8/index.js
   var require_utf8 = __commonJS({
-    "../node_modules/@protobufjs/utf8/index.js"(exports2) {
+    "node_modules/@protobufjs/utf8/index.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var utf8 = exports2;
@@ -897,9 +897,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/@protobufjs/pool/index.js
+  // node_modules/@protobufjs/pool/index.js
   var require_pool = __commonJS({
-    "../node_modules/@protobufjs/pool/index.js"(exports2, module2) {
+    "node_modules/@protobufjs/pool/index.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = pool;
@@ -924,9 +924,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/util/longbits.js
+  // node_modules/protobufjs/src/util/longbits.js
   var require_longbits = __commonJS({
-    "../node_modules/protobufjs/src/util/longbits.js"(exports2, module2) {
+    "node_modules/protobufjs/src/util/longbits.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = LongBits;
@@ -1027,9 +1027,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/util/minimal.js
+  // node_modules/protobufjs/src/util/minimal.js
   var require_minimal = __commonJS({
-    "../node_modules/protobufjs/src/util/minimal.js"(exports2) {
+    "node_modules/protobufjs/src/util/minimal.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var util = exports2;
@@ -1203,9 +1203,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/writer.js
+  // node_modules/protobufjs/src/writer.js
   var require_writer = __commonJS({
-    "../node_modules/protobufjs/src/writer.js"(exports2, module2) {
+    "node_modules/protobufjs/src/writer.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Writer2;
@@ -1395,9 +1395,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/writer_buffer.js
+  // node_modules/protobufjs/src/writer_buffer.js
   var require_writer_buffer = __commonJS({
-    "../node_modules/protobufjs/src/writer_buffer.js"(exports2, module2) {
+    "node_modules/protobufjs/src/writer_buffer.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = BufferWriter;
@@ -1446,9 +1446,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/reader.js
+  // node_modules/protobufjs/src/reader.js
   var require_reader = __commonJS({
-    "../node_modules/protobufjs/src/reader.js"(exports2, module2) {
+    "node_modules/protobufjs/src/reader.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Reader2;
@@ -1671,9 +1671,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/reader_buffer.js
+  // node_modules/protobufjs/src/reader_buffer.js
   var require_reader_buffer = __commonJS({
-    "../node_modules/protobufjs/src/reader_buffer.js"(exports2, module2) {
+    "node_modules/protobufjs/src/reader_buffer.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = BufferReader;
@@ -1695,9 +1695,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/rpc/service.js
+  // node_modules/protobufjs/src/rpc/service.js
   var require_service = __commonJS({
-    "../node_modules/protobufjs/src/rpc/service.js"(exports2, module2) {
+    "node_modules/protobufjs/src/rpc/service.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Service;
@@ -1771,9 +1771,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/rpc.js
+  // node_modules/protobufjs/src/rpc.js
   var require_rpc = __commonJS({
-    "../node_modules/protobufjs/src/rpc.js"(exports2) {
+    "node_modules/protobufjs/src/rpc.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var rpc = exports2;
@@ -1781,18 +1781,18 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/roots.js
+  // node_modules/protobufjs/src/roots.js
   var require_roots = __commonJS({
-    "../node_modules/protobufjs/src/roots.js"(exports2, module2) {
+    "node_modules/protobufjs/src/roots.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = {};
     }
   });
 
-  // ../node_modules/protobufjs/src/index-minimal.js
+  // node_modules/protobufjs/src/index-minimal.js
   var require_index_minimal = __commonJS({
-    "../node_modules/protobufjs/src/index-minimal.js"(exports2) {
+    "node_modules/protobufjs/src/index-minimal.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var protobuf = exports2;
@@ -1814,9 +1814,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/@protobufjs/codegen/index.js
+  // node_modules/@protobufjs/codegen/index.js
   var require_codegen = __commonJS({
-    "../node_modules/@protobufjs/codegen/index.js"(exports2, module2) {
+    "node_modules/@protobufjs/codegen/index.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = codegen;
@@ -1877,9 +1877,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/@protobufjs/fetch/index.js
+  // node_modules/@protobufjs/fetch/index.js
   var require_fetch = __commonJS({
-    "../node_modules/@protobufjs/fetch/index.js"(exports2, module2) {
+    "node_modules/@protobufjs/fetch/index.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = fetch2;
@@ -1929,9 +1929,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/@protobufjs/path/index.js
+  // node_modules/@protobufjs/path/index.js
   var require_path = __commonJS({
-    "../node_modules/@protobufjs/path/index.js"(exports2) {
+    "node_modules/@protobufjs/path/index.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var path = exports2;
@@ -1984,9 +1984,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/namespace.js
+  // node_modules/protobufjs/src/namespace.js
   var require_namespace = __commonJS({
-    "../node_modules/protobufjs/src/namespace.js"(exports2, module2) {
+    "node_modules/protobufjs/src/namespace.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Namespace;
@@ -2256,9 +2256,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/mapfield.js
+  // node_modules/protobufjs/src/mapfield.js
   var require_mapfield = __commonJS({
-    "../node_modules/protobufjs/src/mapfield.js"(exports2, module2) {
+    "node_modules/protobufjs/src/mapfield.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = MapField;
@@ -2313,9 +2313,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/method.js
+  // node_modules/protobufjs/src/method.js
   var require_method = __commonJS({
-    "../node_modules/protobufjs/src/method.js"(exports2, module2) {
+    "node_modules/protobufjs/src/method.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Method;
@@ -2382,9 +2382,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/service.js
+  // node_modules/protobufjs/src/service.js
   var require_service2 = __commonJS({
-    "../node_modules/protobufjs/src/service.js"(exports2, module2) {
+    "node_modules/protobufjs/src/service.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Service;
@@ -2493,21 +2493,17 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/message.js
+  // node_modules/protobufjs/src/message.js
   var require_message = __commonJS({
-    "../node_modules/protobufjs/src/message.js"(exports2, module2) {
+    "node_modules/protobufjs/src/message.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Message2;
       var util = require_minimal();
       function Message2(properties) {
         if (properties)
-          for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i) {
-            var key = keys[i];
-            if (key === "__proto__")
-              continue;
-            this[key] = properties[key];
-          }
+          for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+            this[keys[i]] = properties[keys[i]];
       }
       Message2.create = function create(properties) {
         return this.\$type.create(properties);
@@ -2539,9 +2535,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/decoder.js
+  // node_modules/protobufjs/src/decoder.js
   var require_decoder = __commonJS({
-    "../node_modules/protobufjs/src/decoder.js"(exports2, module2) {
+    "node_modules/protobufjs/src/decoder.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = decoder;
@@ -2591,9 +2587,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/verifier.js
+  // node_modules/protobufjs/src/verifier.js
   var require_verifier = __commonJS({
-    "../node_modules/protobufjs/src/verifier.js"(exports2, module2) {
+    "node_modules/protobufjs/src/verifier.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = verifier;
@@ -2697,9 +2693,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/converter.js
+  // node_modules/protobufjs/src/converter.js
   var require_converter = __commonJS({
-    "../node_modules/protobufjs/src/converter.js"(exports2) {
+    "node_modules/protobufjs/src/converter.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var converter = exports2;
@@ -2902,9 +2898,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/wrappers.js
+  // node_modules/protobufjs/src/wrappers.js
   var require_wrappers = __commonJS({
-    "../node_modules/protobufjs/src/wrappers.js"(exports2) {
+    "node_modules/protobufjs/src/wrappers.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var wrappers = exports2;
@@ -2954,9 +2950,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/type.js
+  // node_modules/protobufjs/src/type.js
   var require_type = __commonJS({
-    "../node_modules/protobufjs/src/type.js"(exports2, module2) {
+    "node_modules/protobufjs/src/type.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Type3;
@@ -2977,7 +2973,6 @@ const MODULES = `
       var converter = require_converter();
       var wrappers = require_wrappers();
       function Type3(name, options) {
-        name = name.replace(/\\W/g, "");
         Namespace.call(this, name, options);
         this.fields = {};
         this.oneofs = void 0;
@@ -3292,9 +3287,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/root.js
+  // node_modules/protobufjs/src/root.js
   var require_root = __commonJS({
-    "../node_modules/protobufjs/src/root.js"(exports2, module2) {
+    "node_modules/protobufjs/src/root.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Root4;
@@ -3542,9 +3537,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/util.js
+  // node_modules/protobufjs/src/util.js
   var require_util = __commonJS({
-    "../node_modules/protobufjs/src/util.js"(exports2, module2) {
+    "node_modules/protobufjs/src/util.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       var util = module2.exports = require_minimal();
@@ -3657,9 +3652,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/types.js
+  // node_modules/protobufjs/src/types.js
   var require_types = __commonJS({
-    "../node_modules/protobufjs/src/types.js"(exports2) {
+    "node_modules/protobufjs/src/types.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var types = exports2;
@@ -3837,9 +3832,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/field.js
+  // node_modules/protobufjs/src/field.js
   var require_field = __commonJS({
-    "../node_modules/protobufjs/src/field.js"(exports2, module2) {
+    "node_modules/protobufjs/src/field.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Field2;
@@ -4035,9 +4030,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/oneof.js
+  // node_modules/protobufjs/src/oneof.js
   var require_oneof = __commonJS({
-    "../node_modules/protobufjs/src/oneof.js"(exports2, module2) {
+    "node_modules/protobufjs/src/oneof.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = OneOf2;
@@ -4144,9 +4139,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/object.js
+  // node_modules/protobufjs/src/object.js
   var require_object = __commonJS({
-    "../node_modules/protobufjs/src/object.js"(exports2, module2) {
+    "node_modules/protobufjs/src/object.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = ReflectionObject2;
@@ -4347,9 +4342,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/enum.js
+  // node_modules/protobufjs/src/enum.js
   var require_enum = __commonJS({
-    "../node_modules/protobufjs/src/enum.js"(exports2, module2) {
+    "node_modules/protobufjs/src/enum.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Enum;
@@ -4457,9 +4452,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/encoder.js
+  // node_modules/protobufjs/src/encoder.js
   var require_encoder = __commonJS({
-    "../node_modules/protobufjs/src/encoder.js"(exports2, module2) {
+    "node_modules/protobufjs/src/encoder.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = encoder;
@@ -4507,9 +4502,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/src/index-light.js
+  // node_modules/protobufjs/src/index-light.js
   var require_index_light = __commonJS({
-    "../node_modules/protobufjs/src/index-light.js"(exports2, module2) {
+    "node_modules/protobufjs/src/index-light.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       var protobuf = module2.exports = require_index_minimal();
@@ -4554,18 +4549,18 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/protobufjs/light.js
+  // node_modules/protobufjs/light.js
   var require_light = __commonJS({
-    "../node_modules/protobufjs/light.js"(exports2, module2) {
+    "node_modules/protobufjs/light.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = require_index_light();
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/value-types.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/value-types.js
   var require_value_types = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/value-types.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/value-types.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -4618,9 +4613,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/InsertData.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/InsertData.js
   var require_InsertData = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/InsertData.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/InsertData.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -4643,9 +4638,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/lodash.isequal/index.js
+  // node_modules/lodash.isequal/index.js
   var require_lodash = __commonJS({
-    "../node_modules/lodash.isequal/index.js"(exports2, module2) {
+    "node_modules/lodash.isequal/index.js"(exports2, module2) {
       init_tampermonkey();
       var LARGE_ARRAY_SIZE = 200;
       var HASH_UNDEFINED = "__lodash_hash_undefined__";
@@ -5345,9 +5340,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/DeltaInsertOp.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/DeltaInsertOp.js
   var require_DeltaInsertOp = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/DeltaInsertOp.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/DeltaInsertOp.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var __importDefault = exports2 && exports2.__importDefault || function(mod2) {
@@ -5468,9 +5463,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/mentions/MentionSanitizer.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/mentions/MentionSanitizer.js
   var require_MentionSanitizer = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/mentions/MentionSanitizer.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/mentions/MentionSanitizer.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -5518,9 +5513,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/url.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/url.js
   var require_url = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/url.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/url.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -5537,9 +5532,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/funcs-html.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/funcs-html.js
   var require_funcs_html = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/funcs-html.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/funcs-html.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -5628,9 +5623,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/array.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/array.js
   var require_array = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/array.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/array.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -5703,9 +5698,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/OpAttributeSanitizer.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/OpAttributeSanitizer.js
   var require_OpAttributeSanitizer = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/OpAttributeSanitizer.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/OpAttributeSanitizer.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var __importStar = exports2 && exports2.__importStar || function(mod2) {
@@ -5879,9 +5874,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/string.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/string.js
   var require_string = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/string.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/string.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -5912,9 +5907,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/object.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/object.js
   var require_object2 = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/object.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/object.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -5943,9 +5938,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpDenormalizer.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpDenormalizer.js
   var require_InsertOpDenormalizer = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpDenormalizer.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpDenormalizer.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var __importStar = exports2 && exports2.__importStar || function(mod2) {
@@ -5991,9 +5986,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpsConverter.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpsConverter.js
   var require_InsertOpsConverter = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpsConverter.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpsConverter.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -6045,9 +6040,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/OpToHtmlConverter.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/OpToHtmlConverter.js
   var require_OpToHtmlConverter = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/OpToHtmlConverter.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/OpToHtmlConverter.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var __importStar = exports2 && exports2.__importStar || function(mod2) {
@@ -6362,9 +6357,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/group-types.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/group-types.js
   var require_group_types = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/group-types.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/group-types.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var __extends = exports2 && exports2.__extends || (function() {
@@ -6461,9 +6456,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/Grouper.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/Grouper.js
   var require_Grouper = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/Grouper.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/Grouper.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -6555,9 +6550,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/ListNester.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/ListNester.js
   var require_ListNester = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/ListNester.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/ListNester.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -6657,9 +6652,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/TableGrouper.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/TableGrouper.js
   var require_TableGrouper = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/TableGrouper.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/TableGrouper.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -6703,9 +6698,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/QuillDeltaToHtmlConverter.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/QuillDeltaToHtmlConverter.js
   var require_QuillDeltaToHtmlConverter = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/QuillDeltaToHtmlConverter.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/QuillDeltaToHtmlConverter.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var __importStar = exports2 && exports2.__importStar || function(mod2) {
@@ -6942,9 +6937,9 @@ const MODULES = `
     }
   });
 
-  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/main.js
+  // node_modules/quill-delta-to-html-cb/dist/commonjs/main.js
   var require_main = __commonJS({
-    "../node_modules/quill-delta-to-html-cb/dist/commonjs/main.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/main.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -7891,8 +7886,6 @@ const MODULES = `
       this.cid = cid;
       _ApiDmWeb.Root || _ApiDmWeb.RootInit();
     }
-    aid;
-    cid;
     static Root;
     static DmWebViewReply;
     static DmSegMobileReply;
@@ -8425,7 +8418,6 @@ const MODULES = `
         id: aid
       }));
     }
-    aid;
     fetch;
     async getDate() {
       const respense = await this.fetch;
@@ -9428,7 +9420,6 @@ const MODULES = `
       this.target = target;
       target.addEventListener("click", (e) => e.stopPropagation());
     }
-    target;
     /** 已启用监听 */
     enabled = false;
     /** 移除节点 */
@@ -9977,8 +9968,6 @@ const MODULES = `
       this.url = url;
       this.appkey = appkey;
     }
-    url;
-    appkey;
     get ts() {
       return (/* @__PURE__ */ new Date()).getTime();
     }
@@ -10339,7 +10328,6 @@ const MODULES = `
         fnval
       }, data, pgc ? { module: "bangumi", season_type: 1 } : {});
     }
-    data;
     async getData() {
       const response = await fetch(this.sign().toJSON(), { credentials: "include" });
       return await response.json();
@@ -10364,8 +10352,6 @@ const MODULES = `
         otype: "json"
       }, data, dash ? { fnval, fnver } : {});
     }
-    data;
-    pgc;
     async getData() {
       const response = await GM.fetch(this.sign().toJSON());
       const json = await response.json();
@@ -10391,7 +10377,6 @@ const MODULES = `
         build: 102801
       }, data, dash ? { fnval, fnver } : {});
     }
-    data;
     async getData() {
       const response = await fetch(this.sign().toJSON());
       const json = await response.json();
@@ -10415,7 +10400,6 @@ const MODULES = `
       }, data);
       pgc && (this.data.module = "bangumi");
     }
-    data;
     async getData() {
       const response = await fetch(this.sign().toJSON());
       return await response.json();
@@ -12003,7 +11987,7 @@ const MODULES = `
     }
   };
 
-  // ../node_modules/fflate/esm/browser.js
+  // node_modules/fflate/esm/browser.js
   init_tampermonkey();
   var u8 = Uint8Array;
   var u16 = Uint16Array;
@@ -12760,7 +12744,6 @@ const MODULES = `
       _BAPIMetadata.Root || _BAPIMetadata.RootInit();
       accessKey && (this.metadata.accessKey = accessKey);
     }
-    accessKey;
     /** 命名空间 */
     static Root;
     /** Type<Metadata> */
@@ -12855,7 +12838,6 @@ const MODULES = `
       this.accessKey = accessKey;
       _BAPIAppPlayurlV1.Root || (_BAPIAppPlayurlV1.Root = import_light3.Root.fromJSON(playurl_default));
     }
-    accessKey;
     /** 命名空间 */
     static Root;
     package = "bilibili.app.playurl.v1";
@@ -12930,14 +12912,6 @@ const MODULES = `
       this.split = split;
       this.size = size;
     }
-    userAgent;
-    referer;
-    dir;
-    server;
-    port;
-    token;
-    split;
-    size;
     get url() {
       return \`\${this.server}:\${this.port}/jsonrpc\`;
     }
@@ -13002,9 +12976,6 @@ const MODULES = `
       this.referer = referer;
       this.dir = dir;
     }
-    userAgent;
-    referer;
-    dir;
     /** 命令行 */
     cmdlet(data) {
       const arr2 = ["curl", "-C", "-", \`"\${data.url}"\`];
@@ -13027,11 +12998,6 @@ const MODULES = `
       this.delay = delay;
       this.silence = silence;
     }
-    userAgent;
-    referer;
-    dir;
-    delay;
-    silence;
     /** 拉起IDM */
     sendLinkToIDM(data) {
       this.rebuildData(data);
@@ -13221,7 +13187,6 @@ const MODULES = `
     constructor(fileName) {
       this.fileName = fileName;
     }
-    fileName;
     /** 数据 */
     record = [];
     /** id => 质量 */
@@ -13562,10 +13527,6 @@ const MODULES = `
       side && ele.insertAdjacentElement("afterend", _Scrollbar.style.cloneNode(true));
       this.flesh();
     }
-    ele;
-    x;
-    y;
-    side;
     static mutex = getMetux();
     static prefix = "scrollbar-" + _Scrollbar.mutex;
     static style;
@@ -13786,8 +13747,6 @@ const MODULES = `
       this.url = url;
       this.size = size;
     }
-    url;
-    size;
     /** range索引结束点 */
     end = 5999;
     /** range索引开始点 */
@@ -13848,7 +13807,6 @@ const MODULES = `
         platform: "android"
       }, data);
     }
-    data;
     response;
     async getDate() {
       if (this.response) return this.response;
@@ -26276,9 +26234,6 @@ const MODULES = `
       this.hash = hash;
       this.protocol = protocol;
     }
-    host;
-    hash;
-    protocol;
     /**
      * 获取cdn链接
      * @param path 文件相对路径
@@ -30168,7 +30123,6 @@ const MODULES = `
               super();
               this.arg = arg;
             }
-            arg;
             \$parent;
             mount(parent) {
               if (load) {
@@ -38019,7 +37973,6 @@ const MODULES = `
         s_locale: "zh_SG"
       }, data);
     }
-    data;
     async getDate() {
       const response = await fetch(this.sign().toJSON());
       const json = await response.json();
@@ -38043,9 +37996,6 @@ const MODULES = `
       this.cid = cid;
       this.has_next = has_next;
     }
-    aid;
-    cid;
-    has_next;
     allow_bp = false;
     answer_status = 0;
     bgm_info;
@@ -39702,7 +39652,7 @@ const MODULES = `
       if (vue) {
         vue.\$store.state.aid = state.aid;
         apiViewDetail(state.aid).then((d) => {
-          var _a4, _b2, _c, _d;
+          var _a4, _b2, _c, _d, _e;
           vue.setVideoData(d.View);
           (_b2 = (_a4 = document.querySelector("#recommend_report")) == null ? void 0 : _a4.__vue__) == null ? void 0 : _b2.init(d.Related);
           try {
@@ -39719,6 +39669,9 @@ const MODULES = `
             }
             vue.\$store.commit("setUpData", { ...d.Card.card, archiveCount: d.Card.archive_count });
             vue.getElecState();
+            if (this._isStaffMode) {
+              this._switchToSingleUp((_e = d.Card) == null ? void 0 : _e.card);
+            }
             vue.\$nextTick(() => vue.\$forceUpdate());
           }
         }).catch((e) => {
@@ -39738,6 +39691,7 @@ const MODULES = `
     _switchToSingleUp(up) {
       const upinfo = document.querySelector("#v_upinfo");
       const staffContainer = document.querySelector("#v_upinfo_staff");
+      this._isStaffMode = false;
       if (staffContainer) {
         staffContainer.style.display = "none";
       }
@@ -40724,7 +40678,6 @@ const MODULES = `
       this.api = api;
       this.api = encodeURIComponent(api);
     }
-    api;
     async getData() {
       const response = await fetch(this.sign({ api: this.api }, this.api).toJSON(), { credentials: "include" });
       const json = await response.json();
@@ -42393,8 +42346,6 @@ const MODULES = `
       comment && new Comment();
       typeof this.path === "string" && this.init();
     }
-    path;
-    url;
     toast = toast.list();
     init() {
       this.toast.push("页面重构 >>>", "> " + this.url, "> 已失效~", "> 请求远程备份~");
@@ -42668,7 +42619,7 @@ const MODULES = `
   init_tampermonkey();
 
   // src/html/online.html
-  var online_default = '<!DOCTYPE html>\\n<html>\\n<head>\\n  <title>当前在线 - 哔哩哔哩 (゜-゜)つロ 干杯~-bilibili</title>\\n  <meta charset="utf-8">\\n  <meta http-equiv="X-UA-Compatible" content="IE=edge">\\n  <meta name="renderer" content="webkit">\\n  <meta name="description" content="bilibili是国内知名的视频弹幕网站，这里有最及时的动漫新番，最棒的ACG氛围，最有创意的Up主。大家可以在这里找到许多欢乐。">\\n  <meta name="keywords" content="B站,弹幕,字幕,AMV,MAD,MTV,ANIME,动漫,动漫音乐,游戏,游戏解说,ACG,galgame,动画,番组,新番,初音,洛天依,vocaloid">\\n  <meta name="spm_prefix" content="333.155">\\n  <script type="text/javascript">\\n    window.spmReportData = {};\\n    window.reportConfig = { sample: 1, scrollTracker: true, msgObjects: "spmReportData", errorTracker: true };\\n  <\\/script>\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/jinkela/short/config/biliconfig.js"><\\/script>\\n  <script type="text/javascript">window.isForceNarrow = true;<\\/script>\\n  <link href="https://s1.hdslb.com/bfs/static/jinkela/online/css/online.0.a1513c351b5a8523705a0ee1793b4f1bcd064865.css" rel="stylesheet">\\n</head>\\n<body>\\n  <div id="biliMainHeader" type="all" style="height:263px"></div>\\n  <div id="online-app"></div>\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/static/jinkela/long/js/jquery/jquery1.7.2.min.js"><\\/script>\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/log/report/log-reporter.js" crossorigin><\\/script>\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/jinkela/header-v2/header.js" defer><\\/script>\\n  <div class="footer bili-footer report-wrap-module"></div>\\n  <script type="text/javascript" charset="utf-8" src="https://s1.hdslb.com/bfs/seed/jinkela/footer-v2/footer.js"><\\/script>\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/jinkela/short/auto-append-spmid.js"><\\/script>\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/static/jinkela/online/1.online.a1513c351b5a8523705a0ee1793b4f1bcd064865.js"><\\/script>\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/static/jinkela/online/online.a1513c351b5a8523705a0ee1793b4f1bcd064865.js"><\\/script>\\n\\n</body>\\n</html>\\n';
+  var online_default = '<!DOCTYPE html>\\r\\n<html>\\r\\n<head>\\r\\n  <title>当前在线 - 哔哩哔哩 (゜-゜)つロ 干杯~-bilibili</title>\\r\\n  <meta charset="utf-8">\\r\\n  <meta http-equiv="X-UA-Compatible" content="IE=edge">\\r\\n  <meta name="renderer" content="webkit">\\r\\n  <meta name="description" content="bilibili是国内知名的视频弹幕网站，这里有最及时的动漫新番，最棒的ACG氛围，最有创意的Up主。大家可以在这里找到许多欢乐。">\\r\\n  <meta name="keywords" content="B站,弹幕,字幕,AMV,MAD,MTV,ANIME,动漫,动漫音乐,游戏,游戏解说,ACG,galgame,动画,番组,新番,初音,洛天依,vocaloid">\\r\\n  <meta name="spm_prefix" content="333.155">\\r\\n  <script type="text/javascript">\\r\\n    window.spmReportData = {};\\r\\n    window.reportConfig = { sample: 1, scrollTracker: true, msgObjects: "spmReportData", errorTracker: true };\\r\\n  <\\/script>\\r\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/jinkela/short/config/biliconfig.js"><\\/script>\\r\\n  <script type="text/javascript">window.isForceNarrow = true;<\\/script>\\r\\n  <link href="https://s1.hdslb.com/bfs/static/jinkela/online/css/online.0.a1513c351b5a8523705a0ee1793b4f1bcd064865.css" rel="stylesheet">\\r\\n</head>\\r\\n<body>\\r\\n  <div id="biliMainHeader" type="all" style="height:263px"></div>\\r\\n  <div id="online-app"></div>\\r\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/static/jinkela/long/js/jquery/jquery1.7.2.min.js"><\\/script>\\r\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/log/report/log-reporter.js" crossorigin><\\/script>\\r\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/jinkela/header-v2/header.js" defer><\\/script>\\r\\n  <div class="footer bili-footer report-wrap-module"></div>\\r\\n  <script type="text/javascript" charset="utf-8" src="https://s1.hdslb.com/bfs/seed/jinkela/footer-v2/footer.js"><\\/script>\\r\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/jinkela/short/auto-append-spmid.js"><\\/script>\\r\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/static/jinkela/online/1.online.a1513c351b5a8523705a0ee1793b4f1bcd064865.js"><\\/script>\\r\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/static/jinkela/online/online.a1513c351b5a8523705a0ee1793b4f1bcd064865.js"><\\/script>\\r\\n\\r\\n</body>\\r\\n</html>\\r\\n';
 
   // src/page/online.ts
   var PageOnline = class extends Page {
