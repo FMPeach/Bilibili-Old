@@ -525,6 +525,10 @@ export class PageList extends Page {
                         vue.$store.commit('setUpData', { ...d.Card.card, archiveCount: d.Card.archive_count });
                         // 刷新充电按钮状态（异步，等回调完成后再强制更新UI）
                         vue.getElecState();
+                        // 合作UP切单UP
+                        if (this._isStaffMode) {
+                            this._switchToSingleUp(d.Card?.card);
+                        }
                         vue.$nextTick(() => vue.$forceUpdate());
                     }
                 })
@@ -550,6 +554,8 @@ export class PageList extends Page {
     protected _switchToSingleUp(up: any) {
         const upinfo = document.querySelector<HTMLDivElement>('#v_upinfo');
         const staffContainer = document.querySelector<HTMLElement>('#v_upinfo_staff');
+
+        this._isStaffMode = false;
 
         if (staffContainer) {
             staffContainer.style.display = 'none';
