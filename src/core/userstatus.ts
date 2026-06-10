@@ -8,7 +8,7 @@ export const userStatus = {
     /** 主页 */
     index: true,
     /** 个人空间 */
-    space: true,
+    space: false,
     /** toastr */
     toast: Toastconfig,
     /** 替换全局顶栏 */
