@@ -195,6 +195,7 @@ export class UI {
             this.switch('watchlater', '稍后再看', '恢复旧版稍后再看'),
             this.switch('playlist', '播单', '恢复旧版播单页'),
             this.switch('index', '主页', '恢复旧版Bilibili主页'),
+            this.switch('space', '个人空间', '恢复旧版个人空间页', undefined, undefined, '个人空间已被B站改为全新版式且移除了旧版入口。本功能屏蔽新版脚本并加载B站CDN上仍存活的旧版空间资源，还原旧版个人空间外观与功能。'),
             this.switch('player', '播放器', '替换其他未重写页面的播放器'),
             this.switch('read', '专栏', '恢复旧版专栏'),
             this.switch('ranking', '排行榜', '恢复旧版全站排行榜页'),

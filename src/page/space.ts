@@ -1,21 +1,74 @@
 import { BLOD } from "../core/bilibili-old";
 import { toast } from "../core/toast";
 import { user } from "../core/user";
+import type { userStatus } from "../core/userstatus";
+import htmlSpace from "../html/space.html";
 import { accountGetCardByMid } from "../io/account-getcardbymid";
 import { jsonCheck } from "../io/api";
 import json from '../json/mid.json';
 import { debug } from "../utils/debug";
+import { loadScript } from "../utils/element";
 import { timeFormat } from "../utils/format/time";
 import { FetchHook } from "../utils/hook/fetch";
 import { xhrHook } from "../utils/hook/xhr";
 import { poll } from "../utils/poll";
 import { VdomTool } from "../utils/vdomtool";
+import { Page } from "./page";
 
 const Mid = {
     11783021: '哔哩哔哩番剧出差',
     1988098633: 'b站_戲劇咖',
     2042149112: 'b站_綜藝咖'
 }
+
+const SPACE_HASH = 'd525618dfa1c1daa27addac6609189fa610fec82';
+const SPACE_CDN = '//s1.hdslb.com/bfs/static/jinkela/space/';
+const SPACE_ENTRY_CHUNK = `${SPACE_CDN}9.space.${SPACE_HASH}.js`;
+const SPACE_MAIN = `${SPACE_CDN}space.${SPACE_HASH}.js`;
+const LEGACY_SPACE_SCRIPTS = {
+    jquery: '//s1.hdslb.com/bfs/static/jinkela/long/js/jquery/jquery1.7.2.min.js',
+    config: '//s1.hdslb.com/bfs/seed/jinkela/short/config/biliconfig.js',
+    header: '//s1.hdslb.com/bfs/seed/jinkela/header/header.js',
+    footer: '//static.hdslb.com/common/js/footer.js',
+};
+
+const LEGACY_SPACE_HARD_RELOAD = 'if(!i||0===i.length)if(e){var n="/".concat(e);window.location.href="".concat(location.protocol,"//").concat(location.host).concat(n).concat(location.search)}else window.location.href="//www.bilibili.com/404.html";';
+const LEGACY_SPACE_HARD_RELOAD_PATCH = 'if(!i||0===i.length){if(e){var n="/".concat(e);history.replaceState(history.state,"",n+location.search+location.hash);i=Uo.getMatchedComponents()||[]}else i=[]};';
+
+function patchLegacySpaceMain(code: string) {
+    if (!code.includes(LEGACY_SPACE_HARD_RELOAD)) {
+        throw new Error('旧版个人空间主包重定向片段匹配失败，已停止执行以避免重复刷新');
+    }
+    return code.replace(LEGACY_SPACE_HARD_RELOAD, LEGACY_SPACE_HARD_RELOAD_PATCH);
+}
+
+function injectScriptText(code: string, sourceUrl: string) {
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.appendChild(document.createTextNode(`${code}\n//# sourceURL=${new URL(sourceUrl, location.href).href}`));
+    (document.body || document.head || document.documentElement).appendChild(script);
+    script.remove();
+}
+
+function getSpaceMid() {
+    return Number(location.pathname.match(/^\/(?:v\/)?(\d+)/)?.[1] || BLOD.path[3]?.split("?")[0]) || 0;
+}
+
+function normalizeLegacySpaceLocation(mid: number) {
+    if (!mid) return;
+    const routePrefix = new RegExp(`^/${mid}(?:/|$)`);
+    let pathname = location.pathname.replace(/^\/v\/(\d+)(?=\/|$)/, '/$1');
+    if (!routePrefix.test(pathname)) {
+        pathname = `/${mid}`;
+    } else if (pathname.length > 1) {
+        pathname = pathname.replace(/\/+$/, '');
+    }
+    const next = `${pathname}${location.search}${location.hash}`;
+    if (next !== `${location.pathname}${location.search}${location.hash}`) {
+        history.replaceState(history.state, '', next);
+    }
+}
+
 export class PageSpace {
 
     protected mid: number;
@@ -25,14 +78,17 @@ export class PageSpace {
 
     protected aidInfo: Record<'cover' | 'title', string>[] = [];
 
-    constructor() {
-        this.mid = Number(BLOD.path[3] && BLOD.path[3].split("?")[0]);
+    constructor(status?: typeof userStatus) {
+        this.mid = getSpaceMid();
         this.midInfo();
-        user.addCallback(status => {
+        const init = (status: typeof userStatus) => {
             status.album && this.album();
             status.jointime && this.jointime();
             status.lostVideo && this.lostVideo();
-        });
+            // 复活旧版个人空间页（屏蔽新版 + 载入旧版资源）；置于最后，确保上面的 hook 先于旧版 SPA 请求注册
+            status.space && this.mid && new PageSpaceLegacy(this.mid);
+        };
+        status ? init(status) : user.addCallback(init);
     }
 
     /** 修复限制访问up空间 */
@@ -212,5 +268,55 @@ export class PageSpace {
             })());
         }
         return Promise.all(arr);
+    }
+}
+
+/**
+ * 新版个人空间 SPA 脚本特征（屏蔽用，避免与旧版资源抢占 DOM 运行时）。
+ * 新版是 Vite 构建的 `fresh-space` 应用 + laputa 新版顶栏；
+ * 与旧版资源路径 `//s1.hdslb.com/bfs/static/jinkela/space/` 完全不同，不会误伤旧版 chunk。
+ */
+const modernSpaceScriptPatterns = [
+    /\/bfs\/static\/shanks\/fresh-space\//,
+    /\/bfs\/seed\/laputa-header\//,
+];
+
+/**
+ * 复活旧版个人空间页。
+ * B 站已把个人空间改为全新版式并移除「回到旧版」入口，但旧版静态资源仍存活于 CDN。
+ * 本类屏蔽新版脚本，用旧版骨架整页接管，并加载旧版 `space.js`（webpack publicPath 已硬编码，
+ * 会自行拉取其余 chunk）+ 旧版 CSS，由旧版 Vue 应用自行拉取数据并渲染全部 Tab。
+ */
+export class PageSpaceLegacy extends Page {
+    protected neutralizeScriptPatterns = modernSpaceScriptPatterns;
+    constructor(mid: number) {
+        super(htmlSpace);
+        const win = <any>window;
+        normalizeLegacySpaceLocation(mid);
+        // 旧版空间 SPA 启动所需的全局变量（替换 document 不会清除 window 上的属性）
+        win._bili_space_mid = mid;
+        win._bili_space_mymid = Number(document.cookie.match(/DedeUserID=(\d+)/)?.[1]) || 0;
+        win.abtest = win.abtest || { in_new_ab: true, ab_version: { can_go_old: 'ENABLED' }, ab_split_num: {} };
+        // 旧版顶栏（slim 全局顶栏，无分区菜单）由模板自带的 header.js 渲染；
+        // 个人空间没有分区菜单/Banner，故不调用 Header.primaryMenu()/banner()（同 search/read 页做法）
+        this.updateDom();
+        this.loadLegacySpaceScripts();
+    }
+
+    protected async loadLegacySpaceScripts() {
+        try {
+            await loadScript(LEGACY_SPACE_SCRIPTS.jquery);
+            await loadScript(LEGACY_SPACE_SCRIPTS.config);
+            await loadScript(LEGACY_SPACE_SCRIPTS.header);
+            await loadScript(SPACE_ENTRY_CHUNK);
+            const mainUrl = new URL(SPACE_MAIN, location.href).href;
+            const response = await GM.fetch(mainUrl);
+            const code = patchLegacySpaceMain(await response.text());
+            injectScriptText(code, mainUrl);
+            loadScript(LEGACY_SPACE_SCRIPTS.footer).catch(e => debug.error('旧版个人空间页脚脚本加载失败', e));
+        } catch (e) {
+            debug.error('旧版个人空间脚本加载失败', e);
+            toast.error('旧版个人空间脚本加载失败', e)();
+        }
     }
 }

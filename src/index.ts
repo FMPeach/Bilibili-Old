@@ -37,7 +37,11 @@ import { PageDocumentary } from './page/channel/documentary';
 import { loginExit } from './page/logout';
 import { PageOnline } from './page/online';
 
-document.domain = 'bilibili.com';
+try {
+    if (!(<any>window).originAgentCluster) {
+        document.domain = 'bilibili.com';
+    }
+} catch (e) { }
 
 // 提取版本哈希（仅限用户脚本）
 BLOD.version = GM.info?.script.version.slice(-40);
@@ -97,6 +101,9 @@ user.addCallback(status => {
         if (status.search && BLOD.path[2] == "search.bilibili.com") {
             new PageSearch();
         }
+        if (/space\.bilibili\.com/.test(location.href)) {
+            new PageSpace(status);
+        }
         if (/\/moe\/2018\/jp\/home/.test(location.href)) {
             Reflect.set(window, 'getPlayList', () => { return { code: 0, data: toview } });
         }
@@ -153,7 +160,6 @@ try {
 BLOD.path[2] == "message.bilibili.com" && Header.message();
 Header.videoOffset();
 PageSearch.suggest();
-/space\.bilibili\.com/.test(location.href) && new PageSpace();
 /bangumi\/media\/md/.test(location.href) && new PageMedia();
 location.href.includes("www.bilibili.com/account/history") && new PageHistory();
 BLOD.path[2] == "live.bilibili.com" && new PageLive();
