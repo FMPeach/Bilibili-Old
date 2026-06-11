@@ -155,7 +155,7 @@ Header.videoOffset();
 PageSearch.suggest();
 /space\.bilibili\.com/.test(location.href) && new PageSpace();
 /bangumi\/media\/md/.test(location.href) && new PageMedia();
-location.href.includes("www.bilibili.com/account/history") && new PageHistory();
+/(?:\/account)?\/history(?:\/|\?|#|$)/.test(location.href) && new PageHistory();
 BLOD.path[2] == "live.bilibili.com" && new PageLive();
 BLOD.path[2] == "t.bilibili.com" && new PageDynamic();
 location.href.includes('passport.bilibili.com/login?act=exit') && loginExit();
