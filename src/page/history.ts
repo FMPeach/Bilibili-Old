@@ -41,6 +41,8 @@ export class PageHistory extends Page {
     private searchPn = 1;
     /** 是否正在加载 */
     private busy = false;
+    /** 当前加载批次，用于丢弃搜索/切换 tab 前发出的旧请求 */
+    private requestId = 0;
     /** 是否已加载完毕 */
     private finished = false;
     /** 日期分组：上一条记录的日期标签 */
@@ -116,6 +118,8 @@ export class PageHistory extends Page {
 
     /** 重置状态并重新加载（切换 tab、搜索、清空后调用） */
     private reload() {
+        this.requestId++;
+        this.busy = false;
         this.cursor = { max: 0, view_at: 0, business: '' };
         this.searchPn = 1;
         this.finished = false;
@@ -128,10 +132,12 @@ export class PageHistory extends Page {
     /** 加载下一页 */
     private async loadMore() {
         if (this.busy || this.finished) return;
+        const requestId = this.requestId;
         this.busy = true;
         this.setLoading(this.searchPn === 1 && this.cursor.max === 0 ? '加载中...' : '加载更多...');
         try {
             const list = this.keyword ? await this.fetchSearch() : await this.fetchCursor();
+            if (requestId !== this.requestId) return;
             if (!list.length) {
                 this.finished = true;
                 this.setLoading(this.isEmpty() ? '暂无历史记录' : '没有更多了');
@@ -140,6 +146,7 @@ export class PageHistory extends Page {
                 this.setLoading(this.finished ? '没有更多了' : '');
             }
         } catch (e: any) {
+            if (requestId !== this.requestId) return;
             // -101 未登录
             if (String(e?.cause) === '-101' || String(e?.message).includes('-101')) {
                 this.setLoading('请先登录后查看历史记录');
@@ -149,7 +156,7 @@ export class PageHistory extends Page {
             }
             this.finished = true;
         } finally {
-            this.busy = false;
+            if (requestId === this.requestId) this.busy = false;
         }
     }
 
@@ -173,8 +180,16 @@ export class PageHistory extends Page {
         const business = this.type === 'all' ? '' : this.type;
         const data = await apiHistorySearch(this.keyword, this.searchPn, business);
         const list = data.list || [];
-        const { num, size, total } = data.page || { num: this.searchPn, size: 20, total: list.length };
-        if (num * size >= total || !list.length) this.finished = true;
+        const page = data.page || {};
+        const num = page.num ?? page.pn ?? this.searchPn;
+        const size = page.size ?? page.ps ?? 20;
+        if (!list.length) {
+            this.finished = true;
+        } else if (typeof page.total === 'number') {
+            this.finished = num * size >= page.total;
+        } else {
+            this.finished = list.length < size;
+        }
         this.searchPn = num + 1;
         return list;
     }

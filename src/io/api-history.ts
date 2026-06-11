@@ -137,13 +137,22 @@ export async function apiHistoryCursor(params: IHistoryCursorParams = {}) {
  * @param pn 页码（从 1 起）
  * @param business 业务类型筛选，留空为全部
  */
-export async function apiHistorySearch(keyword: string, pn = 1, business = '') {
+export async function apiHistorySearch(keyword: string, pn = 1, business = '', ps = 20) {
     const url = objUrl('//api.bilibili.com/x/web-interface/history/search', {
-        keyword, pn, business
+        keyword: encodeURIComponent(keyword), pn, ps, business
     });
     const response = await fetch(url, { credentials: 'include' });
     const json = await response.json();
-    return <{ list: IHistoryItem[]; page: { num: number; size: number; total: number } }>jsonCheck(json).data;
+    return <{
+        list: IHistoryItem[];
+        page?: {
+            num?: number;
+            size?: number;
+            pn?: number;
+            ps?: number;
+            total?: number;
+        }
+    }>jsonCheck(json).data;
 }
 
 /**
