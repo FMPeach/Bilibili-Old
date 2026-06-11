@@ -1,5 +1,6 @@
 import { BLOD } from "../core/bilibili-old";
 import { toast } from "../core/toast";
+import { urlCleaner } from '../core/url';
 import { user } from "../core/user";
 import { accountGetCardByMid } from "../io/account-getcardbymid";
 import { jsonCheck } from "../io/api";
@@ -10,13 +11,16 @@ import { FetchHook } from "../utils/hook/fetch";
 import { xhrHook } from "../utils/hook/xhr";
 import { poll } from "../utils/poll";
 import { VdomTool } from "../utils/vdomtool";
+import spaceHtml from '../html/space.html';
+import { Header } from "./header";
+import { Page } from "./page";
 
 const Mid = {
     11783021: '哔哩哔哩番剧出差',
     1988098633: 'b站_戲劇咖',
     2042149112: 'b站_綜藝咖'
 }
-export class PageSpace {
+export class PageSpace extends Page {
 
     protected mid: number;
 
@@ -26,13 +30,29 @@ export class PageSpace {
     protected aidInfo: Record<'cover' | 'title', string>[] = [];
 
     constructor() {
+        super(spaceHtml);
         this.mid = Number(BLOD.path[3] && BLOD.path[3].split("?")[0]);
+        // 修复限制访问up空间（网络层修复，重写前后均生效）
         this.midInfo();
         user.addCallback(status => {
-            status.album && this.album();
-            status.jointime && this.jointime();
-            status.lostVideo && this.lostVideo();
+            if (status.space) {
+                // 重写为旧版个人空间页
+                this.rewrite();
+            } else {
+                // 在新版页面基础上应用各项修复
+                status.album && this.album();
+                status.jointime && this.jointime();
+                status.lostVideo && this.lostVideo();
+            }
         });
+    }
+
+    /** 重写为旧版个人空间页 */
+    protected rewrite() {
+        urlCleaner.updateLocation(location.href);
+        Header.primaryMenu();
+        Header.banner();
+        this.updateDom();
     }
 
     /** 修复限制访问up空间 */

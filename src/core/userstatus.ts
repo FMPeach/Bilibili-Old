@@ -80,6 +80,8 @@ export const userStatus = {
     jointime: false,
     /** 失效视频 */
     lostVideo: true,
+    /** 个人空间 */
+    space: true,
     /** 纯视频历史记录 */
     historyVideoOnly: true,
     /** 动态里的直播录屏 */
