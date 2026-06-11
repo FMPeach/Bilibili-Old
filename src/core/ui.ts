@@ -200,6 +200,7 @@ export class UI {
             this.switch('read', '专栏', '恢复旧版专栏'),
             this.switch('ranking', '排行榜', '恢复旧版全站排行榜页'),
             this.switch('search', '搜索', '恢复旧版搜索页'),
+            this.switch('historyPage', '历史记录', '恢复旧版历史记录页', undefined, undefined, '历史记录页已被B站改版并移除旧版入口，account/history 现重定向至新版 /history。本功能用旧版风格模板整页接管，调用现行接口渲染历史记录，支持日期分组、无限滚动、类型筛选、搜索、删除、暂停记录与清空。'),
             this.switch('album', '相簿', '恢复相簿页'),
             this.switch('channel', '分区主页', '恢复各分区主页')
         ]);

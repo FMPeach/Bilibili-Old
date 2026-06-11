@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8" />
+    <title>历史记录 - 哔哩哔哩 (゜-゜)つロ 干杯~-bilibili</title>
+    <meta name="description" content="bilibili是国内知名的视频弹幕网站，这里有最及时的动漫新番，最棒的ACG氛围，最有创意的Up主。大家可以在这里找到许多欢乐。" />
+    <meta name="keywords" content="B站,弹幕,字幕,AMV,MAD,MTV,ANIME,动漫,动漫音乐,游戏,游戏解说,ACG,galgame,动画,番组,新番,初音,洛天依,vocaloid" />
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="shortcut icon" href="//static.hdslb.com/images/favicon.ico" />
+    <link rel="search" type="application/opensearchdescription+xml" href="//static.hdslb.com/opensearch.xml"
+        title="哔哩哔哩" />
+    <style type="text/css">
+        /* 旧版历史记录页风格近似（无官方存档，按截图中的 Web 历史页气质自写） */
+        body {
+            min-width: 1000px;
+            background: #fff;
+        }
+
+        #history-app {
+            background: #fff;
+            min-height: 600px;
+            padding-bottom: 64px;
+            font-family: "Microsoft Yahei", "PingFang SC", Helvetica, Arial, sans-serif;
+            color: #222;
+        }
+
+        #history-app * {
+            box-sizing: border-box;
+        }
+
+        #history-app .history-wrapper {
+            width: 980px;
+            margin: 0 auto;
+            padding-top: 24px;
+        }
+
+        @media screen and (min-width: 1400px) {
+            body {
+                min-width: 1180px;
+            }
+
+            #history-app .history-wrapper {
+                width: 1160px;
+            }
+        }
+
+        #history-app .history-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 54px;
+            padding: 2px 0 14px;
+            border-bottom: 1px solid #f1f3f5;
+        }
+
+        #history-app .history-title {
+            position: relative;
+            display: flex;
+            align-items: center;
+            height: 28px;
+            margin: 0;
+            padding-left: 34px;
+            font-size: 18px;
+            font-weight: normal;
+            line-height: 28px;
+            color: #222;
+        }
+
+        #history-app .history-title::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 3px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #ffb27b;
+        }
+
+        #history-app .history-title::after {
+            content: "";
+            position: absolute;
+            left: 7px;
+            top: 7px;
+            width: 9px;
+            height: 9px;
+            border: 2px solid #fff;
+            border-top-color: transparent;
+            border-radius: 50%;
+            transform: rotate(-28deg);
+        }
+
+        #history-app .history-tools {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        #history-app .history-search {
+            position: relative;
+            width: 218px;
+            height: 30px;
+        }
+
+        #history-app .history-search input {
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            padding: 0 38px 0 16px;
+            border: 1px solid #e5e9ef;
+            border-radius: 16px;
+            outline: none;
+            font-size: 12px;
+            color: #505050;
+            background: #fff;
+            transition: border-color .2s, box-shadow .2s;
+        }
+
+        #history-app .history-search input:focus {
+            border-color: #00a1d6;
+            box-shadow: 0 0 0 2px rgba(0, 161, 214, .08);
+        }
+
+        #history-app .history-search button {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 36px;
+            height: 30px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 0;
+        }
+
+        #history-app .history-search button::before {
+            content: "";
+            position: absolute;
+            left: 10px;
+            top: 8px;
+            width: 9px;
+            height: 9px;
+            border: 2px solid #99a2aa;
+            border-radius: 50%;
+        }
+
+        #history-app .history-search button::after {
+            content: "";
+            position: absolute;
+            left: 22px;
+            top: 20px;
+            width: 7px;
+            height: 2px;
+            border-radius: 2px;
+            background: #99a2aa;
+            transform: rotate(45deg);
+            transform-origin: left center;
+        }
+
+        #history-app .history-search button:hover::before {
+            border-color: #00a1d6;
+        }
+
+        #history-app .history-search button:hover::after {
+            background: #00a1d6;
+        }
+
+        #history-app .history-shadow,
+        #history-app .history-clear {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 30px;
+            padding: 0 16px;
+            border: 1px solid #8fd3e4;
+            border-radius: 4px;
+            background: #fff;
+            color: #00a1d6;
+            font-size: 12px;
+            line-height: 28px;
+            cursor: pointer;
+            user-select: none;
+            white-space: nowrap;
+            transition: color .2s, border-color .2s, background .2s;
+        }
+
+        #history-app .history-shadow input {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #history-app .history-shadow:hover,
+        #history-app .history-clear:hover {
+            border-color: #00a1d6;
+            background: #f4fbff;
+        }
+
+        #history-app .history-tabs {
+            display: flex;
+            align-items: center;
+            width: calc(100% - 100px);
+            height: 42px;
+            margin: 0 0 0 100px;
+            border-bottom: 1px solid #f3f5f7;
+        }
+
+        #history-app .history-tab {
+            display: inline-flex;
+            align-items: center;
+            height: 42px;
+            margin-right: 30px;
+            padding: 0 2px;
+            border-bottom: 2px solid transparent;
+            color: #6d757a;
+            font-size: 13px;
+            cursor: pointer;
+            transition: color .2s, border-color .2s;
+        }
+
+        #history-app .history-tab:hover,
+        #history-app .history-tab.active {
+            color: #00a1d6;
+        }
+
+        #history-app .history-tab.active {
+            border-bottom-color: #00a1d6;
+        }
+
+        #history-app .history-list {
+            margin-top: 20px;
+        }
+
+        #history-app .history-group {
+            position: relative;
+            display: grid;
+            grid-template-columns: 100px minmax(0, 1fr);
+            margin-top: 0;
+        }
+
+        #history-app .history-group::before {
+            content: "";
+            position: absolute;
+            left: 66px;
+            top: 30px;
+            bottom: 0;
+            width: 1px;
+            background: #e5e9ef;
+        }
+
+        #history-app .history-date {
+            position: relative;
+            z-index: 1;
+            width: 54px;
+            height: 30px;
+            margin-top: 0;
+            padding: 0;
+            border-radius: 4px 0 0 4px;
+            background: #fb7299;
+            color: #fff;
+            font-size: 13px;
+            line-height: 30px;
+            text-align: center;
+        }
+
+        #history-app .history-date::after {
+            content: "";
+            position: absolute;
+            right: -10px;
+            top: 0;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-left: 10px solid #fb7299;
+        }
+
+        #history-app .history-items {
+            min-width: 0;
+        }
+
+        #history-app .history-item {
+            position: relative;
+            display: flex;
+            align-items: flex-start;
+            min-height: 118px;
+            padding: 0 48px 18px 0;
+            margin: 0;
+            border-bottom: 1px solid #f1f3f5;
+            background: #fff;
+        }
+
+        #history-app .history-item + .history-item {
+            padding-top: 18px;
+        }
+
+        #history-app .history-item::before {
+            content: "";
+            position: absolute;
+            left: -37px;
+            top: 43px;
+            z-index: 1;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #e5e9ef;
+        }
+
+        #history-app .history-item + .history-item::before {
+            top: 61px;
+        }
+
+        #history-app .history-item:hover {
+            background: #fbfdff;
+        }
+
+        #history-app .item-cover {
+            position: relative;
+            flex: 0 0 160px;
+            width: 160px;
+            height: 100px;
+            margin-right: 26px;
+            border-radius: 3px;
+            overflow: hidden;
+            background: #e5e9ef;
+        }
+
+        #history-app .history-item + .history-item .item-cover {
+            margin-top: 0;
+        }
+
+        #history-app .item-cover img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #history-app .item-duration {
+            position: absolute;
+            right: 5px;
+            bottom: 6px;
+            padding: 1px 5px;
+            border-radius: 2px;
+            background: rgba(0, 0, 0, .65);
+            color: #fff;
+            font-size: 12px;
+            line-height: 16px;
+        }
+
+        #history-app .item-live {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            padding: 1px 6px;
+            border-radius: 2px;
+            background: #fb7299;
+            color: #fff;
+            font-size: 12px;
+            line-height: 16px;
+        }
+
+        #history-app .item-progress {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, .5);
+        }
+
+        #history-app .item-progress span {
+            display: block;
+            height: 100%;
+            background: #fb7299;
+        }
+
+        #history-app .item-info {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 240px;
+            grid-template-rows: minmax(54px, auto) auto;
+            flex: 1 1 auto;
+            min-width: 0;
+            min-height: 100px;
+            padding-top: 6px;
+        }
+
+        #history-app .item-title {
+            display: block;
+            grid-column: 1 / -1;
+            max-width: 100%;
+            max-height: 44px;
+            overflow: hidden;
+            color: #222;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 22px;
+            text-decoration: none;
+        }
+
+        #history-app .item-title:hover {
+            color: #00a1d6;
+        }
+
+        #history-app .item-badge {
+            display: inline-block;
+            height: 18px;
+            margin-right: 6px;
+            padding: 0 5px;
+            border: 1px solid #fb7299;
+            border-radius: 2px;
+            color: #fb7299;
+            font-size: 12px;
+            font-weight: normal;
+            line-height: 16px;
+            vertical-align: 1px;
+        }
+
+        #history-app .item-meta {
+            grid-column: 2;
+            grid-row: 2;
+            min-width: 0;
+            margin: 0;
+            padding-left: 12px;
+            color: #99a2aa;
+            font-size: 12px;
+            line-height: 20px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        #history-app .item-up {
+            color: #6d757a;
+            text-decoration: none;
+        }
+
+        #history-app .item-up:hover {
+            color: #00a1d6;
+        }
+
+        #history-app .item-sub {
+            grid-column: 1;
+            grid-row: 2;
+            min-width: 0;
+            margin: 0;
+            color: #99a2aa;
+            font-size: 12px;
+            line-height: 20px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        #history-app .item-sub::before {
+            content: "";
+            display: inline-block;
+            width: 10px;
+            height: 14px;
+            margin-right: 8px;
+            border: 1px solid #ccd0d7;
+            border-radius: 2px;
+            vertical-align: -3px;
+        }
+
+        #history-app .item-time {
+            position: absolute;
+            left: -96px;
+            top: 35px;
+            width: 54px;
+            color: #b8c0cc;
+            font-size: 13px;
+            line-height: 18px;
+            text-align: right;
+        }
+
+        #history-app .history-item + .history-item .item-time {
+            top: 53px;
+        }
+
+        #history-app .item-delete {
+            position: absolute;
+            right: 8px;
+            top: 39px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            cursor: pointer;
+            opacity: .5;
+            font-size: 0;
+            transition: opacity .2s, background .2s;
+        }
+
+        #history-app .history-item + .history-item .item-delete {
+            top: 57px;
+        }
+
+        #history-app .item-delete::before {
+            content: "";
+            position: absolute;
+            left: 7px;
+            top: 8px;
+            width: 8px;
+            height: 9px;
+            border: 1px solid #99a2aa;
+            border-top: none;
+            border-radius: 0 0 1px 1px;
+        }
+
+        #history-app .item-delete::after {
+            content: "";
+            position: absolute;
+            left: 6px;
+            top: 5px;
+            width: 10px;
+            height: 1px;
+            background: #99a2aa;
+            box-shadow: 2px -2px 0 -1px #99a2aa;
+        }
+
+        #history-app .history-item:hover .item-delete {
+            opacity: 1;
+        }
+
+        #history-app .item-delete:hover {
+            background: #fff0f4;
+        }
+
+        #history-app .item-delete:hover::before {
+            border-color: #fb7299;
+        }
+
+        #history-app .item-delete:hover::after {
+            background: #fb7299;
+            box-shadow: 2px -2px 0 -1px #fb7299;
+        }
+
+        #history-app .history-loading,
+        #history-app .history-empty {
+            margin-left: 100px;
+            padding: 30px 0;
+            color: #99a2aa;
+            font-size: 14px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="z-top-container has-menu"></div>
+    <div id="history-app">
+        <div class="history-wrapper">
+            <div class="history-header">
+                <h1 class="history-title">历史记录</h1>
+                <div class="history-tools">
+                    <div class="history-search">
+                        <input type="text" id="history-search-input" placeholder="搜索历史记录" />
+                        <button id="history-search-btn" type="button">搜索</button>
+                    </div>
+                    <label class="history-shadow">
+                        <input type="checkbox" id="history-shadow-toggle" />暂停记录
+                    </label>
+                    <button id="history-clear-btn" class="history-clear" type="button">清空历史记录</button>
+                </div>
+            </div>
+            <div class="history-tabs" id="history-tabs">
+                <span class="history-tab active" data-type="all">全部</span>
+                <span class="history-tab" data-type="archive">视频</span>
+                <span class="history-tab" data-type="live">直播</span>
+                <span class="history-tab" data-type="article">专栏</span>
+            </div>
+            <div class="history-list" id="history-list"></div>
+            <div class="history-loading" id="history-loading">加载中...</div>
+        </div>
+    </div>
+    <div class="footer bili-footer"></div>
+    <script type="text/javascript" src="//static.hdslb.com/js/jquery.min.js"></script>
+    <script type="text/javascript" src="//s1.hdslb.com/bfs/seed/jinkela/header/header.js"></script>
+    <script type="text/javascript" src="//static.hdslb.com/common/js/footer.js"></script>
+</body>
+
+</html>

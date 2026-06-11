@@ -9,6 +9,8 @@ export const userStatus = {
     index: true,
     /** 个人空间 */
     space: false,
+    /** 历史记录页 */
+    historyPage: true,
     /** toastr */
     toast: Toastconfig,
     /** 替换全局顶栏 */

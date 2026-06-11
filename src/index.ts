@@ -84,6 +84,10 @@ user.addCallback(status => {
             player.loadEmbedPlayer();
             new PageWatchlater();
         }
+        // 历史记录页：覆盖旧地址 /account/history（已被重定向）与新地址 /history
+        if (status.historyPage && BLOD.path[2] === 'www.bilibili.com' && /^\/(account\/)?history\/?$/.test(location.pathname)) {
+            new PageHistory();
+        }
         // 旧版 /playlist/video/pl 仍走原有播单逻辑
         if (!listHandled && /\/playlist\/video\/pl/.test(location.href)) {
             player.loadEmbedPlayer();
@@ -161,7 +165,6 @@ BLOD.path[2] == "message.bilibili.com" && Header.message();
 Header.videoOffset();
 PageSearch.suggest();
 /bangumi\/media\/md/.test(location.href) && new PageMedia();
-location.href.includes("www.bilibili.com/account/history") && new PageHistory();
 BLOD.path[2] == "live.bilibili.com" && new PageLive();
 BLOD.path[2] == "t.bilibili.com" && new PageDynamic();
 location.href.includes('passport.bilibili.com/login?act=exit') && loginExit();
