@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bilibili 旧播放页
 // @namespace    MotooriKashin
-// @version      10.13.0-c3dd748427ccbbefce8d3423714030e5ad97afd7
+// @version      10.13.1-c3dd748427ccbbefce8d3423714030e5ad97afd7
 // @description  恢复Bilibili旧版页面，为了那些念旧的人。
 // @author       MotooriKashin, wly5556, FMPeach
 // @homepage     https://github.com/FMPeach/Bilibili-Old
@@ -25776,8 +25776,8 @@ const MODULES = `
   <script type="text/javascript" src="https://static.hdslb.com/js/jquery.min.js"><\\/script>\\r
   <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/jinkela/header-v2/header.js"><\\/script>\\r
   <script type="text/javascript" src="https://static.hdslb.com/common/js/footer.js"><\\/script>\\r
-  <script type="text/javascript" src="https://s1.hdslb.com/bfs/static/history-record/vendor_1bc32197.js"><\\/script>\\r
-  <script type="text/javascript" src="https://s1.hdslb.com/bfs/static/history-record/app_1bc32197.js"><\\/script>\\r
+  <script type="text/javascript" src="https://s1.hdslb.com/bfs/static/history-record/vendor_8186959b.js"><\\/script>\\r
+  <script type="text/javascript" src="https://s1.hdslb.com/bfs/static/history-record/app_8186959b.js"><\\/script>\\r
 </body>\\r
 \\r
 </html>\`;
