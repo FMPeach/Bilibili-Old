@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bilibili 旧播放页
 // @namespace    MotooriKashin
-// @version      10.12.9-c3dd748427ccbbefce8d3423714030e5ad97afd7
+// @version      10.13.0-c3dd748427ccbbefce8d3423714030e5ad97afd7
 // @description  恢复Bilibili旧版页面，为了那些念旧的人。
 // @author       MotooriKashin, wly5556, FMPeach
 // @homepage     https://github.com/FMPeach/Bilibili-Old
@@ -9212,6 +9212,8 @@ const MODULES = `
     jointime: false,
     /** 失效视频 */
     lostVideo: true,
+    /** 个人空间 */
+    space: true,
     /** 纯视频历史记录 */
     historyVideoOnly: true,
     /** 动态里的直播录屏 */
@@ -24989,6 +24991,118 @@ const MODULES = `
   // src/page/space.ts
   init_tampermonkey();
 
+  // src/core/url.ts
+  init_tampermonkey();
+  var paramsSet = /* @__PURE__ */ new Set([
+    "spm_id_from",
+    "from_source",
+    "msource",
+    "bsource",
+    "seid",
+    "source",
+    "session_id",
+    "visit_id",
+    "sourceFrom",
+    "from_spmid",
+    "share_source",
+    "share_medium",
+    "share_plat",
+    "share_session_id",
+    "share_tag",
+    "unique_k",
+    "vd_source",
+    "csource"
+  ]);
+  var paramArr = Object.entries({
+    from: ["search"]
+  });
+  var UrlCleaner = class {
+    /** 垃圾参数序列 */
+    paramsSet = paramsSet;
+    /** 精准爆破序列 */
+    paramArr = paramArr;
+    constructor() {
+      var _a3;
+      this.location();
+      (_a3 = window.navigation) == null ? void 0 : _a3.addEventListener("navigate", (e) => {
+        const newURL = this.clear(e.destination.url);
+        if (e.destination.url != newURL) {
+          e.preventDefault();
+          if (newURL == window.location.href) return;
+          if (e.navigationType !== "traverse") {
+            this.updateLocation(newURL, e.navigationType);
+          }
+        }
+      });
+      window.addEventListener("click", (e) => this.anchorClick(e));
+      window.addEventListener("contextmenu", (e) => this.anchorClick(e));
+      document.addEventListener("DOMContentLoaded", () => {
+        this.location();
+        this.anchor(document.querySelectorAll("a"));
+      }, { once: true });
+    }
+    /** 净化url */
+    clear(str) {
+      const url = new URL2(str);
+      if (url && !str.includes("passport.bilibili.com")) {
+        const params = url.params;
+        if (params.bvid) {
+          params.aid = AV.fromBV(params.bvid);
+        }
+        if (params.aid && !Number(params.aid)) {
+          params.aid = AV.fromBV(params.aid);
+        }
+        paramsSet.forEach((d) => {
+          delete params[d];
+        });
+        paramArr.forEach((d) => {
+          if (params[d[0]]) {
+            if (d[1].includes(params[d[0]])) {
+              delete params[d[0]];
+            }
+          }
+        });
+        url.base = AV.fromStr(url.base);
+        url.hash && (url.hash = AV.fromStr(url.hash));
+        return url.toJSON();
+      } else return str;
+    }
+    /** 净化URL */
+    location() {
+      this.updateLocation(this.clear(location.href));
+    }
+    /** 更新URL而不触发重定向 */
+    updateLocation(url, fun) {
+      const Url = new self.URL(url);
+      if (Url.host === location.host) {
+        if (fun === "push") {
+          window.history.pushState(window.history.state, "", url);
+        } else {
+          window.history.replaceState(window.history.state, "", url);
+        }
+      }
+    }
+    /** 点击回调 */
+    anchorClick(e) {
+      var f = e.target;
+      for (; f && "A" !== f.tagName; ) {
+        f = f.parentNode;
+      }
+      if ("A" !== (f == null ? void 0 : f.tagName)) {
+        return;
+      }
+      this.anchor([f]);
+    }
+    /** 净化a标签 */
+    anchor(list) {
+      list.forEach((d) => {
+        if (!d.href) return;
+        d.href = this.clear(d.href);
+      });
+    }
+  };
+  var urlCleaner = new UrlCleaner();
+
   // src/io/account-getcardbymid.ts
   init_tampermonkey();
   async function accountGetCardByMid(mid) {
@@ -25165,25 +25279,265 @@ const MODULES = `
     }
   };
 
+  // src/html/space.html
+  var space_default = \`<!DOCTYPE html>\\r
+<html>\\r
+\\r
+<head>\\r
+    <meta name="spm_prefix" content="333.999">\\r
+    <meta charset="UTF-8">\\r
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">\\r
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">\\r
+    <meta name="referrer" content="no-referrer-when-downgrade">\\r
+    <meta name="applicable-device" content="pc">\\r
+    <meta http-equiv="Cache-Control" content="no-transform">\\r
+    <meta http-equiv="Cache-Control" content="no-siteapp">\\r
+    <script type="text/javascript"\\r
+        src="https://s1.hdslb.com/bfs/seed/jinkela/short/config/biliconfig.js"><\\/script>\\r
+    <script\\r
+        type="text/javascript">var ua = window.navigator.userAgent, agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPod"], pathname = /\\\\d+/.exec(window.location.pathname), getCookie = function (e) { return decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\\\\\\\s*" + encodeURIComponent(e).replace(/[\\\\-\\\\.\\\\+\\\\*]/g, "\\\\\\\\\$&") + "\\\\\\\\s*\\\\\\\\=\\\\\\\\s*([^;]*).*\$)|^.*\$"), "\$1")) || null }, DedeUserID = getCookie("DedeUserID"), mid = pathname ? +pathname[0] : null === DedeUserID ? 0 : +DedeUserID; if (mid < 1) window.location.href = "https://passport.bilibili.com/login?gourl=https://space.bilibili.com"; else { window._bili_space_mid = mid, window._bili_space_mymid = null === DedeUserID ? 0 : +DedeUserID; for (var prefix = /^\\\\/v/.test(pathname) ? "/v" : "", i = 0; i < agents.length; i++)if (-1 < ua.indexOf(agents[i]) && !/\\\\sVR\\\\s/g.test(ua)) { window.location.href = "https://m.bilibili.com/space/" + mid; break } }<\\/script>\\r
+    <script\\r
+        type="text/javascript">function getIEVersion() { var e = 99; if ("Microsoft Internet Explorer" == navigator.appName) { var t = navigator.userAgent; null != new RegExp("MSIE ([0-9]{1,}[.0-9]{0,})").exec(t) && (e = parseFloat(RegExp.\$1)) } return e } getIEVersion() < 11 && (window.location.href = "https://www.bilibili.com/blackboard/activity-I7btnS22Z.html")<\\/script>\\r
+    <link rel="prefetch" as="script"\\r
+        href="https://s1.hdslb.com/bfs/static/player/main/video.js?v=202339">\\r
+    <script type="text/javascript"\\r
+        src="https://s1.hdslb.com/bfs/static/jinkela/long/js/sentry/sentry-5.2.1.min.js"><\\/script>\\r
+    <script type="text/javascript"\\r
+        src="https://s1.hdslb.com/bfs/static/jinkela/long/js/sentry/sentry.vue.js"><\\/script>\\r
+    <link rel="stylesheet"\\r
+        href="https://at.alicdn.com/t/font_438759_d66lkuno6c9.css">\\r
+    <script id="abtest"\\r
+        type="text/javascript">window.abtest = { "in_new_ab": true, "ab_version": {}, "ab_split_num": {} }<\\/script>\\r
+    </body>\\r
+    <link\\r
+        href="https://s1.hdslb.com/bfs/static/jinkela/space/css/space.9.d525618dfa1c1daa27addac6609189fa610fec82.css"\\r
+        rel="stylesheet">\\r
+    <link\\r
+        href="https://s1.hdslb.com/bfs/static/jinkela/space/css/space.8.d525618dfa1c1daa27addac6609189fa610fec82.css"\\r
+        rel="stylesheet">\\r
+    <title>个人空间 - 哔哩哔哩 (゜-゜)つロ 干杯~-bilibili</title>\\r
+    <meta name="keywords" content="个人空间,个人主页,bilibili,B站,弹幕" />\\r
+    <meta name="description"\\r
+        content="bilibili是国内知名的视频弹幕网站，这里有最及时的动漫新番，最棒的ACG氛围，最有创意的Up主。大家可以在这里找到许多欢乐。" />\\r
+    <meta name="referrer" content="no-referrer-when-downgrade">\\r
+    <link rel="apple-touch-icon"\\r
+        href="https://static.hdslb.com/images/favicon.ico">\\r
+    <style>\\r
+        .new-space-entry { display: none !important; }\\r
+    </style>\\r
+</head>\\r
+\\r
+<body>\\r
+    <div id="biliMainHeader" token-support="true" disable-sticky style="height:56px"></div>\\r
+    <div id="space-app"></div>\\r
+    <script type="text/javascript">//日志上报\\r
+        window.spaceReport = {}\\r
+        window.reportConfig = {\\r
+            sample: 1,\\r
+            scrollTracker: true,\\r
+            msgObjects: 'spaceReport'\\r
+        }\\r
+        var reportScript = document.createElement('script')\\r
+        reportScript.src = 'https://s1.hdslb.com/bfs/seed/log/report/log-reporter.js'\\r
+        document.getElementsByTagName('body')[0].appendChild(reportScript)\\r
+        reportScript.onerror = function () {\\r
+            console.warn('log-reporter.js加载失败，放弃上报')\\r
+            var noop = function () { }\\r
+            window.reportObserver = {\\r
+                sendPV: noop,\\r
+                forceCommit: noop\\r
+            }\\r
+        }\\r
+\\r
+        // webp支持\\r
+        function webSupportCheck() {\\r
+            const img = new Image()\\r
+            img.onload = function () {\\r
+                window.supportWebP = (img.width > 0) && (img.height > 0)\\r
+            }\\r
+            img.onerror = function () {\\r
+                window.supportWebP = false\\r
+            }\\r
+            img.src = 'data:image/webp;base64,UklGRiIAAABXRUJQVlA4IBYAAAAwAQCdASoBAAEADsD+JaQAA3AAAAAA'\\r
+        }\\r
+        webSupportCheck()<\\/script>\\r
+    <script\\r
+        src="https://s1.hdslb.com/bfs/seed/laputa-entry-header/bili-entry-header.umd.js"><\\/script>\\r
+    <script>var el = document.getElementById("biliMainHeader"), header = new BiliEntryHeader({ config: { headerType: "mini", disableSticky: !0, disableChannelEntry: !1, tokenSupport: !0 } }); header.init(el)<\\/script>\\r
+    <script\\r
+        src="https://s1.hdslb.com/bfs/static/jinkela/long/js/jquery/jquery1.7.2.min.js"><\\/script>\\r
+    <div style="display:none"><a\\r
+            href="https://www.bilibili.com/v/game/match/">赛事库</a> <a\\r
+            href="https://www.bilibili.com/cheese/">课堂</a> <a\\r
+            href="https://www.bilibili.com/festival/2021bnj">2021拜年纪</a>\\r
+    </div>\\r
+    <script type="text/javascript"\\r
+        src="https://s1.hdslb.com/bfs/seed/jinkela/short/auto-append-spmid.js"><\\/script>\\r
+    <script type="text/javascript"\\r
+        src="https://s1.hdslb.com/bfs/static/jinkela/space/9.space.d525618dfa1c1daa27addac6609189fa610fec82.js"><\\/script>\\r
+    <script type="text/javascript"\\r
+        src="https://s1.hdslb.com/bfs/static/jinkela/space/space.d525618dfa1c1daa27addac6609189fa610fec82.js"><\\/script>\\r
+</body>\\r
+\\r
+</html>\`;
+
+  // src/page/page.ts
+  init_tampermonkey();
+  var Page = class {
+    /** 页面框架vdom */
+    vdom;
+    /** 初始化完成 */
+    initilized = false;
+    /** 禁止清除webpackJsonp */
+    webpackJsonp = false;
+    /** 保留__INITIAL_STATE__（仅特定页面需要） */
+    keepInitialState = false;
+    /** 保留新版next-head-count */
+    keepNextHeadMarker = false;
+    /** 阻止原新版页面脚本在旧版模板接管后继续抢占运行时 */
+    neutralizeScriptPatterns;
+    /**
+     * @param html 页面框架
+     */
+    constructor(html) {
+      this.updateHtml(html);
+      Reflect.defineProperty(window, "_babelPolyfill", {
+        configurable: true,
+        set: () => true,
+        get: () => void 0
+      });
+    }
+    updateHtml(html) {
+      this.vdom = new VdomTool(html);
+    }
+    /** 重写页面 */
+    updateDom() {
+      var _a3;
+      const title = document.title;
+      const keepNextHeadMarker = this.keepNextHeadMarker || !!((_a3 = document.head) == null ? void 0 : _a3.querySelector('meta[name="next-head-count"]'));
+      const neutralizeScriptPatterns = this.neutralizeScriptPatterns;
+      this.neutralizeOriginalScripts();
+      try {
+        if (!this.keepInitialState) {
+          Reflect.deleteProperty(window, "__INITIAL_STATE__");
+        }
+      } catch (e) {
+      }
+      this.webpackJsonp || Reflect.deleteProperty(window, "webpackJsonp");
+      (neutralizeScriptPatterns == null ? void 0 : neutralizeScriptPatterns.length) && this.guardWebpackJsonp(neutralizeScriptPatterns);
+      this.vdom.replace(document.documentElement);
+      keepNextHeadMarker && this.restoreNextHeadMarker();
+      title && !title.includes("404") && (document.title = title);
+      setTimeout(() => this.loadedCallback());
+    }
+    /** 阻止原新版页面脚本与旧版模板脚本抢同一个 webpackJsonp/DOM 运行时 */
+    neutralizeOriginalScripts() {
+      const patterns = this.neutralizeScriptPatterns;
+      if (!(patterns == null ? void 0 : patterns.length)) return;
+      Array.from(document.scripts).forEach((script) => {
+        if (script === document.currentScript) return;
+        const src = script.src || script.getAttribute("src") || "";
+        if (src && patterns.some((pattern) => pattern.test(src))) {
+          script.type = "javascript/blocked";
+          script.removeAttribute("src");
+          script.textContent = "";
+          script.remove();
+        }
+      });
+    }
+    guardWebpackJsonp(patterns) {
+      const win = window;
+      let value = win.webpackJsonp;
+      const shouldBlock = () => {
+        const currentScript = document.currentScript;
+        const src = currentScript instanceof HTMLScriptElement ? currentScript.src : "";
+        return !!src && patterns.some((pattern) => pattern.test(src));
+      };
+      const wrapPush = () => {
+        const target = value;
+        if (!target || typeof target.push !== "function" || target.push.__BLOD_WEBPACK_GUARD__) return;
+        const originalPush = target.push;
+        const guardedPush = function(...args) {
+          return shouldBlock() ? this.length : originalPush.apply(this, args);
+        };
+        Object.defineProperty(guardedPush, "__BLOD_WEBPACK_GUARD__", { value: true });
+        target.push = guardedPush;
+      };
+      Reflect.defineProperty(window, "webpackJsonp", {
+        configurable: true,
+        get: () => value,
+        set: (next) => {
+          value = next;
+          if (shouldBlock() && Array.isArray(value)) {
+            value.length = 0;
+          }
+          wrapPush();
+        }
+      });
+      wrapPush();
+      const timer = setInterval(wrapPush, 50);
+      setTimeout(() => {
+        clearInterval(timer);
+        try {
+          const current = win.webpackJsonp;
+          Reflect.deleteProperty(window, "webpackJsonp");
+          win.webpackJsonp = current;
+        } catch (e) {
+        }
+      }, 1e4);
+    }
+    // Restore next-head-count for residual Next.js head updates.
+    restoreNextHeadMarker() {
+      const head = document.head;
+      if (!head) return;
+      let marker = head.querySelector('meta[name="next-head-count"]');
+      if (!marker) {
+        marker = document.createElement("meta");
+        marker.name = "next-head-count";
+      }
+      marker.content = "0";
+      head.appendChild(marker);
+    }
+    /** 重写完成回调 */
+    loadedCallback() {
+      this.initilized = true;
+      poll(() => document.readyState === "complete", () => {
+        document.querySelector("#jvs-cert") || window.dispatchEvent(new ProgressEvent("load"));
+      });
+    }
+  };
+
   // src/page/space.ts
   var Mid = {
     11783021: "哔哩哔哩番剧出差",
     1988098633: "b站_戲劇咖",
     2042149112: "b站_綜藝咖"
   };
-  var PageSpace = class {
+  var PageSpace = class extends Page {
     mid;
     /** 失效视频aid */
     aids = [];
     aidInfo = [];
     constructor() {
+      super(space_default);
       this.mid = Number(BLOD.path[3] && BLOD.path[3].split("?")[0]);
       this.midInfo();
       user.addCallback((status) => {
-        status.album && this.album();
-        status.jointime && this.jointime();
-        status.lostVideo && this.lostVideo();
+        if (status.space) {
+          this.rewrite();
+        } else {
+          status.album && this.album();
+          status.jointime && this.jointime();
+          status.lostVideo && this.lostVideo();
+        }
       });
+    }
+    /** 重写为旧版个人空间页 */
+    rewrite() {
+      urlCleaner.updateLocation(location.href);
+      Header.primaryMenu();
+      Header.banner();
+      this.updateDom();
     }
     /** 修复限制访问up空间 */
     midInfo() {
@@ -25373,118 +25727,6 @@ const MODULES = `
   // src/page/history.ts
   init_tampermonkey();
 
-  // src/core/url.ts
-  init_tampermonkey();
-  var paramsSet = /* @__PURE__ */ new Set([
-    "spm_id_from",
-    "from_source",
-    "msource",
-    "bsource",
-    "seid",
-    "source",
-    "session_id",
-    "visit_id",
-    "sourceFrom",
-    "from_spmid",
-    "share_source",
-    "share_medium",
-    "share_plat",
-    "share_session_id",
-    "share_tag",
-    "unique_k",
-    "vd_source",
-    "csource"
-  ]);
-  var paramArr = Object.entries({
-    from: ["search"]
-  });
-  var UrlCleaner = class {
-    /** 垃圾参数序列 */
-    paramsSet = paramsSet;
-    /** 精准爆破序列 */
-    paramArr = paramArr;
-    constructor() {
-      var _a3;
-      this.location();
-      (_a3 = window.navigation) == null ? void 0 : _a3.addEventListener("navigate", (e) => {
-        const newURL = this.clear(e.destination.url);
-        if (e.destination.url != newURL) {
-          e.preventDefault();
-          if (newURL == window.location.href) return;
-          if (e.navigationType !== "traverse") {
-            this.updateLocation(newURL, e.navigationType);
-          }
-        }
-      });
-      window.addEventListener("click", (e) => this.anchorClick(e));
-      window.addEventListener("contextmenu", (e) => this.anchorClick(e));
-      document.addEventListener("DOMContentLoaded", () => {
-        this.location();
-        this.anchor(document.querySelectorAll("a"));
-      }, { once: true });
-    }
-    /** 净化url */
-    clear(str) {
-      const url = new URL2(str);
-      if (url && !str.includes("passport.bilibili.com")) {
-        const params = url.params;
-        if (params.bvid) {
-          params.aid = AV.fromBV(params.bvid);
-        }
-        if (params.aid && !Number(params.aid)) {
-          params.aid = AV.fromBV(params.aid);
-        }
-        paramsSet.forEach((d) => {
-          delete params[d];
-        });
-        paramArr.forEach((d) => {
-          if (params[d[0]]) {
-            if (d[1].includes(params[d[0]])) {
-              delete params[d[0]];
-            }
-          }
-        });
-        url.base = AV.fromStr(url.base);
-        url.hash && (url.hash = AV.fromStr(url.hash));
-        return url.toJSON();
-      } else return str;
-    }
-    /** 净化URL */
-    location() {
-      this.updateLocation(this.clear(location.href));
-    }
-    /** 更新URL而不触发重定向 */
-    updateLocation(url, fun) {
-      const Url = new self.URL(url);
-      if (Url.host === location.host) {
-        if (fun === "push") {
-          window.history.pushState(window.history.state, "", url);
-        } else {
-          window.history.replaceState(window.history.state, "", url);
-        }
-      }
-    }
-    /** 点击回调 */
-    anchorClick(e) {
-      var f = e.target;
-      for (; f && "A" !== f.tagName; ) {
-        f = f.parentNode;
-      }
-      if ("A" !== (f == null ? void 0 : f.tagName)) {
-        return;
-      }
-      this.anchor([f]);
-    }
-    /** 净化a标签 */
-    anchor(list) {
-      list.forEach((d) => {
-        if (!d.href) return;
-        d.href = this.clear(d.href);
-      });
-    }
-  };
-  var urlCleaner = new UrlCleaner();
-
   // src/html/history.html
   var history_default = \`\\r
 <!DOCTYPE html>\\r
@@ -25539,132 +25781,6 @@ const MODULES = `
 </body>\\r
 \\r
 </html>\`;
-
-  // src/page/page.ts
-  init_tampermonkey();
-  var Page = class {
-    /** 页面框架vdom */
-    vdom;
-    /** 初始化完成 */
-    initilized = false;
-    /** 禁止清除webpackJsonp */
-    webpackJsonp = false;
-    /** 保留__INITIAL_STATE__（仅特定页面需要） */
-    keepInitialState = false;
-    /** 保留新版next-head-count */
-    keepNextHeadMarker = false;
-    /** 阻止原新版页面脚本在旧版模板接管后继续抢占运行时 */
-    neutralizeScriptPatterns;
-    /**
-     * @param html 页面框架
-     */
-    constructor(html) {
-      this.updateHtml(html);
-      Reflect.defineProperty(window, "_babelPolyfill", {
-        configurable: true,
-        set: () => true,
-        get: () => void 0
-      });
-    }
-    updateHtml(html) {
-      this.vdom = new VdomTool(html);
-    }
-    /** 重写页面 */
-    updateDom() {
-      var _a3;
-      const title = document.title;
-      const keepNextHeadMarker = this.keepNextHeadMarker || !!((_a3 = document.head) == null ? void 0 : _a3.querySelector('meta[name="next-head-count"]'));
-      const neutralizeScriptPatterns = this.neutralizeScriptPatterns;
-      this.neutralizeOriginalScripts();
-      try {
-        if (!this.keepInitialState) {
-          Reflect.deleteProperty(window, "__INITIAL_STATE__");
-        }
-      } catch (e) {
-      }
-      this.webpackJsonp || Reflect.deleteProperty(window, "webpackJsonp");
-      (neutralizeScriptPatterns == null ? void 0 : neutralizeScriptPatterns.length) && this.guardWebpackJsonp(neutralizeScriptPatterns);
-      this.vdom.replace(document.documentElement);
-      keepNextHeadMarker && this.restoreNextHeadMarker();
-      title && !title.includes("404") && (document.title = title);
-      setTimeout(() => this.loadedCallback());
-    }
-    /** 阻止原新版页面脚本与旧版模板脚本抢同一个 webpackJsonp/DOM 运行时 */
-    neutralizeOriginalScripts() {
-      const patterns = this.neutralizeScriptPatterns;
-      if (!(patterns == null ? void 0 : patterns.length)) return;
-      Array.from(document.scripts).forEach((script) => {
-        if (script === document.currentScript) return;
-        const src = script.src || script.getAttribute("src") || "";
-        if (src && patterns.some((pattern) => pattern.test(src))) {
-          script.type = "javascript/blocked";
-          script.removeAttribute("src");
-          script.textContent = "";
-          script.remove();
-        }
-      });
-    }
-    guardWebpackJsonp(patterns) {
-      const win = window;
-      let value = win.webpackJsonp;
-      const shouldBlock = () => {
-        const currentScript = document.currentScript;
-        const src = currentScript instanceof HTMLScriptElement ? currentScript.src : "";
-        return !!src && patterns.some((pattern) => pattern.test(src));
-      };
-      const wrapPush = () => {
-        const target = value;
-        if (!target || typeof target.push !== "function" || target.push.__BLOD_WEBPACK_GUARD__) return;
-        const originalPush = target.push;
-        const guardedPush = function(...args) {
-          return shouldBlock() ? this.length : originalPush.apply(this, args);
-        };
-        Object.defineProperty(guardedPush, "__BLOD_WEBPACK_GUARD__", { value: true });
-        target.push = guardedPush;
-      };
-      Reflect.defineProperty(window, "webpackJsonp", {
-        configurable: true,
-        get: () => value,
-        set: (next) => {
-          value = next;
-          if (shouldBlock() && Array.isArray(value)) {
-            value.length = 0;
-          }
-          wrapPush();
-        }
-      });
-      wrapPush();
-      const timer = setInterval(wrapPush, 50);
-      setTimeout(() => {
-        clearInterval(timer);
-        try {
-          const current = win.webpackJsonp;
-          Reflect.deleteProperty(window, "webpackJsonp");
-          win.webpackJsonp = current;
-        } catch (e) {
-        }
-      }, 1e4);
-    }
-    // Restore next-head-count for residual Next.js head updates.
-    restoreNextHeadMarker() {
-      const head = document.head;
-      if (!head) return;
-      let marker = head.querySelector('meta[name="next-head-count"]');
-      if (!marker) {
-        marker = document.createElement("meta");
-        marker.name = "next-head-count";
-      }
-      marker.content = "0";
-      head.appendChild(marker);
-    }
-    /** 重写完成回调 */
-    loadedCallback() {
-      this.initilized = true;
-      poll(() => document.readyState === "complete", () => {
-        document.querySelector("#jvs-cert") || window.dispatchEvent(new ProgressEvent("load"));
-      });
-    }
-  };
 
   // src/page/history.ts
   var PageHistory = class extends Page {
@@ -41913,6 +42029,7 @@ const MODULES = `
         this.switch("av", "av/BV", "恢复旧版av页"),
         this.switch("bangumi", "bangumi", "恢复旧版bangumi页"),
         this.switch("watchlater", "稍后再看", "恢复旧版稍后再看"),
+        this.switch("space", "个人空间", "恢复旧版个人空间页"),
         this.switch("history", "历史", "恢复旧版历史记录页"),
         this.switch("playlist", "播单", "恢复旧版播单页"),
         this.switch("index", "主页", "恢复旧版Bilibili主页"),
