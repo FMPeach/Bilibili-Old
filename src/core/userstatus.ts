@@ -64,6 +64,8 @@ export const userStatus = {
     },
     /** 稍后再看 */
     watchlater: true,
+    /** 历史 */
+    history: true,
     /** 播单 */
     playlist: true,
     /** 全站排行榜 */
@@ -78,8 +80,8 @@ export const userStatus = {
     jointime: false,
     /** 失效视频 */
     lostVideo: true,
-    /** 纯视频历史 */
-    history: true,
+    /** 纯视频历史记录 */
+    historyVideoOnly: true,
     /** 动态里的直播录屏 */
     liveRecord: false,
     /** 设置入口样式 */

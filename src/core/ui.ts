@@ -193,6 +193,7 @@ export class UI {
             this.switch('av', 'av/BV', '恢复旧版av页'),
             this.switch('bangumi', 'bangumi', '恢复旧版bangumi页'),
             this.switch('watchlater', '稍后再看', '恢复旧版稍后再看'),
+            this.switch('history', '历史', '恢复旧版历史记录页'),
             this.switch('playlist', '播单', '恢复旧版播单页'),
             this.switch('index', '主页', '恢复旧版Bilibili主页'),
             this.switch('player', '播放器', '替换其他未重写页面的播放器'),
@@ -202,6 +203,10 @@ export class UI {
             this.switch('album', '相簿', '恢复相簿页'),
             this.switch('channel', '分区主页', '恢复各分区主页')
         ]);
+        // 关闭"历史"重写时，自动关闭"纯视频历史"
+        user.bindChange('history', v => {
+            if (!v) Chain.setStatus('historyVideoOnly', false);
+        });
     }
     /** 弹幕设置 */
     protected initSettingDanmaku() {
@@ -234,8 +239,7 @@ export class UI {
             this.switch('staff', '合作UP主', '联合投稿显示合作UP主', undefined, undefined, '在原av页up主信息处列出所有合作up主。'),
             this.switch('bangumiEplist', '保留bangumi分P', '牺牲特殊背景图', undefined, undefined, '旧版bangumi遇到有特殊背景图的视频时，会隐藏播放器下方的分集选择界面，二者不可得兼。'),
             this.switch('jointime', '注册时间', '个人空间显示账户注册时间'),
-            this.switch('history', '纯视频历史', '过滤历史记录页的非视频部分'),
-            this.switch('liveRecord', '录屏动态', '允许动态页显示直播录屏'),
+            this.switch('historyVideoOnly', '纯视频历史', '历史记录仅显示视频'),            this.switch('liveRecord', '录屏动态', '允许动态页显示直播录屏'),
             this.switch('commentJumpUrlTitle', '评论超链接标题', '还原为链接或短链接', undefined, undefined, '直接显示链接标题固然方便，但有些时候还是直接显示链接合适。'),
             this.switch('like', '添加点赞功能', '不支持一键三连'),
             this.switch('dynamicBanner', '动态Banner', '启用动态分层视差Banner', undefined, undefined, '启用动态Banner，渲染支持鼠标视差。关闭则使用静态Banner图片。'),
