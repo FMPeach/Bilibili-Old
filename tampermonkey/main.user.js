@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bilibili 旧播放页
 // @namespace    MotooriKashin
-// @version      10.12.8-c3dd748427ccbbefce8d3423714030e5ad97afd7
+// @version      10.12.9-c3dd748427ccbbefce8d3423714030e5ad97afd7
 // @description  恢复Bilibili旧版页面，为了那些念旧的人。
 // @author       MotooriKashin, wly5556, FMPeach
 // @homepage     https://github.com/FMPeach/Bilibili-Old
@@ -164,9 +164,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/crypt/crypt.js
+  // ../node_modules/crypt/crypt.js
   var require_crypt = __commonJS({
-    "node_modules/crypt/crypt.js"(exports2, module2) {
+    "../node_modules/crypt/crypt.js"(exports2, module2) {
       init_tampermonkey();
       (function() {
         var base64map = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", crypt = {
@@ -246,9 +246,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/charenc/charenc.js
+  // ../node_modules/charenc/charenc.js
   var require_charenc = __commonJS({
-    "node_modules/charenc/charenc.js"(exports2, module2) {
+    "../node_modules/charenc/charenc.js"(exports2, module2) {
       init_tampermonkey();
       var charenc = {
         // UTF-8 encoding
@@ -282,9 +282,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/is-buffer/index.js
+  // ../node_modules/is-buffer/index.js
   var require_is_buffer = __commonJS({
-    "node_modules/is-buffer/index.js"(exports2, module2) {
+    "../node_modules/is-buffer/index.js"(exports2, module2) {
       init_tampermonkey();
       module2.exports = function(obj) {
         return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer);
@@ -298,9 +298,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/md5/md5.js
+  // ../node_modules/md5/md5.js
   var require_md5 = __commonJS({
-    "node_modules/md5/md5.js"(exports2, module2) {
+    "../node_modules/md5/md5.js"(exports2, module2) {
       init_tampermonkey();
       (function() {
         var crypt = require_crypt(), utf8 = require_charenc().utf8, isBuffer = require_is_buffer(), bin = require_charenc().bin, md54 = function(message, options) {
@@ -421,9 +421,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/@protobufjs/aspromise/index.js
+  // ../node_modules/@protobufjs/aspromise/index.js
   var require_aspromise = __commonJS({
-    "node_modules/@protobufjs/aspromise/index.js"(exports2, module2) {
+    "../node_modules/@protobufjs/aspromise/index.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = asPromise;
@@ -458,9 +458,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/@protobufjs/base64/index.js
+  // ../node_modules/@protobufjs/base64/index.js
   var require_base64 = __commonJS({
-    "node_modules/@protobufjs/base64/index.js"(exports2) {
+    "../node_modules/@protobufjs/base64/index.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var base642 = exports2;
@@ -559,9 +559,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/@protobufjs/eventemitter/index.js
+  // ../node_modules/@protobufjs/eventemitter/index.js
   var require_eventemitter = __commonJS({
-    "node_modules/@protobufjs/eventemitter/index.js"(exports2, module2) {
+    "../node_modules/@protobufjs/eventemitter/index.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = EventEmitter;
@@ -606,9 +606,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/@protobufjs/float/index.js
+  // ../node_modules/@protobufjs/float/index.js
   var require_float = __commonJS({
-    "node_modules/@protobufjs/float/index.js"(exports2, module2) {
+    "../node_modules/@protobufjs/float/index.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = factory(factory);
@@ -801,9 +801,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/@protobufjs/inquire/index.js
+  // ../node_modules/@protobufjs/inquire/index.js
   var require_inquire = __commonJS({
-    "node_modules/@protobufjs/inquire/index.js"(exports, module) {
+    "../node_modules/@protobufjs/inquire/index.js"(exports, module) {
       "use strict";
       init_tampermonkey();
       module.exports = inquire;
@@ -819,9 +819,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/@protobufjs/utf8/index.js
+  // ../node_modules/@protobufjs/utf8/index.js
   var require_utf8 = __commonJS({
-    "node_modules/@protobufjs/utf8/index.js"(exports2) {
+    "../node_modules/@protobufjs/utf8/index.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var utf8 = exports2;
@@ -897,9 +897,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/@protobufjs/pool/index.js
+  // ../node_modules/@protobufjs/pool/index.js
   var require_pool = __commonJS({
-    "node_modules/@protobufjs/pool/index.js"(exports2, module2) {
+    "../node_modules/@protobufjs/pool/index.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = pool;
@@ -924,9 +924,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/protobufjs/src/util/longbits.js
+  // ../node_modules/protobufjs/src/util/longbits.js
   var require_longbits = __commonJS({
-    "node_modules/protobufjs/src/util/longbits.js"(exports2, module2) {
+    "../node_modules/protobufjs/src/util/longbits.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = LongBits;
@@ -1027,9 +1027,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/protobufjs/src/util/minimal.js
+  // ../node_modules/protobufjs/src/util/minimal.js
   var require_minimal = __commonJS({
-    "node_modules/protobufjs/src/util/minimal.js"(exports2) {
+    "../node_modules/protobufjs/src/util/minimal.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var util = exports2;
@@ -1203,9 +1203,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/protobufjs/src/writer.js
+  // ../node_modules/protobufjs/src/writer.js
   var require_writer = __commonJS({
-    "node_modules/protobufjs/src/writer.js"(exports2, module2) {
+    "../node_modules/protobufjs/src/writer.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Writer2;
@@ -1395,9 +1395,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/protobufjs/src/writer_buffer.js
+  // ../node_modules/protobufjs/src/writer_buffer.js
   var require_writer_buffer = __commonJS({
-    "node_modules/protobufjs/src/writer_buffer.js"(exports2, module2) {
+    "../node_modules/protobufjs/src/writer_buffer.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = BufferWriter;
@@ -1446,9 +1446,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/protobufjs/src/reader.js
+  // ../node_modules/protobufjs/src/reader.js
   var require_reader = __commonJS({
-    "node_modules/protobufjs/src/reader.js"(exports2, module2) {
+    "../node_modules/protobufjs/src/reader.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Reader2;
@@ -1671,9 +1671,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/protobufjs/src/reader_buffer.js
+  // ../node_modules/protobufjs/src/reader_buffer.js
   var require_reader_buffer = __commonJS({
-    "node_modules/protobufjs/src/reader_buffer.js"(exports2, module2) {
+    "../node_modules/protobufjs/src/reader_buffer.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = BufferReader;
@@ -1695,9 +1695,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/protobufjs/src/rpc/service.js
+  // ../node_modules/protobufjs/src/rpc/service.js
   var require_service = __commonJS({
-    "node_modules/protobufjs/src/rpc/service.js"(exports2, module2) {
+    "../node_modules/protobufjs/src/rpc/service.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Service;
@@ -1771,9 +1771,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/protobufjs/src/rpc.js
+  // ../node_modules/protobufjs/src/rpc.js
   var require_rpc = __commonJS({
-    "node_modules/protobufjs/src/rpc.js"(exports2) {
+    "../node_modules/protobufjs/src/rpc.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var rpc = exports2;
@@ -1781,18 +1781,18 @@ const MODULES = `
     }
   });
 
-  // node_modules/protobufjs/src/roots.js
+  // ../node_modules/protobufjs/src/roots.js
   var require_roots = __commonJS({
-    "node_modules/protobufjs/src/roots.js"(exports2, module2) {
+    "../node_modules/protobufjs/src/roots.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = {};
     }
   });
 
-  // node_modules/protobufjs/src/index-minimal.js
+  // ../node_modules/protobufjs/src/index-minimal.js
   var require_index_minimal = __commonJS({
-    "node_modules/protobufjs/src/index-minimal.js"(exports2) {
+    "../node_modules/protobufjs/src/index-minimal.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var protobuf = exports2;
@@ -1814,9 +1814,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/@protobufjs/codegen/index.js
+  // ../node_modules/@protobufjs/codegen/index.js
   var require_codegen = __commonJS({
-    "node_modules/@protobufjs/codegen/index.js"(exports2, module2) {
+    "../node_modules/@protobufjs/codegen/index.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = codegen;
@@ -1877,9 +1877,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/@protobufjs/fetch/index.js
+  // ../node_modules/@protobufjs/fetch/index.js
   var require_fetch = __commonJS({
-    "node_modules/@protobufjs/fetch/index.js"(exports2, module2) {
+    "../node_modules/@protobufjs/fetch/index.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = fetch2;
@@ -1929,9 +1929,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/@protobufjs/path/index.js
+  // ../node_modules/@protobufjs/path/index.js
   var require_path = __commonJS({
-    "node_modules/@protobufjs/path/index.js"(exports2) {
+    "../node_modules/@protobufjs/path/index.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var path = exports2;
@@ -1984,9 +1984,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/protobufjs/src/namespace.js
+  // ../node_modules/protobufjs/src/namespace.js
   var require_namespace = __commonJS({
-    "node_modules/protobufjs/src/namespace.js"(exports2, module2) {
+    "../node_modules/protobufjs/src/namespace.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Namespace;
@@ -2256,9 +2256,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/protobufjs/src/mapfield.js
+  // ../node_modules/protobufjs/src/mapfield.js
   var require_mapfield = __commonJS({
-    "node_modules/protobufjs/src/mapfield.js"(exports2, module2) {
+    "../node_modules/protobufjs/src/mapfield.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = MapField;
@@ -2313,9 +2313,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/protobufjs/src/method.js
+  // ../node_modules/protobufjs/src/method.js
   var require_method = __commonJS({
-    "node_modules/protobufjs/src/method.js"(exports2, module2) {
+    "../node_modules/protobufjs/src/method.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Method;
@@ -2382,9 +2382,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/protobufjs/src/service.js
+  // ../node_modules/protobufjs/src/service.js
   var require_service2 = __commonJS({
-    "node_modules/protobufjs/src/service.js"(exports2, module2) {
+    "../node_modules/protobufjs/src/service.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Service;
@@ -2493,17 +2493,21 @@ const MODULES = `
     }
   });
 
-  // node_modules/protobufjs/src/message.js
+  // ../node_modules/protobufjs/src/message.js
   var require_message = __commonJS({
-    "node_modules/protobufjs/src/message.js"(exports2, module2) {
+    "../node_modules/protobufjs/src/message.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Message2;
       var util = require_minimal();
       function Message2(properties) {
         if (properties)
-          for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-            this[keys[i]] = properties[keys[i]];
+          for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i) {
+            var key = keys[i];
+            if (key === "__proto__")
+              continue;
+            this[key] = properties[key];
+          }
       }
       Message2.create = function create(properties) {
         return this.\$type.create(properties);
@@ -2535,9 +2539,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/protobufjs/src/decoder.js
+  // ../node_modules/protobufjs/src/decoder.js
   var require_decoder = __commonJS({
-    "node_modules/protobufjs/src/decoder.js"(exports2, module2) {
+    "../node_modules/protobufjs/src/decoder.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = decoder;
@@ -2587,9 +2591,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/protobufjs/src/verifier.js
+  // ../node_modules/protobufjs/src/verifier.js
   var require_verifier = __commonJS({
-    "node_modules/protobufjs/src/verifier.js"(exports2, module2) {
+    "../node_modules/protobufjs/src/verifier.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = verifier;
@@ -2693,9 +2697,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/protobufjs/src/converter.js
+  // ../node_modules/protobufjs/src/converter.js
   var require_converter = __commonJS({
-    "node_modules/protobufjs/src/converter.js"(exports2) {
+    "../node_modules/protobufjs/src/converter.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var converter = exports2;
@@ -2898,9 +2902,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/protobufjs/src/wrappers.js
+  // ../node_modules/protobufjs/src/wrappers.js
   var require_wrappers = __commonJS({
-    "node_modules/protobufjs/src/wrappers.js"(exports2) {
+    "../node_modules/protobufjs/src/wrappers.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var wrappers = exports2;
@@ -2950,9 +2954,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/protobufjs/src/type.js
+  // ../node_modules/protobufjs/src/type.js
   var require_type = __commonJS({
-    "node_modules/protobufjs/src/type.js"(exports2, module2) {
+    "../node_modules/protobufjs/src/type.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Type3;
@@ -2973,6 +2977,7 @@ const MODULES = `
       var converter = require_converter();
       var wrappers = require_wrappers();
       function Type3(name, options) {
+        name = name.replace(/\\W/g, "");
         Namespace.call(this, name, options);
         this.fields = {};
         this.oneofs = void 0;
@@ -3287,9 +3292,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/protobufjs/src/root.js
+  // ../node_modules/protobufjs/src/root.js
   var require_root = __commonJS({
-    "node_modules/protobufjs/src/root.js"(exports2, module2) {
+    "../node_modules/protobufjs/src/root.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Root4;
@@ -3537,9 +3542,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/protobufjs/src/util.js
+  // ../node_modules/protobufjs/src/util.js
   var require_util = __commonJS({
-    "node_modules/protobufjs/src/util.js"(exports2, module2) {
+    "../node_modules/protobufjs/src/util.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       var util = module2.exports = require_minimal();
@@ -3652,9 +3657,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/protobufjs/src/types.js
+  // ../node_modules/protobufjs/src/types.js
   var require_types = __commonJS({
-    "node_modules/protobufjs/src/types.js"(exports2) {
+    "../node_modules/protobufjs/src/types.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var types = exports2;
@@ -3832,9 +3837,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/protobufjs/src/field.js
+  // ../node_modules/protobufjs/src/field.js
   var require_field = __commonJS({
-    "node_modules/protobufjs/src/field.js"(exports2, module2) {
+    "../node_modules/protobufjs/src/field.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Field2;
@@ -4030,9 +4035,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/protobufjs/src/oneof.js
+  // ../node_modules/protobufjs/src/oneof.js
   var require_oneof = __commonJS({
-    "node_modules/protobufjs/src/oneof.js"(exports2, module2) {
+    "../node_modules/protobufjs/src/oneof.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = OneOf2;
@@ -4139,9 +4144,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/protobufjs/src/object.js
+  // ../node_modules/protobufjs/src/object.js
   var require_object = __commonJS({
-    "node_modules/protobufjs/src/object.js"(exports2, module2) {
+    "../node_modules/protobufjs/src/object.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = ReflectionObject2;
@@ -4342,9 +4347,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/protobufjs/src/enum.js
+  // ../node_modules/protobufjs/src/enum.js
   var require_enum = __commonJS({
-    "node_modules/protobufjs/src/enum.js"(exports2, module2) {
+    "../node_modules/protobufjs/src/enum.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = Enum;
@@ -4452,9 +4457,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/protobufjs/src/encoder.js
+  // ../node_modules/protobufjs/src/encoder.js
   var require_encoder = __commonJS({
-    "node_modules/protobufjs/src/encoder.js"(exports2, module2) {
+    "../node_modules/protobufjs/src/encoder.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = encoder;
@@ -4502,9 +4507,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/protobufjs/src/index-light.js
+  // ../node_modules/protobufjs/src/index-light.js
   var require_index_light = __commonJS({
-    "node_modules/protobufjs/src/index-light.js"(exports2, module2) {
+    "../node_modules/protobufjs/src/index-light.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       var protobuf = module2.exports = require_index_minimal();
@@ -4549,18 +4554,18 @@ const MODULES = `
     }
   });
 
-  // node_modules/protobufjs/light.js
+  // ../node_modules/protobufjs/light.js
   var require_light = __commonJS({
-    "node_modules/protobufjs/light.js"(exports2, module2) {
+    "../node_modules/protobufjs/light.js"(exports2, module2) {
       "use strict";
       init_tampermonkey();
       module2.exports = require_index_light();
     }
   });
 
-  // node_modules/quill-delta-to-html-cb/dist/commonjs/value-types.js
+  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/value-types.js
   var require_value_types = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/value-types.js"(exports2) {
+    "../node_modules/quill-delta-to-html-cb/dist/commonjs/value-types.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -4613,9 +4618,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/quill-delta-to-html-cb/dist/commonjs/InsertData.js
+  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/InsertData.js
   var require_InsertData = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/InsertData.js"(exports2) {
+    "../node_modules/quill-delta-to-html-cb/dist/commonjs/InsertData.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -4638,9 +4643,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/lodash.isequal/index.js
+  // ../node_modules/lodash.isequal/index.js
   var require_lodash = __commonJS({
-    "node_modules/lodash.isequal/index.js"(exports2, module2) {
+    "../node_modules/lodash.isequal/index.js"(exports2, module2) {
       init_tampermonkey();
       var LARGE_ARRAY_SIZE = 200;
       var HASH_UNDEFINED = "__lodash_hash_undefined__";
@@ -5340,9 +5345,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/quill-delta-to-html-cb/dist/commonjs/DeltaInsertOp.js
+  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/DeltaInsertOp.js
   var require_DeltaInsertOp = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/DeltaInsertOp.js"(exports2) {
+    "../node_modules/quill-delta-to-html-cb/dist/commonjs/DeltaInsertOp.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var __importDefault = exports2 && exports2.__importDefault || function(mod2) {
@@ -5463,9 +5468,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/quill-delta-to-html-cb/dist/commonjs/mentions/MentionSanitizer.js
+  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/mentions/MentionSanitizer.js
   var require_MentionSanitizer = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/mentions/MentionSanitizer.js"(exports2) {
+    "../node_modules/quill-delta-to-html-cb/dist/commonjs/mentions/MentionSanitizer.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -5513,9 +5518,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/url.js
+  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/url.js
   var require_url = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/url.js"(exports2) {
+    "../node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/url.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -5532,9 +5537,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/quill-delta-to-html-cb/dist/commonjs/funcs-html.js
+  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/funcs-html.js
   var require_funcs_html = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/funcs-html.js"(exports2) {
+    "../node_modules/quill-delta-to-html-cb/dist/commonjs/funcs-html.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -5623,9 +5628,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/array.js
+  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/array.js
   var require_array = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/array.js"(exports2) {
+    "../node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/array.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -5698,9 +5703,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/quill-delta-to-html-cb/dist/commonjs/OpAttributeSanitizer.js
+  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/OpAttributeSanitizer.js
   var require_OpAttributeSanitizer = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/OpAttributeSanitizer.js"(exports2) {
+    "../node_modules/quill-delta-to-html-cb/dist/commonjs/OpAttributeSanitizer.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var __importStar = exports2 && exports2.__importStar || function(mod2) {
@@ -5874,9 +5879,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/string.js
+  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/string.js
   var require_string = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/string.js"(exports2) {
+    "../node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/string.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -5907,9 +5912,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/object.js
+  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/object.js
   var require_object2 = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/object.js"(exports2) {
+    "../node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/object.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -5938,9 +5943,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpDenormalizer.js
+  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpDenormalizer.js
   var require_InsertOpDenormalizer = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpDenormalizer.js"(exports2) {
+    "../node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpDenormalizer.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var __importStar = exports2 && exports2.__importStar || function(mod2) {
@@ -5986,9 +5991,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpsConverter.js
+  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpsConverter.js
   var require_InsertOpsConverter = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpsConverter.js"(exports2) {
+    "../node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpsConverter.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -6040,9 +6045,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/quill-delta-to-html-cb/dist/commonjs/OpToHtmlConverter.js
+  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/OpToHtmlConverter.js
   var require_OpToHtmlConverter = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/OpToHtmlConverter.js"(exports2) {
+    "../node_modules/quill-delta-to-html-cb/dist/commonjs/OpToHtmlConverter.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var __importStar = exports2 && exports2.__importStar || function(mod2) {
@@ -6357,9 +6362,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/group-types.js
+  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/group-types.js
   var require_group_types = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/group-types.js"(exports2) {
+    "../node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/group-types.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var __extends = exports2 && exports2.__extends || (function() {
@@ -6456,9 +6461,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/Grouper.js
+  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/Grouper.js
   var require_Grouper = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/Grouper.js"(exports2) {
+    "../node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/Grouper.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -6550,9 +6555,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/ListNester.js
+  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/ListNester.js
   var require_ListNester = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/ListNester.js"(exports2) {
+    "../node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/ListNester.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -6652,9 +6657,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/TableGrouper.js
+  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/TableGrouper.js
   var require_TableGrouper = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/TableGrouper.js"(exports2) {
+    "../node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/TableGrouper.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -6698,9 +6703,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/quill-delta-to-html-cb/dist/commonjs/QuillDeltaToHtmlConverter.js
+  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/QuillDeltaToHtmlConverter.js
   var require_QuillDeltaToHtmlConverter = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/QuillDeltaToHtmlConverter.js"(exports2) {
+    "../node_modules/quill-delta-to-html-cb/dist/commonjs/QuillDeltaToHtmlConverter.js"(exports2) {
       "use strict";
       init_tampermonkey();
       var __importStar = exports2 && exports2.__importStar || function(mod2) {
@@ -6937,9 +6942,9 @@ const MODULES = `
     }
   });
 
-  // node_modules/quill-delta-to-html-cb/dist/commonjs/main.js
+  // ../node_modules/quill-delta-to-html-cb/dist/commonjs/main.js
   var require_main = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/main.js"(exports2) {
+    "../node_modules/quill-delta-to-html-cb/dist/commonjs/main.js"(exports2) {
       "use strict";
       init_tampermonkey();
       Object.defineProperty(exports2, "__esModule", { value: true });
@@ -7886,6 +7891,8 @@ const MODULES = `
       this.cid = cid;
       _ApiDmWeb.Root || _ApiDmWeb.RootInit();
     }
+    aid;
+    cid;
     static Root;
     static DmWebViewReply;
     static DmSegMobileReply;
@@ -8418,6 +8425,7 @@ const MODULES = `
         id: aid
       }));
     }
+    aid;
     fetch;
     async getDate() {
       const respense = await this.fetch;
@@ -9188,6 +9196,8 @@ const MODULES = `
     },
     /** 稍后再看 */
     watchlater: true,
+    /** 历史 */
+    history: true,
     /** 播单 */
     playlist: true,
     /** 全站排行榜 */
@@ -9202,8 +9212,8 @@ const MODULES = `
     jointime: false,
     /** 失效视频 */
     lostVideo: true,
-    /** 纯视频历史 */
-    history: true,
+    /** 纯视频历史记录 */
+    historyVideoOnly: true,
     /** 动态里的直播录屏 */
     liveRecord: false,
     /** 设置入口样式 */
@@ -9420,6 +9430,7 @@ const MODULES = `
       this.target = target;
       target.addEventListener("click", (e) => e.stopPropagation());
     }
+    target;
     /** 已启用监听 */
     enabled = false;
     /** 移除节点 */
@@ -9968,6 +9979,8 @@ const MODULES = `
       this.url = url;
       this.appkey = appkey;
     }
+    url;
+    appkey;
     get ts() {
       return (/* @__PURE__ */ new Date()).getTime();
     }
@@ -10328,6 +10341,7 @@ const MODULES = `
         fnval
       }, data, pgc ? { module: "bangumi", season_type: 1 } : {});
     }
+    data;
     async getData() {
       const response = await fetch(this.sign().toJSON(), { credentials: "include" });
       return await response.json();
@@ -10352,6 +10366,8 @@ const MODULES = `
         otype: "json"
       }, data, dash ? { fnval, fnver } : {});
     }
+    data;
+    pgc;
     async getData() {
       const response = await GM.fetch(this.sign().toJSON());
       const json = await response.json();
@@ -10377,6 +10393,7 @@ const MODULES = `
         build: 102801
       }, data, dash ? { fnval, fnver } : {});
     }
+    data;
     async getData() {
       const response = await fetch(this.sign().toJSON());
       const json = await response.json();
@@ -10400,6 +10417,7 @@ const MODULES = `
       }, data);
       pgc && (this.data.module = "bangumi");
     }
+    data;
     async getData() {
       const response = await fetch(this.sign().toJSON());
       return await response.json();
@@ -11987,7 +12005,7 @@ const MODULES = `
     }
   };
 
-  // node_modules/fflate/esm/browser.js
+  // ../node_modules/fflate/esm/browser.js
   init_tampermonkey();
   var u8 = Uint8Array;
   var u16 = Uint16Array;
@@ -12744,6 +12762,7 @@ const MODULES = `
       _BAPIMetadata.Root || _BAPIMetadata.RootInit();
       accessKey && (this.metadata.accessKey = accessKey);
     }
+    accessKey;
     /** 命名空间 */
     static Root;
     /** Type<Metadata> */
@@ -12838,6 +12857,7 @@ const MODULES = `
       this.accessKey = accessKey;
       _BAPIAppPlayurlV1.Root || (_BAPIAppPlayurlV1.Root = import_light3.Root.fromJSON(playurl_default));
     }
+    accessKey;
     /** 命名空间 */
     static Root;
     package = "bilibili.app.playurl.v1";
@@ -12912,6 +12932,14 @@ const MODULES = `
       this.split = split;
       this.size = size;
     }
+    userAgent;
+    referer;
+    dir;
+    server;
+    port;
+    token;
+    split;
+    size;
     get url() {
       return \`\${this.server}:\${this.port}/jsonrpc\`;
     }
@@ -12976,6 +13004,9 @@ const MODULES = `
       this.referer = referer;
       this.dir = dir;
     }
+    userAgent;
+    referer;
+    dir;
     /** 命令行 */
     cmdlet(data) {
       const arr2 = ["curl", "-C", "-", \`"\${data.url}"\`];
@@ -12998,6 +13029,11 @@ const MODULES = `
       this.delay = delay;
       this.silence = silence;
     }
+    userAgent;
+    referer;
+    dir;
+    delay;
+    silence;
     /** 拉起IDM */
     sendLinkToIDM(data) {
       this.rebuildData(data);
@@ -13187,6 +13223,7 @@ const MODULES = `
     constructor(fileName) {
       this.fileName = fileName;
     }
+    fileName;
     /** 数据 */
     record = [];
     /** id => 质量 */
@@ -13527,6 +13564,10 @@ const MODULES = `
       side && ele.insertAdjacentElement("afterend", _Scrollbar.style.cloneNode(true));
       this.flesh();
     }
+    ele;
+    x;
+    y;
+    side;
     static mutex = getMetux();
     static prefix = "scrollbar-" + _Scrollbar.mutex;
     static style;
@@ -13747,6 +13788,8 @@ const MODULES = `
       this.url = url;
       this.size = size;
     }
+    url;
+    size;
     /** range索引结束点 */
     end = 5999;
     /** range索引开始点 */
@@ -13807,6 +13850,7 @@ const MODULES = `
         platform: "android"
       }, data);
     }
+    data;
     response;
     async getDate() {
       if (this.response) return this.response;
@@ -25328,18 +25372,319 @@ const MODULES = `
 
   // src/page/history.ts
   init_tampermonkey();
-  var PageHistory = class {
+
+  // src/core/url.ts
+  init_tampermonkey();
+  var paramsSet = /* @__PURE__ */ new Set([
+    "spm_id_from",
+    "from_source",
+    "msource",
+    "bsource",
+    "seid",
+    "source",
+    "session_id",
+    "visit_id",
+    "sourceFrom",
+    "from_spmid",
+    "share_source",
+    "share_medium",
+    "share_plat",
+    "share_session_id",
+    "share_tag",
+    "unique_k",
+    "vd_source",
+    "csource"
+  ]);
+  var paramArr = Object.entries({
+    from: ["search"]
+  });
+  var UrlCleaner = class {
+    /** 垃圾参数序列 */
+    paramsSet = paramsSet;
+    /** 精准爆破序列 */
+    paramArr = paramArr;
     constructor() {
-      user.addCallback((status) => {
-        status.history && this.archive();
+      var _a3;
+      this.location();
+      (_a3 = window.navigation) == null ? void 0 : _a3.addEventListener("navigate", (e) => {
+        const newURL = this.clear(e.destination.url);
+        if (e.destination.url != newURL) {
+          e.preventDefault();
+          if (newURL == window.location.href) return;
+          if (e.navigationType !== "traverse") {
+            this.updateLocation(newURL, e.navigationType);
+          }
+        }
+      });
+      window.addEventListener("click", (e) => this.anchorClick(e));
+      window.addEventListener("contextmenu", (e) => this.anchorClick(e));
+      document.addEventListener("DOMContentLoaded", () => {
+        this.location();
+        this.anchor(document.querySelectorAll("a"));
+      }, { once: true });
+    }
+    /** 净化url */
+    clear(str) {
+      const url = new URL2(str);
+      if (url && !str.includes("passport.bilibili.com")) {
+        const params = url.params;
+        if (params.bvid) {
+          params.aid = AV.fromBV(params.bvid);
+        }
+        if (params.aid && !Number(params.aid)) {
+          params.aid = AV.fromBV(params.aid);
+        }
+        paramsSet.forEach((d) => {
+          delete params[d];
+        });
+        paramArr.forEach((d) => {
+          if (params[d[0]]) {
+            if (d[1].includes(params[d[0]])) {
+              delete params[d[0]];
+            }
+          }
+        });
+        url.base = AV.fromStr(url.base);
+        url.hash && (url.hash = AV.fromStr(url.hash));
+        return url.toJSON();
+      } else return str;
+    }
+    /** 净化URL */
+    location() {
+      this.updateLocation(this.clear(location.href));
+    }
+    /** 更新URL而不触发重定向 */
+    updateLocation(url, fun) {
+      const Url = new self.URL(url);
+      if (Url.host === location.host) {
+        if (fun === "push") {
+          window.history.pushState(window.history.state, "", url);
+        } else {
+          window.history.replaceState(window.history.state, "", url);
+        }
+      }
+    }
+    /** 点击回调 */
+    anchorClick(e) {
+      var f = e.target;
+      for (; f && "A" !== f.tagName; ) {
+        f = f.parentNode;
+      }
+      if ("A" !== (f == null ? void 0 : f.tagName)) {
+        return;
+      }
+      this.anchor([f]);
+    }
+    /** 净化a标签 */
+    anchor(list) {
+      list.forEach((d) => {
+        if (!d.href) return;
+        d.href = this.clear(d.href);
       });
     }
-    /** 纯视频历史记录 */
+  };
+  var urlCleaner = new UrlCleaner();
+
+  // src/html/history.html
+  var history_default = \`\\r
+<!DOCTYPE html>\\r
+<html lang="zh-Hans">\\r
+\\r
+<head>\\r
+  <title>历史记录</title>\\r
+  <meta charset="utf-8">\\r
+  <title>哔哩哔哩 (゜-゜)つロ 干杯~-bilibili</title>\\r
+  <meta name="description" content="bilibili是国内知名的视频弹幕网站，这里有最及时的动漫新番，最棒的ACG氛围，最有创意的Up主。大家可以在这里找到许多欢乐。">\\r
+  <meta name="keywords" content="B站,弹幕,字幕,AMV,MAD,MTV,ANIME,动漫,动漫音乐,游戏,游戏解说,ACG,galgame,动画,番组,新番,初音,洛天依,vocaloid">\\r
+  <meta name="renderer" content="webkit">\\r
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">\\r
+  <meta name="spm_prefix" content="333.880"/>\\r
+  <link rel="shortcut icon" href="https://static.hdslb.com/images/favicon.ico">\\r
+  <link rel="search" type="application/opensearchdescription+xml" href="https://static.hdslb.com/opensearch.xml" title="哔哩哔哩">\\r
+  <meta name="viewport" content="width=device-width, initial-scale=1">\\r
+  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/jinkela/short/config/biliconfig.js"><\\/script>\\r
+  <script type="text/javascript">\\r
+    window.isbv = (window.__BILI_CONFIG__ && window.__BILI_CONFIG__.show_bv) || false\\r
+  <\\/script>\\r
+  <style>\\r
+    #internationalHeader .primary-menu-itnl {\\r
+      display: none;\\r
+    }\\r
+    #internationalHeader .b-wrap {\\r
+      width: 1160px;\\r
+    }\\r
+    @media screen and (max-width: 1414px) {\\r
+      #internationalHeader .b-wrap {\\r
+        width: 980px;\\r
+      }\\r
+    }\\r
+  </style>\\r
+  <script type="text/javascript">\\r
+    window.spmReportData = {}\\r
+    window.reportConfig = { sample: 1, scrollTracker: true, msgObjects: 'spmReportData', errorTracker: true }\\r
+  <\\/script>\\r
+  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/log/report/log-reporter.js"><\\/script>\\r
+</head>\\r
+<body>\\r
+  <div class="z-top-container" type="all" style="height: 263px;"></div>\\r
+  <div id="app">\\r
+    <app></app>\\r
+  </div>\\r
+  <div class="footer bili-footer"></div>\\r
+  <script type="text/javascript" src="https://static.hdslb.com/js/jquery.min.js"><\\/script>\\r
+  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/jinkela/header-v2/header.js"><\\/script>\\r
+  <script type="text/javascript" src="https://static.hdslb.com/common/js/footer.js"><\\/script>\\r
+  <script type="text/javascript" src="https://s1.hdslb.com/bfs/static/history-record/vendor_1bc32197.js"><\\/script>\\r
+  <script type="text/javascript" src="https://s1.hdslb.com/bfs/static/history-record/app_1bc32197.js"><\\/script>\\r
+</body>\\r
+\\r
+</html>\`;
+
+  // src/page/page.ts
+  init_tampermonkey();
+  var Page = class {
+    /** 页面框架vdom */
+    vdom;
+    /** 初始化完成 */
+    initilized = false;
+    /** 禁止清除webpackJsonp */
+    webpackJsonp = false;
+    /** 保留__INITIAL_STATE__（仅特定页面需要） */
+    keepInitialState = false;
+    /** 保留新版next-head-count */
+    keepNextHeadMarker = false;
+    /** 阻止原新版页面脚本在旧版模板接管后继续抢占运行时 */
+    neutralizeScriptPatterns;
+    /**
+     * @param html 页面框架
+     */
+    constructor(html) {
+      this.updateHtml(html);
+      Reflect.defineProperty(window, "_babelPolyfill", {
+        configurable: true,
+        set: () => true,
+        get: () => void 0
+      });
+    }
+    updateHtml(html) {
+      this.vdom = new VdomTool(html);
+    }
+    /** 重写页面 */
+    updateDom() {
+      var _a3;
+      const title = document.title;
+      const keepNextHeadMarker = this.keepNextHeadMarker || !!((_a3 = document.head) == null ? void 0 : _a3.querySelector('meta[name="next-head-count"]'));
+      const neutralizeScriptPatterns = this.neutralizeScriptPatterns;
+      this.neutralizeOriginalScripts();
+      try {
+        if (!this.keepInitialState) {
+          Reflect.deleteProperty(window, "__INITIAL_STATE__");
+        }
+      } catch (e) {
+      }
+      this.webpackJsonp || Reflect.deleteProperty(window, "webpackJsonp");
+      (neutralizeScriptPatterns == null ? void 0 : neutralizeScriptPatterns.length) && this.guardWebpackJsonp(neutralizeScriptPatterns);
+      this.vdom.replace(document.documentElement);
+      keepNextHeadMarker && this.restoreNextHeadMarker();
+      title && !title.includes("404") && (document.title = title);
+      setTimeout(() => this.loadedCallback());
+    }
+    /** 阻止原新版页面脚本与旧版模板脚本抢同一个 webpackJsonp/DOM 运行时 */
+    neutralizeOriginalScripts() {
+      const patterns = this.neutralizeScriptPatterns;
+      if (!(patterns == null ? void 0 : patterns.length)) return;
+      Array.from(document.scripts).forEach((script) => {
+        if (script === document.currentScript) return;
+        const src = script.src || script.getAttribute("src") || "";
+        if (src && patterns.some((pattern) => pattern.test(src))) {
+          script.type = "javascript/blocked";
+          script.removeAttribute("src");
+          script.textContent = "";
+          script.remove();
+        }
+      });
+    }
+    guardWebpackJsonp(patterns) {
+      const win = window;
+      let value = win.webpackJsonp;
+      const shouldBlock = () => {
+        const currentScript = document.currentScript;
+        const src = currentScript instanceof HTMLScriptElement ? currentScript.src : "";
+        return !!src && patterns.some((pattern) => pattern.test(src));
+      };
+      const wrapPush = () => {
+        const target = value;
+        if (!target || typeof target.push !== "function" || target.push.__BLOD_WEBPACK_GUARD__) return;
+        const originalPush = target.push;
+        const guardedPush = function(...args) {
+          return shouldBlock() ? this.length : originalPush.apply(this, args);
+        };
+        Object.defineProperty(guardedPush, "__BLOD_WEBPACK_GUARD__", { value: true });
+        target.push = guardedPush;
+      };
+      Reflect.defineProperty(window, "webpackJsonp", {
+        configurable: true,
+        get: () => value,
+        set: (next) => {
+          value = next;
+          if (shouldBlock() && Array.isArray(value)) {
+            value.length = 0;
+          }
+          wrapPush();
+        }
+      });
+      wrapPush();
+      const timer = setInterval(wrapPush, 50);
+      setTimeout(() => {
+        clearInterval(timer);
+        try {
+          const current = win.webpackJsonp;
+          Reflect.deleteProperty(window, "webpackJsonp");
+          win.webpackJsonp = current;
+        } catch (e) {
+        }
+      }, 1e4);
+    }
+    // Restore next-head-count for residual Next.js head updates.
+    restoreNextHeadMarker() {
+      const head = document.head;
+      if (!head) return;
+      let marker = head.querySelector('meta[name="next-head-count"]');
+      if (!marker) {
+        marker = document.createElement("meta");
+        marker.name = "next-head-count";
+      }
+      marker.content = "0";
+      head.appendChild(marker);
+    }
+    /** 重写完成回调 */
+    loadedCallback() {
+      this.initilized = true;
+      poll(() => document.readyState === "complete", () => {
+        document.querySelector("#jvs-cert") || window.dispatchEvent(new ProgressEvent("load"));
+      });
+    }
+  };
+
+  // src/page/history.ts
+  var PageHistory = class extends Page {
+    constructor() {
+      super(history_default);
+      urlCleaner.updateLocation(location.origin + "/account/history");
+      Header.primaryMenu();
+      Header.banner();
+      this.updateDom();
+      this.archive();
+    }
+    /** 纯视频历史记录（仅在重写开关也开启时生效） */
     archive() {
-      xhrHook(["api.bilibili.com/x/web-interface/history/cursor", "business"], function(args) {
-        let obj = new URL(args[1]), max2 = obj.searchParams.get("max") || "", view_at = obj.searchParams.get("view_at") || "";
-        args[1] = objUrl("//api.bilibili.com/x/web-interface/history/cursor", { max: max2, view_at, type: "archive", ps: "20" });
-      }, void 0, false);
+      user.addCallback((status) => {
+        if (!status.history || !status.historyVideoOnly) return;
+        xhrHook(["api.bilibili.com/x/web-interface/history/cursor", "business"], function(args) {
+          let obj = new URL(args[1]), max2 = obj.searchParams.get("max") || "", view_at = obj.searchParams.get("view_at") || "";
+          args[1] = objUrl("//api.bilibili.com/x/web-interface/history/cursor", { max: max2, view_at, type: "archive", ps: "20" });
+        }, void 0, false);
+      });
     }
   };
 
@@ -25543,118 +25888,6 @@ const MODULES = `
     }
   };
 
-  // src/core/url.ts
-  init_tampermonkey();
-  var paramsSet = /* @__PURE__ */ new Set([
-    "spm_id_from",
-    "from_source",
-    "msource",
-    "bsource",
-    "seid",
-    "source",
-    "session_id",
-    "visit_id",
-    "sourceFrom",
-    "from_spmid",
-    "share_source",
-    "share_medium",
-    "share_plat",
-    "share_session_id",
-    "share_tag",
-    "unique_k",
-    "vd_source",
-    "csource"
-  ]);
-  var paramArr = Object.entries({
-    from: ["search"]
-  });
-  var UrlCleaner = class {
-    /** 垃圾参数序列 */
-    paramsSet = paramsSet;
-    /** 精准爆破序列 */
-    paramArr = paramArr;
-    constructor() {
-      var _a3;
-      this.location();
-      (_a3 = window.navigation) == null ? void 0 : _a3.addEventListener("navigate", (e) => {
-        const newURL = this.clear(e.destination.url);
-        if (e.destination.url != newURL) {
-          e.preventDefault();
-          if (newURL == window.location.href) return;
-          if (e.navigationType !== "traverse") {
-            this.updateLocation(newURL, e.navigationType);
-          }
-        }
-      });
-      window.addEventListener("click", (e) => this.anchorClick(e));
-      window.addEventListener("contextmenu", (e) => this.anchorClick(e));
-      document.addEventListener("DOMContentLoaded", () => {
-        this.location();
-        this.anchor(document.querySelectorAll("a"));
-      }, { once: true });
-    }
-    /** 净化url */
-    clear(str) {
-      const url = new URL2(str);
-      if (url && !str.includes("passport.bilibili.com")) {
-        const params = url.params;
-        if (params.bvid) {
-          params.aid = AV.fromBV(params.bvid);
-        }
-        if (params.aid && !Number(params.aid)) {
-          params.aid = AV.fromBV(params.aid);
-        }
-        paramsSet.forEach((d) => {
-          delete params[d];
-        });
-        paramArr.forEach((d) => {
-          if (params[d[0]]) {
-            if (d[1].includes(params[d[0]])) {
-              delete params[d[0]];
-            }
-          }
-        });
-        url.base = AV.fromStr(url.base);
-        url.hash && (url.hash = AV.fromStr(url.hash));
-        return url.toJSON();
-      } else return str;
-    }
-    /** 净化URL */
-    location() {
-      this.updateLocation(this.clear(location.href));
-    }
-    /** 更新URL而不触发重定向 */
-    updateLocation(url, fun) {
-      const Url = new self.URL(url);
-      if (Url.host === location.host) {
-        if (fun === "push") {
-          window.history.pushState(window.history.state, "", url);
-        } else {
-          window.history.replaceState(window.history.state, "", url);
-        }
-      }
-    }
-    /** 点击回调 */
-    anchorClick(e) {
-      var f = e.target;
-      for (; f && "A" !== f.tagName; ) {
-        f = f.parentNode;
-      }
-      if ("A" !== (f == null ? void 0 : f.tagName)) {
-        return;
-      }
-      this.anchor([f]);
-    }
-    /** 净化a标签 */
-    anchor(list) {
-      list.forEach((d) => {
-        if (!d.href) return;
-        d.href = this.clear(d.href);
-      });
-    }
-  };
-  var urlCleaner = new UrlCleaner();
-
   // src/page/live.ts
   var PageLive = class {
     sleep = false;
@@ -25818,132 +26051,6 @@ const MODULES = `
     }
     return num + unit[i];
   }
-
-  // src/page/page.ts
-  init_tampermonkey();
-  var Page = class {
-    /** 页面框架vdom */
-    vdom;
-    /** 初始化完成 */
-    initilized = false;
-    /** 禁止清除webpackJsonp */
-    webpackJsonp = false;
-    /** 保留__INITIAL_STATE__（仅特定页面需要） */
-    keepInitialState = false;
-    /** 保留新版next-head-count */
-    keepNextHeadMarker = false;
-    /** 阻止原新版页面脚本在旧版模板接管后继续抢占运行时 */
-    neutralizeScriptPatterns;
-    /**
-     * @param html 页面框架
-     */
-    constructor(html) {
-      this.updateHtml(html);
-      Reflect.defineProperty(window, "_babelPolyfill", {
-        configurable: true,
-        set: () => true,
-        get: () => void 0
-      });
-    }
-    updateHtml(html) {
-      this.vdom = new VdomTool(html);
-    }
-    /** 重写页面 */
-    updateDom() {
-      var _a3;
-      const title = document.title;
-      const keepNextHeadMarker = this.keepNextHeadMarker || !!((_a3 = document.head) == null ? void 0 : _a3.querySelector('meta[name="next-head-count"]'));
-      const neutralizeScriptPatterns = this.neutralizeScriptPatterns;
-      this.neutralizeOriginalScripts();
-      try {
-        if (!this.keepInitialState) {
-          Reflect.deleteProperty(window, "__INITIAL_STATE__");
-        }
-      } catch (e) {
-      }
-      this.webpackJsonp || Reflect.deleteProperty(window, "webpackJsonp");
-      (neutralizeScriptPatterns == null ? void 0 : neutralizeScriptPatterns.length) && this.guardWebpackJsonp(neutralizeScriptPatterns);
-      this.vdom.replace(document.documentElement);
-      keepNextHeadMarker && this.restoreNextHeadMarker();
-      title && !title.includes("404") && (document.title = title);
-      setTimeout(() => this.loadedCallback());
-    }
-    /** 阻止原新版页面脚本与旧版模板脚本抢同一个 webpackJsonp/DOM 运行时 */
-    neutralizeOriginalScripts() {
-      const patterns = this.neutralizeScriptPatterns;
-      if (!(patterns == null ? void 0 : patterns.length)) return;
-      Array.from(document.scripts).forEach((script) => {
-        if (script === document.currentScript) return;
-        const src = script.src || script.getAttribute("src") || "";
-        if (src && patterns.some((pattern) => pattern.test(src))) {
-          script.type = "javascript/blocked";
-          script.removeAttribute("src");
-          script.textContent = "";
-          script.remove();
-        }
-      });
-    }
-    guardWebpackJsonp(patterns) {
-      const win = window;
-      let value = win.webpackJsonp;
-      const shouldBlock = () => {
-        const currentScript = document.currentScript;
-        const src = currentScript instanceof HTMLScriptElement ? currentScript.src : "";
-        return !!src && patterns.some((pattern) => pattern.test(src));
-      };
-      const wrapPush = () => {
-        const target = value;
-        if (!target || typeof target.push !== "function" || target.push.__BLOD_WEBPACK_GUARD__) return;
-        const originalPush = target.push;
-        const guardedPush = function(...args) {
-          return shouldBlock() ? this.length : originalPush.apply(this, args);
-        };
-        Object.defineProperty(guardedPush, "__BLOD_WEBPACK_GUARD__", { value: true });
-        target.push = guardedPush;
-      };
-      Reflect.defineProperty(window, "webpackJsonp", {
-        configurable: true,
-        get: () => value,
-        set: (next) => {
-          value = next;
-          if (shouldBlock() && Array.isArray(value)) {
-            value.length = 0;
-          }
-          wrapPush();
-        }
-      });
-      wrapPush();
-      const timer = setInterval(wrapPush, 50);
-      setTimeout(() => {
-        clearInterval(timer);
-        try {
-          const current = win.webpackJsonp;
-          Reflect.deleteProperty(window, "webpackJsonp");
-          win.webpackJsonp = current;
-        } catch (e) {
-        }
-      }, 1e4);
-    }
-    // Restore next-head-count for residual Next.js head updates.
-    restoreNextHeadMarker() {
-      const head = document.head;
-      if (!head) return;
-      let marker = head.querySelector('meta[name="next-head-count"]');
-      if (!marker) {
-        marker = document.createElement("meta");
-        marker.name = "next-head-count";
-      }
-      marker.content = "0";
-      head.appendChild(marker);
-    }
-    /** 重写完成回调 */
-    loadedCallback() {
-      this.initilized = true;
-      poll(() => document.readyState === "complete", () => {
-        document.querySelector("#jvs-cert") || window.dispatchEvent(new ProgressEvent("load"));
-      });
-    }
-  };
 
   // src/json/recommend.txt
   var recommend_default = '{"list":[{"aid":384216562,"last_recommend":[{"mid":294646,"time":1653053871,"msg":"","uname":"毛酱·把名字还给我","face":"https://i1.hdslb.com/bfs/face/b2345c23456f93d865cdaac3905a6157f1f4ea06.jpg"}],"bvid":"BV1dZ4y187t3","typeid":20,"typename":"宅舞","title":"【祀舞】フォニイ/ phony","subtitle":"","play":8190,"review":167,"video_review":74,"favorites":244,"mid":317922,"author":"祀舞。","description":"没想到吧我又来了，依然是和小五联动。\\\\n本该418，但是520。音源传送门→BV1MY411F736\\\\n本家：sm38833751\\\\n编舞：sm39010899\\\\n摄影后期：@Toxic_Photon 超级感谢！！","create":"2022-05-20 18:45","pic":"https://i0.hdslb.com/bfs/archive/5ea4f9e3f4da0b213074a43ba14faad34e4bf62c.jpg","credit":0,"coins":557,"like":801,"duration":"3:10","rights":{"bp":0,"elec":0,"download":0,"movie":0,"pay":0,"hd5":0,"no_reprint":1,"autoplay":1,"ugc_pay":0,"is_cooperation":0,"ugc_pay_preview":0,"no_background":0,"arc_pay":0,"pay_free_watch":0}},{"aid":551599512,"last_recommend":[{"mid":5242573,"time":1645000954,"msg":"","uname":"今日屁事","face":"https://i1.hdslb.com/bfs/face/ac9c605acf4a3fa523247bd8ec538d071d2b96cd.jpg"}],"bvid":"BV1mi4y117k7","typeid":138,"typename":"搞笑","title":"法国公婆怎么过情人节？公公的告白把我看呆了！！","subtitle":"","play":10165,"review":8,"video_review":17,"favorites":10,"mid":314843091,"author":"Lulu_Young","description":"偷偷学了法国婆婆的菜谱，从早上准备到晚上的晚餐！\\\\n公公超级会撒狗粮，让我教他们用中文给婆婆告白，饭后还主动洗盘子！","create":"2022-02-16 12:00","pic":"https://i2.hdslb.com/bfs/archive/f2c5bc0498a2a0dd62bc69b52aa06ed33e00ee66.jpg","credit":0,"coins":28,"like":57,"duration":"5:28","rights":{"bp":0,"elec":0,"download":0,"movie":0,"pay":0,"hd5":1,"no_reprint":1,"autoplay":1,"ugc_pay":0,"is_cooperation":0,"ugc_pay_preview":0,"no_background":0,"arc_pay":0,"pay_free_watch":0}},{"aid":936614557,"last_recommend":[{"mid":294646,"time":1644835898,"msg":"","uname":"毛酱·把名字还给我","face":"https://i1.hdslb.com/bfs/face/b2345c23456f93d865cdaac3905a6157f1f4ea06.jpg"}],"bvid":"BV1TT4y197QK","typeid":31,"typename":"翻唱","title":"【翻唱】门的另一端【A. Ikari】","subtitle":"","play":8368,"review":77,"video_review":10,"favorites":95,"mid":436256,"author":"A_Ikari","description":"他对我笑了，他心里有我！（\\\\n\\\\n下载：https://pan.baidu.com/s/16L7_5GTKWWBpIj45hLgtiw?pwd=k8wf\\\\n前作：Kiss me sweet → BV1YD4y1c7qN","create":"2022-02-13 23:50","pic":"https://i1.hdslb.com/bfs/archive/e640f463171f82cc6398217e2b39b09434347184.jpg","credit":0,"coins":188,"like":371,"duration":"3:57","rights":{"bp":0,"elec":0,"download":0,"movie":0,"pay":0,"hd5":0,"no_reprint":1,"autoplay":1,"ugc_pay":0,"is_cooperation":0,"ugc_pay_preview":0,"no_background":0,"arc_pay":0,"pay_free_watch":0}},{"aid":508421134,"last_recommend":[{"mid":3400252,"time":1643288342,"msg":"","uname":"党哦","face":"https://i1.hdslb.com/bfs/face/30eabd617e86a7a82d40eac3940a870c337defa5.jpg"}],"bvid":"BV1bu41117Qe","typeid":236,"typename":null,"title":"夏天也能练滑雪？美国滑雪天才少年教你足不出户上雪场","subtitle":"","play":27827,"review":24,"video_review":14,"favorites":89,"mid":1104695563,"author":"洛根滑雪Logan","description":"我是喜欢滑雪的Logan Ski，快三连关注一个~","create":"2022-01-27 16:02","pic":"https://i0.hdslb.com/bfs/archive/5feac2808035225818d8d822e24c0580ae681ef2.jpg","credit":0,"coins":54,"like":351,"duration":"4:34","rights":{"bp":0,"elec":0,"download":0,"movie":0,"pay":0,"hd5":0,"no_reprint":1,"autoplay":1,"ugc_pay":0,"is_cooperation":0,"ugc_pay_preview":0,"no_background":0,"arc_pay":0,"pay_free_watch":0}},{"aid":635545046,"last_recommend":[{"mid":3400252,"time":1641821047,"msg":"","uname":"党哦","face":"https://i1.hdslb.com/bfs/face/30eabd617e86a7a82d40eac3940a870c337defa5.jpg"}],"bvid":"BV13b4y1H7uL","typeid":208,"typename":null,"title":"作弊！没有毕业证也能办回国学历认证？超干货手把手教学｜海外学历学位认证攻略｜留学生回国","subtitle":"","play":3284,"review":29,"video_review":22,"favorites":103,"mid":6514473,"author":"合鸟是我","description":"","create":"2022-01-10 19:02","pic":"https://i1.hdslb.com/bfs/archive/40dc8385a4cb84ff5366f1e9417b9659d6375608.jpg","credit":0,"coins":31,"like":53,"duration":"5:54","rights":{"bp":0,"elec":0,"download":0,"movie":0,"pay":0,"hd5":0,"no_reprint":1,"autoplay":1,"ugc_pay":0,"is_cooperation":0,"ugc_pay_preview":0,"no_background":0,"arc_pay":0,"pay_free_watch":0}},{"aid":680501556,"last_recommend":[{"mid":3400252,"time":1641821092,"msg":"","uname":"党哦","face":"https://i1.hdslb.com/bfs/face/30eabd617e86a7a82d40eac3940a870c337defa5.jpg"}],"bvid":"BV1RS4y1T7iH","typeid":238,"typename":null,"title":"禧玛诺乱了，扛不住了","subtitle":"","play":21869,"review":195,"video_review":125,"favorites":23,"mid":273304400,"author":"住吉悍刀行","description":"关于禧玛诺涨价，和斯泰拉新款","create":"2022-01-09 20:38","pic":"https://i1.hdslb.com/bfs/archive/56b9584d1cd03a098c5b3b21679d2fd05e7af0be.jpg","credit":0,"coins":42,"like":277,"duration":"2:27","rights":{"bp":0,"elec":0,"download":0,"movie":0,"pay":0,"hd5":1,"no_reprint":1,"autoplay":1,"ugc_pay":0,"is_cooperation":0,"ugc_pay_preview":0,"no_background":0,"arc_pay":0,"pay_free_watch":0}}]}';
@@ -26234,6 +26341,9 @@ const MODULES = `
       this.hash = hash;
       this.protocol = protocol;
     }
+    host;
+    hash;
+    protocol;
     /**
      * 获取cdn链接
      * @param path 文件相对路径
@@ -30123,6 +30233,7 @@ const MODULES = `
               super();
               this.arg = arg;
             }
+            arg;
             \$parent;
             mount(parent) {
               if (load) {
@@ -37973,6 +38084,7 @@ const MODULES = `
         s_locale: "zh_SG"
       }, data);
     }
+    data;
     async getDate() {
       const response = await fetch(this.sign().toJSON());
       const json = await response.json();
@@ -37996,6 +38108,9 @@ const MODULES = `
       this.cid = cid;
       this.has_next = has_next;
     }
+    aid;
+    cid;
+    has_next;
     allow_bp = false;
     answer_status = 0;
     bgm_info;
@@ -40678,6 +40793,7 @@ const MODULES = `
       this.api = api;
       this.api = encodeURIComponent(api);
     }
+    api;
     async getData() {
       const response = await fetch(this.sign({ api: this.api }, this.api).toJSON(), { credentials: "include" });
       const json = await response.json();
@@ -41797,6 +41913,7 @@ const MODULES = `
         this.switch("av", "av/BV", "恢复旧版av页"),
         this.switch("bangumi", "bangumi", "恢复旧版bangumi页"),
         this.switch("watchlater", "稍后再看", "恢复旧版稍后再看"),
+        this.switch("history", "历史", "恢复旧版历史记录页"),
         this.switch("playlist", "播单", "恢复旧版播单页"),
         this.switch("index", "主页", "恢复旧版Bilibili主页"),
         this.switch("player", "播放器", "替换其他未重写页面的播放器"),
@@ -41806,6 +41923,9 @@ const MODULES = `
         this.switch("album", "相簿", "恢复相簿页"),
         this.switch("channel", "分区主页", "恢复各分区主页")
       ]);
+      user.bindChange("history", (v) => {
+        if (!v) Chain.setStatus("historyVideoOnly", false);
+      });
     }
     /** 弹幕设置 */
     initSettingDanmaku() {
@@ -41838,7 +41958,7 @@ const MODULES = `
         this.switch("staff", "合作UP主", "联合投稿显示合作UP主", void 0, void 0, "在原av页up主信息处列出所有合作up主。"),
         this.switch("bangumiEplist", "保留bangumi分P", "牺牲特殊背景图", void 0, void 0, "旧版bangumi遇到有特殊背景图的视频时，会隐藏播放器下方的分集选择界面，二者不可得兼。"),
         this.switch("jointime", "注册时间", "个人空间显示账户注册时间"),
-        this.switch("history", "纯视频历史", "过滤历史记录页的非视频部分"),
+        this.switch("historyVideoOnly", "纯视频历史", "历史记录仅显示视频"),
         this.switch("liveRecord", "录屏动态", "允许动态页显示直播录屏"),
         this.switch("commentJumpUrlTitle", "评论超链接标题", "还原为链接或短链接", void 0, void 0, "直接显示链接标题固然方便，但有些时候还是直接显示链接合适。"),
         this.switch("like", "添加点赞功能", "不支持一键三连"),
@@ -42346,6 +42466,8 @@ const MODULES = `
       comment && new Comment();
       typeof this.path === "string" && this.init();
     }
+    path;
+    url;
     toast = toast.list();
     init() {
       this.toast.push("页面重构 >>>", "> " + this.url, "> 已失效~", "> 请求远程备份~");
@@ -42619,7 +42741,7 @@ const MODULES = `
   init_tampermonkey();
 
   // src/html/online.html
-  var online_default = '<!DOCTYPE html>\\r\\n<html>\\r\\n<head>\\r\\n  <title>当前在线 - 哔哩哔哩 (゜-゜)つロ 干杯~-bilibili</title>\\r\\n  <meta charset="utf-8">\\r\\n  <meta http-equiv="X-UA-Compatible" content="IE=edge">\\r\\n  <meta name="renderer" content="webkit">\\r\\n  <meta name="description" content="bilibili是国内知名的视频弹幕网站，这里有最及时的动漫新番，最棒的ACG氛围，最有创意的Up主。大家可以在这里找到许多欢乐。">\\r\\n  <meta name="keywords" content="B站,弹幕,字幕,AMV,MAD,MTV,ANIME,动漫,动漫音乐,游戏,游戏解说,ACG,galgame,动画,番组,新番,初音,洛天依,vocaloid">\\r\\n  <meta name="spm_prefix" content="333.155">\\r\\n  <script type="text/javascript">\\r\\n    window.spmReportData = {};\\r\\n    window.reportConfig = { sample: 1, scrollTracker: true, msgObjects: "spmReportData", errorTracker: true };\\r\\n  <\\/script>\\r\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/jinkela/short/config/biliconfig.js"><\\/script>\\r\\n  <script type="text/javascript">window.isForceNarrow = true;<\\/script>\\r\\n  <link href="https://s1.hdslb.com/bfs/static/jinkela/online/css/online.0.a1513c351b5a8523705a0ee1793b4f1bcd064865.css" rel="stylesheet">\\r\\n</head>\\r\\n<body>\\r\\n  <div id="biliMainHeader" type="all" style="height:263px"></div>\\r\\n  <div id="online-app"></div>\\r\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/static/jinkela/long/js/jquery/jquery1.7.2.min.js"><\\/script>\\r\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/log/report/log-reporter.js" crossorigin><\\/script>\\r\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/jinkela/header-v2/header.js" defer><\\/script>\\r\\n  <div class="footer bili-footer report-wrap-module"></div>\\r\\n  <script type="text/javascript" charset="utf-8" src="https://s1.hdslb.com/bfs/seed/jinkela/footer-v2/footer.js"><\\/script>\\r\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/jinkela/short/auto-append-spmid.js"><\\/script>\\r\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/static/jinkela/online/1.online.a1513c351b5a8523705a0ee1793b4f1bcd064865.js"><\\/script>\\r\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/static/jinkela/online/online.a1513c351b5a8523705a0ee1793b4f1bcd064865.js"><\\/script>\\r\\n\\r\\n</body>\\r\\n</html>\\r\\n';
+  var online_default = '<!DOCTYPE html>\\n<html>\\n<head>\\n  <title>当前在线 - 哔哩哔哩 (゜-゜)つロ 干杯~-bilibili</title>\\n  <meta charset="utf-8">\\n  <meta http-equiv="X-UA-Compatible" content="IE=edge">\\n  <meta name="renderer" content="webkit">\\n  <meta name="description" content="bilibili是国内知名的视频弹幕网站，这里有最及时的动漫新番，最棒的ACG氛围，最有创意的Up主。大家可以在这里找到许多欢乐。">\\n  <meta name="keywords" content="B站,弹幕,字幕,AMV,MAD,MTV,ANIME,动漫,动漫音乐,游戏,游戏解说,ACG,galgame,动画,番组,新番,初音,洛天依,vocaloid">\\n  <meta name="spm_prefix" content="333.155">\\n  <script type="text/javascript">\\n    window.spmReportData = {};\\n    window.reportConfig = { sample: 1, scrollTracker: true, msgObjects: "spmReportData", errorTracker: true };\\n  <\\/script>\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/jinkela/short/config/biliconfig.js"><\\/script>\\n  <script type="text/javascript">window.isForceNarrow = true;<\\/script>\\n  <link href="https://s1.hdslb.com/bfs/static/jinkela/online/css/online.0.a1513c351b5a8523705a0ee1793b4f1bcd064865.css" rel="stylesheet">\\n</head>\\n<body>\\n  <div id="biliMainHeader" type="all" style="height:263px"></div>\\n  <div id="online-app"></div>\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/static/jinkela/long/js/jquery/jquery1.7.2.min.js"><\\/script>\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/log/report/log-reporter.js" crossorigin><\\/script>\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/jinkela/header-v2/header.js" defer><\\/script>\\n  <div class="footer bili-footer report-wrap-module"></div>\\n  <script type="text/javascript" charset="utf-8" src="https://s1.hdslb.com/bfs/seed/jinkela/footer-v2/footer.js"><\\/script>\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/jinkela/short/auto-append-spmid.js"><\\/script>\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/static/jinkela/online/1.online.a1513c351b5a8523705a0ee1793b4f1bcd064865.js"><\\/script>\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/static/jinkela/online/online.a1513c351b5a8523705a0ee1793b4f1bcd064865.js"><\\/script>\\n\\n</body>\\n</html>\\n';
 
   // src/page/online.ts
   var PageOnline = class extends Page {
@@ -42682,6 +42804,9 @@ const MODULES = `
       if (status.watchlater && /\\/watchlater/.test(location.href)) {
         player.loadEmbedPlayer();
         new PageWatchlater();
+      }
+      if (status.history && /(?:\\/account)?\\/history(?:\\/|\\?|#|\$)/.test(location.href)) {
+        new PageHistory();
       }
       if (!listHandled && /\\/playlist\\/video\\/pl/.test(location.href)) {
         player.loadEmbedPlayer();
@@ -42751,7 +42876,6 @@ const MODULES = `
   PageSearch.suggest();
   /space\\.bilibili\\.com/.test(location.href) && new PageSpace();
   /bangumi\\/media\\/md/.test(location.href) && new PageMedia();
-  location.href.includes("www.bilibili.com/account/history") && new PageHistory();
   BLOD.path[2] == "live.bilibili.com" && new PageLive();
   BLOD.path[2] == "t.bilibili.com" && new PageDynamic();
   location.href.includes("passport.bilibili.com/login?act=exit") && loginExit();
