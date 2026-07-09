@@ -159,7 +159,7 @@ PageSearch.suggest();
 /space\.bilibili\.com/.test(location.href) && new PageSpace();
 /bangumi\/media\/md/.test(location.href) && new PageMedia();
 BLOD.path[2] == "live.bilibili.com" && new PageLive();
-BLOD.path[2] == "t.bilibili.com" && new PageDynamic();
+BLOD.path[2] == "t.bilibili.com" && /^\/(\?|#|$)/.test(location.pathname) && new PageDynamic();
 location.href.includes('passport.bilibili.com/login?act=exit') && loginExit();
 
 //////////////////////////// 全局定义 ////////////////////////////

@@ -193,6 +193,7 @@ export class UI {
             this.switch('av', 'av/BV', '恢复旧版av页'),
             this.switch('bangumi', 'bangumi', '恢复旧版bangumi页'),
             this.switch('watchlater', '稍后再看', '恢复旧版稍后再看'),
+            this.switch('dynamic', '动态', '恢复旧版动态页'),
             this.switch('space', '个人空间', '恢复旧版个人空间页'),
             this.switch('history', '历史', '恢复旧版历史记录页'),
             this.switch('playlist', '播单', '恢复旧版播单页'),

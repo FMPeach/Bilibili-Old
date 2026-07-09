@@ -84,6 +84,8 @@ export const userStatus = {
     space: true,
     /** 纯视频历史记录 */
     historyVideoOnly: true,
+    /** 动态 */
+    dynamic: false,
     /** 动态里的直播录屏 */
     liveRecord: false,
     /** 设置入口样式 */
