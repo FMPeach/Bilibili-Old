@@ -21,6 +21,7 @@ import { poll } from "../utils/poll";
 import { VdomTool } from "../utils/vdomtool";
 import { Header } from "./header";
 import { Page } from "./page";
+import { regionFeedHook } from "./region-feed";
 import recommendData from "../json/recommend.txt";
 
 /** 初始化数据 */
@@ -49,7 +50,7 @@ export class PageIndex extends Page {
         this.recommendData();
         this.roomRecommend();
         this.ranking();
-        this.newlist();
+        this.regionFeed();
         this.region();
         this.recommendSpecial();
         Header.primaryMenu();
@@ -158,9 +159,9 @@ export class PageIndex extends Page {
             }
         }, false);
     }
-    /** 用户热点最新投稿修复资讯区最新投稿 */
-    protected newlist() {
-        jsonpHook(["newlist", "rid=202"], url => url.replace("rid=202", "rid=203"), undefined, false);
+    /** 分区“有新动态/最新投稿”栏目数据修复（接口下线，改用新版分区feed） */
+    protected regionFeed() {
+        regionFeedHook();
     }
     /** 修正电影/电视剧/纪录片排行 */
     protected region() {
