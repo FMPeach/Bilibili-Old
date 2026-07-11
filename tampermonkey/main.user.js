@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bilibili 旧播放页
 // @namespace    MotooriKashin
-// @version      10.13.2-c3dd748427ccbbefce8d3423714030e5ad97afd7
+// @version      10.13.3-c3dd748427ccbbefce8d3423714030e5ad97afd7
 // @description  恢复Bilibili旧版页面，为了那些念旧的人。
 // @author       MotooriKashin, wly5556, FMPeach
 // @homepage     https://github.com/FMPeach/Bilibili-Old
@@ -84,14 +84,14 @@ const MODULES = `
             anonymous: init ? init.credentials === "include" ? false : true : true,
             headers: init == null ? void 0 : init.headers,
             responseType: "arraybuffer",
-            onload: ({ response, status, statusText, finalUrl, responseHeaders }) => {
+            onload: ({ response: response2, status, statusText, finalUrl, responseHeaders }) => {
               const headers = responseHeaders.replace(/\\r/g, "").split("\\n").reduce((s, d) => {
                 const arr2 = d.split(":");
                 arr2[0] && (s[arr2[0]] = arr2[1] || "");
                 return s;
               }, {});
-              if (!response) return reject(statusText);
-              const res = new Response(response, { status, statusText, headers });
+              if (!response2) return reject(statusText);
+              const res = new Response(response2, { status, statusText, headers });
               Object.defineProperties(res, {
                 url: { value: finalUrl }
               });
@@ -3287,28 +3287,28 @@ const MODULES = `
           return self2.rpcImpl(
             method,
             requestCtor[self2.requestDelimited ? "encodeDelimited" : "encode"](request).finish(),
-            function rpcCallback(err2, response) {
+            function rpcCallback(err2, response2) {
               if (err2) {
                 self2.emit("error", err2, method);
                 return callback(err2);
               }
-              if (response === null) {
+              if (response2 === null) {
                 self2.end(
                   /* endedByRPC */
                   true
                 );
                 return void 0;
               }
-              if (!(response instanceof responseCtor)) {
+              if (!(response2 instanceof responseCtor)) {
                 try {
-                  response = responseCtor[self2.responseDelimited ? "decodeDelimited" : "decode"](response);
+                  response2 = responseCtor[self2.responseDelimited ? "decodeDelimited" : "decode"](response2);
                 } catch (err3) {
                   self2.emit("error", err3, method);
                   return callback(err3);
                 }
               }
-              self2.emit("data", response, method);
-              return callback(null, response);
+              self2.emit("data", response2, method);
+              return callback(null, response2);
             }
           );
         } catch (err2) {
@@ -3830,7 +3830,7 @@ const MODULES = `
         });
         return this;
       };
-      Namespace.prototype.lookup = function lookup(path, filterTypes, parentAlreadyChecked) {
+      Namespace.prototype.lookup = function lookup2(path, filterTypes, parentAlreadyChecked) {
         if (typeof filterTypes === "boolean") {
           parentAlreadyChecked = filterTypes;
           filterTypes = void 0;
@@ -3865,7 +3865,7 @@ const MODULES = `
         }
         return null;
       };
-      Namespace.prototype._lookupImpl = function lookup(path, flatPath) {
+      Namespace.prototype._lookupImpl = function lookup2(path, flatPath) {
         if (Object.prototype.hasOwnProperty.call(this._lookupCache, flatPath)) {
           return this._lookupCache[flatPath];
         }
@@ -9835,6 +9835,7 @@ const MODULES = `
     static SEARCH_SQUARE = _URLS.P_AUTO + _URLS.D_API + "/x/web-interface/search/square";
     static SPACE_ARC = _URLS.P_AUTO + _URLS.D_API + "/x/space/wbi/arc/search";
     static NEWLIST = _URLS.P_AUTO + _URLS.D_API + "/x/web-interface/newlist";
+    static REGION_FEED_RCMD = _URLS.P_AUTO + _URLS.D_API + "/x/web-interface/region/feed/rcmd";
     static SEARCH = _URLS.P_AUTO + _URLS.D_API + "/search";
     static REPLY = _URLS.P_AUTO + _URLS.D_API + "/x/v2/reply";
     static ARTICLE_UPCOVER = _URLS.P_AUTO + _URLS.D_API + "/x/article/creative/article/upcover";
@@ -9904,31 +9905,31 @@ const MODULES = `
     }
     /** 获取弹幕分包 */
     async DmWebViewReply() {
-      const response = await fetch(objUrl(URLS.DM_WEB_VIEW, {
+      const response2 = await fetch(objUrl(URLS.DM_WEB_VIEW, {
         type: 1,
         oid: this.cid,
         pid: this.aid
       }), { credentials: "include", cache: "force-cache" });
-      const arraybuffer = await response.arrayBuffer();
+      const arraybuffer = await response2.arrayBuffer();
       const msg = _ApiDmWeb.DmWebViewReply.decode(new Uint8Array(arraybuffer));
       return _ApiDmWeb.DmWebViewReply.toObject(msg);
     }
     /** 获取弹幕分包 */
     async DmSegMobileReply(segment_index = 1) {
-      const response = await fetch(objUrl(URLS.DM_WEB_SEG_SO, {
+      const response2 = await fetch(objUrl(URLS.DM_WEB_SEG_SO, {
         type: 1,
         oid: this.cid,
         pid: this.aid,
         segment_index
       }), { credentials: "include" });
-      const arraybuffer = await response.arrayBuffer();
+      const arraybuffer = await response2.arrayBuffer();
       const msg = _ApiDmWeb.DmSegMobileReply.decode(new Uint8Array(arraybuffer));
       return _ApiDmWeb.DmSegMobileReply.toObject(msg);
     }
     /** 获取高级弹幕 */
     async specialDm(url) {
-      const response = await fetch(url);
-      const arraybuffer = await response.arrayBuffer();
+      const response2 = await fetch(url);
+      const arraybuffer = await response2.arrayBuffer();
       const msg = _ApiDmWeb.DmSegMobileReply.decode(new Uint8Array(arraybuffer));
       return _ApiDmWeb.DmSegMobileReply.toObject(msg);
     }
@@ -10175,8 +10176,8 @@ const MODULES = `
 
   // src/io/api-bangumi-season.ts
   async function apiBangumiSeason(data) {
-    const response = await fetch(objUrl(URLS.BANGUMI_SEASON, data), { credentials: "include" });
-    const json = await response.json();
+    const response2 = await fetch(objUrl(URLS.BANGUMI_SEASON, data), { credentials: "include" });
+    const json = await response2.json();
     return jsonCheck(json).result;
   }
 
@@ -10209,18 +10210,18 @@ const MODULES = `
           try {
             if (this.readyState === 4) {
               const { responseType } = this;
-              const response = { response: this.response, responseType: this.responseType, status: this.status, statusText: this.statusText };
-              (this.responseType === "" || this.responseType === "text") && (response.responseText = this.responseText);
-              (this.responseType === "" || this.responseType === "document") && (response.responseXML = this.responseXML);
-              modifyResponse(response);
-              Reflect.defineProperty(this, "response", { configurable: true, value: response.response });
+              const response2 = { response: this.response, responseType: this.responseType, status: this.status, statusText: this.statusText };
+              (this.responseType === "" || this.responseType === "text") && (response2.responseText = this.responseText);
+              (this.responseType === "" || this.responseType === "document") && (response2.responseXML = this.responseXML);
+              modifyResponse(response2);
+              Reflect.defineProperty(this, "response", { configurable: true, value: response2.response });
               try {
-                response.responseType && responseType !== response.responseType && setResponseType(response.responseType, this);
-                if (response.responseXML) {
-                  response.responseXML && Reflect.defineProperty(this, "responseXML", { configurable: true, value: response.responseXML });
-                } else if (response.response) {
-                  response.responseText = typeof response.response === "object" ? JSON.stringify(response.response) : response.response;
-                  Reflect.defineProperty(this, "responseText", { configurable: true, value: response.responseText });
+                response2.responseType && responseType !== response2.responseType && setResponseType(response2.responseType, this);
+                if (response2.responseXML) {
+                  response2.responseXML && Reflect.defineProperty(this, "responseXML", { configurable: true, value: response2.responseXML });
+                } else if (response2.response) {
+                  response2.responseText = typeof response2.response === "object" ? JSON.stringify(response2.response) : response2.response;
+                  Reflect.defineProperty(this, "responseText", { configurable: true, value: response2.responseText });
                 }
               } catch {
               }
@@ -10372,12 +10373,12 @@ const MODULES = `
     ttl = 1;
   };
   async function apiViewDetail(aid) {
-    const response = await fetch(objUrl(URLS.VIEW_DETAIL, {
+    const response2 = await fetch(objUrl(URLS.VIEW_DETAIL, {
       aid
     }), {
       credentials: "include"
     });
-    const json = await response.json();
+    const json = await response2.json();
     return jsonCheck(json).data;
   }
 
@@ -10489,27 +10490,27 @@ const MODULES = `
   // src/io/api-player-pagelist.ts
   init_tampermonkey();
   async function apiPlayerPagelist(aid) {
-    const response = await fetch(objUrl(URLS.PAGE_LIST, { aid }));
-    const json = await response.json();
+    const response2 = await fetch(objUrl(URLS.PAGE_LIST, { aid }));
+    const json = await response2.json();
     return jsonCheck(json).data;
   }
 
   // src/io/api-view.ts
   init_tampermonkey();
   async function apiView(aid) {
-    const response = await fetch(objUrl(URLS.VIEW, {
+    const response2 = await fetch(objUrl(URLS.VIEW, {
       appkey: "8e9fc618fbd41e28",
       id: aid,
       type: "json"
     }));
-    return await response.json();
+    return await response2.json();
   }
 
   // src/io/api-x-view.ts
   init_tampermonkey();
   async function apiXView(aid) {
-    const response = await fetch(objUrl(URLS.X_VIEW, { aid }));
-    const json = await response.json();
+    const response2 = await fetch(objUrl(URLS.X_VIEW, { aid }));
+    const json = await response2.json();
     return jsonCheck(json).data;
   }
 
@@ -12009,8 +12010,8 @@ const MODULES = `
   };
   async function urlSign(url, searchParams = {}, appkey = "c1b107428d337928") {
     const api = new ApiSign(url, appkey);
-    const response = await fetch(api.sign(searchParams).toJSON());
-    return await response.json();
+    const response2 = await fetch(api.sign(searchParams).toJSON());
+    return await response2.json();
   }
 
   // src/io/fnval.ts
@@ -12287,8 +12288,8 @@ const MODULES = `
       otype: "json",
       fourk: 1
     }, data, dash ? { fnver, fnval } : {});
-    const response = await fetch(objUrl(pgc ? URLS.PGC_PLAYURL.replace("api.bilibili.com", server) : URLS.PLAYURL, data), { credentials: "include" });
-    const json = await response.json();
+    const response2 = await fetch(objUrl(pgc ? URLS.PGC_PLAYURL.replace("api.bilibili.com", server) : URLS.PLAYURL, data), { credentials: "include" });
+    const json = await response2.json();
     if (pgc) {
       return jsonCheck(json).result;
     }
@@ -12311,8 +12312,8 @@ const MODULES = `
     }
     data;
     async getData() {
-      const response = await fetch(this.sign().toJSON(), { credentials: "include" });
-      return await response.json();
+      const response2 = await fetch(this.sign().toJSON(), { credentials: "include" });
+      return await response2.json();
     }
   };
 
@@ -12337,8 +12338,8 @@ const MODULES = `
     data;
     pgc;
     async getData() {
-      const response = await GM.fetch(this.sign().toJSON());
-      const json = await response.json();
+      const response2 = await GM.fetch(this.sign().toJSON());
+      const json = await response2.json();
       if (this.pgc) {
         return jsonCheck(json);
       }
@@ -12363,8 +12364,8 @@ const MODULES = `
     }
     data;
     async getData() {
-      const response = await fetch(this.sign().toJSON());
-      const json = await response.json();
+      const response2 = await fetch(this.sign().toJSON());
+      const json = await response2.json();
       return jsonCheck(json);
     }
   };
@@ -12387,8 +12388,8 @@ const MODULES = `
     }
     data;
     async getData() {
-      const response = await fetch(this.sign().toJSON());
-      return await response.json();
+      const response2 = await fetch(this.sign().toJSON());
+      return await response2.json();
     }
   };
 
@@ -14792,27 +14793,27 @@ const MODULES = `
         // 1680058967939
       };
       this.accessKey && (headers.authorization = \`identify_v1 \${this.accessKey}\`);
-      const response = await GM.fetch(\`\${this.hostAPP}/\${this.package}.\${this.service}/\${method}\`, {
+      const response2 = await GM.fetch(\`\${this.hostAPP}/\${this.package}.\${this.service}/\${method}\`, {
         method: "POST",
         headers,
         body: buffer
       }, void 0, {
         "Access-Control-Expose-Headers": "grpc-status,grpc-message,grpc-status-details-bin,grpc-encoding"
       });
-      if (response.headers.has("grpc-status-details-bin")) {
-        const bin = response.headers.get("grpc-status-details-bin");
+      if (response2.headers.has("grpc-status-details-bin")) {
+        const bin = response2.headers.get("grpc-status-details-bin");
         const uInt82 = base64.decodeToUint8Array(bin);
         const details = _BAPIMetadata.status.toObject(_BAPIMetadata.status.decode(uInt82));
         if (details.details && details.details.length) {
           throw details.details[0].value;
         }
         throw details;
-      } else if (response.headers.has("grpc-message")) {
-        throw response.headers.get("grpc-message");
+      } else if (response2.headers.has("grpc-message")) {
+        throw response2.headers.get("grpc-message");
       }
-      const arraybuffer = await response.arrayBuffer();
+      const arraybuffer = await response2.arrayBuffer();
       const uint8Array = new Uint8Array(arraybuffer.slice(5));
-      if (response.headers.get("grpc-encoding") === "gzip") {
+      if (response2.headers.get("grpc-encoding") === "gzip") {
         return typeReply.toObject(typeReply.decode(gunzipSync(uint8Array)));
       }
       return typeReply.toObject(typeReply.decode(uint8Array));
@@ -15739,8 +15740,8 @@ const MODULES = `
   // src/io/api-biliplus-playurl.ts
   init_tampermonkey();
   async function apiBiliplusPlayurl(data) {
-    const response = await fetch(objUrl("//www.biliplus.com/BPplayurl.php", data));
-    return await response.json();
+    const response2 = await fetch(objUrl("//www.biliplus.com/BPplayurl.php", data));
+    return await response2.json();
   }
 
   // src/io/api-global-ogv-playurl.ts
@@ -15823,8 +15824,8 @@ const MODULES = `
     response;
     async getDate() {
       if (this.response) return this.response;
-      const response = await fetch(this.sign().toJSON());
-      const json = await response.json();
+      const response2 = await fetch(this.sign().toJSON());
+      const json = await response2.json();
       return this.response = jsonCheck(json).data;
     }
     toPlayurl() {
@@ -16185,8 +16186,8 @@ const MODULES = `
         this.updateVaribale(obj);
         return Boolean(BLOD.limit || BLOD.th);
       }, async (args) => {
-        const response = BLOD.th ? await this._th(args) : await this._gat(args);
-        return { response, responseType: "json", responseText: JSON.stringify(response) };
+        const response2 = BLOD.th ? await this._th(args) : await this._gat(args);
+        return { response: response2, responseType: "json", responseText: JSON.stringify(response2) };
       }, false);
       this.disable = () => {
         disable();
@@ -16707,8 +16708,8 @@ const MODULES = `
   // src/io/api-page-header.ts
   init_tampermonkey();
   async function apiPageHeader(data) {
-    const response = await fetch(objUrl(URLS.PAGE_HEADER, data));
-    const json = await response.json();
+    const response2 = await fetch(objUrl(URLS.PAGE_HEADER, data));
+    const json = await response2.json();
     return jsonCheck(json).data;
   }
 
@@ -26657,11 +26658,11 @@ const MODULES = `
         try {
           await _Header.fetchEntrance();
           const count = _Header.dynamicNewCounts.video;
-          const response = JSON.stringify({ code: 0, message: "OK", ttl: 1, data: { new_num: count, update_num: count } });
-          return { response, responseText: response };
+          const response2 = JSON.stringify({ code: 0, message: "OK", ttl: 1, data: { new_num: count, update_num: count } });
+          return { response: response2, responseText: response2 };
         } catch {
-          const response = '{"code":0,"message":"OK","ttl":1,"data":{"new_num":0,"update_num":0}}';
-          return { response, responseText: response };
+          const response2 = '{"code":0,"message":"OK","ttl":1,"data":{"new_num":0,"update_num":0}}';
+          return { response: response2, responseText: response2 };
         }
       }, true);
       this.hookDynamicNewWithNewCount();
@@ -26695,18 +26696,18 @@ const MODULES = `
           return originalFetch.call(window, input, init);
         }
         await _Header.fetchEntrance();
-        const response = await originalFetch.call(window, input, init);
+        const response2 = await originalFetch.call(window, input, init);
         try {
-          const payload = await response.clone().json();
+          const payload = await response2.clone().json();
           const isArticle = url.includes("type_list=64") || url.includes("type_list=%36%34");
           patchPayload(payload, isArticle);
           return new Response(JSON.stringify(payload), {
-            status: response.status,
-            statusText: response.statusText,
-            headers: response.headers
+            status: response2.status,
+            statusText: response2.statusText,
+            headers: response2.headers
           });
         } catch {
-          return response;
+          return response2;
         }
       };
       const owner = this;
@@ -26789,10 +26790,10 @@ const MODULES = `
       }
       vm.apiHandler.__patched__ = true;
     }
-    syncDynamicSplit(vm, response) {
+    syncDynamicSplit(vm, response2) {
       var _a3;
       if (!Array.isArray(vm == null ? void 0 : vm.list)) return;
-      const fromResponse = Number((_a3 = response == null ? void 0 : response.data) == null ? void 0 : _a3.new_count);
+      const fromResponse = Number((_a3 = response2 == null ? void 0 : response2.data) == null ? void 0 : _a3.new_count);
       const fromVm = Number(vm == null ? void 0 : vm.newCount);
       const fallbackCount = this.getDynamicFallbackCount(vm);
       const rawCount = Number.isFinite(fromResponse) && fromResponse >= 0 ? fromResponse : Number.isFinite(fromVm) && fromVm >= 0 ? fromVm : fallbackCount;
@@ -26891,15 +26892,15 @@ const MODULES = `
     feedCount() {
       _Header.fetchEntrance();
       xhrHook.async("api.live.bilibili.com/ajax/feed/count", void 0, async () => {
-        const response = '{ "code": 0, "data": { "count": 0 }, "message": "0" }';
-        return { response, responseText: response };
+        const response2 = '{ "code": 0, "data": { "count": 0 }, "message": "0" }';
+        return { response: response2, responseText: response2 };
       }, false);
       let dynamicNumCalled = false;
       xhrHook.async("dynamic_svr/v1/dynamic_svr/dynamic_num", void 0, async () => {
         var _a3, _b2, _c, _d;
         if (dynamicNumCalled) {
-          const response = '{"code":0,"message":"OK","ttl":1,"data":{"new_num":0,"update_num":0}}';
-          return { response, responseText: response };
+          const response2 = '{"code":0,"message":"OK","ttl":1,"data":{"new_num":0,"update_num":0}}';
+          return { response: response2, responseText: response2 };
         }
         dynamicNumCalled = true;
         try {
@@ -26908,11 +26909,11 @@ const MODULES = `
           });
           const json = await res.json();
           const count = (_d = (_c = (_b2 = (_a3 = json == null ? void 0 : json.data) == null ? void 0 : _a3.update_info) == null ? void 0 : _b2.item) == null ? void 0 : _c.count) != null ? _d : 0;
-          const response = JSON.stringify({ code: 0, message: "OK", ttl: 1, data: { new_num: count, update_num: count } });
-          return { response, responseText: response };
+          const response2 = JSON.stringify({ code: 0, message: "OK", ttl: 1, data: { new_num: count, update_num: count } });
+          return { response: response2, responseText: response2 };
         } catch {
-          const response = '{"code":0,"message":"OK","ttl":1,"data":{"new_num":0,"update_num":0}}';
-          return { response, responseText: response };
+          const response2 = '{"code":0,"message":"OK","ttl":1,"data":{"new_num":0,"update_num":0}}';
+          return { response: response2, responseText: response2 };
         }
       }, true);
       this.hookIframeJS();
@@ -26941,16 +26942,16 @@ const MODULES = `
         const url = res.url;
         const isArticle = url.includes("type_list=64") || url.includes("type_list=%36%34");
         await _Header.fetchEntrance();
-        const response = await res.json();
-        if ((_a3 = response == null ? void 0 : response.data) == null ? void 0 : _a3.cards) {
-          const apiCount = Number(response.data.new_count);
+        const response2 = await res.json();
+        if ((_a3 = response2 == null ? void 0 : response2.data) == null ? void 0 : _a3.cards) {
+          const apiCount = Number(response2.data.new_count);
           const safeApiCount = Number.isFinite(apiCount) && apiCount >= 0 ? apiCount : 0;
           const newCount = isArticle ? safeApiCount : _Header.dynamicNewCounts.video;
           if (isArticle) _Header.dynamicNewCounts.article = safeApiCount;
-          response.data.new_count = newCount;
-          response.data.num = newCount;
+          response2.data.new_count = newCount;
+          response2.data.num = newCount;
         }
-        return JSON.stringify(response);
+        return JSON.stringify(response2);
       });
     }
   };
@@ -27073,8 +27074,8 @@ const MODULES = `
   // src/io/account-getcardbymid.ts
   init_tampermonkey();
   async function accountGetCardByMid(mid) {
-    const response = await GM.fetch(objUrl(URLS.ACCOUNT_GETCARDBYMID, { mid }));
-    const json = await response.json();
+    const response2 = await GM.fetch(objUrl(URLS.ACCOUNT_GETCARDBYMID, { mid }));
+    const json = await response2.json();
     return jsonCheck(json).card;
   }
 
@@ -27537,8 +27538,8 @@ const MODULES = `
     /** 还原相簿 */
     album() {
       xhrHook("api.bilibili.com/x/dynamic/feed/draw/doc_list", void 0, (obj) => {
-        const response = JSON.parse(obj.responseText);
-        let data = response.data.items.reduce((s, d) => {
+        const response2 = JSON.parse(obj.responseText);
+        let data = response2.data.items.reduce((s, d) => {
           s.push(d.doc_id);
           return s;
         }, []);
@@ -28042,12 +28043,12 @@ const MODULES = `
     liveRecord() {
       xhrHook("api.bilibili.com/x/polymer/web-dynamic/v1/feed/all", void 0, (r) => {
         try {
-          const response = jsonCheck(r.response);
-          response.data.items = response.data.items.filter((d) => {
+          const response2 = jsonCheck(r.response);
+          response2.data.items = response2.data.items.filter((d) => {
             var _a3, _b2, _c, _d, _e;
             return ((_e = (_d = (_c = (_b2 = (_a3 = d.modules) == null ? void 0 : _a3.module_dynamic) == null ? void 0 : _b2.major) == null ? void 0 : _c.archive) == null ? void 0 : _d.badge) == null ? void 0 : _e.text) != "直播回放";
           });
-          r.responseType === "json" ? r.response = response : r.response = r.responseText = JSON.stringify(response);
+          r.responseType === "json" ? r.response = response2 : r.response = r.responseText = JSON.stringify(response2);
         } catch (e) {
         }
       }, false);
@@ -28077,20 +28078,20 @@ const MODULES = `
       });
     }
     if (!arr2.length) throw new Error("输入参数不能为空！");
-    const response = await fetch(objUrl(URLS.ARTICLE_CARDS, { ids: arr2.join(",") }));
-    const json = await response.json();
+    const response2 = await fetch(objUrl(URLS.ARTICLE_CARDS, { ids: arr2.join(",") }));
+    const json = await response2.json();
     return jsonCheck(json).data;
   }
 
   // src/io/api-index-top-rcmd.ts
   init_tampermonkey();
   async function apiIndexTopRcmd(data) {
-    const response = await fetch(objUrl(URLS.INDEX_TOP_RCMD, {
+    const response2 = await fetch(objUrl(URLS.INDEX_TOP_RCMD, {
       fresh_type: (data == null ? void 0 : data.fresh_type) || 3
     }), {
       credentials: (data == null ? void 0 : data.credentials) || "include"
     });
-    const json = await response.json();
+    const json = await response2.json();
     return jsonCheck(json).data.item.map((d) => {
       d.author = d.owner.name;
       d.play = d.stat.view;
@@ -28102,38 +28103,38 @@ const MODULES = `
   // src/io/api-newlist.ts
   init_tampermonkey();
   async function apiNewlist(rid, ps = 30, pn = 1, type = 0) {
-    const response = await fetch(objUrl(URLS.NEWLIST, { rid, type, pn, ps }));
-    const json = await response.json();
+    const response2 = await fetch(objUrl(URLS.NEWLIST, { rid, type, pn, ps }));
+    const json = await response2.json();
     return jsonCheck(json).data.archives;
   }
 
   // src/io/api-season-rank-list.ts
   init_tampermonkey();
   async function apiSeasonRankList(data) {
-    const response = await fetch(objUrl(URLS.SEASON_RANK_LIST, {
+    const response2 = await fetch(objUrl(URLS.SEASON_RANK_LIST, {
       season_type: data.season_type,
       day: 3
     }));
-    const json = await response.json();
+    const json = await response2.json();
     return jsonCheck(json).data.list;
   }
 
   // src/io/api-webshow-locs.ts
   init_tampermonkey();
   async function apiWebshowLoc(id) {
-    const response = await fetch(objUrl(URLS.WEBSHOW_LOCS.slice(0, -1), {
+    const response2 = await fetch(objUrl(URLS.WEBSHOW_LOCS.slice(0, -1), {
       pf: 0,
       id
     }));
-    const text = await response.text();
+    const text = await response2.text();
     return jsonCheck(AV.fromStr(text)).data;
   }
   async function apiWebshowLocs(data) {
-    const response = await fetch(objUrl(URLS.WEBSHOW_LOCS, {
+    const response2 = await fetch(objUrl(URLS.WEBSHOW_LOCS, {
       pf: 0,
       ids: data.ids.join(",")
     }));
-    const text = await response.text();
+    const text = await response2.text();
     return jsonCheck(AV.fromStr(text)).data;
   }
 
@@ -28151,6 +28152,150 @@ const MODULES = `
       i2--;
     }
     return num + unit[i2];
+  }
+
+  // src/page/region-feed.ts
+  init_tampermonkey();
+
+  // src/io/api-region-feed-rcmd.ts
+  init_tampermonkey();
+
+  // src/json/sort.txt
+  var sort_default = '[{"channelId":2,"name":"番剧","tid":13,"url":"//www.bilibili.com/anime/","icon":"ChannelAnime","sub":[{"subChannelId":20001,"name":"连载动画","tid":33,"route":"serial","url":"//www.bilibili.com/v/anime/serial/"},{"subChannelId":20002,"name":"完结动画","tid":32,"route":"finish","url":"//www.bilibili.com/v/anime/finish"},{"subChannelId":20003,"name":"资讯","tid":51,"route":"information","url":"//www.bilibili.com/v/anime/information/"},{"subChannelId":20004,"name":"官方延伸","tid":152,"route":"offical","url":"//www.bilibili.com/v/anime/offical/"},{"subChannelId":20005,"name":"新番时间表","url":"//www.bilibili.com/anime/timeline/"},{"subChannelId":20006,"name":"番剧索引","url":"//www.bilibili.com/anime/index/"}]},{"channelId":3,"name":"电影","tid":23,"url":"//www.bilibili.com/movie/","icon":"ChannelMovie","sub":[]},{"channelId":4,"name":"国创","tid":167,"url":"//www.bilibili.com/guochuang/","icon":"ChannelGuochuang","sub":[{"subChannelId":40001,"name":"国产动画","tid":153,"route":"chinese","url":"//www.bilibili.com/v/guochuang/chinese/"},{"subChannelId":40002,"name":"国产原创相关","tid":168,"route":"original","url":"//www.bilibili.com/v/guochuang/original/"},{"subChannelId":40003,"name":"布袋戏","tid":169,"route":"puppetry","url":"//www.bilibili.com/v/guochuang/puppetry/"},{"subChannelId":40004,"name":"动态漫·广播剧","tid":195,"route":"motioncomic","url":"//www.bilibili.com/v/guochuang/motioncomic/"},{"subChannelId":40005,"name":"资讯","tid":170,"route":"information","url":"//www.bilibili.com/v/guochuang/information/"},{"subChannelId":40006,"name":"新番时间表","url":"//www.bilibili.com/guochuang/timeline/"},{"subChannelId":40007,"name":"国产动画索引","url":"//www.bilibili.com/guochuang/index/"}]},{"name":"电视剧","channelId":5,"tid":11,"url":"//www.bilibili.com/tv/","type":"first","icon":"ChannelTeleplay","sub":[]},{"name":"综艺","channelId":6,"icon":"ChannelZongyi","url":"//www.bilibili.com/variety/ ","sub":[]},{"name":"纪录片","tid":177,"channelId":7,"url":"//www.bilibili.com/documentary/","icon":"ChannelDocumentary","sub":[]},{"name":"动画","channelId":8,"tid":1,"url":"//www.bilibili.com/v/douga/","icon":"ChannelDouga","sub":[{"subChannelId":80001,"name":"MAD·AMV","route":"mad","tid":24,"url":"//www.bilibili.com/v/douga/mad/"},{"subChannelId":80002,"name":"MMD·3D","route":"mmd","tid":25,"url":"//www.bilibili.com/v/douga/mmd/"},{"subChannelId":80003,"name":"短片·手书·配音","route":"voice","tid":47,"url":"//www.bilibili.com/v/douga/voice/"},{"subChannelId":80004,"name":"手办·模玩","route":"garage_kit","tid":210,"url":"//www.bilibili.com/v/douga/garage_kit/"},{"subChannelId":80005,"name":"特摄","route":"tokusatsu","tid":86,"url":"//www.bilibili.com/v/douga/tokusatsu/"},{"subChannelId":80007,"name":"动漫杂谈","route":"acgntalks","tid":253,"url":"//www.bilibili.com/v/douga/acgntalks/"},{"subChannelId":80006,"name":"综合","route":"other","tid":27,"url":"//www.bilibili.com/v/douga/other/"}]},{"name":"游戏","channelId":11,"tid":4,"url":"//www.bilibili.com/v/game/","icon":"ChannelGame","sub":[{"subChannelId":110001,"name":"单机游戏","route":"stand_alone","tid":17,"url":"//www.bilibili.com/v/game/stand_alone"},{"subChannelId":110002,"name":"电子竞技","route":"esports","tid":171,"url":"//www.bilibili.com/v/game/esports"},{"subChannelId":110003,"name":"手机游戏","route":"mobile","tid":172,"url":"//www.bilibili.com/v/game/mobile"},{"subChannelId":110004,"name":"网络游戏","route":"online","tid":65,"url":"//www.bilibili.com/v/game/online"},{"subChannelId":110005,"name":"桌游棋牌","route":"board","tid":173,"url":"//www.bilibili.com/v/game/board"},{"subChannelId":110006,"name":"GMV","route":"gmv","tid":121,"url":"//www.bilibili.com/v/game/gmv"},{"subChannelId":110007,"name":"音游","route":"music","tid":136,"url":"//www.bilibili.com/v/game/music"},{"subChannelId":110008,"name":"Mugen","route":"mugen","tid":19,"url":"//www.bilibili.com/v/game/mugen"},{"subChannelId":110009,"name":"游戏赛事","url":"//www.bilibili.com/v/game/match/"}]},{"name":"鬼畜","channelId":20,"tid":119,"url":"//www.bilibili.com/v/kichiku/","icon":"ChannelKichiku","sub":[{"subChannelId":200001,"name":"鬼畜调教","route":"guide","tid":22,"url":"//www.bilibili.com/v/kichiku/guide"},{"subChannelId":200002,"name":"音MAD","route":"mad","tid":26,"url":"//www.bilibili.com/v/kichiku/mad"},{"subChannelId":200003,"name":"人力VOCALOID","route":"manual_vocaloid","tid":126,"url":"//www.bilibili.com/v/kichiku/manual_vocaloid"},{"subChannelId":200004,"name":"鬼畜剧场","route":"theatre","tid":216,"url":"//www.bilibili.com/v/kichiku/theatre"},{"subChannelId":200005,"name":"教程演示","route":"course","tid":127,"url":"//www.bilibili.com/v/kichiku/course"}]},{"name":"音乐","channelId":9,"tid":3,"url":"//www.bilibili.com/v/music","icon":"ChannelMusic","sub":[{"subChannelId":90001,"name":"原创音乐","route":"original","url":"//www.bilibili.com/v/music/original","tid":28},{"subChannelId":90002,"name":"翻唱","route":"cover","url":"//www.bilibili.com/v/music/cover","tid":31},{"subChannelId":90005,"name":"演奏","route":"perform","tid":59,"url":"//www.bilibili.com/v/music/perform"},{"subChannelId":90003,"name":"VOCALOID·UTAU","route":"vocaloid","url":"//www.bilibili.com/v/music/vocaloid","tid":30},{"subChannelId":90007,"name":"音乐现场","route":"live","tid":29,"url":"//www.bilibili.com/v/music/live"},{"subChannelId":90006,"name":"MV","route":"mv","tid":193,"url":"//www.bilibili.com/v/music/mv"},{"subChannelId":900011,"name":"乐评盘点","route":"commentary","tid":243,"url":"//www.bilibili.com/v/music/commentary"},{"subChannelId":900012,"name":"音乐教学","route":"tutorial","tid":244,"url":"//www.bilibili.com/v/music/tutorial"},{"subChannelId":90008,"name":"音乐综合","route":"other","tid":130,"url":"//www.bilibili.com/v/music/other"},{"subChannelId":900010,"name":"说唱","url":"//www.bilibili.com/v/rap"}]},{"name":"舞蹈","channelId":10,"tid":129,"url":"//www.bilibili.com/v/dance/","icon":"ChannelDance","sub":[{"subChannelId":100001,"name":"宅舞","route":"otaku","tid":20,"url":"//www.bilibili.com/v/dance/otaku/"},{"subChannelId":100002,"name":"街舞","route":"hiphop","tid":198,"url":"//www.bilibili.com/v/dance/hiphop/"},{"subChannelId":100003,"name":"明星舞蹈","route":"star","tid":199,"url":"//www.bilibili.com/v/dance/star/"},{"subChannelId":100004,"name":"国风舞蹈","route":"china","tid":200,"url":"//www.bilibili.com/v/dance/china/"},{"subChannelId":100007,"name":"手势·网红舞","route":"gestures","tid":255,"url":"//www.bilibili.com/v/dance/gestures/"},{"subChannelId":100005,"name":"舞蹈综合","route":"three_d","tid":154,"url":"//www.bilibili.com/v/dance/three_d/"},{"subChannelId":100006,"name":"舞蹈教程","route":"demo","tid":156,"url":"//www.bilibili.com/v/dance/demo/"}]},{"name":"影视","channelId":25,"tid":181,"url":"//www.bilibili.com/v/cinephile","icon":"ChannelCinephile","sub":[{"subChannelId":250001,"name":"影视杂谈","route":"cinecism","tid":182,"url":"//www.bilibili.com/v/cinephile/cinecism"},{"subChannelId":250002,"name":"影视剪辑","route":"montage","tid":183,"url":"//www.bilibili.com/v/cinephile/montage"},{"subChannelId":250003,"name":"小剧场","route":"shortfilm","tid":85,"url":"//www.bilibili.com/v/cinephile/shortfilm"},{"subChannelId":250004,"name":"预告·资讯","route":"trailer_info","tid":184,"url":"//www.bilibili.com/v/cinephile/trailer_info"}]},{"name":"娱乐","channelId":23,"tid":5,"url":"//www.bilibili.com/v/ent/","icon":"ChannelEnt","sub":[{"subChannelId":230001,"name":"综艺","route":"variety","tid":71,"url":"//www.bilibili.com/v/ent/variety"},{"subChannelId":230003,"name":"娱乐杂谈","route":"talker","tid":241,"url":"//www.bilibili.com/v/ent/talker"},{"subChannelId":230004,"name":"粉丝创作","route":"fans","tid":242,"url":"//www.bilibili.com/v/ent/fans"},{"subChannelId":230002,"name":"明星综合","route":"celebrity","tid":137,"url":"//www.bilibili.com/v/ent/celebrity"}]},{"name":"知识","channelId":12,"tid":36,"url":"//www.bilibili.com/v/knowledge/","icon":"ChannelKnowledge","sub":[{"subChannelId":120001,"name":"科学科普","route":"science","tid":201,"url":"//www.bilibili.com/v/knowledge/science"},{"subChannelId":120002,"name":"社科·法律·心理","route":"social_science","tid":124,"url":"//www.bilibili.com/v/knowledge/social_science"},{"subChannelId":120003,"name":"人文历史","route":"humanity_history","tid":228,"url":"//www.bilibili.com/v/knowledge/humanity_history"},{"subChannelId":120004,"name":"财经商业","route":"business","tid":207,"url":"//www.bilibili.com/v/knowledge/business"},{"subChannelId":120005,"name":"校园学习","route":"campus","tid":208,"url":"//www.bilibili.com/v/knowledge/campus"},{"subChannelId":120006,"name":"职业职场","route":"career","tid":209,"url":"//www.bilibili.com/v/knowledge/career"},{"subChannelId":120007,"name":"设计·创意","route":"design","tid":229,"url":"//www.bilibili.com/v/knowledge/design"},{"subChannelId":120008,"name":"野生技能协会","route":"skill","tid":122,"url":"//www.bilibili.com/v/knowledge/skill"}]},{"name":"科技","channelId":13,"tid":188,"url":"//www.bilibili.com/v/tech/","icon":"ChannelTech","sub":[{"subChannelId":130001,"name":"数码","route":"digital","tid":95,"url":"//www.bilibili.com/v/tech/digital"},{"subChannelId":130002,"name":"软件应用","route":"application","tid":230,"url":"//www.bilibili.com/v/tech/application"},{"subChannelId":130003,"name":"计算机技术","route":"computer_tech","tid":231,"url":"//www.bilibili.com/v/tech/computer_tech"},{"subChannelId":130004,"name":"科工机械","route":"industry","tid":232,"url":"//www.bilibili.com/v/tech/industry"},{"subChannelId":130005,"name":"极客DIY","route":"diy","url":"//www.bilibili.com/v/tech/diy"}]},{"name":"资讯","channelId":21,"tid":202,"url":"//www.bilibili.com/v/information/","icon":"ChannelInformation","sub":[{"subChannelId":210001,"name":"热点","route":"hotspot","tid":203,"url":"//www.bilibili.com/v/information/hotspot"},{"subChannelId":210002,"name":"环球","route":"global","tid":204,"url":"//www.bilibili.com/v/information/global"},{"subChannelId":210003,"name":"社会","route":"social","tid":205,"url":"//www.bilibili.com/v/information/social"},{"subChannelId":210004,"name":"综合","route":"multiple","tid":206,"url":"//www.bilibili.com/v/information/multiple"}]},{"name":"美食","channelId":17,"tid":211,"url":"//www.bilibili.com/v/food","icon":"ChannelFood","sub":[{"subChannelId":170001,"name":"美食制作","route":"make","tid":76,"url":"//www.bilibili.com/v/food/make"},{"subChannelId":170002,"name":"美食侦探","route":"detective","tid":212,"url":"//www.bilibili.com/v/food/detective"},{"subChannelId":170003,"name":"美食测评","route":"measurement","tid":213,"url":"//www.bilibili.com/v/food/measurement"},{"subChannelId":170004,"name":"田园美食","route":"rural","tid":214,"url":"//www.bilibili.com/v/food/rural"},{"subChannelId":170005,"name":"美食记录","route":"record","tid":215,"url":"//www.bilibili.com/v/food/record"}]},{"name":"生活","channelId":16,"tid":160,"url":"//www.bilibili.com/v/life","icon":"ChannelLife","sub":[{"subChannelId":160001,"name":"搞笑","route":"funny","tid":138,"url":"//www.bilibili.com/v/life/funny"},{"subChannelId":160008,"name":"亲子","route":"parenting","tid":254,"url":"//www.bilibili.com/v/life/parenting"},{"subChannelId":160006,"name":"出行","route":"travel","tid":250,"url":"//www.bilibili.com/v/life/travel"},{"subChannelId":160007,"name":"三农","route":"rurallife","tid":251,"url":"//www.bilibili.com/v/life/rurallife"},{"subChannelId":160002,"name":"家居房产","route":"home","tid":239,"url":"//www.bilibili.com/v/life/home"},{"subChannelId":160003,"name":"手工","route":"handmake","tid":161,"url":"//www.bilibili.com/v/life/handmake"},{"subChannelId":160004,"name":"绘画","route":"painting","tid":162,"url":"//www.bilibili.com/v/life/painting"},{"subChannelId":160005,"name":"日常","route":"daily","tid":21,"url":"//www.bilibili.com/v/life/daily"}]},{"name":"汽车","channelId":15,"tid":223,"url":"//www.bilibili.com/v/car","icon":"ChannelCar","sub":[{"subChannelId":150007,"name":"赛车","route":"racing","tid":245,"url":"//www.bilibili.com/v/car/racing"},{"subChannelId":150008,"name":"改装玩车","route":"modifiedvehicle","tid":246,"url":"//www.bilibili.com/v/car/modifiedvehicle"},{"subChannelId":150009,"name":"新能源车","route":"newenergyvehicle","tid":246,"url":"//www.bilibili.com/v/car/newenergyvehicle"},{"subChannelId":150010,"name":"房车","route":"touringcar","tid":248,"url":"//www.bilibili.com/v/car/touringcar"},{"subChannelId":150006,"name":"摩托车","route":"motorcycle","tid":240,"url":"//www.bilibili.com/v/car/motorcycle"},{"subChannelId":150005,"name":"购车攻略","route":"strategy","tid":227,"url":"//www.bilibili.com/v/car/strategy"},{"subChannelId":150001,"name":"汽车生活","route":"life","tid":176,"url":"//www.bilibili.com/v/car/life"}]},{"name":"时尚","channelId":22,"tid":155,"url":"//www.bilibili.com/v/fashion","icon":"ChannelFashion","sub":[{"subChannelId":220001,"name":"美妆护肤","route":"makeup","tid":157,"url":"//www.bilibili.com/v/fashion/makeup"},{"subChannelId":220004,"name":"仿妆cos","route":"cos","tid":252,"url":"//www.bilibili.com/v/fashion/cos"},{"subChannelId":220002,"name":"穿搭","route":"clothing","tid":158,"url":"//www.bilibili.com/v/fashion/clothing"},{"subChannelId":220003,"name":"时尚潮流","route":"trend","tid":159,"url":"//www.bilibili.com/v/fashion/trend"}]},{"name":"运动","channelId":14,"tid":234,"url":"//www.bilibili.com/v/sports","icon":"ChannelSports","sub":[{"subChannelId":140001,"name":"篮球","route":"basketball","tid":235,"url":"//www.bilibili.com/v/sports/basketball"},{"subChannelId":140006,"name":"足球","route":"football","tid":249,"url":"//www.bilibili.com/v/sports/football"},{"subChannelId":140002,"name":"健身","route":"aerobics","tid":164,"url":"//www.bilibili.com/v/sports/aerobics"},{"subChannelId":140003,"name":"竞技体育","route":"athletic","tid":236,"url":"//www.bilibili.com/v/sports/athletic"},{"subChannelId":140004,"name":"运动文化","route":"culture","tid":237,"url":"//www.bilibili.com/v/sports/culture"},{"subChannelId":140005,"name":"运动综合","route":"comprehensive","tid":238,"url":"//www.bilibili.com/v/sports/comprehensive"}]},{"name":"动物圈","channelId":18,"tid":217,"url":"//www.bilibili.com/v/animal","icon":"ChannelAnimal","sub":[{"subChannelId":180001,"name":"喵星人","route":"cat","tid":218,"url":"//www.bilibili.com/v/animal/cat"},{"subChannelId":180002,"name":"汪星人","route":"dog","tid":219,"url":"//www.bilibili.com/v/animal/dog"},{"subChannelId":180007,"name":"小宠异宠","route":"reptiles","tid":222,"url":"//www.bilibili.com/v/animal/reptiles"},{"subChannelId":180004,"name":"野生动物","route":"wild_animal","tid":221,"url":"//www.bilibili.com/v/animal/wild_animal"},{"subChannelId":180008,"name":"动物二创","route":"second_edition","tid":220,"url":"//www.bilibili.com/v/animal/second_edition"},{"subChannelId":180006,"name":"动物综合","route":"animal_composite","tid":75,"url":"//www.bilibili.com/v/animal/animal_composite"}]},{"name":"VLOG","channelId":19,"url":"//www.bilibili.com/v/life/daily/#/530003","icon":"ChannelVlog","sub":[]},{"channelId":160001,"name":"搞笑","route":"stand_alone","tid":138,"icon":"ChannelGaoxiao","url":"//www.bilibili.com/v/life/funny","sub":[]},{"channelId":110001,"name":"单机游戏","route":"stand_alone","tid":17,"icon":"ChannelDanjiyouxi","url":"//www.bilibili.com/v/game/stand_alone","sub":[]},{"channelId":31,"name":"虚拟UP主","icon":"ChannelVtuber","url":"//www.bilibili.com/v/virtual","sub":[]},{"channelId":32,"name":"公益","icon":"ChannelLove","url":"//love.bilibili.com","sub":[]},{"channelId":33,"name":"公开课","icon":"ChannelGongkaike","url":"//www.bilibili.com/mooc","sub":[]}]';
+
+  // src/io/api-region-feed-rcmd.ts
+  var V2_MAIN = {
+    1: 1005,
+    // 动画
+    13: 1005,
+    // 番剧 -> 动画
+    167: 1005,
+    // 国创 -> 动画
+    3: 1003,
+    // 音乐
+    129: 1004,
+    // 舞蹈
+    4: 1008,
+    // 游戏
+    36: 1010,
+    // 知识
+    188: 1012,
+    // 科技 -> 科技数码
+    234: 1018,
+    // 运动 -> 体育运动
+    223: 1013,
+    // 汽车
+    160: 1030,
+    // 生活 -> 生活兴趣
+    211: 1020,
+    // 美食
+    217: 1024,
+    // 动物圈 -> 动物
+    119: 1007,
+    // 鬼畜
+    155: 1014,
+    // 时尚 -> 时尚美妆
+    202: 1009,
+    // 资讯
+    5: 1002,
+    // 娱乐
+    181: 1001,
+    // 影视
+    177: 1001,
+    // 纪录片 -> 影视
+    23: 1001,
+    // 电影 -> 影视
+    11: 1001
+    // 电视剧 -> 影视
+  };
+  var lookup;
+  function fromRegion(rid) {
+    if (!lookup) {
+      lookup = { ...V2_MAIN };
+      const tree = JSON.parse(sort_default);
+      tree.forEach((d) => {
+        var _a3;
+        const v2 = d.tid && V2_MAIN[d.tid];
+        v2 && ((_a3 = d.sub) == null ? void 0 : _a3.forEach((s) => {
+          var _a4, _b2;
+          s.tid && ((_b2 = lookup[_a4 = s.tid]) != null ? _b2 : lookup[_a4] = v2);
+        }));
+      });
+    }
+    return lookup[rid];
+  }
+  async function apiRegionFeedRcmd(rid, pn = 1, ps = 10) {
+    const from_region = fromRegion(rid);
+    if (!from_region) throw new Error(\`旧版分区\${rid}没有对应的新版分区！\`);
+    let archives = [];
+    for (let i2 = 0; i2 < 3; i2++) {
+      const response2 = await fetch(objUrl(URLS.REGION_FEED_RCMD, {
+        display_id: pn,
+        request_cnt: ps,
+        from_region,
+        device: "web",
+        plat: 30
+      }), { credentials: "include" });
+      const json = await response2.json();
+      if (json.code === 62013) continue;
+      archives = jsonCheck(json).data.archives || [];
+      if (archives.length) break;
+    }
+    return archives.filter((d) => !d.goto || d.goto === "av").map((d) => {
+      var _a3, _b2, _c, _d, _e;
+      return {
+        aid: d.aid,
+        bvid: d.bvid,
+        cid: d.cid,
+        title: d.title,
+        pic: d.cover,
+        desc: "",
+        duration: d.duration,
+        pubdate: d.pubdate,
+        tid: rid,
+        tname: "",
+        owner: { mid: ((_a3 = d.author) == null ? void 0 : _a3.mid) || 0, name: ((_b2 = d.author) == null ? void 0 : _b2.name) || "", face: "" },
+        stat: {
+          aid: d.aid,
+          view: ((_c = d.stat) == null ? void 0 : _c.view) || 0,
+          danmaku: ((_d = d.stat) == null ? void 0 : _d.danmaku) || 0,
+          like: ((_e = d.stat) == null ? void 0 : _e.like) || 0
+        }
+      };
+    });
+  }
+
+  // src/page/region-feed.ts
+  function response(archives, pn, ps) {
+    return { code: 0, message: "", ttl: 1, data: { archives, page: { count: archives.length, num: pn, size: ps } } };
+  }
+  async function resolveDynamic(url) {
+    const obj = urlObj(url);
+    const rid = Number(obj.rid);
+    const pn = Number(obj.pn) || 1;
+    const ps = Number(obj.ps) || 10;
+    let archives = await apiRegionFeedRcmd(rid, pn, ps).catch(() => []);
+    archives.length || (archives = await apiNewlist(rid, ps, pn));
+    return response(archives, pn, ps);
+  }
+  async function resolveNewlist(url) {
+    const obj = urlObj(url);
+    const rid = Number(obj.rid);
+    const pn = Number(obj.pn) || 1;
+    const ps = Number(obj.ps) || 10;
+    let archives = await apiNewlist(rid, ps, pn).catch(() => []);
+    archives.length || (archives = await apiRegionFeedRcmd(rid, pn, ps));
+    return response(archives, pn, ps);
+  }
+  function regionFeedHook() {
+    const xhr = (resolve) => async (args) => {
+      const responseText = JSON.stringify(await resolve(args[1]));
+      return { response: responseText, responseText };
+    };
+    jsonpHook.async("x/web-interface/dynamic/region", void 0, resolveDynamic, false);
+    jsonpHook.async("x/web-interface/newlist?", void 0, resolveNewlist, false);
+    xhrHook.async("x/web-interface/dynamic/region", void 0, xhr(resolveDynamic), false);
+    xhrHook.async("x/web-interface/newlist?", void 0, xhr(resolveNewlist), false);
   }
 
   // src/json/recommend.txt
@@ -28180,7 +28325,7 @@ const MODULES = `
       this.recommendData();
       this.roomRecommend();
       this.ranking();
-      this.newlist();
+      this.regionFeed();
       this.region();
       this.recommendSpecial();
       Header.primaryMenu();
@@ -28282,24 +28427,24 @@ const MODULES = `
         args[1] = args[1].includes("List") ? args[1].replace("api.live.bilibili.com/room/v1/RoomRecommend/biliIndexRecList", "api.live.bilibili.com/xlive/web-interface/v1/webMain/getList?platform=web") : args[1].replace("api.live.bilibili.com/room/v1/RoomRecommend/biliIndexRecMore", "api.live.bilibili.com/xlive/web-interface/v1/webMain/getMoreRecList?platform=web");
       }, (obj) => {
         var _a3;
-        let response = (_a3 = obj.responseText) == null ? void 0 : _a3.replace(/preview_banner_list/, "preview").replace(/ranking_list/, "ranking").replace(/recommend_room_list/, "recommend");
-        if (response) {
-          response = JSON.parse(response);
-          response.data.text_link = { text: "233秒居然能做这些！", link: "//vc.bilibili.com" };
-          if (response.data.recommend) {
-            for (let i2 = 0; i2 < response.data.recommend.length; i2++) {
-              response.data.recommend[i2].pic = response.data.recommend[i2].cover;
-              response.data.recommend[i2].link = "//live.bilibili.com" + response.data.recommend[i2].link;
+        let response2 = (_a3 = obj.responseText) == null ? void 0 : _a3.replace(/preview_banner_list/, "preview").replace(/ranking_list/, "ranking").replace(/recommend_room_list/, "recommend");
+        if (response2) {
+          response2 = JSON.parse(response2);
+          response2.data.text_link = { text: "233秒居然能做这些！", link: "//vc.bilibili.com" };
+          if (response2.data.recommend) {
+            for (let i2 = 0; i2 < response2.data.recommend.length; i2++) {
+              response2.data.recommend[i2].pic = response2.data.recommend[i2].cover;
+              response2.data.recommend[i2].link = "//live.bilibili.com" + response2.data.recommend[i2].link;
             }
           }
-          if (response.data.preview) for (let i2 = 0; i2 < response.data.preview.length; i2++) response.data.preview[i2].url = response.data.preview[i2].link;
-          obj.response = obj.responseText = JSON.stringify(response);
+          if (response2.data.preview) for (let i2 = 0; i2 < response2.data.preview.length; i2++) response2.data.preview[i2].url = response2.data.preview[i2].link;
+          obj.response = obj.responseText = JSON.stringify(response2);
         }
       }, false);
     }
-    /** 用户热点最新投稿修复资讯区最新投稿 */
-    newlist() {
-      jsonpHook(["newlist", "rid=202"], (url) => url.replace("rid=202", "rid=203"), void 0, false);
+    /** 分区“有新动态/最新投稿”栏目数据修复（接口下线，改用新版分区feed） */
+    regionFeed() {
+      regionFeedHook();
     }
     /** 修正电影/电视剧/纪录片排行 */
     region() {
@@ -28473,16 +28618,16 @@ const MODULES = `
   // src/io/api-pgc-slideshow.ts
   init_tampermonkey();
   async function apiPgcSlideShow(position_id) {
-    const response = await fetch(objUrl(URLS.SLIDE_SHOW, { position_id }));
-    const json = await response.json();
+    const response2 = await fetch(objUrl(URLS.SLIDE_SHOW, { position_id }));
+    const json = await response2.json();
     return jsonCheck(json).result;
   }
 
   // src/io/api-search-square.ts
   init_tampermonkey();
   async function apiSearchSquare(limit = 10) {
-    const response = await fetch(objUrl(URLS.SEARCH_SQUARE, { limit }));
-    const json = await response.json();
+    const response2 = await fetch(objUrl(URLS.SEARCH_SQUARE, { limit }));
+    const json = await response2.json();
     return jsonCheck(json).data.trending.list;
   }
 
@@ -32027,21 +32172,21 @@ const MODULES = `
         xhrHook("x/player/v2?", void 0, (res) => {
           var _a3, _b2, _c;
           try {
-            const response = jsonCheck(res.response);
-            if ((_c = (_b2 = (_a3 = response == null ? void 0 : response.data) == null ? void 0 : _a3.subtitle) == null ? void 0 : _b2.subtitles) == null ? void 0 : _c.length) {
-              response.data.subtitle.subtitles.forEach((d) => {
+            const response2 = jsonCheck(res.response);
+            if ((_c = (_b2 = (_a3 = response2 == null ? void 0 : response2.data) == null ? void 0 : _a3.subtitle) == null ? void 0 : _b2.subtitles) == null ? void 0 : _c.length) {
+              response2.data.subtitle.subtitles.forEach((d) => {
                 if (typeof d.subtitle_url === "string") {
                   switch (d.lan) {
                     case "zh-Hant":
                       xhrHook(d.subtitle_url, void 0, (res2) => {
                         try {
-                          let response2 = res2.responseType === "json" ? JSON.stringify(res2.response) : res2.responseText;
-                          if (response2) {
-                            response2 = cht2chs(response2);
+                          let response3 = res2.responseType === "json" ? JSON.stringify(res2.response) : res2.responseText;
+                          if (response3) {
+                            response3 = cht2chs(response3);
                             if (res2.responseType === "json") {
-                              res2.response = JSON.parse(response2);
+                              res2.response = JSON.parse(response3);
                             } else {
-                              res2.response = res2.responseText = response2;
+                              res2.response = res2.responseText = response3;
                             }
                             toast.warning("字幕：繁 -> 简", \`原始语言：\${d.lan_doc}\`);
                           }
@@ -32198,10 +32343,10 @@ const MODULES = `
     /** 拦截视频心跳 */
     heartbeatBlock() {
       xhrHook.async("/heartbeat", void 0, async (res) => {
-        const response = '{"code":0,"message":"0","ttl":1}';
+        const response2 = '{"code":0,"message":"0","ttl":1}';
         return {
-          response,
-          responseText: response
+          response: response2,
+          responseText: response2
         };
       }, false);
     }
@@ -32799,7 +32944,7 @@ const MODULES = `
   // src/io/api-like.ts
   init_tampermonkey();
   async function apiLike(aid, bili_jct, like = false) {
-    const response = await fetch(URLS.LIKE, {
+    const response2 = await fetch(URLS.LIKE, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
@@ -32807,17 +32952,17 @@ const MODULES = `
       body: \`aid=\${aid}&like=\${like ? 1 : 2}&csrf=\${bili_jct}\`,
       credentials: "include"
     });
-    const json = await response.json();
+    const json = await response2.json();
     return jsonCheck(json);
   }
 
   // src/io/api-like-has.ts
   init_tampermonkey();
   async function apiLikeHas(aid) {
-    const response = await fetch(objUrl(URLS.HAS_LIKE, { aid }), {
+    const response2 = await fetch(objUrl(URLS.HAS_LIKE, { aid }), {
       credentials: "include"
     });
-    const json = await response.json();
+    const json = await response2.json();
     return jsonCheck(json).data;
   }
 
@@ -32884,9 +33029,6 @@ const MODULES = `
 
   // src/html/av.html
   var av_default = '<!DOCTYPE html>\\r\\n<html lang="zh-CN">\\r\\n\\r\\n<head>\\r\\n    <meta charset="utf-8" />\\r\\n    <title>哔哩哔哩 (゜-゜)つロ 干杯~-bilibili</title>\\r\\n    <meta name="description" content="bilibili是国内知名的视频弹幕网站，这里有最及时的动漫新番，最棒的ACG氛围，最有创意的Up主。大家可以在这里找到许多欢乐。" />\\r\\n    <meta name="keywords"\\r\\n        content="Bilibili,哔哩哔哩,哔哩哔哩动画,哔哩哔哩弹幕网,弹幕视频,B站,弹幕,字幕,AMV,MAD,MTV,ANIME,动漫,动漫音乐,游戏,游戏解说,二次元,游戏视频,ACG,galgame,动画,番组,新番,初音,洛天依,vocaloid,日本动漫,国产动漫,手机游戏,网络游戏,电子竞技,ACG燃曲,ACG神曲,追新番,新番动漫,新番吐槽,巡音,镜音双子,千本樱,初音MIKU,舞蹈MMD,MIKUMIKUDANCE,洛天依原创曲,洛天依翻唱曲,洛天依投食歌,洛天依MMD,vocaloid家族,OST,BGM,动漫歌曲,日本动漫音乐,宫崎骏动漫音乐,动漫音乐推荐,燃系mad,治愈系mad,MAD MOVIE,MAD高燃" />\\r\\n    <meta name="renderer" content="webkit" />\\r\\n    <meta http-equiv="X-UA-Compatible" content="IE=edge" />\\r\\n    <link rel="search" type="application/opensearchdescription+xml" href="//static.hdslb.com/opensearch.xml"\\r\\n        title="哔哩哔哩" />\\r\\n    <link rel="stylesheet"\\r\\n        href="//s1.hdslb.com/bfs/static/jinkela/videoplay/css/video.0.406cee7878545872b8dfbe73071d665dfb287c67.css" />\\r\\n    <style type="text/css">\\r\\n        #bofqi .player {\\r\\n            width: 980px;\\r\\n            height: 620px;\\r\\n            display: block;\\r\\n        }\\r\\n\\r\\n        @media screen and (min-width:1400px) {\\r\\n\\r\\n            #bofqi .player {\\r\\n                width: 1160px;\\r\\n                height: 720px\\r\\n            }\\r\\n        }\\r\\n    </style>\\r\\n</head>\\r\\n\\r\\n<body>\\r\\n    <div class="z-top-container has-menu"></div>\\r\\n    <div id="video-page-app"></div>\\r\\n    <div id="app" data-server-rendered="true"></div>\\r\\n    <div class="footer bili-footer report-wrap-module"></div>\\r\\n    <script type="text/javascript">\\r\\n        window.getInternetExplorerVersion = function () {\\r\\n            var e = -1; if ("Microsoft Internet Explorer" == navigator.appName) {\\r\\n                var r = navigator.userAgent;\\r\\n                null != new RegExp("MSIE ([0-9]{1,}[.0-9]{0,})").exec(r) && (e = parseFloat(RegExp.\$1))\\r\\n            }\\r\\n            return e\\r\\n        };\\r\\n        function getQueryString(e) {\\r\\n            var r = new RegExp("(^|&)" + e + "=([^&]*)(&|\$)"),\\r\\n                i = window.location.search.substr(1).match(r);\\r\\n            return null != i ? unescape(i[2]) : null\\r\\n        }\\r\\n        window.commentAgent = { seek: t => window.player && window.player.seek(t) };\\r\\n    <\\/script>\\r\\n    <script type="text/javascript" src="//static.hdslb.com/js/jquery.min.js"><\\/script>\\r\\n    <script type="text/javascript" src="//static.hdslb.com/js/jquery.qrcode.min.js"><\\/script>\\r\\n    <script type="text/javascript" src="//s1.hdslb.com/bfs/seed/jinkela/header/header.js"><\\/script>\\r\\n    <script src="//s1.hdslb.com/bfs/static/jinkela/videoplay/manifest.b1b7706abd590dd295794f540f7669a5d8d978b3.js"\\r\\n        crossorigin=""><\\/script>\\r\\n    <script src="//s1.hdslb.com/bfs/static/jinkela/videoplay/vendor.b1b7706abd590dd295794f540f7669a5d8d978b3.js"\\r\\n        crossorigin=""><\\/script>\\r\\n    <script src="//s1.hdslb.com/bfs/static/jinkela/videoplay/video.b1b7706abd590dd295794f540f7669a5d8d978b3.js"\\r\\n        crossorigin=""><\\/script>\\r\\n    <script type="text/javascript" charset="utf-8" src="//static.hdslb.com/common/js/footer.js"><\\/script>\\r\\n</body>\\r\\n\\r\\n</html>';
-
-  // src/json/sort.txt
-  var sort_default = '[{"channelId":2,"name":"番剧","tid":13,"url":"//www.bilibili.com/anime/","icon":"ChannelAnime","sub":[{"subChannelId":20001,"name":"连载动画","tid":33,"route":"serial","url":"//www.bilibili.com/v/anime/serial/"},{"subChannelId":20002,"name":"完结动画","tid":32,"route":"finish","url":"//www.bilibili.com/v/anime/finish"},{"subChannelId":20003,"name":"资讯","tid":51,"route":"information","url":"//www.bilibili.com/v/anime/information/"},{"subChannelId":20004,"name":"官方延伸","tid":152,"route":"offical","url":"//www.bilibili.com/v/anime/offical/"},{"subChannelId":20005,"name":"新番时间表","url":"//www.bilibili.com/anime/timeline/"},{"subChannelId":20006,"name":"番剧索引","url":"//www.bilibili.com/anime/index/"}]},{"channelId":3,"name":"电影","tid":23,"url":"//www.bilibili.com/movie/","icon":"ChannelMovie","sub":[]},{"channelId":4,"name":"国创","tid":167,"url":"//www.bilibili.com/guochuang/","icon":"ChannelGuochuang","sub":[{"subChannelId":40001,"name":"国产动画","tid":153,"route":"chinese","url":"//www.bilibili.com/v/guochuang/chinese/"},{"subChannelId":40002,"name":"国产原创相关","tid":168,"route":"original","url":"//www.bilibili.com/v/guochuang/original/"},{"subChannelId":40003,"name":"布袋戏","tid":169,"route":"puppetry","url":"//www.bilibili.com/v/guochuang/puppetry/"},{"subChannelId":40004,"name":"动态漫·广播剧","tid":195,"route":"motioncomic","url":"//www.bilibili.com/v/guochuang/motioncomic/"},{"subChannelId":40005,"name":"资讯","tid":170,"route":"information","url":"//www.bilibili.com/v/guochuang/information/"},{"subChannelId":40006,"name":"新番时间表","url":"//www.bilibili.com/guochuang/timeline/"},{"subChannelId":40007,"name":"国产动画索引","url":"//www.bilibili.com/guochuang/index/"}]},{"name":"电视剧","channelId":5,"tid":11,"url":"//www.bilibili.com/tv/","type":"first","icon":"ChannelTeleplay","sub":[]},{"name":"综艺","channelId":6,"icon":"ChannelZongyi","url":"//www.bilibili.com/variety/ ","sub":[]},{"name":"纪录片","tid":177,"channelId":7,"url":"//www.bilibili.com/documentary/","icon":"ChannelDocumentary","sub":[]},{"name":"动画","channelId":8,"tid":1,"url":"//www.bilibili.com/v/douga/","icon":"ChannelDouga","sub":[{"subChannelId":80001,"name":"MAD·AMV","route":"mad","tid":24,"url":"//www.bilibili.com/v/douga/mad/"},{"subChannelId":80002,"name":"MMD·3D","route":"mmd","tid":25,"url":"//www.bilibili.com/v/douga/mmd/"},{"subChannelId":80003,"name":"短片·手书·配音","route":"voice","tid":47,"url":"//www.bilibili.com/v/douga/voice/"},{"subChannelId":80004,"name":"手办·模玩","route":"garage_kit","tid":210,"url":"//www.bilibili.com/v/douga/garage_kit/"},{"subChannelId":80005,"name":"特摄","route":"tokusatsu","tid":86,"url":"//www.bilibili.com/v/douga/tokusatsu/"},{"subChannelId":80007,"name":"动漫杂谈","route":"acgntalks","tid":253,"url":"//www.bilibili.com/v/douga/acgntalks/"},{"subChannelId":80006,"name":"综合","route":"other","tid":27,"url":"//www.bilibili.com/v/douga/other/"}]},{"name":"游戏","channelId":11,"tid":4,"url":"//www.bilibili.com/v/game/","icon":"ChannelGame","sub":[{"subChannelId":110001,"name":"单机游戏","route":"stand_alone","tid":17,"url":"//www.bilibili.com/v/game/stand_alone"},{"subChannelId":110002,"name":"电子竞技","route":"esports","tid":171,"url":"//www.bilibili.com/v/game/esports"},{"subChannelId":110003,"name":"手机游戏","route":"mobile","tid":172,"url":"//www.bilibili.com/v/game/mobile"},{"subChannelId":110004,"name":"网络游戏","route":"online","tid":65,"url":"//www.bilibili.com/v/game/online"},{"subChannelId":110005,"name":"桌游棋牌","route":"board","tid":173,"url":"//www.bilibili.com/v/game/board"},{"subChannelId":110006,"name":"GMV","route":"gmv","tid":121,"url":"//www.bilibili.com/v/game/gmv"},{"subChannelId":110007,"name":"音游","route":"music","tid":136,"url":"//www.bilibili.com/v/game/music"},{"subChannelId":110008,"name":"Mugen","route":"mugen","tid":19,"url":"//www.bilibili.com/v/game/mugen"},{"subChannelId":110009,"name":"游戏赛事","url":"//www.bilibili.com/v/game/match/"}]},{"name":"鬼畜","channelId":20,"tid":119,"url":"//www.bilibili.com/v/kichiku/","icon":"ChannelKichiku","sub":[{"subChannelId":200001,"name":"鬼畜调教","route":"guide","tid":22,"url":"//www.bilibili.com/v/kichiku/guide"},{"subChannelId":200002,"name":"音MAD","route":"mad","tid":26,"url":"//www.bilibili.com/v/kichiku/mad"},{"subChannelId":200003,"name":"人力VOCALOID","route":"manual_vocaloid","tid":126,"url":"//www.bilibili.com/v/kichiku/manual_vocaloid"},{"subChannelId":200004,"name":"鬼畜剧场","route":"theatre","tid":216,"url":"//www.bilibili.com/v/kichiku/theatre"},{"subChannelId":200005,"name":"教程演示","route":"course","tid":127,"url":"//www.bilibili.com/v/kichiku/course"}]},{"name":"音乐","channelId":9,"tid":3,"url":"//www.bilibili.com/v/music","icon":"ChannelMusic","sub":[{"subChannelId":90001,"name":"原创音乐","route":"original","url":"//www.bilibili.com/v/music/original","tid":28},{"subChannelId":90002,"name":"翻唱","route":"cover","url":"//www.bilibili.com/v/music/cover","tid":31},{"subChannelId":90005,"name":"演奏","route":"perform","tid":59,"url":"//www.bilibili.com/v/music/perform"},{"subChannelId":90003,"name":"VOCALOID·UTAU","route":"vocaloid","url":"//www.bilibili.com/v/music/vocaloid","tid":30},{"subChannelId":90007,"name":"音乐现场","route":"live","tid":29,"url":"//www.bilibili.com/v/music/live"},{"subChannelId":90006,"name":"MV","route":"mv","tid":193,"url":"//www.bilibili.com/v/music/mv"},{"subChannelId":900011,"name":"乐评盘点","route":"commentary","tid":243,"url":"//www.bilibili.com/v/music/commentary"},{"subChannelId":900012,"name":"音乐教学","route":"tutorial","tid":244,"url":"//www.bilibili.com/v/music/tutorial"},{"subChannelId":90008,"name":"音乐综合","route":"other","tid":130,"url":"//www.bilibili.com/v/music/other"},{"subChannelId":900010,"name":"说唱","url":"//www.bilibili.com/v/rap"}]},{"name":"舞蹈","channelId":10,"tid":129,"url":"//www.bilibili.com/v/dance/","icon":"ChannelDance","sub":[{"subChannelId":100001,"name":"宅舞","route":"otaku","tid":20,"url":"//www.bilibili.com/v/dance/otaku/"},{"subChannelId":100002,"name":"街舞","route":"hiphop","tid":198,"url":"//www.bilibili.com/v/dance/hiphop/"},{"subChannelId":100003,"name":"明星舞蹈","route":"star","tid":199,"url":"//www.bilibili.com/v/dance/star/"},{"subChannelId":100004,"name":"国风舞蹈","route":"china","tid":200,"url":"//www.bilibili.com/v/dance/china/"},{"subChannelId":100007,"name":"手势·网红舞","route":"gestures","tid":255,"url":"//www.bilibili.com/v/dance/gestures/"},{"subChannelId":100005,"name":"舞蹈综合","route":"three_d","tid":154,"url":"//www.bilibili.com/v/dance/three_d/"},{"subChannelId":100006,"name":"舞蹈教程","route":"demo","tid":156,"url":"//www.bilibili.com/v/dance/demo/"}]},{"name":"影视","channelId":25,"tid":181,"url":"//www.bilibili.com/v/cinephile","icon":"ChannelCinephile","sub":[{"subChannelId":250001,"name":"影视杂谈","route":"cinecism","tid":182,"url":"//www.bilibili.com/v/cinephile/cinecism"},{"subChannelId":250002,"name":"影视剪辑","route":"montage","tid":183,"url":"//www.bilibili.com/v/cinephile/montage"},{"subChannelId":250003,"name":"小剧场","route":"shortfilm","tid":85,"url":"//www.bilibili.com/v/cinephile/shortfilm"},{"subChannelId":250004,"name":"预告·资讯","route":"trailer_info","tid":184,"url":"//www.bilibili.com/v/cinephile/trailer_info"}]},{"name":"娱乐","channelId":23,"tid":5,"url":"//www.bilibili.com/v/ent/","icon":"ChannelEnt","sub":[{"subChannelId":230001,"name":"综艺","route":"variety","tid":71,"url":"//www.bilibili.com/v/ent/variety"},{"subChannelId":230003,"name":"娱乐杂谈","route":"talker","tid":241,"url":"//www.bilibili.com/v/ent/talker"},{"subChannelId":230004,"name":"粉丝创作","route":"fans","tid":242,"url":"//www.bilibili.com/v/ent/fans"},{"subChannelId":230002,"name":"明星综合","route":"celebrity","tid":137,"url":"//www.bilibili.com/v/ent/celebrity"}]},{"name":"知识","channelId":12,"tid":36,"url":"//www.bilibili.com/v/knowledge/","icon":"ChannelKnowledge","sub":[{"subChannelId":120001,"name":"科学科普","route":"science","tid":201,"url":"//www.bilibili.com/v/knowledge/science"},{"subChannelId":120002,"name":"社科·法律·心理","route":"social_science","tid":124,"url":"//www.bilibili.com/v/knowledge/social_science"},{"subChannelId":120003,"name":"人文历史","route":"humanity_history","tid":228,"url":"//www.bilibili.com/v/knowledge/humanity_history"},{"subChannelId":120004,"name":"财经商业","route":"business","tid":207,"url":"//www.bilibili.com/v/knowledge/business"},{"subChannelId":120005,"name":"校园学习","route":"campus","tid":208,"url":"//www.bilibili.com/v/knowledge/campus"},{"subChannelId":120006,"name":"职业职场","route":"career","tid":209,"url":"//www.bilibili.com/v/knowledge/career"},{"subChannelId":120007,"name":"设计·创意","route":"design","tid":229,"url":"//www.bilibili.com/v/knowledge/design"},{"subChannelId":120008,"name":"野生技能协会","route":"skill","tid":122,"url":"//www.bilibili.com/v/knowledge/skill"}]},{"name":"科技","channelId":13,"tid":188,"url":"//www.bilibili.com/v/tech/","icon":"ChannelTech","sub":[{"subChannelId":130001,"name":"数码","route":"digital","tid":95,"url":"//www.bilibili.com/v/tech/digital"},{"subChannelId":130002,"name":"软件应用","route":"application","tid":230,"url":"//www.bilibili.com/v/tech/application"},{"subChannelId":130003,"name":"计算机技术","route":"computer_tech","tid":231,"url":"//www.bilibili.com/v/tech/computer_tech"},{"subChannelId":130004,"name":"科工机械","route":"industry","tid":232,"url":"//www.bilibili.com/v/tech/industry"},{"subChannelId":130005,"name":"极客DIY","route":"diy","url":"//www.bilibili.com/v/tech/diy"}]},{"name":"资讯","channelId":21,"tid":202,"url":"//www.bilibili.com/v/information/","icon":"ChannelInformation","sub":[{"subChannelId":210001,"name":"热点","route":"hotspot","tid":203,"url":"//www.bilibili.com/v/information/hotspot"},{"subChannelId":210002,"name":"环球","route":"global","tid":204,"url":"//www.bilibili.com/v/information/global"},{"subChannelId":210003,"name":"社会","route":"social","tid":205,"url":"//www.bilibili.com/v/information/social"},{"subChannelId":210004,"name":"综合","route":"multiple","tid":206,"url":"//www.bilibili.com/v/information/multiple"}]},{"name":"美食","channelId":17,"tid":211,"url":"//www.bilibili.com/v/food","icon":"ChannelFood","sub":[{"subChannelId":170001,"name":"美食制作","route":"make","tid":76,"url":"//www.bilibili.com/v/food/make"},{"subChannelId":170002,"name":"美食侦探","route":"detective","tid":212,"url":"//www.bilibili.com/v/food/detective"},{"subChannelId":170003,"name":"美食测评","route":"measurement","tid":213,"url":"//www.bilibili.com/v/food/measurement"},{"subChannelId":170004,"name":"田园美食","route":"rural","tid":214,"url":"//www.bilibili.com/v/food/rural"},{"subChannelId":170005,"name":"美食记录","route":"record","tid":215,"url":"//www.bilibili.com/v/food/record"}]},{"name":"生活","channelId":16,"tid":160,"url":"//www.bilibili.com/v/life","icon":"ChannelLife","sub":[{"subChannelId":160001,"name":"搞笑","route":"funny","tid":138,"url":"//www.bilibili.com/v/life/funny"},{"subChannelId":160008,"name":"亲子","route":"parenting","tid":254,"url":"//www.bilibili.com/v/life/parenting"},{"subChannelId":160006,"name":"出行","route":"travel","tid":250,"url":"//www.bilibili.com/v/life/travel"},{"subChannelId":160007,"name":"三农","route":"rurallife","tid":251,"url":"//www.bilibili.com/v/life/rurallife"},{"subChannelId":160002,"name":"家居房产","route":"home","tid":239,"url":"//www.bilibili.com/v/life/home"},{"subChannelId":160003,"name":"手工","route":"handmake","tid":161,"url":"//www.bilibili.com/v/life/handmake"},{"subChannelId":160004,"name":"绘画","route":"painting","tid":162,"url":"//www.bilibili.com/v/life/painting"},{"subChannelId":160005,"name":"日常","route":"daily","tid":21,"url":"//www.bilibili.com/v/life/daily"}]},{"name":"汽车","channelId":15,"tid":223,"url":"//www.bilibili.com/v/car","icon":"ChannelCar","sub":[{"subChannelId":150007,"name":"赛车","route":"racing","tid":245,"url":"//www.bilibili.com/v/car/racing"},{"subChannelId":150008,"name":"改装玩车","route":"modifiedvehicle","tid":246,"url":"//www.bilibili.com/v/car/modifiedvehicle"},{"subChannelId":150009,"name":"新能源车","route":"newenergyvehicle","tid":246,"url":"//www.bilibili.com/v/car/newenergyvehicle"},{"subChannelId":150010,"name":"房车","route":"touringcar","tid":248,"url":"//www.bilibili.com/v/car/touringcar"},{"subChannelId":150006,"name":"摩托车","route":"motorcycle","tid":240,"url":"//www.bilibili.com/v/car/motorcycle"},{"subChannelId":150005,"name":"购车攻略","route":"strategy","tid":227,"url":"//www.bilibili.com/v/car/strategy"},{"subChannelId":150001,"name":"汽车生活","route":"life","tid":176,"url":"//www.bilibili.com/v/car/life"}]},{"name":"时尚","channelId":22,"tid":155,"url":"//www.bilibili.com/v/fashion","icon":"ChannelFashion","sub":[{"subChannelId":220001,"name":"美妆护肤","route":"makeup","tid":157,"url":"//www.bilibili.com/v/fashion/makeup"},{"subChannelId":220004,"name":"仿妆cos","route":"cos","tid":252,"url":"//www.bilibili.com/v/fashion/cos"},{"subChannelId":220002,"name":"穿搭","route":"clothing","tid":158,"url":"//www.bilibili.com/v/fashion/clothing"},{"subChannelId":220003,"name":"时尚潮流","route":"trend","tid":159,"url":"//www.bilibili.com/v/fashion/trend"}]},{"name":"运动","channelId":14,"tid":234,"url":"//www.bilibili.com/v/sports","icon":"ChannelSports","sub":[{"subChannelId":140001,"name":"篮球","route":"basketball","tid":235,"url":"//www.bilibili.com/v/sports/basketball"},{"subChannelId":140006,"name":"足球","route":"football","tid":249,"url":"//www.bilibili.com/v/sports/football"},{"subChannelId":140002,"name":"健身","route":"aerobics","tid":164,"url":"//www.bilibili.com/v/sports/aerobics"},{"subChannelId":140003,"name":"竞技体育","route":"athletic","tid":236,"url":"//www.bilibili.com/v/sports/athletic"},{"subChannelId":140004,"name":"运动文化","route":"culture","tid":237,"url":"//www.bilibili.com/v/sports/culture"},{"subChannelId":140005,"name":"运动综合","route":"comprehensive","tid":238,"url":"//www.bilibili.com/v/sports/comprehensive"}]},{"name":"动物圈","channelId":18,"tid":217,"url":"//www.bilibili.com/v/animal","icon":"ChannelAnimal","sub":[{"subChannelId":180001,"name":"喵星人","route":"cat","tid":218,"url":"//www.bilibili.com/v/animal/cat"},{"subChannelId":180002,"name":"汪星人","route":"dog","tid":219,"url":"//www.bilibili.com/v/animal/dog"},{"subChannelId":180007,"name":"小宠异宠","route":"reptiles","tid":222,"url":"//www.bilibili.com/v/animal/reptiles"},{"subChannelId":180004,"name":"野生动物","route":"wild_animal","tid":221,"url":"//www.bilibili.com/v/animal/wild_animal"},{"subChannelId":180008,"name":"动物二创","route":"second_edition","tid":220,"url":"//www.bilibili.com/v/animal/second_edition"},{"subChannelId":180006,"name":"动物综合","route":"animal_composite","tid":75,"url":"//www.bilibili.com/v/animal/animal_composite"}]},{"name":"VLOG","channelId":19,"url":"//www.bilibili.com/v/life/daily/#/530003","icon":"ChannelVlog","sub":[]},{"channelId":160001,"name":"搞笑","route":"stand_alone","tid":138,"icon":"ChannelGaoxiao","url":"//www.bilibili.com/v/life/funny","sub":[]},{"channelId":110001,"name":"单机游戏","route":"stand_alone","tid":17,"icon":"ChannelDanjiyouxi","url":"//www.bilibili.com/v/game/stand_alone","sub":[]},{"channelId":31,"name":"虚拟UP主","icon":"ChannelVtuber","url":"//www.bilibili.com/v/virtual","sub":[]},{"channelId":32,"name":"公益","icon":"ChannelLove","url":"//love.bilibili.com","sub":[]},{"channelId":33,"name":"公开课","icon":"ChannelGongkaike","url":"//www.bilibili.com/mooc","sub":[]}]';
 
   // src/json/toview.json
   var toview_default = {
@@ -40187,8 +40329,8 @@ const MODULES = `
     }
     data;
     async getDate() {
-      const response = await fetch(this.sign().toJSON());
-      const json = await response.json();
+      const response2 = await fetch(this.sign().toJSON());
+      const json = await response2.json();
       return jsonCheck(json).result;
     }
   };
@@ -40196,8 +40338,8 @@ const MODULES = `
   // src/io/api-pgc-season.ts
   init_tampermonkey();
   async function apiPgcSeason(data) {
-    const response = await fetch(objUrl(URLS.PGC_SEASON, data), { credentials: "include" });
-    const json = await response.json();
+    const response2 = await fetch(objUrl(URLS.PGC_SEASON, data), { credentials: "include" });
+    const json = await response2.json();
     return jsonCheck(json).result;
   }
 
@@ -40283,24 +40425,24 @@ const MODULES = `
   // src/io/api-season-status.ts
   init_tampermonkey();
   async function apiSeasonStatus(data) {
-    const response = await fetch(objUrl(URLS.SEASON_STATUS, data), { credentials: "include" });
-    const json = await response.json();
+    const response2 = await fetch(objUrl(URLS.SEASON_STATUS, data), { credentials: "include" });
+    const json = await response2.json();
     return jsonCheck(json).result;
   }
 
   // src/io/api-tag-info.ts
   init_tampermonkey();
   async function apiTagInfo(tag_name) {
-    const response = await fetch(objUrl(URLS.TAG_INFO, { tag_name }));
-    const json = await response.json();
+    const response2 = await fetch(objUrl(URLS.TAG_INFO, { tag_name }));
+    const json = await response2.json();
     return jsonCheck(json).data;
   }
 
   // src/io/api-tag-top.ts
   init_tampermonkey();
   async function apiTagTop(tid) {
-    const response = await fetch(objUrl(URLS.TAG_TOP, { tid }));
-    const json = await response.json();
+    const response2 = await fetch(objUrl(URLS.TAG_TOP, { tid }));
+    const json = await response2.json();
     return jsonCheck(json).data;
   }
 
@@ -40596,7 +40738,7 @@ const MODULES = `
             }
           };
         });
-        const response = {
+        const response2 = {
           code: 0,
           message: "success",
           result: {
@@ -40615,7 +40757,7 @@ const MODULES = `
             }
           }
         };
-        let res = JSON.stringify(response);
+        let res = JSON.stringify(response2);
         return { response: res, responseText: res, responseType: "json" };
       }, false);
     }
@@ -40649,19 +40791,19 @@ const MODULES = `
         return (_b2 = (_a3 = window.__INITIAL_STATE__) == null ? void 0 : _a3.mediaInfo) == null ? void 0 : _b2.title;
       }, async () => {
         var _a3, _b2;
-        let response = { code: 0, data: [], message: "0" };
+        let response2 = { code: 0, data: [], message: "0" };
         if (related[(_b2 = (_a3 = window.__INITIAL_STATE__) == null ? void 0 : _a3.mediaInfo) == null ? void 0 : _b2.title]) {
-          response.data = related[window.__INITIAL_STATE__.mediaInfo.title];
+          response2.data = related[window.__INITIAL_STATE__.mediaInfo.title];
         } else {
           await apiTagInfo(window.__INITIAL_STATE__.mediaInfo.title).then((d) => {
             return apiTagTop(d.tag_id);
           }).then((d) => {
-            response.data = related[window.__INITIAL_STATE__.mediaInfo.title] = d;
+            response2.data = related[window.__INITIAL_STATE__.mediaInfo.title] = d;
           }).catch((e) => {
             debug.error("相关视频推荐", e);
           });
         }
-        return { response, responseType: "json", responseText: JSON.stringify(response) };
+        return { response: response2, responseType: "json", responseText: JSON.stringify(response2) };
       }, false);
     }
     /** 初始化\`__INITIAL_STATE__\` */
@@ -40979,11 +41121,11 @@ const MODULES = `
         const obj = urlObj(args[1]);
         const aid = obj.aid;
         const cid = obj.cid;
-        const response = { code: 0, message: "0", data: new PlayerResponse(aid, cid) };
+        const response2 = { code: 0, message: "0", data: new PlayerResponse(aid, cid) };
         if (this.subtitles[cid]) {
-          response.data.subtitle.subtitles = this.subtitles[cid];
+          response2.data.subtitle.subtitles = this.subtitles[cid];
         }
-        return { response, responseType: "json", responseText: JSON.stringify(response) };
+        return { response: response2, responseType: "json", responseText: JSON.stringify(response2) };
       }, false);
     }
     /** 点赞功能 */
@@ -41185,9 +41327,9 @@ const MODULES = `
         } else {
           if (res.data) {
             if (res.data.View) {
-              const response = \`{ "code": 0, "message": "0", "ttl": 1, "data": \${JSON.stringify(res.data.View.stat)} }\`;
+              const response2 = \`{ "code": 0, "message": "0", "ttl": 1, "data": \${JSON.stringify(res.data.View.stat)} }\`;
               xhrHook.async("/x/web-interface/archive/stat?", void 0, async () => {
-                return { response, responseText: response, responseType: "json" };
+                return { response: response2, responseText: response2, responseType: "json" };
               });
               Promise.resolve().then(() => {
                 user.userStatus.staff && res.data.View.staff && this.staff(res.data.View.staff);
@@ -41198,11 +41340,11 @@ const MODULES = `
               videoInfo.aidDatail(res.data.View);
             }
             if (res.data.Related) {
-              const response = JSON.stringify(res.data.Related.map((d) => {
+              const response2 = JSON.stringify(res.data.Related.map((d) => {
                 return [d.pic, d.aid, d.title, d.stat.view, d.stat.danmaku, , d.stat.favorite];
               }));
               xhrHook.async("comment.bilibili.com/playtag", void 0, async () => {
-                return { response, responseText: response, responseType: "json" };
+                return { response: response2, responseText: response2, responseType: "json" };
               }, false);
             }
           }
@@ -41410,8 +41552,8 @@ const MODULES = `
         const res = await fetch("https://api.bilibili.com/x/web-interface/coin/today/exp", { credentials: "include" });
         const json = await res.json();
         json.number = json.data;
-        const response = JSON.stringify(json);
-        return { response, responseText: response, responseType: "json" };
+        const response2 = JSON.stringify(json);
+        return { response: response2, responseText: response2, responseType: "json" };
       });
     }
   };
@@ -41496,8 +41638,8 @@ const MODULES = `
         const res = await fetch("https://api.bilibili.com/x/web-interface/coin/today/exp", { credentials: "include" });
         const json = await res.json();
         json.number = json.data;
-        const response = JSON.stringify(json);
-        return { response, responseText: response, responseType: "json" };
+        const response2 = JSON.stringify(json);
+        return { response: response2, responseText: response2, responseType: "json" };
       });
     }
   };
@@ -41741,8 +41883,8 @@ const MODULES = `
           params.oid = lastItemId;
         }
         const url = objUrl("https://api.bilibili.com/x/v2/medialist/resource/list", params);
-        const response = await fetch(url, { credentials: "include" });
-        const json = await response.json();
+        const response2 = await fetch(url, { credentials: "include" });
+        const json = await response2.json();
         const data = jsonCheck(json);
         if ((_b2 = (_a3 = data.data) == null ? void 0 : _a3.media_list) == null ? void 0 : _b2.length) {
           const itemsToAdd = pn === 1 ? data.data.media_list : data.data.media_list.slice(1);
@@ -42041,9 +42183,9 @@ const MODULES = `
         } else {
           if (res.data) {
             if (res.data.View) {
-              const response = \`{ "code": 0, "message": "0", "ttl": 1, "data": \${JSON.stringify(res.data.View.stat)} }\`;
+              const response2 = \`{ "code": 0, "message": "0", "ttl": 1, "data": \${JSON.stringify(res.data.View.stat)} }\`;
               xhrHook.async("/x/web-interface/archive/stat?", void 0, async () => {
-                return { response, responseText: response, responseType: "json" };
+                return { response: response2, responseText: response2, responseType: "json" };
               });
               Promise.resolve().then(() => {
                 user.userStatus.staff && res.data.View.staff && this.staff(res.data.View.staff);
@@ -42051,11 +42193,11 @@ const MODULES = `
               videoInfo.aidDatail(res.data.View);
             }
             if (res.data.Related) {
-              const response = JSON.stringify(res.data.Related.map((d) => {
+              const response2 = JSON.stringify(res.data.Related.map((d) => {
                 return [d.pic, d.aid, d.title, d.stat.view, d.stat.danmaku, , d.stat.favorite];
               }));
               xhrHook.async("comment.bilibili.com/playtag", void 0, async () => {
-                return { response, responseText: response, responseType: "json" };
+                return { response: response2, responseText: response2, responseType: "json" };
               }, false);
             }
           }
@@ -42166,8 +42308,8 @@ const MODULES = `
         const res = await fetch("https://api.bilibili.com/x/web-interface/coin/today/exp", { credentials: "include" });
         const json = await res.json();
         json.number = json.data;
-        const response = JSON.stringify(json);
-        return { response, responseText: response, responseType: "json" };
+        const response2 = JSON.stringify(json);
+        return { response: response2, responseText: response2, responseType: "json" };
       });
     }
   };
@@ -42309,8 +42451,8 @@ const MODULES = `
         const res = await fetch("https://api.bilibili.com/x/web-interface/coin/today/exp", { credentials: "include" });
         const json = await res.json();
         json.number = json.data;
-        const response = JSON.stringify(json);
-        return { response, responseText: response, responseType: "json" };
+        const response2 = JSON.stringify(json);
+        return { response: response2, responseText: response2, responseType: "json" };
       });
     }
   };
@@ -42606,8 +42748,8 @@ const MODULES = `
       });
     }
     async getData() {
-      const response = await fetch(this.sign().toJSON());
-      const json = await response.json();
+      const response2 = await fetch(this.sign().toJSON());
+      const json = await response2.json();
       return jsonCheck(json);
     }
     /**
@@ -42896,8 +43038,8 @@ const MODULES = `
     }
     api;
     async getData() {
-      const response = await fetch(this.sign({ api: this.api }, this.api).toJSON(), { credentials: "include" });
-      const json = await response.json();
+      const response2 = await fetch(this.sign({ api: this.api }, this.api).toJSON(), { credentials: "include" });
+      const json = await response2.json();
       return jsonCheck(json).data;
     }
   };
@@ -42917,7 +43059,7 @@ const MODULES = `
 
   // src/io/passport.bilibili.com/x/passport-tv-login/h5/qrcode/confirm.ts
   async function confirm(authCode2, csrf = getCookies().bili_jct) {
-    const response = await GM.fetch(URLS.PASSPORT_QRCODE_CONFIRM, {
+    const response2 = await GM.fetch(URLS.PASSPORT_QRCODE_CONFIRM, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
@@ -42927,14 +43069,14 @@ const MODULES = `
       credentials: "include",
       body: objUrl("", { auth_code: authCode2, csrf, scanning_type: 1 })
     });
-    const json = await response.json();
+    const json = await response2.json();
     return jsonCheck(json).data.gourl;
   }
 
   // src/io/passport.bilibili.com/x/passport-tv-login/qrcode/auth_code.ts
   init_tampermonkey();
   async function authCode() {
-    const response = await GM.fetch(URLS.PASSPORT_AUTH_CODE, {
+    const response2 = await GM.fetch(URLS.PASSPORT_AUTH_CODE, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
@@ -42953,14 +43095,14 @@ const MODULES = `
         ts: Math.floor(Date.now() / 1e3)
       }).param
     });
-    const json = await response.json();
+    const json = await response2.json();
     return jsonCheck(json).data.auth_code;
   }
 
   // src/io/passport.bilibili.com/x/passport-tv-login/qrcode/poll.ts
   init_tampermonkey();
   async function poll2(authCode2) {
-    const response = await GM.fetch(URLS.PASSPORT_QRCODE_POLL, {
+    const response2 = await GM.fetch(URLS.PASSPORT_QRCODE_POLL, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
@@ -42980,7 +43122,7 @@ const MODULES = `
         auth_code: authCode2
       }).param
     });
-    const json = await response.json();
+    const json = await response2.json();
     return jsonCheck(json).data.access_token;
   }
 
@@ -44630,6 +44772,10 @@ const MODULES = `
   ];
   var PageLegacyChannel = class extends Page {
     neutralizeScriptPatterns = modernChannelScriptPatterns;
+    constructor(html) {
+      super(html);
+      regionFeedHook();
+    }
   };
 
   // src/page/channel/anime.ts
@@ -44675,7 +44821,7 @@ const MODULES = `
       xhrHook.async("pgc/operation/api/slideshow?position_id=265", void 0, async () => {
         const d = await fetch("https://api.bilibili.com/pgc/page/web/v2?name=movie", { credentials: "include" });
         const json = await d.json();
-        const response = JSON.stringify({
+        const response2 = JSON.stringify({
           code: 0,
           message: "success",
           result: json.data.modules[0].items.map((d2) => {
@@ -44691,7 +44837,7 @@ const MODULES = `
             };
           })
         });
-        return { response, responseText: response };
+        return { response: response2, responseText: response2 };
       });
     }
   };
