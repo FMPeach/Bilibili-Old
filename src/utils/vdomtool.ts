@@ -1,11 +1,11 @@
 import { debug } from "./debug";
-import { htmlVnode, Vdom } from "./htmlvnode";
+import { htmlVnode, normalizeVdom, Vdom } from "./htmlvnode";
 
 export class VdomTool {
     protected vdom: Vdom[];
     constructor(html: string | Vdom[]) {
         if (typeof html === 'string') {
-            this.vdom = htmlVnode(html);
+            this.vdom = normalizeVdom(htmlVnode(html));
         } else {
             this.vdom = html;
         }
