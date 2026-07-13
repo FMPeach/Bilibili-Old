@@ -7,6 +7,8 @@ import { Header } from "./header";
 import { Page } from "./page";
 
 export class PageDynamic extends Page {
+    private imageRecoveryInstalled = false;
+
     constructor() {
         super(dynamicHtml);
         user.addCallback(status => {
@@ -22,10 +24,22 @@ export class PageDynamic extends Page {
 
     /** 重写为旧版动态页 */
     protected rewrite() {
+        this.installImageRecovery();
         urlCleaner.updateLocation(location.href);
         Header.primaryMenu();
         Header.banner();
         this.updateDom();
+    }
+
+    private installImageRecovery() {
+        if (this.imageRecoveryInstalled) return;
+        this.imageRecoveryInstalled = true;
+        // Cached images may finish before the legacy BImg callback is registered.
+        document.addEventListener('load', event => {
+            const image = event.target;
+            if (!(image instanceof HTMLImageElement) || image.naturalWidth <= 0) return;
+            image.closest('.b-img.sleepy')?.classList.remove('sleepy');
+        }, true);
     }
 
     /** 过滤直播录屏动态 */
