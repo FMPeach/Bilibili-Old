@@ -56,6 +56,24 @@ class Scanner {
                 if (this.html.startsWith('!DOCTYPE')) {
                     this.html = this.html.replace(/^!DOCTYPE[\S\s]+?>/, "");
                 }
+                // 处理畸形 HTML 中的孤儿闭合标签（如没有 <body> 就出现 </body>）
+                if (this.html.startsWith('/')) {
+                    const m = this.html.match(/^\/([a-zA-Z][\w-]*)>/);
+                    if (m) {
+                        const orphanTag = m[1];
+                        const idx = this.tagNames.lastIndexOf(orphanTag);
+                        if (idx >= 0) {
+                            // 栈中存在匹配的开标签，闭合到该标签
+                            while (this.tagNames.length > idx) {
+                                this.popNode();
+                            }
+                            this.popNode();
+                        }
+                        // 跳过此闭合标签（浏览器也会忽略畸形 HTML 中的孤儿闭合标签）
+                        this.removeScanned(m[0].length);
+                        return;
+                    }
+                }
                 if (/^[a-zA-Z]/.test(this.html)) {
                     this.textContent()
                     const func: (() => void)[] = []; // 操作栈
@@ -194,6 +212,36 @@ class Scanner {
  */
 export function htmlVnode(html: string) {
     return new Scanner(html).vnode;
+}
+
+/**
+ * 规范化 Vdom 结构，确保存在 &lt;head&gt; 和 &lt;body&gt;
+ * 处理畸形 HTML 中 meta/link/title/script 等元素直接挂在 &lt;html&gt; 下的情况
+ */
+export function normalizeVdom(vdom: Vdom[]): Vdom[] {
+    const htmlNode = vdom.find(d => d.tagName === 'html');
+    if (!htmlNode || !htmlNode.children) return vdom;
+
+    const children = htmlNode.children;
+    const hasHead = children.some(d => d.tagName === 'head');
+    const hasBody = children.some(d => d.tagName === 'body');
+
+    if (!hasHead) {
+        const bodyIdx = children.findIndex(d => d.tagName === 'body');
+        // 将 &lt;body&gt; 之前的所有子节点包裹到 &lt;head&gt; 中
+        const headChildren = bodyIdx > 0
+            ? children.splice(0, bodyIdx)
+            : (hasBody ? [] : children.splice(0, children.length));
+
+        const head: Vdom = {
+            tagName: 'head',
+            props: {},
+            children: headChildren,
+        };
+        children.unshift(head);
+    }
+
+    return vdom;
 }
 
 /** 节点数据 */
