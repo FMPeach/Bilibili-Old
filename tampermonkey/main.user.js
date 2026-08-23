@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bilibili 旧播放页
 // @namespace    MotooriKashin
-// @version      10.13.5-c3dd748427ccbbefce8d3423714030e5ad97afd7
+// @version      10.13.6-c3dd748427ccbbefce8d3423714030e5ad97afd7
 // @description  恢复Bilibili旧版页面，为了那些念旧的人。
 // @author       MotooriKashin, wly5556, FMPeach
 // @homepage     https://github.com/FMPeach/Bilibili-Old
@@ -41612,12 +41612,15 @@ const MODULES = `
   // src/page/watchalter.ts
   var PageWatchlater = class extends Page {
     like;
+    /** 合作UP主模式 */
+    _isStaffMode = false;
     constructor() {
       super(watchlater_default);
       this.like = new Like();
       new Comment2();
       this.toAv();
       this.enLike();
+      this.staffHook();
       this.toview();
       this.living();
       this.commentAgent();
@@ -41686,6 +41689,69 @@ const MODULES = `
         const response2 = JSON.stringify(json);
         return { response: response2, responseText: response2, responseType: "json" };
       });
+    }
+    /** 合作UP主 */
+    staffHook() {
+      jsonpHook("x/web-interface/view?", void 0, (d) => {
+        setTimeout(() => {
+          const data = jsonCheck(d).data;
+          if (user.userStatus.staff && Array.isArray(data.staff) && data.staff.length) {
+            this.staff(data.staff);
+          } else if (this._isStaffMode) {
+            this.restoreSingleUp(data.owner);
+          }
+        });
+        return d;
+      }, false);
+    }
+    /** 合作UP主卡片 */
+    staff(staff) {
+      poll(() => document.querySelector(".up-info-module"), (upinfo) => {
+        var _a3;
+        this._isStaffMode = true;
+        const width = upinfo.offsetWidth;
+        upinfo.style.display = "none";
+        let container = document.querySelector("#v_upinfo_staff");
+        if (!container) {
+          container = document.createElement("div");
+          container.id = "v_upinfo_staff";
+          container.className = "up-info-m report-wrap-module report-scroll-module";
+          (_a3 = upinfo.parentNode) == null ? void 0 : _a3.insertBefore(container, upinfo.nextSibling);
+          addCss(uplist_default, "up-list");
+        }
+        if (width) {
+          container.style.width = width + "px";
+        }
+        container.style.float = "right";
+        container.style.flex = "0 0 auto";
+        let fl2 = '<span class="title">UP主列表</span><div class="up-card-box">';
+        fl2 = staff.reduce((s, d) => {
+          s = s + \`<div class="up-card">
+                    <a href="//space.bilibili.com/\${d.mid}" data-usercard-mid="\${d.mid}" target="_blank" class="avatar">
+                    <img src="\${d.face}@48w_48h.webp" /><!---->
+                    <span class="info-tag">\${d.title}</span><!----></a>
+                    <div class="avatar">
+                    <a href="//space.bilibili.com/\${d.mid}" data-usercard-mid="\${d.mid}" target="_blank" class="\${d.vip && d.vip.status ? "name-text is-vip" : "name-text"}">\${d.name}</a>
+                    </div></div>\`;
+          return s;
+        }, fl2) + \`</div>\`;
+        container.innerHTML = fl2;
+        container.style.display = "";
+        const box = container.querySelector(".up-card-box");
+        box && new Scrollbar(box, true, false);
+      });
+    }
+    /** 合作UP切单UP */
+    restoreSingleUp(up) {
+      this._isStaffMode = false;
+      const upinfo = document.querySelector(".up-info-module");
+      const staffContainer = document.querySelector("#v_upinfo_staff");
+      if (staffContainer) {
+        staffContainer.style.display = "none";
+      }
+      if (upinfo) {
+        upinfo.style.display = "";
+      }
     }
   };
 
