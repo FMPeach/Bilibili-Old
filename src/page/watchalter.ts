@@ -113,6 +113,8 @@ export class PageWatchlater extends Page {
     protected staff(staff: IStaf[]) {
         poll(() => document.querySelector<HTMLElement>('.up-info-module'), upinfo => {
             this._isStaffMode = true;
+            // 在隐藏前读取单UP宽度，用于约束多UP容器横向宽度
+            const width = upinfo.offsetWidth;
             upinfo.style.display = 'none';
             let container = document.querySelector<HTMLElement>('#v_upinfo_staff');
             if (!container) {
@@ -122,6 +124,12 @@ export class PageWatchlater extends Page {
                 upinfo.parentNode?.insertBefore(container, upinfo.nextSibling);
                 addCss(cssUplist, "up-list");
             }
+            // 用单UP宽度限制多UP宽度，并跟随单UP浮动到右侧
+            if (width) {
+                container.style.width = width + 'px';
+            }
+            container.style.float = 'right';
+            container.style.flex = '0 0 auto';
             let fl = '<span class="title">UP主列表</span><div class="up-card-box">';
             fl = staff.reduce((s, d) => {
                 s = s + `<div class="up-card">
