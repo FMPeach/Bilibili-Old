@@ -56,6 +56,7 @@ export class PageAV extends Page {
         location.href.includes("/s/video") && urlCleaner.updateLocation(location.href.replace("s/video", "video"));
         this.enLike();
         this.aidLostCheck();
+        this.activityHook();
         // this.biliUIcomponents();
         this.favCode();
         this.tagTopic();
@@ -187,6 +188,27 @@ export class PageAV extends Page {
                     }
                 }
             }
+        }, false);
+    }
+
+    /** 修复活动卡片接口 */
+    protected activityHook() {
+        xhrHook.async('www.bilibili.com/activity/subject/', undefined, async args => {
+            const m = args[1].match(/activity\/subject\/(\d+)\?aid=(\d+)/);
+            if (m && m[1] && m[2]) {
+                const url = `https://api.bilibili.com/x/activity/subject/info?sid=${m[1]}&aid=${m[2]}`;
+                const res = await fetch(url, { credentials: 'include' });
+                const json = await res.json();
+                if (json?.data) {
+                    // 新版接口返回数字时间戳，旧版页面需要字符串日期格式（如 "2015-08-28 15:59:59"）
+                    const toStr = (ts: number) => new Date((ts + 8 * 3600) * 1000).toISOString().slice(0, 19).replace('T', ' ');
+                    if (typeof json.data.letime === 'number') json.data.letime = toStr(json.data.letime);
+                    if (typeof json.data.lstime === 'number') json.data.lstime = toStr(json.data.lstime);
+                }
+                const response = JSON.stringify(json);
+                return { response, responseText: response, responseType: 'json' };
+            }
+            throw new Error('activity subject 未找到');
         }, false);
     }
 
