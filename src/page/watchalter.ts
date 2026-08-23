@@ -6,6 +6,7 @@ import { videoInfo } from "../core/video-info";
 import cssUplist from '../css/uplist.css';
 import html from '../html/watchlater.html';
 import { IAidDatail, IStaf, jsonCheck } from "../io/api";
+import { apiViewDetail } from "../io/api-view-detail";
 import { addCss } from "../utils/element";
 import { urlObj } from "../utils/format/url";
 import { jsonpHook } from "../utils/hook/node";
@@ -26,6 +27,7 @@ export class PageWatchlater extends Page {
         this.toAv();
         this.enLike();
         this.staffHook();
+        this.recommendHook();
         this.toview();
         this.living();
         this.commentAgent();
@@ -106,6 +108,19 @@ export class PageWatchlater extends Page {
                 }
             });
             return d;
+        }, false);
+    }
+
+    /** 修复相关推荐接口 */
+    protected recommendHook() {
+        xhrHook.async('comment.bilibili.com/recommendnew', undefined, async args => {
+            const m = args[1].match(/recommendnew[,\/](\d+)/);
+            if (m && m[1]) {
+                const data = await apiViewDetail(Number(m[1]));
+                const response = JSON.stringify({ code: 0, message: '0', ttl: 1, data: data.Related });
+                return { response, responseText: response, responseType: 'json' };
+            }
+            throw new Error('recommendnew 未找到aid');
         }, false);
     }
 
