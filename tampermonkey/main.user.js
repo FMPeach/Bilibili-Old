@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bilibili 旧播放页
 // @namespace    MotooriKashin
-// @version      10.13.6-c3dd748427ccbbefce8d3423714030e5ad97afd7
+// @version      10.13.7-c3dd748427ccbbefce8d3423714030e5ad97afd7
 // @description  恢复Bilibili旧版页面，为了那些念旧的人。
 // @author       MotooriKashin, wly5556, FMPeach
 // @homepage     https://github.com/FMPeach/Bilibili-Old
@@ -41621,6 +41621,7 @@ const MODULES = `
       this.toAv();
       this.enLike();
       this.staffHook();
+      this.recommendHook();
       this.toview();
       this.living();
       this.commentAgent();
@@ -41702,6 +41703,18 @@ const MODULES = `
           }
         });
         return d;
+      }, false);
+    }
+    /** 修复相关推荐接口 */
+    recommendHook() {
+      xhrHook.async("comment.bilibili.com/recommendnew", void 0, async (args) => {
+        const m = args[1].match(/recommendnew[,\\/](\\d+)/);
+        if (m && m[1]) {
+          const data = await apiViewDetail(Number(m[1]));
+          const response2 = JSON.stringify({ code: 0, message: "0", ttl: 1, data: data.Related });
+          return { response: response2, responseText: response2, responseType: "json" };
+        }
+        throw new Error("recommendnew 未找到aid");
       }, false);
     }
     /** 合作UP主卡片 */
