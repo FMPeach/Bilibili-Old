@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bilibili 旧播放页
 // @namespace    MotooriKashin
-// @version      10.13.4-c3dd748427ccbbefce8d3423714030e5ad97afd7
+// @version      10.13.7-c3dd748427ccbbefce8d3423714030e5ad97afd7
 // @description  恢复Bilibili旧版页面，为了那些念旧的人。
 // @author       MotooriKashin, wly5556, FMPeach
 // @homepage     https://github.com/FMPeach/Bilibili-Old
@@ -29,11 +29,20 @@ const MODULES = `
   var __getOwnPropNames = Object.getOwnPropertyNames;
   var __getProtoOf = Object.getPrototypeOf;
   var __hasOwnProp = Object.prototype.hasOwnProperty;
-  var __esm = (fn, res) => function __init() {
-    return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+  var __esm = (fn, res, err2) => function __init() {
+    if (err2) throw err2[0];
+    try {
+      return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+    } catch (e) {
+      throw err2 = [e], e;
+    }
   };
-  var __commonJS = (cb, mod2) => function __require() {
-    return mod2 || (0, cb[__getOwnPropNames(cb)[0]])((mod2 = { exports: {} }).exports, mod2), mod2.exports;
+  var __commonJS = (cb, mod) => function __require() {
+    try {
+      return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+    } catch (e) {
+      throw mod = 0, e;
+    }
   };
   var __copyProps = (to, from, except, desc) => {
     if (from && typeof from === "object" || typeof from === "function") {
@@ -43,13 +52,13 @@ const MODULES = `
     }
     return to;
   };
-  var __toESM = (mod2, isNodeMode, target) => (target = mod2 != null ? __create(__getProtoOf(mod2)) : {}, __copyProps(
+  var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
     // If the importer is in node compatibility mode or this is not an ESM
     // file that has been converted to a CommonJS file using a Babel-
     // compatible transform (i.e. "__esModule" has not been set), then set
     // "default" to the CommonJS "module.exports" for node compatibility.
-    isNodeMode || !mod2 || !mod2.__esModule ? __defProp(target, "default", { value: mod2, enumerable: true }) : target,
-    mod2
+    isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+    mod
   ));
 
   // tampermonkey/gm.ts
@@ -115,26 +124,26 @@ const MODULES = `
   });
 
   // tampermonkey/polyfill/proposal-relative-indexing-method.ts
-  var at2;
+  var at;
   var init_proposal_relative_indexing_method = __esm({
     "tampermonkey/polyfill/proposal-relative-indexing-method.ts"() {
       "use strict";
       init_tampermonkey();
       if (typeof Array.prototype.at === "undefined") {
-        let at = function(n) {
+        let at2 = function(n) {
           n = Math.trunc(n) || 0;
           if (n < 0) n += this.length;
           if (n < 0 || n >= this.length) return void 0;
           return this[n];
         };
-        at2 = at;
+        at = at2;
         const TypedArray = Reflect.getPrototypeOf(Int8Array);
         for (const C of [Array, String, TypedArray]) {
           Reflect.defineProperty(
             C.prototype,
             "at",
             {
-              value: at,
+              value: at2,
               writable: true,
               enumerable: false,
               configurable: true
@@ -166,7 +175,7 @@ const MODULES = `
 
   // node_modules/crypt/crypt.js
   var require_crypt = __commonJS({
-    "node_modules/crypt/crypt.js"(exports2, module2) {
+    "node_modules/crypt/crypt.js"(exports, module) {
       init_tampermonkey();
       (function() {
         var base64map = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", crypt = {
@@ -183,8 +192,8 @@ const MODULES = `
             if (n.constructor == Number) {
               return crypt.rotl(n, 8) & 16711935 | crypt.rotl(n, 24) & 4278255360;
             }
-            for (var i = 0; i < n.length; i++)
-              n[i] = crypt.endian(n[i]);
+            for (var i2 = 0; i2 < n.length; i2++)
+              n[i2] = crypt.endian(n[i2]);
             return n;
           },
           // Generate an array of any length of random bytes
@@ -195,8 +204,8 @@ const MODULES = `
           },
           // Convert a byte array to big-endian 32-bit words
           bytesToWords: function(bytes) {
-            for (var words = [], i = 0, b = 0; i < bytes.length; i++, b += 8)
-              words[b >>> 5] |= bytes[i] << 24 - b % 32;
+            for (var words = [], i2 = 0, b = 0; i2 < bytes.length; i2++, b += 8)
+              words[b >>> 5] |= bytes[i2] << 24 - b % 32;
             return words;
           },
           // Convert big-endian 32-bit words to a byte array
@@ -207,9 +216,9 @@ const MODULES = `
           },
           // Convert a byte array to a hex string
           bytesToHex: function(bytes) {
-            for (var hex = [], i = 0; i < bytes.length; i++) {
-              hex.push((bytes[i] >>> 4).toString(16));
-              hex.push((bytes[i] & 15).toString(16));
+            for (var hex = [], i2 = 0; i2 < bytes.length; i2++) {
+              hex.push((bytes[i2] >>> 4).toString(16));
+              hex.push((bytes[i2] & 15).toString(16));
             }
             return hex.join("");
           },
@@ -221,10 +230,10 @@ const MODULES = `
           },
           // Convert a byte array to a base-64 string
           bytesToBase64: function(bytes) {
-            for (var base642 = [], i = 0; i < bytes.length; i += 3) {
-              var triplet = bytes[i] << 16 | bytes[i + 1] << 8 | bytes[i + 2];
+            for (var base642 = [], i2 = 0; i2 < bytes.length; i2 += 3) {
+              var triplet = bytes[i2] << 16 | bytes[i2 + 1] << 8 | bytes[i2 + 2];
               for (var j = 0; j < 4; j++)
-                if (i * 8 + j * 6 <= bytes.length * 8)
+                if (i2 * 8 + j * 6 <= bytes.length * 8)
                   base642.push(base64map.charAt(triplet >>> 6 * (3 - j) & 63));
                 else
                   base642.push("=");
@@ -234,21 +243,21 @@ const MODULES = `
           // Convert a base-64 string to a byte array
           base64ToBytes: function(base642) {
             base642 = base642.replace(/[^A-Z0-9+\\/]/ig, "");
-            for (var bytes = [], i = 0, imod4 = 0; i < base642.length; imod4 = ++i % 4) {
+            for (var bytes = [], i2 = 0, imod4 = 0; i2 < base642.length; imod4 = ++i2 % 4) {
               if (imod4 == 0) continue;
-              bytes.push((base64map.indexOf(base642.charAt(i - 1)) & Math.pow(2, -2 * imod4 + 8) - 1) << imod4 * 2 | base64map.indexOf(base642.charAt(i)) >>> 6 - imod4 * 2);
+              bytes.push((base64map.indexOf(base642.charAt(i2 - 1)) & Math.pow(2, -2 * imod4 + 8) - 1) << imod4 * 2 | base64map.indexOf(base642.charAt(i2)) >>> 6 - imod4 * 2);
             }
             return bytes;
           }
         };
-        module2.exports = crypt;
+        module.exports = crypt;
       })();
     }
   });
 
   // node_modules/charenc/charenc.js
   var require_charenc = __commonJS({
-    "node_modules/charenc/charenc.js"(exports2, module2) {
+    "node_modules/charenc/charenc.js"(exports, module) {
       init_tampermonkey();
       var charenc = {
         // UTF-8 encoding
@@ -266,27 +275,27 @@ const MODULES = `
         bin: {
           // Convert a string to a byte array
           stringToBytes: function(str) {
-            for (var bytes = [], i = 0; i < str.length; i++)
-              bytes.push(str.charCodeAt(i) & 255);
+            for (var bytes = [], i2 = 0; i2 < str.length; i2++)
+              bytes.push(str.charCodeAt(i2) & 255);
             return bytes;
           },
           // Convert a byte array to a string
           bytesToString: function(bytes) {
-            for (var str = [], i = 0; i < bytes.length; i++)
-              str.push(String.fromCharCode(bytes[i]));
+            for (var str = [], i2 = 0; i2 < bytes.length; i2++)
+              str.push(String.fromCharCode(bytes[i2]));
             return str.join("");
           }
         }
       };
-      module2.exports = charenc;
+      module.exports = charenc;
     }
   });
 
   // node_modules/is-buffer/index.js
   var require_is_buffer = __commonJS({
-    "node_modules/is-buffer/index.js"(exports2, module2) {
+    "node_modules/is-buffer/index.js"(exports, module) {
       init_tampermonkey();
-      module2.exports = function(obj) {
+      module.exports = function(obj) {
         return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer);
       };
       function isBuffer(obj) {
@@ -300,7 +309,7 @@ const MODULES = `
 
   // node_modules/md5/md5.js
   var require_md5 = __commonJS({
-    "node_modules/md5/md5.js"(exports2, module2) {
+    "node_modules/md5/md5.js"(exports, module) {
       init_tampermonkey();
       (function() {
         var crypt = require_crypt(), utf8 = require_charenc().utf8, isBuffer = require_is_buffer(), bin = require_charenc().bin, md54 = function(message, options) {
@@ -314,78 +323,78 @@ const MODULES = `
           else if (!Array.isArray(message) && message.constructor !== Uint8Array)
             message = message.toString();
           var m = crypt.bytesToWords(message), l = message.length * 8, a = 1732584193, b = -271733879, c = -1732584194, d = 271733878;
-          for (var i = 0; i < m.length; i++) {
-            m[i] = (m[i] << 8 | m[i] >>> 24) & 16711935 | (m[i] << 24 | m[i] >>> 8) & 4278255360;
+          for (var i2 = 0; i2 < m.length; i2++) {
+            m[i2] = (m[i2] << 8 | m[i2] >>> 24) & 16711935 | (m[i2] << 24 | m[i2] >>> 8) & 4278255360;
           }
           m[l >>> 5] |= 128 << l % 32;
           m[(l + 64 >>> 9 << 4) + 14] = l;
           var FF = md54._ff, GG = md54._gg, HH = md54._hh, II = md54._ii;
-          for (var i = 0; i < m.length; i += 16) {
+          for (var i2 = 0; i2 < m.length; i2 += 16) {
             var aa = a, bb = b, cc = c, dd = d;
-            a = FF(a, b, c, d, m[i + 0], 7, -680876936);
-            d = FF(d, a, b, c, m[i + 1], 12, -389564586);
-            c = FF(c, d, a, b, m[i + 2], 17, 606105819);
-            b = FF(b, c, d, a, m[i + 3], 22, -1044525330);
-            a = FF(a, b, c, d, m[i + 4], 7, -176418897);
-            d = FF(d, a, b, c, m[i + 5], 12, 1200080426);
-            c = FF(c, d, a, b, m[i + 6], 17, -1473231341);
-            b = FF(b, c, d, a, m[i + 7], 22, -45705983);
-            a = FF(a, b, c, d, m[i + 8], 7, 1770035416);
-            d = FF(d, a, b, c, m[i + 9], 12, -1958414417);
-            c = FF(c, d, a, b, m[i + 10], 17, -42063);
-            b = FF(b, c, d, a, m[i + 11], 22, -1990404162);
-            a = FF(a, b, c, d, m[i + 12], 7, 1804603682);
-            d = FF(d, a, b, c, m[i + 13], 12, -40341101);
-            c = FF(c, d, a, b, m[i + 14], 17, -1502002290);
-            b = FF(b, c, d, a, m[i + 15], 22, 1236535329);
-            a = GG(a, b, c, d, m[i + 1], 5, -165796510);
-            d = GG(d, a, b, c, m[i + 6], 9, -1069501632);
-            c = GG(c, d, a, b, m[i + 11], 14, 643717713);
-            b = GG(b, c, d, a, m[i + 0], 20, -373897302);
-            a = GG(a, b, c, d, m[i + 5], 5, -701558691);
-            d = GG(d, a, b, c, m[i + 10], 9, 38016083);
-            c = GG(c, d, a, b, m[i + 15], 14, -660478335);
-            b = GG(b, c, d, a, m[i + 4], 20, -405537848);
-            a = GG(a, b, c, d, m[i + 9], 5, 568446438);
-            d = GG(d, a, b, c, m[i + 14], 9, -1019803690);
-            c = GG(c, d, a, b, m[i + 3], 14, -187363961);
-            b = GG(b, c, d, a, m[i + 8], 20, 1163531501);
-            a = GG(a, b, c, d, m[i + 13], 5, -1444681467);
-            d = GG(d, a, b, c, m[i + 2], 9, -51403784);
-            c = GG(c, d, a, b, m[i + 7], 14, 1735328473);
-            b = GG(b, c, d, a, m[i + 12], 20, -1926607734);
-            a = HH(a, b, c, d, m[i + 5], 4, -378558);
-            d = HH(d, a, b, c, m[i + 8], 11, -2022574463);
-            c = HH(c, d, a, b, m[i + 11], 16, 1839030562);
-            b = HH(b, c, d, a, m[i + 14], 23, -35309556);
-            a = HH(a, b, c, d, m[i + 1], 4, -1530992060);
-            d = HH(d, a, b, c, m[i + 4], 11, 1272893353);
-            c = HH(c, d, a, b, m[i + 7], 16, -155497632);
-            b = HH(b, c, d, a, m[i + 10], 23, -1094730640);
-            a = HH(a, b, c, d, m[i + 13], 4, 681279174);
-            d = HH(d, a, b, c, m[i + 0], 11, -358537222);
-            c = HH(c, d, a, b, m[i + 3], 16, -722521979);
-            b = HH(b, c, d, a, m[i + 6], 23, 76029189);
-            a = HH(a, b, c, d, m[i + 9], 4, -640364487);
-            d = HH(d, a, b, c, m[i + 12], 11, -421815835);
-            c = HH(c, d, a, b, m[i + 15], 16, 530742520);
-            b = HH(b, c, d, a, m[i + 2], 23, -995338651);
-            a = II(a, b, c, d, m[i + 0], 6, -198630844);
-            d = II(d, a, b, c, m[i + 7], 10, 1126891415);
-            c = II(c, d, a, b, m[i + 14], 15, -1416354905);
-            b = II(b, c, d, a, m[i + 5], 21, -57434055);
-            a = II(a, b, c, d, m[i + 12], 6, 1700485571);
-            d = II(d, a, b, c, m[i + 3], 10, -1894986606);
-            c = II(c, d, a, b, m[i + 10], 15, -1051523);
-            b = II(b, c, d, a, m[i + 1], 21, -2054922799);
-            a = II(a, b, c, d, m[i + 8], 6, 1873313359);
-            d = II(d, a, b, c, m[i + 15], 10, -30611744);
-            c = II(c, d, a, b, m[i + 6], 15, -1560198380);
-            b = II(b, c, d, a, m[i + 13], 21, 1309151649);
-            a = II(a, b, c, d, m[i + 4], 6, -145523070);
-            d = II(d, a, b, c, m[i + 11], 10, -1120210379);
-            c = II(c, d, a, b, m[i + 2], 15, 718787259);
-            b = II(b, c, d, a, m[i + 9], 21, -343485551);
+            a = FF(a, b, c, d, m[i2 + 0], 7, -680876936);
+            d = FF(d, a, b, c, m[i2 + 1], 12, -389564586);
+            c = FF(c, d, a, b, m[i2 + 2], 17, 606105819);
+            b = FF(b, c, d, a, m[i2 + 3], 22, -1044525330);
+            a = FF(a, b, c, d, m[i2 + 4], 7, -176418897);
+            d = FF(d, a, b, c, m[i2 + 5], 12, 1200080426);
+            c = FF(c, d, a, b, m[i2 + 6], 17, -1473231341);
+            b = FF(b, c, d, a, m[i2 + 7], 22, -45705983);
+            a = FF(a, b, c, d, m[i2 + 8], 7, 1770035416);
+            d = FF(d, a, b, c, m[i2 + 9], 12, -1958414417);
+            c = FF(c, d, a, b, m[i2 + 10], 17, -42063);
+            b = FF(b, c, d, a, m[i2 + 11], 22, -1990404162);
+            a = FF(a, b, c, d, m[i2 + 12], 7, 1804603682);
+            d = FF(d, a, b, c, m[i2 + 13], 12, -40341101);
+            c = FF(c, d, a, b, m[i2 + 14], 17, -1502002290);
+            b = FF(b, c, d, a, m[i2 + 15], 22, 1236535329);
+            a = GG(a, b, c, d, m[i2 + 1], 5, -165796510);
+            d = GG(d, a, b, c, m[i2 + 6], 9, -1069501632);
+            c = GG(c, d, a, b, m[i2 + 11], 14, 643717713);
+            b = GG(b, c, d, a, m[i2 + 0], 20, -373897302);
+            a = GG(a, b, c, d, m[i2 + 5], 5, -701558691);
+            d = GG(d, a, b, c, m[i2 + 10], 9, 38016083);
+            c = GG(c, d, a, b, m[i2 + 15], 14, -660478335);
+            b = GG(b, c, d, a, m[i2 + 4], 20, -405537848);
+            a = GG(a, b, c, d, m[i2 + 9], 5, 568446438);
+            d = GG(d, a, b, c, m[i2 + 14], 9, -1019803690);
+            c = GG(c, d, a, b, m[i2 + 3], 14, -187363961);
+            b = GG(b, c, d, a, m[i2 + 8], 20, 1163531501);
+            a = GG(a, b, c, d, m[i2 + 13], 5, -1444681467);
+            d = GG(d, a, b, c, m[i2 + 2], 9, -51403784);
+            c = GG(c, d, a, b, m[i2 + 7], 14, 1735328473);
+            b = GG(b, c, d, a, m[i2 + 12], 20, -1926607734);
+            a = HH(a, b, c, d, m[i2 + 5], 4, -378558);
+            d = HH(d, a, b, c, m[i2 + 8], 11, -2022574463);
+            c = HH(c, d, a, b, m[i2 + 11], 16, 1839030562);
+            b = HH(b, c, d, a, m[i2 + 14], 23, -35309556);
+            a = HH(a, b, c, d, m[i2 + 1], 4, -1530992060);
+            d = HH(d, a, b, c, m[i2 + 4], 11, 1272893353);
+            c = HH(c, d, a, b, m[i2 + 7], 16, -155497632);
+            b = HH(b, c, d, a, m[i2 + 10], 23, -1094730640);
+            a = HH(a, b, c, d, m[i2 + 13], 4, 681279174);
+            d = HH(d, a, b, c, m[i2 + 0], 11, -358537222);
+            c = HH(c, d, a, b, m[i2 + 3], 16, -722521979);
+            b = HH(b, c, d, a, m[i2 + 6], 23, 76029189);
+            a = HH(a, b, c, d, m[i2 + 9], 4, -640364487);
+            d = HH(d, a, b, c, m[i2 + 12], 11, -421815835);
+            c = HH(c, d, a, b, m[i2 + 15], 16, 530742520);
+            b = HH(b, c, d, a, m[i2 + 2], 23, -995338651);
+            a = II(a, b, c, d, m[i2 + 0], 6, -198630844);
+            d = II(d, a, b, c, m[i2 + 7], 10, 1126891415);
+            c = II(c, d, a, b, m[i2 + 14], 15, -1416354905);
+            b = II(b, c, d, a, m[i2 + 5], 21, -57434055);
+            a = II(a, b, c, d, m[i2 + 12], 6, 1700485571);
+            d = II(d, a, b, c, m[i2 + 3], 10, -1894986606);
+            c = II(c, d, a, b, m[i2 + 10], 15, -1051523);
+            b = II(b, c, d, a, m[i2 + 1], 21, -2054922799);
+            a = II(a, b, c, d, m[i2 + 8], 6, 1873313359);
+            d = II(d, a, b, c, m[i2 + 15], 10, -30611744);
+            c = II(c, d, a, b, m[i2 + 6], 15, -1560198380);
+            b = II(b, c, d, a, m[i2 + 13], 21, 1309151649);
+            a = II(a, b, c, d, m[i2 + 4], 6, -145523070);
+            d = II(d, a, b, c, m[i2 + 11], 10, -1120210379);
+            c = II(c, d, a, b, m[i2 + 2], 15, 718787259);
+            b = II(b, c, d, a, m[i2 + 9], 21, -343485551);
             a = a + aa >>> 0;
             b = b + bb >>> 0;
             c = c + cc >>> 0;
@@ -393,25 +402,25 @@ const MODULES = `
           }
           return crypt.endian([a, b, c, d]);
         };
-        md54._ff = function(a, b, c, d, x, s, t) {
-          var n = a + (b & c | ~b & d) + (x >>> 0) + t;
+        md54._ff = function(a, b, c, d, x2, s, t) {
+          var n = a + (b & c | ~b & d) + (x2 >>> 0) + t;
           return (n << s | n >>> 32 - s) + b;
         };
-        md54._gg = function(a, b, c, d, x, s, t) {
-          var n = a + (b & d | c & ~d) + (x >>> 0) + t;
+        md54._gg = function(a, b, c, d, x2, s, t) {
+          var n = a + (b & d | c & ~d) + (x2 >>> 0) + t;
           return (n << s | n >>> 32 - s) + b;
         };
-        md54._hh = function(a, b, c, d, x, s, t) {
-          var n = a + (b ^ c ^ d) + (x >>> 0) + t;
+        md54._hh = function(a, b, c, d, x2, s, t) {
+          var n = a + (b ^ c ^ d) + (x2 >>> 0) + t;
           return (n << s | n >>> 32 - s) + b;
         };
-        md54._ii = function(a, b, c, d, x, s, t) {
-          var n = a + (c ^ (b | ~d)) + (x >>> 0) + t;
+        md54._ii = function(a, b, c, d, x2, s, t) {
+          var n = a + (c ^ (b | ~d)) + (x2 >>> 0) + t;
           return (n << s | n >>> 32 - s) + b;
         };
         md54._blocksize = 16;
         md54._digestsize = 16;
-        module2.exports = function(message, options) {
+        module.exports = function(message, options) {
           if (message === void 0 || message === null)
             throw new Error("Illegal argument " + message);
           var digestbytes = crypt.wordsToBytes(md54(message, options));
@@ -421,12 +430,12 @@ const MODULES = `
     }
   });
 
-  // node_modules/@protobufjs/aspromise/index.js
+  // node_modules/protobufjs/src/util/aspromise.js
   var require_aspromise = __commonJS({
-    "node_modules/@protobufjs/aspromise/index.js"(exports2, module2) {
+    "node_modules/protobufjs/src/util/aspromise.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = asPromise;
+      module.exports = asPromise;
       function asPromise(fn, ctx) {
         var params = new Array(arguments.length - 1), offset3 = 0, index = 2, pending = true;
         while (index < arguments.length)
@@ -458,72 +467,73 @@ const MODULES = `
     }
   });
 
-  // node_modules/@protobufjs/base64/index.js
+  // node_modules/protobufjs/src/util/base64.js
   var require_base64 = __commonJS({
-    "node_modules/@protobufjs/base64/index.js"(exports2) {
+    "node_modules/protobufjs/src/util/base64.js"(exports) {
       "use strict";
       init_tampermonkey();
-      var base642 = exports2;
+      var base642 = exports;
       base642.length = function length2(string) {
         var p = string.length;
         if (!p)
           return 0;
-        var n = 0;
-        while (--p % 4 > 1 && string.charAt(p) === "=")
-          ++n;
-        return Math.ceil(string.length * 3) / 4 - n;
+        while (p > 0 && string.charAt(p - 1) === "=")
+          --p;
+        return Math.floor(p * 3 / 4);
       };
       var b64 = new Array(64);
       var s64 = new Array(123);
-      for (i = 0; i < 64; )
-        s64[b64[i] = i < 26 ? i + 65 : i < 52 ? i + 71 : i < 62 ? i - 4 : i - 59 | 43] = i++;
-      var i;
+      for (i2 = 0; i2 < 64; )
+        s64[b64[i2] = i2 < 26 ? i2 + 65 : i2 < 52 ? i2 + 71 : i2 < 62 ? i2 - 4 : i2 - 59 | 43] = i2++;
+      var i2;
+      s64[45] = 62;
+      s64[95] = 63;
       base642.encode = function encode(buffer, start, end) {
         var parts = null, chunk = [];
-        var i2 = 0, j = 0, t;
+        var i3 = 0, j = 0, t;
         while (start < end) {
           var b = buffer[start++];
           switch (j) {
             case 0:
-              chunk[i2++] = b64[b >> 2];
+              chunk[i3++] = b64[b >> 2];
               t = (b & 3) << 4;
               j = 1;
               break;
             case 1:
-              chunk[i2++] = b64[t | b >> 4];
+              chunk[i3++] = b64[t | b >> 4];
               t = (b & 15) << 2;
               j = 2;
               break;
             case 2:
-              chunk[i2++] = b64[t | b >> 6];
-              chunk[i2++] = b64[b & 63];
+              chunk[i3++] = b64[t | b >> 6];
+              chunk[i3++] = b64[b & 63];
               j = 0;
               break;
           }
-          if (i2 > 8191) {
+          if (i3 > 8191) {
             (parts || (parts = [])).push(String.fromCharCode.apply(String, chunk));
-            i2 = 0;
+            i3 = 0;
           }
         }
         if (j) {
-          chunk[i2++] = b64[t];
-          chunk[i2++] = 61;
+          chunk[i3++] = b64[t];
+          chunk[i3++] = 61;
           if (j === 1)
-            chunk[i2++] = 61;
+            chunk[i3++] = 61;
         }
         if (parts) {
-          if (i2)
-            parts.push(String.fromCharCode.apply(String, chunk.slice(0, i2)));
+          if (i3)
+            parts.push(String.fromCharCode.apply(String, chunk.slice(0, i3)));
           return parts.join("");
         }
-        return String.fromCharCode.apply(String, chunk.slice(0, i2));
+        return String.fromCharCode.apply(String, chunk.slice(0, i3));
       };
       var invalidEncoding = "invalid encoding";
       base642.decode = function decode(string, buffer, offset3) {
         var start = offset3;
         var j = 0, t;
-        for (var i2 = 0; i2 < string.length; ) {
-          var c = string.charCodeAt(i2++);
+        for (var i3 = 0; i3 < string.length; ) {
+          var c = string.charCodeAt(i3++);
           if (c === 61 && j > 1)
             break;
           if ((c = s64[c]) === void 0)
@@ -553,20 +563,23 @@ const MODULES = `
           throw Error(invalidEncoding);
         return offset3 - start;
       };
+      var base64Re = /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?\$/;
+      var base64UrlRe = /[-_]/;
+      var base64UrlNoPaddingRe = /^(?:[A-Za-z0-9_-]{4})*(?:[A-Za-z0-9_-]{2}(?:==)?|[A-Za-z0-9_-]{3}=?)?\$/;
       base642.test = function test(string) {
-        return /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?\$/.test(string);
+        return base64Re.test(string) || base64UrlRe.test(string) && base64UrlNoPaddingRe.test(string);
       };
     }
   });
 
-  // node_modules/@protobufjs/eventemitter/index.js
+  // node_modules/protobufjs/src/util/eventemitter.js
   var require_eventemitter = __commonJS({
-    "node_modules/@protobufjs/eventemitter/index.js"(exports2, module2) {
+    "node_modules/protobufjs/src/util/eventemitter.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = EventEmitter;
+      module.exports = EventEmitter;
       function EventEmitter() {
-        this._listeners = {};
+        this._listeners = /* @__PURE__ */ Object.create(null);
       }
       EventEmitter.prototype.on = function on(evt, fn, ctx) {
         (this._listeners[evt] || (this._listeners[evt] = [])).push({
@@ -577,17 +590,19 @@ const MODULES = `
       };
       EventEmitter.prototype.off = function off(evt, fn) {
         if (evt === void 0)
-          this._listeners = {};
+          this._listeners = /* @__PURE__ */ Object.create(null);
         else {
           if (fn === void 0)
             this._listeners[evt] = [];
           else {
             var listeners = this._listeners[evt];
-            for (var i = 0; i < listeners.length; )
-              if (listeners[i].fn === fn)
-                listeners.splice(i, 1);
+            if (!listeners)
+              return this;
+            for (var i2 = 0; i2 < listeners.length; )
+              if (listeners[i2].fn === fn)
+                listeners.splice(i2, 1);
               else
-                ++i;
+                ++i2;
           }
         }
         return this;
@@ -595,24 +610,24 @@ const MODULES = `
       EventEmitter.prototype.emit = function emit(evt) {
         var listeners = this._listeners[evt];
         if (listeners) {
-          var args = [], i = 1;
-          for (; i < arguments.length; )
-            args.push(arguments[i++]);
-          for (i = 0; i < listeners.length; )
-            listeners[i].fn.apply(listeners[i++].ctx, args);
+          var args = [], i2 = 1;
+          for (; i2 < arguments.length; )
+            args.push(arguments[i2++]);
+          for (i2 = 0; i2 < listeners.length; )
+            listeners[i2].fn.apply(listeners[i2++].ctx, args);
         }
         return this;
       };
     }
   });
 
-  // node_modules/@protobufjs/float/index.js
+  // node_modules/protobufjs/src/util/float.js
   var require_float = __commonJS({
-    "node_modules/@protobufjs/float/index.js"(exports2, module2) {
+    "node_modules/protobufjs/src/util/float.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = factory(factory);
-      function factory(exports3) {
+      module.exports = factory(factory);
+      function factory(exports2) {
         if (typeof Float32Array !== "undefined") (function() {
           var f32 = new Float32Array([-0]), f8b = new Uint8Array(f32.buffer), le = f8b[3] === 128;
           function writeFloat_f32_cpy(val, buf, pos) {
@@ -629,8 +644,8 @@ const MODULES = `
             buf[pos + 2] = f8b[1];
             buf[pos + 3] = f8b[0];
           }
-          exports3.writeFloatLE = le ? writeFloat_f32_cpy : writeFloat_f32_rev;
-          exports3.writeFloatBE = le ? writeFloat_f32_rev : writeFloat_f32_cpy;
+          exports2.writeFloatLE = le ? writeFloat_f32_cpy : writeFloat_f32_rev;
+          exports2.writeFloatBE = le ? writeFloat_f32_rev : writeFloat_f32_cpy;
           function readFloat_f32_cpy(buf, pos) {
             f8b[0] = buf[pos];
             f8b[1] = buf[pos + 1];
@@ -645,8 +660,8 @@ const MODULES = `
             f8b[0] = buf[pos + 3];
             return f32[0];
           }
-          exports3.readFloatLE = le ? readFloat_f32_cpy : readFloat_f32_rev;
-          exports3.readFloatBE = le ? readFloat_f32_rev : readFloat_f32_cpy;
+          exports2.readFloatLE = le ? readFloat_f32_cpy : readFloat_f32_rev;
+          exports2.readFloatBE = le ? readFloat_f32_rev : readFloat_f32_cpy;
         })();
         else (function() {
           function writeFloat_ieee754(writeUint, val, buf, pos) {
@@ -672,14 +687,14 @@ const MODULES = `
               writeUint((sign << 31 | exponent + 127 << 23 | mantissa) >>> 0, buf, pos);
             }
           }
-          exports3.writeFloatLE = writeFloat_ieee754.bind(null, writeUintLE);
-          exports3.writeFloatBE = writeFloat_ieee754.bind(null, writeUintBE);
+          exports2.writeFloatLE = writeFloat_ieee754.bind(null, writeUintLE);
+          exports2.writeFloatBE = writeFloat_ieee754.bind(null, writeUintBE);
           function readFloat_ieee754(readUint, buf, pos) {
             var uint = readUint(buf, pos), sign = (uint >> 31) * 2 + 1, exponent = uint >>> 23 & 255, mantissa = uint & 8388607;
             return exponent === 255 ? mantissa ? NaN : sign * Infinity : exponent === 0 ? sign * 1401298464324817e-60 * mantissa : sign * Math.pow(2, exponent - 150) * (mantissa + 8388608);
           }
-          exports3.readFloatLE = readFloat_ieee754.bind(null, readUintLE);
-          exports3.readFloatBE = readFloat_ieee754.bind(null, readUintBE);
+          exports2.readFloatLE = readFloat_ieee754.bind(null, readUintLE);
+          exports2.readFloatBE = readFloat_ieee754.bind(null, readUintBE);
         })();
         if (typeof Float64Array !== "undefined") (function() {
           var f64 = new Float64Array([-0]), f8b = new Uint8Array(f64.buffer), le = f8b[7] === 128;
@@ -705,8 +720,8 @@ const MODULES = `
             buf[pos + 6] = f8b[1];
             buf[pos + 7] = f8b[0];
           }
-          exports3.writeDoubleLE = le ? writeDouble_f64_cpy : writeDouble_f64_rev;
-          exports3.writeDoubleBE = le ? writeDouble_f64_rev : writeDouble_f64_cpy;
+          exports2.writeDoubleLE = le ? writeDouble_f64_cpy : writeDouble_f64_rev;
+          exports2.writeDoubleBE = le ? writeDouble_f64_rev : writeDouble_f64_cpy;
           function readDouble_f64_cpy(buf, pos) {
             f8b[0] = buf[pos];
             f8b[1] = buf[pos + 1];
@@ -729,8 +744,8 @@ const MODULES = `
             f8b[0] = buf[pos + 7];
             return f64[0];
           }
-          exports3.readDoubleLE = le ? readDouble_f64_cpy : readDouble_f64_rev;
-          exports3.readDoubleBE = le ? readDouble_f64_rev : readDouble_f64_cpy;
+          exports2.readDoubleLE = le ? readDouble_f64_cpy : readDouble_f64_rev;
+          exports2.readDoubleBE = le ? readDouble_f64_rev : readDouble_f64_cpy;
         })();
         else (function() {
           function writeDouble_ieee754(writeUint, off0, off1, val, buf, pos) {
@@ -768,17 +783,17 @@ const MODULES = `
               }
             }
           }
-          exports3.writeDoubleLE = writeDouble_ieee754.bind(null, writeUintLE, 0, 4);
-          exports3.writeDoubleBE = writeDouble_ieee754.bind(null, writeUintBE, 4, 0);
+          exports2.writeDoubleLE = writeDouble_ieee754.bind(null, writeUintLE, 0, 4);
+          exports2.writeDoubleBE = writeDouble_ieee754.bind(null, writeUintBE, 4, 0);
           function readDouble_ieee754(readUint, off0, off1, buf, pos) {
             var lo = readUint(buf, pos + off0), hi = readUint(buf, pos + off1);
             var sign = (hi >> 31) * 2 + 1, exponent = hi >>> 20 & 2047, mantissa = 4294967296 * (hi & 1048575) + lo;
             return exponent === 2047 ? mantissa ? NaN : sign * Infinity : exponent === 0 ? sign * 5e-324 * mantissa : sign * Math.pow(2, exponent - 1075) * (mantissa + 4503599627370496);
           }
-          exports3.readDoubleLE = readDouble_ieee754.bind(null, readUintLE, 0, 4);
-          exports3.readDoubleBE = readDouble_ieee754.bind(null, readUintBE, 4, 0);
+          exports2.readDoubleLE = readDouble_ieee754.bind(null, readUintLE, 0, 4);
+          exports2.readDoubleBE = readDouble_ieee754.bind(null, readUintBE, 4, 0);
         })();
-        return exports3;
+        return exports2;
       }
       function writeUintLE(val, buf, pos) {
         buf[pos] = val & 255;
@@ -801,87 +816,131 @@ const MODULES = `
     }
   });
 
-  // node_modules/@protobufjs/inquire/index.js
-  var require_inquire = __commonJS({
-    "node_modules/@protobufjs/inquire/index.js"(exports, module) {
-      "use strict";
-      init_tampermonkey();
-      module.exports = inquire;
-      function inquire(moduleName) {
-        try {
-          var mod = eval("quire".replace(/^/, "re"))(moduleName);
-          if (mod && (mod.length || Object.keys(mod).length))
-            return mod;
-        } catch (e) {
-        }
-        return null;
-      }
-    }
-  });
-
-  // node_modules/@protobufjs/utf8/index.js
+  // node_modules/protobufjs/src/util/utf8.js
   var require_utf8 = __commonJS({
-    "node_modules/@protobufjs/utf8/index.js"(exports2) {
+    "node_modules/protobufjs/src/util/utf8.js"(exports) {
       "use strict";
       init_tampermonkey();
-      var utf8 = exports2;
+      var utf8 = exports;
+      var replacementChar = "�";
+      var looseDecoder = new TextDecoder("utf-8", { ignoreBOM: true });
+      var strictDecoder;
+      var TEXT_DECODER_MIN_LENGTH = 64;
+      try {
+        strictDecoder = new TextDecoder("utf-8", { fatal: true, ignoreBOM: true });
+      } catch (err2) {
+        strictDecoder = looseDecoder;
+      }
       utf8.length = function utf8_length(string) {
         var len = 0, c = 0;
-        for (var i = 0; i < string.length; ++i) {
-          c = string.charCodeAt(i);
+        for (var i2 = 0; i2 < string.length; ++i2) {
+          c = string.charCodeAt(i2);
           if (c < 128)
             len += 1;
           else if (c < 2048)
             len += 2;
-          else if ((c & 64512) === 55296 && (string.charCodeAt(i + 1) & 64512) === 56320) {
-            ++i;
+          else if ((c & 64512) === 55296 && (string.charCodeAt(i2 + 1) & 64512) === 56320) {
+            ++i2;
             len += 4;
           } else
             len += 3;
         }
         return len;
       };
-      utf8.read = function utf8_read(buffer, start, end) {
-        var len = end - start;
-        if (len < 1)
-          return "";
-        var parts = null, chunk = [], i = 0, t;
-        while (start < end) {
-          t = buffer[start++];
-          if (t < 128)
-            chunk[i++] = t;
-          else if (t > 191 && t < 224)
-            chunk[i++] = (t & 31) << 6 | buffer[start++] & 63;
-          else if (t > 239 && t < 365) {
-            t = ((t & 7) << 18 | (buffer[start++] & 63) << 12 | (buffer[start++] & 63) << 6 | buffer[start++] & 63) - 65536;
-            chunk[i++] = 55296 + (t >> 10);
-            chunk[i++] = 56320 + (t & 1023);
-          } else
-            chunk[i++] = (t & 15) << 12 | (buffer[start++] & 63) << 6 | buffer[start++] & 63;
-          if (i > 8191) {
-            (parts || (parts = [])).push(String.fromCharCode.apply(String, chunk));
-            i = 0;
+      function utf8_read_js(buffer, start, end, str) {
+        for (var i2 = start; i2 < end; ) {
+          var t = buffer[i2++];
+          if (t <= 127) {
+            str += String.fromCharCode(t);
+          } else if (t >= 192 && t < 224) {
+            var c2 = (t & 31) << 6 | buffer[i2++] & 63;
+            str += c2 >= 128 ? String.fromCharCode(c2) : replacementChar;
+          } else if (t >= 224 && t < 240) {
+            var c3 = (t & 15) << 12 | (buffer[i2++] & 63) << 6 | buffer[i2++] & 63;
+            str += c3 >= 2048 ? String.fromCharCode(c3) : replacementChar;
+          } else if (t >= 240) {
+            var t2 = (t & 7) << 18 | (buffer[i2++] & 63) << 12 | (buffer[i2++] & 63) << 6 | buffer[i2++] & 63;
+            if (t2 < 65536 || t2 > 1114111)
+              str += replacementChar;
+            else {
+              t2 -= 65536;
+              str += String.fromCharCode(55296 + (t2 >> 10));
+              str += String.fromCharCode(56320 + (t2 & 1023));
+            }
           }
         }
-        if (parts) {
-          if (i)
-            parts.push(String.fromCharCode.apply(String, chunk.slice(0, i)));
-          return parts.join("");
+        return str;
+      }
+      function utf8_read_decoder(decoder, buffer, start, end) {
+        var source = start === 0 && end === buffer.length ? buffer : buffer.subarray(start, end);
+        return decoder.decode(source);
+      }
+      utf8.read = function utf8_read_loose(buffer, start, end) {
+        if (end - start < 1)
+          return "";
+        if (end - start >= TEXT_DECODER_MIN_LENGTH)
+          return utf8_read_decoder(looseDecoder, buffer, start, end);
+        var str = "", i2 = start, c1, c2, c3, c4, c5, c6, c7, c8;
+        for (; i2 + 7 < end; i2 += 8) {
+          c1 = buffer[i2];
+          c2 = buffer[i2 + 1];
+          c3 = buffer[i2 + 2];
+          c4 = buffer[i2 + 3];
+          c5 = buffer[i2 + 4];
+          c6 = buffer[i2 + 5];
+          c7 = buffer[i2 + 6];
+          c8 = buffer[i2 + 7];
+          if ((c1 | c2 | c3 | c4 | c5 | c6 | c7 | c8) & 128)
+            return utf8_read_js(buffer, i2, end, str);
+          str += String.fromCharCode(c1, c2, c3, c4, c5, c6, c7, c8);
         }
-        return String.fromCharCode.apply(String, chunk.slice(0, i));
+        for (; i2 < end; ++i2) {
+          c1 = buffer[i2];
+          if (c1 & 128)
+            return utf8_read_js(buffer, i2, end, str);
+          str += String.fromCharCode(c1);
+        }
+        return str;
+      };
+      utf8.readStrict = function utf8_read_strict(buffer, start, end) {
+        if (end - start < 1)
+          return "";
+        if (end - start >= TEXT_DECODER_MIN_LENGTH)
+          return utf8_read_decoder(strictDecoder, buffer, start, end);
+        var str = "", i2 = start, c1, c2, c3, c4, c5, c6, c7, c8;
+        for (; i2 + 7 < end; i2 += 8) {
+          c1 = buffer[i2];
+          c2 = buffer[i2 + 1];
+          c3 = buffer[i2 + 2];
+          c4 = buffer[i2 + 3];
+          c5 = buffer[i2 + 4];
+          c6 = buffer[i2 + 5];
+          c7 = buffer[i2 + 6];
+          c8 = buffer[i2 + 7];
+          if ((c1 | c2 | c3 | c4 | c5 | c6 | c7 | c8) & 128)
+            return str + utf8_read_decoder(strictDecoder, buffer, i2, end);
+          str += String.fromCharCode(c1, c2, c3, c4, c5, c6, c7, c8);
+        }
+        for (; i2 < end; ++i2) {
+          c1 = buffer[i2];
+          if (c1 & 128)
+            return str + utf8_read_decoder(strictDecoder, buffer, i2, end);
+          str += String.fromCharCode(c1);
+        }
+        return str;
       };
       utf8.write = function utf8_write(string, buffer, offset3) {
         var start = offset3, c1, c2;
-        for (var i = 0; i < string.length; ++i) {
-          c1 = string.charCodeAt(i);
+        for (var i2 = 0; i2 < string.length; ++i2) {
+          c1 = string.charCodeAt(i2);
           if (c1 < 128) {
             buffer[offset3++] = c1;
           } else if (c1 < 2048) {
             buffer[offset3++] = c1 >> 6 | 192;
             buffer[offset3++] = c1 & 63 | 128;
-          } else if ((c1 & 64512) === 55296 && ((c2 = string.charCodeAt(i + 1)) & 64512) === 56320) {
+          } else if ((c1 & 64512) === 55296 && ((c2 = string.charCodeAt(i2 + 1)) & 64512) === 56320) {
             c1 = 65536 + ((c1 & 1023) << 10) + (c2 & 1023);
-            ++i;
+            ++i2;
             buffer[offset3++] = c1 >> 18 | 240;
             buffer[offset3++] = c1 >> 12 & 63 | 128;
             buffer[offset3++] = c1 >> 6 & 63 | 128;
@@ -897,12 +956,12 @@ const MODULES = `
     }
   });
 
-  // node_modules/@protobufjs/pool/index.js
+  // node_modules/protobufjs/src/util/pool.js
   var require_pool = __commonJS({
-    "node_modules/@protobufjs/pool/index.js"(exports2, module2) {
+    "node_modules/protobufjs/src/util/pool.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = pool;
+      module.exports = pool;
       function pool(alloc, slice, size) {
         var SIZE = size || 8192;
         var MAX = SIZE >>> 1;
@@ -926,10 +985,10 @@ const MODULES = `
 
   // node_modules/protobufjs/src/util/longbits.js
   var require_longbits = __commonJS({
-    "node_modules/protobufjs/src/util/longbits.js"(exports2, module2) {
+    "node_modules/protobufjs/src/util/longbits.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = LongBits;
+      module.exports = LongBits;
       var util = require_minimal();
       function LongBits(lo, hi) {
         this.lo = lo >>> 0;
@@ -1027,22 +1086,1004 @@ const MODULES = `
     }
   });
 
+  // node_modules/long/umd/index.js
+  var require_umd = __commonJS({
+    "node_modules/long/umd/index.js"(exports, module) {
+      init_tampermonkey();
+      (function(global2, factory) {
+        function preferDefault(exports2) {
+          return exports2.default || exports2;
+        }
+        if (typeof define === "function" && define.amd) {
+          define([], function() {
+            var exports2 = {};
+            factory(exports2);
+            return preferDefault(exports2);
+          });
+        } else if (typeof exports === "object") {
+          factory(exports);
+          if (typeof module === "object") module.exports = preferDefault(exports);
+        } else {
+          (function() {
+            var exports2 = {};
+            factory(exports2);
+            global2.Long = preferDefault(exports2);
+          })();
+        }
+      })(
+        typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : exports,
+        function(_exports) {
+          "use strict";
+          Object.defineProperty(_exports, "__esModule", {
+            value: true
+          });
+          _exports.default = void 0;
+          var wasm = null;
+          try {
+            wasm = new WebAssembly.Instance(
+              new WebAssembly.Module(
+                new Uint8Array([
+                  // \\0asm
+                  0,
+                  97,
+                  115,
+                  109,
+                  // version 1
+                  1,
+                  0,
+                  0,
+                  0,
+                  // section "type"
+                  1,
+                  13,
+                  2,
+                  // 0, () => i32
+                  96,
+                  0,
+                  1,
+                  127,
+                  // 1, (i32, i32, i32, i32) => i32
+                  96,
+                  4,
+                  127,
+                  127,
+                  127,
+                  127,
+                  1,
+                  127,
+                  // section "function"
+                  3,
+                  7,
+                  6,
+                  // 0, type 0
+                  0,
+                  // 1, type 1
+                  1,
+                  // 2, type 1
+                  1,
+                  // 3, type 1
+                  1,
+                  // 4, type 1
+                  1,
+                  // 5, type 1
+                  1,
+                  // section "global"
+                  6,
+                  6,
+                  1,
+                  // 0, "high", mutable i32
+                  127,
+                  1,
+                  65,
+                  0,
+                  11,
+                  // section "export"
+                  7,
+                  50,
+                  6,
+                  // 0, "mul"
+                  3,
+                  109,
+                  117,
+                  108,
+                  0,
+                  1,
+                  // 1, "div_s"
+                  5,
+                  100,
+                  105,
+                  118,
+                  95,
+                  115,
+                  0,
+                  2,
+                  // 2, "div_u"
+                  5,
+                  100,
+                  105,
+                  118,
+                  95,
+                  117,
+                  0,
+                  3,
+                  // 3, "rem_s"
+                  5,
+                  114,
+                  101,
+                  109,
+                  95,
+                  115,
+                  0,
+                  4,
+                  // 4, "rem_u"
+                  5,
+                  114,
+                  101,
+                  109,
+                  95,
+                  117,
+                  0,
+                  5,
+                  // 5, "get_high"
+                  8,
+                  103,
+                  101,
+                  116,
+                  95,
+                  104,
+                  105,
+                  103,
+                  104,
+                  0,
+                  0,
+                  // section "code"
+                  10,
+                  191,
+                  1,
+                  6,
+                  // 0, "get_high"
+                  4,
+                  0,
+                  35,
+                  0,
+                  11,
+                  // 1, "mul"
+                  36,
+                  1,
+                  1,
+                  126,
+                  32,
+                  0,
+                  173,
+                  32,
+                  1,
+                  173,
+                  66,
+                  32,
+                  134,
+                  132,
+                  32,
+                  2,
+                  173,
+                  32,
+                  3,
+                  173,
+                  66,
+                  32,
+                  134,
+                  132,
+                  126,
+                  34,
+                  4,
+                  66,
+                  32,
+                  135,
+                  167,
+                  36,
+                  0,
+                  32,
+                  4,
+                  167,
+                  11,
+                  // 2, "div_s"
+                  36,
+                  1,
+                  1,
+                  126,
+                  32,
+                  0,
+                  173,
+                  32,
+                  1,
+                  173,
+                  66,
+                  32,
+                  134,
+                  132,
+                  32,
+                  2,
+                  173,
+                  32,
+                  3,
+                  173,
+                  66,
+                  32,
+                  134,
+                  132,
+                  127,
+                  34,
+                  4,
+                  66,
+                  32,
+                  135,
+                  167,
+                  36,
+                  0,
+                  32,
+                  4,
+                  167,
+                  11,
+                  // 3, "div_u"
+                  36,
+                  1,
+                  1,
+                  126,
+                  32,
+                  0,
+                  173,
+                  32,
+                  1,
+                  173,
+                  66,
+                  32,
+                  134,
+                  132,
+                  32,
+                  2,
+                  173,
+                  32,
+                  3,
+                  173,
+                  66,
+                  32,
+                  134,
+                  132,
+                  128,
+                  34,
+                  4,
+                  66,
+                  32,
+                  135,
+                  167,
+                  36,
+                  0,
+                  32,
+                  4,
+                  167,
+                  11,
+                  // 4, "rem_s"
+                  36,
+                  1,
+                  1,
+                  126,
+                  32,
+                  0,
+                  173,
+                  32,
+                  1,
+                  173,
+                  66,
+                  32,
+                  134,
+                  132,
+                  32,
+                  2,
+                  173,
+                  32,
+                  3,
+                  173,
+                  66,
+                  32,
+                  134,
+                  132,
+                  129,
+                  34,
+                  4,
+                  66,
+                  32,
+                  135,
+                  167,
+                  36,
+                  0,
+                  32,
+                  4,
+                  167,
+                  11,
+                  // 5, "rem_u"
+                  36,
+                  1,
+                  1,
+                  126,
+                  32,
+                  0,
+                  173,
+                  32,
+                  1,
+                  173,
+                  66,
+                  32,
+                  134,
+                  132,
+                  32,
+                  2,
+                  173,
+                  32,
+                  3,
+                  173,
+                  66,
+                  32,
+                  134,
+                  132,
+                  130,
+                  34,
+                  4,
+                  66,
+                  32,
+                  135,
+                  167,
+                  36,
+                  0,
+                  32,
+                  4,
+                  167,
+                  11
+                ])
+              ),
+              {}
+            ).exports;
+          } catch {
+          }
+          function Long(low, high, unsigned) {
+            this.low = low | 0;
+            this.high = high | 0;
+            this.unsigned = !!unsigned;
+          }
+          Long.prototype.__isLong__;
+          Object.defineProperty(Long.prototype, "__isLong__", {
+            value: true
+          });
+          function isLong(obj) {
+            return (obj && obj["__isLong__"]) === true;
+          }
+          function ctz32(value) {
+            var c = Math.clz32(value & -value);
+            return value ? 31 - c : c;
+          }
+          Long.isLong = isLong;
+          var INT_CACHE = {};
+          var UINT_CACHE = {};
+          function fromInt(value, unsigned) {
+            var obj, cachedObj, cache;
+            if (unsigned) {
+              value >>>= 0;
+              if (cache = 0 <= value && value < 256) {
+                cachedObj = UINT_CACHE[value];
+                if (cachedObj) return cachedObj;
+              }
+              obj = fromBits(value, 0, true);
+              if (cache) UINT_CACHE[value] = obj;
+              return obj;
+            } else {
+              value |= 0;
+              if (cache = -128 <= value && value < 128) {
+                cachedObj = INT_CACHE[value];
+                if (cachedObj) return cachedObj;
+              }
+              obj = fromBits(value, value < 0 ? -1 : 0, false);
+              if (cache) INT_CACHE[value] = obj;
+              return obj;
+            }
+          }
+          Long.fromInt = fromInt;
+          function fromNumber(value, unsigned) {
+            if (isNaN(value)) return unsigned ? UZERO : ZERO;
+            if (unsigned) {
+              if (value < 0) return UZERO;
+              if (value >= TWO_PWR_64_DBL) return MAX_UNSIGNED_VALUE;
+            } else {
+              if (value <= -TWO_PWR_63_DBL) return MIN_VALUE;
+              if (value + 1 >= TWO_PWR_63_DBL) return MAX_VALUE;
+            }
+            if (value < 0) return fromNumber(-value, unsigned).neg();
+            return fromBits(
+              value % TWO_PWR_32_DBL | 0,
+              value / TWO_PWR_32_DBL | 0,
+              unsigned
+            );
+          }
+          Long.fromNumber = fromNumber;
+          function fromBits(lowBits, highBits, unsigned) {
+            return new Long(lowBits, highBits, unsigned);
+          }
+          Long.fromBits = fromBits;
+          var pow_dbl = Math.pow;
+          function fromString(str, unsigned, radix) {
+            if (str.length === 0) throw Error("empty string");
+            if (typeof unsigned === "number") {
+              radix = unsigned;
+              unsigned = false;
+            } else {
+              unsigned = !!unsigned;
+            }
+            if (str === "NaN" || str === "Infinity" || str === "+Infinity" || str === "-Infinity")
+              return unsigned ? UZERO : ZERO;
+            radix = radix || 10;
+            if (radix < 2 || 36 < radix) throw RangeError("radix");
+            var p;
+            if ((p = str.indexOf("-")) > 0) throw Error("interior hyphen");
+            else if (p === 0) {
+              return fromString(str.substring(1), unsigned, radix).neg();
+            }
+            var radixToPower = fromNumber(pow_dbl(radix, 8));
+            var result = ZERO;
+            for (var i2 = 0; i2 < str.length; i2 += 8) {
+              var size = Math.min(8, str.length - i2), value = parseInt(str.substring(i2, i2 + size), radix);
+              if (size < 8) {
+                var power = fromNumber(pow_dbl(radix, size));
+                result = result.mul(power).add(fromNumber(value));
+              } else {
+                result = result.mul(radixToPower);
+                result = result.add(fromNumber(value));
+              }
+            }
+            result.unsigned = unsigned;
+            return result;
+          }
+          Long.fromString = fromString;
+          function fromValue(val, unsigned) {
+            if (typeof val === "number") return fromNumber(val, unsigned);
+            if (typeof val === "string") return fromString(val, unsigned);
+            return fromBits(
+              val.low,
+              val.high,
+              typeof unsigned === "boolean" ? unsigned : val.unsigned
+            );
+          }
+          Long.fromValue = fromValue;
+          var TWO_PWR_16_DBL = 1 << 16;
+          var TWO_PWR_24_DBL = 1 << 24;
+          var TWO_PWR_32_DBL = TWO_PWR_16_DBL * TWO_PWR_16_DBL;
+          var TWO_PWR_64_DBL = TWO_PWR_32_DBL * TWO_PWR_32_DBL;
+          var TWO_PWR_63_DBL = TWO_PWR_64_DBL / 2;
+          var TWO_PWR_24 = fromInt(TWO_PWR_24_DBL);
+          var ZERO = fromInt(0);
+          Long.ZERO = ZERO;
+          var UZERO = fromInt(0, true);
+          Long.UZERO = UZERO;
+          var ONE = fromInt(1);
+          Long.ONE = ONE;
+          var UONE = fromInt(1, true);
+          Long.UONE = UONE;
+          var NEG_ONE = fromInt(-1);
+          Long.NEG_ONE = NEG_ONE;
+          var MAX_VALUE = fromBits(4294967295 | 0, 2147483647 | 0, false);
+          Long.MAX_VALUE = MAX_VALUE;
+          var MAX_UNSIGNED_VALUE = fromBits(4294967295 | 0, 4294967295 | 0, true);
+          Long.MAX_UNSIGNED_VALUE = MAX_UNSIGNED_VALUE;
+          var MIN_VALUE = fromBits(0, 2147483648 | 0, false);
+          Long.MIN_VALUE = MIN_VALUE;
+          var LongPrototype = Long.prototype;
+          LongPrototype.toInt = function toInt() {
+            return this.unsigned ? this.low >>> 0 : this.low;
+          };
+          LongPrototype.toNumber = function toNumber() {
+            if (this.unsigned)
+              return (this.high >>> 0) * TWO_PWR_32_DBL + (this.low >>> 0);
+            return this.high * TWO_PWR_32_DBL + (this.low >>> 0);
+          };
+          LongPrototype.toString = function toString2(radix) {
+            radix = radix || 10;
+            if (radix < 2 || 36 < radix) throw RangeError("radix");
+            if (this.isZero()) return "0";
+            if (this.isNegative()) {
+              if (this.eq(MIN_VALUE)) {
+                var radixLong = fromNumber(radix), div = this.div(radixLong), rem1 = div.mul(radixLong).sub(this);
+                return div.toString(radix) + rem1.toInt().toString(radix);
+              } else return "-" + this.neg().toString(radix);
+            }
+            var radixToPower = fromNumber(pow_dbl(radix, 6), this.unsigned), rem = this;
+            var result = "";
+            while (true) {
+              var remDiv = rem.div(radixToPower), intval = rem.sub(remDiv.mul(radixToPower)).toInt() >>> 0, digits = intval.toString(radix);
+              rem = remDiv;
+              if (rem.isZero()) return digits + result;
+              else {
+                while (digits.length < 6) digits = "0" + digits;
+                result = "" + digits + result;
+              }
+            }
+          };
+          LongPrototype.getHighBits = function getHighBits() {
+            return this.high;
+          };
+          LongPrototype.getHighBitsUnsigned = function getHighBitsUnsigned() {
+            return this.high >>> 0;
+          };
+          LongPrototype.getLowBits = function getLowBits() {
+            return this.low;
+          };
+          LongPrototype.getLowBitsUnsigned = function getLowBitsUnsigned() {
+            return this.low >>> 0;
+          };
+          LongPrototype.getNumBitsAbs = function getNumBitsAbs() {
+            if (this.isNegative())
+              return this.eq(MIN_VALUE) ? 64 : this.neg().getNumBitsAbs();
+            var val = this.high != 0 ? this.high : this.low;
+            for (var bit = 31; bit > 0; bit--) if ((val & 1 << bit) != 0) break;
+            return this.high != 0 ? bit + 33 : bit + 1;
+          };
+          LongPrototype.isSafeInteger = function isSafeInteger() {
+            var top11Bits = this.high >> 21;
+            if (!top11Bits) return true;
+            if (this.unsigned) return false;
+            return top11Bits === -1 && !(this.low === 0 && this.high === -2097152);
+          };
+          LongPrototype.isZero = function isZero() {
+            return this.high === 0 && this.low === 0;
+          };
+          LongPrototype.eqz = LongPrototype.isZero;
+          LongPrototype.isNegative = function isNegative() {
+            return !this.unsigned && this.high < 0;
+          };
+          LongPrototype.isPositive = function isPositive() {
+            return this.unsigned || this.high >= 0;
+          };
+          LongPrototype.isOdd = function isOdd() {
+            return (this.low & 1) === 1;
+          };
+          LongPrototype.isEven = function isEven() {
+            return (this.low & 1) === 0;
+          };
+          LongPrototype.equals = function equals(other) {
+            if (!isLong(other)) other = fromValue(other);
+            if (this.unsigned !== other.unsigned && this.high >>> 31 === 1 && other.high >>> 31 === 1)
+              return false;
+            return this.high === other.high && this.low === other.low;
+          };
+          LongPrototype.eq = LongPrototype.equals;
+          LongPrototype.notEquals = function notEquals(other) {
+            return !this.eq(
+              /* validates */
+              other
+            );
+          };
+          LongPrototype.neq = LongPrototype.notEquals;
+          LongPrototype.ne = LongPrototype.notEquals;
+          LongPrototype.lessThan = function lessThan(other) {
+            return this.comp(
+              /* validates */
+              other
+            ) < 0;
+          };
+          LongPrototype.lt = LongPrototype.lessThan;
+          LongPrototype.lessThanOrEqual = function lessThanOrEqual(other) {
+            return this.comp(
+              /* validates */
+              other
+            ) <= 0;
+          };
+          LongPrototype.lte = LongPrototype.lessThanOrEqual;
+          LongPrototype.le = LongPrototype.lessThanOrEqual;
+          LongPrototype.greaterThan = function greaterThan(other) {
+            return this.comp(
+              /* validates */
+              other
+            ) > 0;
+          };
+          LongPrototype.gt = LongPrototype.greaterThan;
+          LongPrototype.greaterThanOrEqual = function greaterThanOrEqual(other) {
+            return this.comp(
+              /* validates */
+              other
+            ) >= 0;
+          };
+          LongPrototype.gte = LongPrototype.greaterThanOrEqual;
+          LongPrototype.ge = LongPrototype.greaterThanOrEqual;
+          LongPrototype.compare = function compare(other) {
+            if (!isLong(other)) other = fromValue(other);
+            if (this.eq(other)) return 0;
+            var thisNeg = this.isNegative(), otherNeg = other.isNegative();
+            if (thisNeg && !otherNeg) return -1;
+            if (!thisNeg && otherNeg) return 1;
+            if (!this.unsigned) return this.sub(other).isNegative() ? -1 : 1;
+            return other.high >>> 0 > this.high >>> 0 || other.high === this.high && other.low >>> 0 > this.low >>> 0 ? -1 : 1;
+          };
+          LongPrototype.comp = LongPrototype.compare;
+          LongPrototype.negate = function negate() {
+            if (!this.unsigned && this.eq(MIN_VALUE)) return MIN_VALUE;
+            return this.not().add(ONE);
+          };
+          LongPrototype.neg = LongPrototype.negate;
+          LongPrototype.add = function add(addend) {
+            if (!isLong(addend)) addend = fromValue(addend);
+            var a48 = this.high >>> 16;
+            var a32 = this.high & 65535;
+            var a16 = this.low >>> 16;
+            var a00 = this.low & 65535;
+            var b48 = addend.high >>> 16;
+            var b32 = addend.high & 65535;
+            var b16 = addend.low >>> 16;
+            var b00 = addend.low & 65535;
+            var c48 = 0, c32 = 0, c16 = 0, c00 = 0;
+            c00 += a00 + b00;
+            c16 += c00 >>> 16;
+            c00 &= 65535;
+            c16 += a16 + b16;
+            c32 += c16 >>> 16;
+            c16 &= 65535;
+            c32 += a32 + b32;
+            c48 += c32 >>> 16;
+            c32 &= 65535;
+            c48 += a48 + b48;
+            c48 &= 65535;
+            return fromBits(c16 << 16 | c00, c48 << 16 | c32, this.unsigned);
+          };
+          LongPrototype.subtract = function subtract(subtrahend) {
+            if (!isLong(subtrahend)) subtrahend = fromValue(subtrahend);
+            return this.add(subtrahend.neg());
+          };
+          LongPrototype.sub = LongPrototype.subtract;
+          LongPrototype.multiply = function multiply(multiplier) {
+            if (this.isZero()) return this;
+            if (!isLong(multiplier)) multiplier = fromValue(multiplier);
+            if (wasm) {
+              var low = wasm["mul"](
+                this.low,
+                this.high,
+                multiplier.low,
+                multiplier.high
+              );
+              return fromBits(low, wasm["get_high"](), this.unsigned);
+            }
+            if (multiplier.isZero()) return this.unsigned ? UZERO : ZERO;
+            if (this.eq(MIN_VALUE)) return multiplier.isOdd() ? MIN_VALUE : ZERO;
+            if (multiplier.eq(MIN_VALUE)) return this.isOdd() ? MIN_VALUE : ZERO;
+            if (this.isNegative()) {
+              if (multiplier.isNegative()) return this.neg().mul(multiplier.neg());
+              else return this.neg().mul(multiplier).neg();
+            } else if (multiplier.isNegative())
+              return this.mul(multiplier.neg()).neg();
+            if (this.lt(TWO_PWR_24) && multiplier.lt(TWO_PWR_24))
+              return fromNumber(
+                this.toNumber() * multiplier.toNumber(),
+                this.unsigned
+              );
+            var a48 = this.high >>> 16;
+            var a32 = this.high & 65535;
+            var a16 = this.low >>> 16;
+            var a00 = this.low & 65535;
+            var b48 = multiplier.high >>> 16;
+            var b32 = multiplier.high & 65535;
+            var b16 = multiplier.low >>> 16;
+            var b00 = multiplier.low & 65535;
+            var c48 = 0, c32 = 0, c16 = 0, c00 = 0;
+            c00 += a00 * b00;
+            c16 += c00 >>> 16;
+            c00 &= 65535;
+            c16 += a16 * b00;
+            c32 += c16 >>> 16;
+            c16 &= 65535;
+            c16 += a00 * b16;
+            c32 += c16 >>> 16;
+            c16 &= 65535;
+            c32 += a32 * b00;
+            c48 += c32 >>> 16;
+            c32 &= 65535;
+            c32 += a16 * b16;
+            c48 += c32 >>> 16;
+            c32 &= 65535;
+            c32 += a00 * b32;
+            c48 += c32 >>> 16;
+            c32 &= 65535;
+            c48 += a48 * b00 + a32 * b16 + a16 * b32 + a00 * b48;
+            c48 &= 65535;
+            return fromBits(c16 << 16 | c00, c48 << 16 | c32, this.unsigned);
+          };
+          LongPrototype.mul = LongPrototype.multiply;
+          LongPrototype.divide = function divide(divisor) {
+            if (!isLong(divisor)) divisor = fromValue(divisor);
+            if (divisor.isZero()) throw Error("division by zero");
+            if (wasm) {
+              if (!this.unsigned && this.high === -2147483648 && divisor.low === -1 && divisor.high === -1) {
+                return this;
+              }
+              var low = (this.unsigned ? wasm["div_u"] : wasm["div_s"])(
+                this.low,
+                this.high,
+                divisor.low,
+                divisor.high
+              );
+              return fromBits(low, wasm["get_high"](), this.unsigned);
+            }
+            if (this.isZero()) return this.unsigned ? UZERO : ZERO;
+            var approx, rem, res;
+            if (!this.unsigned) {
+              if (this.eq(MIN_VALUE)) {
+                if (divisor.eq(ONE) || divisor.eq(NEG_ONE))
+                  return MIN_VALUE;
+                else if (divisor.eq(MIN_VALUE)) return ONE;
+                else {
+                  var halfThis = this.shr(1);
+                  approx = halfThis.div(divisor).shl(1);
+                  if (approx.eq(ZERO)) {
+                    return divisor.isNegative() ? ONE : NEG_ONE;
+                  } else {
+                    rem = this.sub(divisor.mul(approx));
+                    res = approx.add(rem.div(divisor));
+                    return res;
+                  }
+                }
+              } else if (divisor.eq(MIN_VALUE)) return this.unsigned ? UZERO : ZERO;
+              if (this.isNegative()) {
+                if (divisor.isNegative()) return this.neg().div(divisor.neg());
+                return this.neg().div(divisor).neg();
+              } else if (divisor.isNegative()) return this.div(divisor.neg()).neg();
+              res = ZERO;
+            } else {
+              if (!divisor.unsigned) divisor = divisor.toUnsigned();
+              if (divisor.gt(this)) return UZERO;
+              if (divisor.gt(this.shru(1)))
+                return UONE;
+              res = UZERO;
+            }
+            rem = this;
+            while (rem.gte(divisor)) {
+              approx = Math.max(1, Math.floor(rem.toNumber() / divisor.toNumber()));
+              var log2 = Math.ceil(Math.log(approx) / Math.LN2), delta = log2 <= 48 ? 1 : pow_dbl(2, log2 - 48), approxRes = fromNumber(approx), approxRem = approxRes.mul(divisor);
+              while (approxRem.isNegative() || approxRem.gt(rem)) {
+                approx -= delta;
+                approxRes = fromNumber(approx, this.unsigned);
+                approxRem = approxRes.mul(divisor);
+              }
+              if (approxRes.isZero()) approxRes = ONE;
+              res = res.add(approxRes);
+              rem = rem.sub(approxRem);
+            }
+            return res;
+          };
+          LongPrototype.div = LongPrototype.divide;
+          LongPrototype.modulo = function modulo(divisor) {
+            if (!isLong(divisor)) divisor = fromValue(divisor);
+            if (wasm) {
+              var low = (this.unsigned ? wasm["rem_u"] : wasm["rem_s"])(
+                this.low,
+                this.high,
+                divisor.low,
+                divisor.high
+              );
+              return fromBits(low, wasm["get_high"](), this.unsigned);
+            }
+            return this.sub(this.div(divisor).mul(divisor));
+          };
+          LongPrototype.mod = LongPrototype.modulo;
+          LongPrototype.rem = LongPrototype.modulo;
+          LongPrototype.not = function not() {
+            return fromBits(~this.low, ~this.high, this.unsigned);
+          };
+          LongPrototype.countLeadingZeros = function countLeadingZeros() {
+            return this.high ? Math.clz32(this.high) : Math.clz32(this.low) + 32;
+          };
+          LongPrototype.clz = LongPrototype.countLeadingZeros;
+          LongPrototype.countTrailingZeros = function countTrailingZeros() {
+            return this.low ? ctz32(this.low) : ctz32(this.high) + 32;
+          };
+          LongPrototype.ctz = LongPrototype.countTrailingZeros;
+          LongPrototype.and = function and(other) {
+            if (!isLong(other)) other = fromValue(other);
+            return fromBits(
+              this.low & other.low,
+              this.high & other.high,
+              this.unsigned
+            );
+          };
+          LongPrototype.or = function or(other) {
+            if (!isLong(other)) other = fromValue(other);
+            return fromBits(
+              this.low | other.low,
+              this.high | other.high,
+              this.unsigned
+            );
+          };
+          LongPrototype.xor = function xor(other) {
+            if (!isLong(other)) other = fromValue(other);
+            return fromBits(
+              this.low ^ other.low,
+              this.high ^ other.high,
+              this.unsigned
+            );
+          };
+          LongPrototype.shiftLeft = function shiftLeft(numBits) {
+            if (isLong(numBits)) numBits = numBits.toInt();
+            if ((numBits &= 63) === 0) return this;
+            else if (numBits < 32)
+              return fromBits(
+                this.low << numBits,
+                this.high << numBits | this.low >>> 32 - numBits,
+                this.unsigned
+              );
+            else return fromBits(0, this.low << numBits - 32, this.unsigned);
+          };
+          LongPrototype.shl = LongPrototype.shiftLeft;
+          LongPrototype.shiftRight = function shiftRight(numBits) {
+            if (isLong(numBits)) numBits = numBits.toInt();
+            if ((numBits &= 63) === 0) return this;
+            else if (numBits < 32)
+              return fromBits(
+                this.low >>> numBits | this.high << 32 - numBits,
+                this.high >> numBits,
+                this.unsigned
+              );
+            else
+              return fromBits(
+                this.high >> numBits - 32,
+                this.high >= 0 ? 0 : -1,
+                this.unsigned
+              );
+          };
+          LongPrototype.shr = LongPrototype.shiftRight;
+          LongPrototype.shiftRightUnsigned = function shiftRightUnsigned(numBits) {
+            if (isLong(numBits)) numBits = numBits.toInt();
+            if ((numBits &= 63) === 0) return this;
+            if (numBits < 32)
+              return fromBits(
+                this.low >>> numBits | this.high << 32 - numBits,
+                this.high >>> numBits,
+                this.unsigned
+              );
+            if (numBits === 32) return fromBits(this.high, 0, this.unsigned);
+            return fromBits(this.high >>> numBits - 32, 0, this.unsigned);
+          };
+          LongPrototype.shru = LongPrototype.shiftRightUnsigned;
+          LongPrototype.shr_u = LongPrototype.shiftRightUnsigned;
+          LongPrototype.rotateLeft = function rotateLeft(numBits) {
+            var b;
+            if (isLong(numBits)) numBits = numBits.toInt();
+            if ((numBits &= 63) === 0) return this;
+            if (numBits === 32) return fromBits(this.high, this.low, this.unsigned);
+            if (numBits < 32) {
+              b = 32 - numBits;
+              return fromBits(
+                this.low << numBits | this.high >>> b,
+                this.high << numBits | this.low >>> b,
+                this.unsigned
+              );
+            }
+            numBits -= 32;
+            b = 32 - numBits;
+            return fromBits(
+              this.high << numBits | this.low >>> b,
+              this.low << numBits | this.high >>> b,
+              this.unsigned
+            );
+          };
+          LongPrototype.rotl = LongPrototype.rotateLeft;
+          LongPrototype.rotateRight = function rotateRight(numBits) {
+            var b;
+            if (isLong(numBits)) numBits = numBits.toInt();
+            if ((numBits &= 63) === 0) return this;
+            if (numBits === 32) return fromBits(this.high, this.low, this.unsigned);
+            if (numBits < 32) {
+              b = 32 - numBits;
+              return fromBits(
+                this.high << b | this.low >>> numBits,
+                this.low << b | this.high >>> numBits,
+                this.unsigned
+              );
+            }
+            numBits -= 32;
+            b = 32 - numBits;
+            return fromBits(
+              this.low << b | this.high >>> numBits,
+              this.high << b | this.low >>> numBits,
+              this.unsigned
+            );
+          };
+          LongPrototype.rotr = LongPrototype.rotateRight;
+          LongPrototype.toSigned = function toSigned() {
+            if (!this.unsigned) return this;
+            return fromBits(this.low, this.high, false);
+          };
+          LongPrototype.toUnsigned = function toUnsigned() {
+            if (this.unsigned) return this;
+            return fromBits(this.low, this.high, true);
+          };
+          LongPrototype.toBytes = function toBytes(le) {
+            return le ? this.toBytesLE() : this.toBytesBE();
+          };
+          LongPrototype.toBytesLE = function toBytesLE() {
+            var hi = this.high, lo = this.low;
+            return [
+              lo & 255,
+              lo >>> 8 & 255,
+              lo >>> 16 & 255,
+              lo >>> 24,
+              hi & 255,
+              hi >>> 8 & 255,
+              hi >>> 16 & 255,
+              hi >>> 24
+            ];
+          };
+          LongPrototype.toBytesBE = function toBytesBE() {
+            var hi = this.high, lo = this.low;
+            return [
+              hi >>> 24,
+              hi >>> 16 & 255,
+              hi >>> 8 & 255,
+              hi & 255,
+              lo >>> 24,
+              lo >>> 16 & 255,
+              lo >>> 8 & 255,
+              lo & 255
+            ];
+          };
+          Long.fromBytes = function fromBytes(bytes, unsigned, le) {
+            return le ? Long.fromBytesLE(bytes, unsigned) : Long.fromBytesBE(bytes, unsigned);
+          };
+          Long.fromBytesLE = function fromBytesLE(bytes, unsigned) {
+            return new Long(
+              bytes[0] | bytes[1] << 8 | bytes[2] << 16 | bytes[3] << 24,
+              bytes[4] | bytes[5] << 8 | bytes[6] << 16 | bytes[7] << 24,
+              unsigned
+            );
+          };
+          Long.fromBytesBE = function fromBytesBE(bytes, unsigned) {
+            return new Long(
+              bytes[4] << 24 | bytes[5] << 16 | bytes[6] << 8 | bytes[7],
+              bytes[0] << 24 | bytes[1] << 16 | bytes[2] << 8 | bytes[3],
+              unsigned
+            );
+          };
+          if (typeof BigInt === "function") {
+            Long.fromBigInt = function fromBigInt(value, unsigned) {
+              var lowBits = Number(BigInt.asIntN(32, value));
+              var highBits = Number(BigInt.asIntN(32, value >> BigInt(32)));
+              return fromBits(lowBits, highBits, unsigned);
+            };
+            Long.fromValue = function fromValueWithBigInt(value, unsigned) {
+              if (typeof value === "bigint") return Long.fromBigInt(value, unsigned);
+              return fromValue(value, unsigned);
+            };
+            LongPrototype.toBigInt = function toBigInt() {
+              var lowBigInt = BigInt(this.low >>> 0);
+              var highBigInt = BigInt(this.unsigned ? this.high >>> 0 : this.high);
+              return highBigInt << BigInt(32) | lowBigInt;
+            };
+          }
+          var _default = _exports.default = Long;
+        }
+      );
+    }
+  });
+
   // node_modules/protobufjs/src/util/minimal.js
   var require_minimal = __commonJS({
-    "node_modules/protobufjs/src/util/minimal.js"(exports2) {
+    "node_modules/protobufjs/src/util/minimal.js"(exports) {
       "use strict";
       init_tampermonkey();
-      var util = exports2;
+      var util = exports;
       util.asPromise = require_aspromise();
       util.base64 = require_base64();
       util.EventEmitter = require_eventemitter();
       util.float = require_float();
-      util.inquire = require_inquire();
       util.utf8 = require_utf8();
       util.pool = require_pool();
       util.LongBits = require_longbits();
+      function isUnsafeProperty(key) {
+        return key === "__proto__" || key === "prototype" || key === "constructor";
+      }
+      util.isUnsafeProperty = isUnsafeProperty;
       util.isNode = Boolean(typeof global !== "undefined" && global && global.process && global.process.versions && global.process.versions.node);
-      util.global = util.isNode && global || typeof window !== "undefined" && window || typeof self !== "undefined" && self || exports2;
+      util.global = util.isNode && global || typeof window !== "undefined" && window || typeof self !== "undefined" && self || typeof globalThis !== "undefined" && globalThis || exports;
       util.emptyArray = Object.freeze ? Object.freeze([]) : (
         /* istanbul ignore next */
         []
@@ -1069,14 +2110,14 @@ const MODULES = `
        */
       util.isSet = function isSet(obj, prop) {
         var value = obj[prop];
-        if (value != null && obj.hasOwnProperty(prop))
+        if (value != null && Object.hasOwnProperty.call(obj, prop))
           return typeof value !== "object" || (Array.isArray(value) ? value.length : Object.keys(value).length) > 0;
         return false;
       };
       util.Buffer = (function() {
         try {
-          var Buffer2 = util.inquire("buffer").Buffer;
-          return Buffer2.prototype.utf8Write ? Buffer2 : (
+          var Buffer2 = util.global.Buffer;
+          return Buffer2.prototype.utf8Write || util.isNode ? Buffer2 : (
             /* istanbul ignore next */
             null
           );
@@ -1084,19 +2125,37 @@ const MODULES = `
           return null;
         }
       })();
-      util._Buffer_from = null;
-      util._Buffer_allocUnsafe = null;
       util.newBuffer = function newBuffer(sizeOrArray) {
-        return typeof sizeOrArray === "number" ? util.Buffer ? util._Buffer_allocUnsafe(sizeOrArray) : new util.Array(sizeOrArray) : util.Buffer ? util._Buffer_from(sizeOrArray) : typeof Uint8Array === "undefined" ? sizeOrArray : new Uint8Array(sizeOrArray);
+        var Buffer2 = util.Buffer;
+        return typeof sizeOrArray === "number" ? Buffer2 ? Buffer2.allocUnsafe(sizeOrArray) : new Uint8Array(sizeOrArray) : Buffer2 ? Buffer2.from(sizeOrArray) : new Uint8Array(sizeOrArray);
       };
-      util.Array = typeof Uint8Array !== "undefined" ? Uint8Array : Array;
+      util.rawField = function rawField(id, wireType, data) {
+        var out = [], tag = id << 3 | wireType;
+        tag >>>= 0;
+        while (tag > 127) {
+          out.push(tag & 127 | 128);
+          tag >>>= 7;
+        }
+        out.push(tag);
+        for (var i2 = 0; i2 < data.length; ++i2)
+          out.push(data[i2]);
+        return util.newBuffer(out);
+      };
+      util.Array = Uint8Array;
       util.Long = /* istanbul ignore next */
       util.global.dcodeIO && /* istanbul ignore next */
       util.global.dcodeIO.Long || /* istanbul ignore next */
-      util.global.Long || util.inquire("long");
-      util.key2Re = /^true|false|0|1\$/;
+      util.global.Long || (function() {
+        try {
+          var Long = require_umd();
+          return Long && Long.isLong ? Long : null;
+        } catch (e) {
+          return null;
+        }
+      })();
+      util.key2Re = /^(?:true|false|0|1)\$/;
       util.key32Re = /^-?(?:0|[1-9][0-9]*)\$/;
-      util.key64Re = /^(?:[\\\\x00-\\\\xff]{8}|-?(?:0|[1-9][0-9]*))\$/;
+      util.key64Re = /^(?:[\\x00-\\xff]{8}|-?(?:0|[1-9][0-9]*))\$/;
       util.longToHash = function longToHash(value) {
         return value ? util.LongBits.from(value).toHash() : util.LongBits.zeroHash;
       };
@@ -1106,13 +2165,37 @@ const MODULES = `
           return util.Long.fromBits(bits2.lo, bits2.hi, unsigned);
         return bits2.toNumber(Boolean(unsigned));
       };
-      function merge(dst, src, ifNotSet) {
-        for (var keys = Object.keys(src), i = 0; i < keys.length; ++i)
-          if (dst[keys[i]] === void 0 || !ifNotSet)
-            dst[keys[i]] = src[keys[i]];
+      util.longFromKey = function longFromKey(key, unsigned) {
+        return util.key64Re.test(key) && !util.key32Re.test(key) ? util.longFromHash(key, unsigned) : key;
+      };
+      util.boolFromKey = function boolFromKey(key) {
+        return key === "true" || key === "1";
+      };
+      function merge(dst) {
+        var ifNotSet = typeof arguments[arguments.length - 1] === "boolean", limit = ifNotSet ? arguments.length - 1 : arguments.length;
+        ifNotSet = ifNotSet && arguments[arguments.length - 1];
+        for (var a = 1; a < limit; ++a) {
+          var src = arguments[a];
+          if (!src)
+            continue;
+          for (var keys = Object.keys(src), i2 = 0; i2 < keys.length; ++i2)
+            if (!isUnsafeProperty(keys[i2]) && (!ifNotSet || !Object.prototype.hasOwnProperty.call(dst, keys[i2]) || dst[keys[i2]] === void 0))
+              dst[keys[i2]] = src[keys[i2]];
+        }
         return dst;
       }
       util.merge = merge;
+      util.nestingLimit = 32;
+      util.recursionLimit = 100;
+      util.makeProp = function makeProp(obj, key, enumerable) {
+        if (Object.prototype.hasOwnProperty.call(obj, key))
+          return;
+        Object.defineProperty(obj, key, {
+          enumerable: enumerable === void 0 ? true : enumerable,
+          configurable: true,
+          writable: true
+        });
+      };
       util.lcFirst = function lcFirst(str) {
         return str.charAt(0).toLowerCase() + str.substring(1);
       };
@@ -1164,19 +2247,19 @@ const MODULES = `
       util.ProtocolError = newError("ProtocolError");
       util.oneOfGetter = function getOneOf(fieldNames) {
         var fieldMap = {};
-        for (var i = 0; i < fieldNames.length; ++i)
-          fieldMap[fieldNames[i]] = 1;
+        for (var i2 = 0; i2 < fieldNames.length; ++i2)
+          fieldMap[fieldNames[i2]] = 1;
         return function() {
-          for (var keys = Object.keys(this), i2 = keys.length - 1; i2 > -1; --i2)
-            if (fieldMap[keys[i2]] === 1 && this[keys[i2]] !== void 0 && this[keys[i2]] !== null)
-              return keys[i2];
+          for (var keys = Object.keys(this), i3 = keys.length - 1; i3 > -1; --i3)
+            if (fieldMap[keys[i3]] === 1 && this[keys[i3]] !== void 0 && this[keys[i3]] !== null)
+              return keys[i3];
         };
       };
       util.oneOfSetter = function setOneOf(fieldNames) {
         return function(name) {
-          for (var i = 0; i < fieldNames.length; ++i)
-            if (fieldNames[i] !== name)
-              delete this[fieldNames[i]];
+          for (var i2 = 0; i2 < fieldNames.length; ++i2)
+            if (fieldNames[i2] !== name)
+              delete this[fieldNames[i2]];
         };
       };
       util.toJSONOptions = {
@@ -1185,55 +2268,33 @@ const MODULES = `
         bytes: String,
         json: true
       };
-      util._configure = function() {
-        var Buffer2 = util.Buffer;
-        if (!Buffer2) {
-          util._Buffer_from = util._Buffer_allocUnsafe = null;
-          return;
-        }
-        util._Buffer_from = Buffer2.from !== Uint8Array.from && Buffer2.from || /* istanbul ignore next */
-        function Buffer_from(value, encoding) {
-          return new Buffer2(value, encoding);
-        };
-        util._Buffer_allocUnsafe = Buffer2.allocUnsafe || /* istanbul ignore next */
-        function Buffer_allocUnsafe(size) {
-          return new Buffer2(size);
-        };
-      };
     }
   });
 
   // node_modules/protobufjs/src/writer.js
   var require_writer = __commonJS({
-    "node_modules/protobufjs/src/writer.js"(exports2, module2) {
+    "node_modules/protobufjs/src/writer.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = Writer2;
+      module.exports = Writer2;
       var util = require_minimal();
       var BufferWriter;
       var LongBits = util.LongBits;
       var base642 = util.base64;
       var utf8 = util.utf8;
-      function Op(fn, len, val) {
-        this.fn = fn;
-        this.len = len;
-        this.next = void 0;
-        this.val = val;
-      }
-      function noop() {
-      }
-      function State(writer) {
-        this.head = writer.head;
-        this.tail = writer.tail;
-        this.len = writer.len;
-        this.next = writer.states;
-      }
       function Writer2() {
-        this.len = 0;
-        this.head = new Op(noop, 0, 0);
-        this.tail = this.head;
+        this.pos = 0;
+        this.buf = this.constructor.alloc(64);
+        this.view = null;
         this.states = null;
       }
+      Object.defineProperty(Writer2.prototype, "len", {
+        configurable: true,
+        enumerable: true,
+        get: function get_len() {
+          return this.pos;
+        }
+      });
       var create = function create2() {
         return util.Buffer ? function create_buffer_setup() {
           return (Writer2.create = function create_buffer() {
@@ -1245,17 +2306,27 @@ const MODULES = `
       };
       Writer2.create = create();
       Writer2.alloc = function alloc(size) {
-        return new util.Array(size);
+        return new Uint8Array(size);
       };
-      if (util.Array !== Array)
-        Writer2.alloc = util.pool(Writer2.alloc, util.Array.prototype.subarray);
-      Writer2.prototype._push = function push(fn, len, val) {
-        this.tail = this.tail.next = new Op(fn, len, val);
-        this.len += len;
-        return this;
+      Writer2.alloc = util.pool(Writer2.alloc, Uint8Array.prototype.subarray);
+      function sizeVarint32(value) {
+        return value < 128 ? 1 : value < 16384 ? 2 : value < 2097152 ? 3 : value < 268435456 ? 4 : 5;
+      }
+      Writer2.prototype._reserve = function _reserve(n) {
+        var need = this.pos + n;
+        if (need > this.buf.length) {
+          var size = this.buf.length << 1;
+          if (size < need)
+            size = need;
+          var buf = this.constructor.alloc(size);
+          buf.set(this.buf.subarray(0, this.pos), 0);
+          this.buf = buf;
+          this.view = null;
+        }
       };
-      function writeByte(val, buf, pos) {
-        buf[pos] = val & 255;
+      function writeStringAscii(val, buf, pos) {
+        for (var i2 = 0; i2 < val.length; )
+          buf[pos++] = val.charCodeAt(i2++);
       }
       function writeVarint32(val, buf, pos) {
         while (val > 127) {
@@ -1263,50 +2334,60 @@ const MODULES = `
           val >>>= 7;
         }
         buf[pos] = val;
+        return pos + 1;
       }
-      function VarintOp(len, val) {
-        this.len = len;
-        this.next = void 0;
-        this.val = val;
-      }
-      VarintOp.prototype = Object.create(Op.prototype);
-      VarintOp.prototype.fn = writeVarint32;
       Writer2.prototype.uint32 = function write_uint32(value) {
-        this.len += (this.tail = this.tail.next = new VarintOp(
-          (value = value >>> 0) < 128 ? 1 : value < 16384 ? 2 : value < 2097152 ? 3 : value < 268435456 ? 4 : 5,
-          value
-        )).len;
+        value = value >>> 0;
+        this._reserve(5);
+        var pos = this.pos;
+        this.pos = writeVarint32(value, this.buf, pos);
         return this;
       };
       Writer2.prototype.int32 = function write_int32(value) {
-        return value < 0 ? this._push(writeVarint64, 10, LongBits.fromNumber(value)) : this.uint32(value);
+        if ((value |= 0) < 0) {
+          this._reserve(10);
+          writeVarint64(LongBits.fromNumber(value), this.buf, this.pos);
+          this.pos += 10;
+          return this;
+        }
+        return this.uint32(value);
       };
       Writer2.prototype.sint32 = function write_sint32(value) {
         return this.uint32((value << 1 ^ value >> 31) >>> 0);
       };
       function writeVarint64(val, buf, pos) {
-        while (val.hi) {
-          buf[pos++] = val.lo & 127 | 128;
-          val.lo = (val.lo >>> 7 | val.hi << 25) >>> 0;
-          val.hi >>>= 7;
+        var lo = val.lo, hi = val.hi;
+        while (hi) {
+          buf[pos++] = lo & 127 | 128;
+          lo = (lo >>> 7 | hi << 25) >>> 0;
+          hi >>>= 7;
         }
-        while (val.lo > 127) {
-          buf[pos++] = val.lo & 127 | 128;
-          val.lo = val.lo >>> 7;
+        while (lo > 127) {
+          buf[pos++] = lo & 127 | 128;
+          lo = lo >>> 7;
         }
-        buf[pos++] = val.lo;
+        buf[pos] = lo;
+        return pos + 1;
       }
       Writer2.prototype.uint64 = function write_uint64(value) {
         var bits2 = LongBits.from(value);
-        return this._push(writeVarint64, bits2.length(), bits2);
+        this._reserve(10);
+        var pos = this.pos;
+        this.pos = writeVarint64(bits2, this.buf, pos);
+        return this;
       };
       Writer2.prototype.int64 = Writer2.prototype.uint64;
       Writer2.prototype.sint64 = function write_sint64(value) {
         var bits2 = LongBits.from(value).zzEncode();
-        return this._push(writeVarint64, bits2.length(), bits2);
+        this._reserve(10);
+        var pos = this.pos;
+        this.pos = writeVarint64(bits2, this.buf, pos);
+        return this;
       };
       Writer2.prototype.bool = function write_bool(value) {
-        return this._push(writeByte, 1, value ? 1 : 0);
+        this._reserve(1);
+        this.buf[this.pos++] = value ? 1 : 0;
+        return this;
       };
       function writeFixed32(val, buf, pos) {
         buf[pos] = val & 255;
@@ -1315,76 +2396,293 @@ const MODULES = `
         buf[pos + 3] = val >>> 24;
       }
       Writer2.prototype.fixed32 = function write_fixed32(value) {
-        return this._push(writeFixed32, 4, value >>> 0);
+        this._reserve(4);
+        writeFixed32(value >>> 0, this.buf, this.pos);
+        this.pos += 4;
+        return this;
       };
       Writer2.prototype.sfixed32 = Writer2.prototype.fixed32;
       Writer2.prototype.fixed64 = function write_fixed64(value) {
         var bits2 = LongBits.from(value);
-        return this._push(writeFixed32, 4, bits2.lo)._push(writeFixed32, 4, bits2.hi);
+        this._reserve(8);
+        writeFixed32(bits2.lo, this.buf, this.pos);
+        writeFixed32(bits2.hi, this.buf, this.pos + 4);
+        this.pos += 8;
+        return this;
       };
       Writer2.prototype.sfixed64 = Writer2.prototype.fixed64;
       Writer2.prototype.float = function write_float(value) {
-        return this._push(util.float.writeFloatLE, 4, value);
+        this._reserve(4);
+        util.float.writeFloatLE(value, this.buf, this.pos);
+        this.pos += 4;
+        return this;
       };
       Writer2.prototype.double = function write_double(value) {
-        return this._push(util.float.writeDoubleLE, 8, value);
-      };
-      var writeBytes = util.Array.prototype.set ? function writeBytes_set(val, buf, pos) {
-        buf.set(val, pos);
-      } : function writeBytes_for(val, buf, pos) {
-        for (var i = 0; i < val.length; ++i)
-          buf[pos + i] = val[i];
+        this._reserve(8);
+        util.float.writeDoubleLE(value, this.buf, this.pos);
+        this.pos += 8;
+        return this;
       };
       Writer2.prototype.bytes = function write_bytes(value) {
         var len = value.length >>> 0;
-        if (!len)
-          return this._push(writeByte, 1, 0);
+        if (!len) {
+          this._reserve(1);
+          this.buf[this.pos++] = 0;
+          return this;
+        }
         if (util.isString(value)) {
           var buf = Writer2.alloc(len = base642.length(value));
           base642.decode(value, buf, 0);
           value = buf;
         }
-        return this.uint32(len)._push(writeBytes, len, value);
+        this.uint32(len);
+        this._reserve(len);
+        this.buf.set(value, this.pos);
+        this.pos += len;
+        return this;
+      };
+      Writer2.prototype.raw = function write_raw(value) {
+        var len = value.length >>> 0;
+        if (!len)
+          return this;
+        this._reserve(len);
+        this.buf.set(value, this.pos);
+        this.pos += len;
+        return this;
+      };
+      Writer2.prototype._delim = function _delim(pos, len) {
+        var n = sizeVarint32(len);
+        if (n > 1)
+          this.buf.copyWithin(pos + n, pos + 1, pos + 1 + len);
+        writeVarint32(len, this.buf, pos);
+        this.pos = pos + n + len;
+        return this;
       };
       Writer2.prototype.string = function write_string(value) {
+        var n = value.length;
+        if (!n) {
+          this._reserve(1);
+          this.buf[this.pos++] = 0;
+          return this;
+        }
+        if (n < 128) {
+          this._reserve(n * 3 + 5);
+          var lenPos = this.pos;
+          return this._delim(lenPos, utf8.write(value, this.buf, lenPos + 1));
+        }
         var len = utf8.length(value);
-        return len ? this.uint32(len)._push(utf8.write, len, value) : this._push(writeByte, 1, 0);
+        this.uint32(len);
+        this._reserve(len);
+        if (len === value.length)
+          writeStringAscii(value, this.buf, this.pos);
+        else
+          utf8.write(value, this.buf, this.pos);
+        this.pos += len;
+        return this;
+      };
+      Writer2.prototype.uint32s = function write_uint32s(value) {
+        var n = value.length;
+        this._reserve(n * 5 + 5);
+        var buf = this.buf, lenPos = this.pos, p = lenPos + 1;
+        for (var i2 = 0; i2 < n; ++i2)
+          p = writeVarint32(value[i2] >>> 0, buf, p);
+        return this._delim(lenPos, p - lenPos - 1);
+      };
+      Writer2.prototype.int32s = function write_int32s(value) {
+        var n = value.length;
+        this._reserve(n * 10 + 5);
+        var buf = this.buf, lenPos = this.pos, pos = lenPos + 1, val;
+        for (var i2 = 0; i2 < n; ++i2) {
+          if ((val = value[i2] | 0) < 0) {
+            pos = writeVarint64(LongBits.fromNumber(val), buf, pos);
+          } else {
+            pos = writeVarint32(val, buf, pos);
+          }
+        }
+        return this._delim(lenPos, pos - lenPos - 1);
+      };
+      Writer2.prototype.sint32s = function write_sint32s(value) {
+        var n = value.length;
+        this._reserve(n * 5 + 5);
+        var buf = this.buf, lenPos = this.pos, pos = lenPos + 1;
+        for (var i2 = 0; i2 < n; ++i2)
+          pos = writeVarint32((value[i2] << 1 ^ value[i2] >> 31) >>> 0, buf, pos);
+        return this._delim(lenPos, pos - lenPos - 1);
+      };
+      Writer2.prototype.uint64s = function write_uint64s(value) {
+        var n = value.length;
+        this._reserve(n * 10 + 5);
+        var buf = this.buf, lenPos = this.pos, pos = lenPos + 1;
+        for (var i2 = 0; i2 < n; ++i2) {
+          pos = writeVarint64(LongBits.from(value[i2]), buf, pos);
+        }
+        return this._delim(lenPos, pos - lenPos - 1);
+      };
+      Writer2.prototype.int64s = Writer2.prototype.uint64s;
+      Writer2.prototype.sint64s = function write_sint64s(value) {
+        var n = value.length;
+        this._reserve(n * 10 + 5);
+        var buf = this.buf, lenPos = this.pos, pos = lenPos + 1;
+        for (var i2 = 0; i2 < n; ++i2) {
+          pos = writeVarint64(LongBits.from(value[i2]).zzEncode(), buf, pos);
+        }
+        return this._delim(lenPos, pos - lenPos - 1);
+      };
+      Writer2.prototype.bools = function write_bools(value) {
+        var n = value.length;
+        this.uint32(n);
+        this._reserve(n);
+        var buf = this.buf, p = this.pos;
+        for (var i2 = 0; i2 < n; ++i2)
+          buf[p++] = value[i2] ? 1 : 0;
+        this.pos += n;
+        return this;
+      };
+      var VIEW_THRESHOLD_FLOAT = 16;
+      var VIEW_THRESHOLD_INT = 128;
+      function getLazyView(writer, count, threshold) {
+        var view = writer.view;
+        if (view || count < threshold)
+          return view;
+        var buf = writer.buf;
+        return writer.view = new DataView(buf.buffer, buf.byteOffset, buf.byteLength);
+      }
+      Writer2.prototype.fixed32s = function write_fixed32s(value) {
+        var n = value.length, bytes = n * 4;
+        this.uint32(bytes);
+        this._reserve(bytes);
+        var p = this.pos, i2, dv = getLazyView(this, n, VIEW_THRESHOLD_INT);
+        if (dv)
+          for (i2 = 0; i2 < n; ++i2) {
+            dv.setUint32(p, value[i2] >>> 0, true);
+            p += 4;
+          }
+        else {
+          var buf = this.buf;
+          for (i2 = 0; i2 < n; ++i2) {
+            writeFixed32(value[i2] >>> 0, buf, p);
+            p += 4;
+          }
+        }
+        this.pos += bytes;
+        return this;
+      };
+      Writer2.prototype.sfixed32s = Writer2.prototype.fixed32s;
+      Writer2.prototype.fixed64s = function write_fixed64s(value) {
+        var n = value.length, bytes = n * 8;
+        this.uint32(bytes);
+        this._reserve(bytes);
+        var p = this.pos, i2, bits2, dv = getLazyView(this, n, VIEW_THRESHOLD_INT);
+        if (dv)
+          for (i2 = 0; i2 < n; ++i2) {
+            bits2 = LongBits.from(value[i2]);
+            dv.setUint32(p, bits2.lo, true);
+            dv.setUint32(p + 4, bits2.hi, true);
+            p += 8;
+          }
+        else {
+          var buf = this.buf;
+          for (i2 = 0; i2 < n; ++i2) {
+            bits2 = LongBits.from(value[i2]);
+            writeFixed32(bits2.lo, buf, p);
+            writeFixed32(bits2.hi, buf, p + 4);
+            p += 8;
+          }
+        }
+        this.pos += bytes;
+        return this;
+      };
+      Writer2.prototype.sfixed64s = Writer2.prototype.fixed64s;
+      Writer2.prototype.floats = function write_floats(value) {
+        var n = value.length, bytes = n * 4;
+        this.uint32(bytes);
+        this._reserve(bytes);
+        var p = this.pos, i2, dv = getLazyView(this, n, VIEW_THRESHOLD_FLOAT);
+        if (dv)
+          for (i2 = 0; i2 < n; ++i2) {
+            dv.setFloat32(p, value[i2], true);
+            p += 4;
+          }
+        else {
+          var buf = this.buf;
+          for (i2 = 0; i2 < n; ++i2) {
+            util.float.writeFloatLE(value[i2], buf, p);
+            p += 4;
+          }
+        }
+        this.pos += bytes;
+        return this;
+      };
+      Writer2.prototype.doubles = function write_doubles(value) {
+        var n = value.length, bytes = n * 8;
+        this.uint32(bytes);
+        this._reserve(bytes);
+        var p = this.pos, i2, dv = getLazyView(this, n, VIEW_THRESHOLD_FLOAT);
+        if (dv)
+          for (i2 = 0; i2 < n; ++i2) {
+            dv.setFloat64(p, value[i2], true);
+            p += 8;
+          }
+        else {
+          var buf = this.buf;
+          for (i2 = 0; i2 < n; ++i2) {
+            util.float.writeDoubleLE(value[i2], buf, p);
+            p += 8;
+          }
+        }
+        this.pos += bytes;
+        return this;
       };
       Writer2.prototype.fork = function fork() {
-        this.states = new State(this);
-        this.head = this.tail = new Op(noop, 0, 0);
-        this.len = 0;
+        this._reserve(1);
+        (this.states || (this.states = [])).push(this.pos);
+        this.pos += 1;
         return this;
       };
       Writer2.prototype.reset = function reset() {
-        if (this.states) {
-          this.head = this.states.head;
-          this.tail = this.states.tail;
-          this.len = this.states.len;
-          this.states = this.states.next;
+        var states = this.states;
+        if (states && states.length) {
+          this.pos = states.pop();
         } else {
-          this.head = this.tail = new Op(noop, 0, 0);
-          this.len = 0;
+          this.pos = 0;
         }
         return this;
       };
       Writer2.prototype.ldelim = function ldelim() {
-        var head = this.head, tail = this.tail, len = this.len;
-        this.reset().uint32(len);
-        if (len) {
-          this.tail.next = head.next;
-          this.tail = tail;
-          this.len += len;
+        var states = this.states, len, vlen;
+        if (states && states.length) {
+          var lenPos = states.pop();
+          len = this.pos - lenPos - 1;
+          vlen = sizeVarint32(len);
+          if (vlen > 1) {
+            this._reserve(vlen - 1);
+            this.buf.copyWithin(lenPos + vlen, lenPos + 1, lenPos + 1 + len);
+            this.pos += vlen - 1;
+            writeVarint32(len, this.buf, lenPos);
+          } else {
+            this.buf[lenPos] = len;
+          }
+        } else {
+          len = this.pos;
+          vlen = sizeVarint32(len);
+          this._reserve(vlen);
+          this.buf.copyWithin(vlen, 0, len);
+          writeVarint32(len, this.buf, 0);
+          this.pos += vlen;
         }
         return this;
       };
-      Writer2.prototype.finish = function finish() {
-        var head = this.head.next, buf = this.constructor.alloc(this.len), pos = 0;
-        while (head) {
-          head.fn(head.val, buf, pos);
-          pos += head.len;
-          head = head.next;
-        }
+      Writer2.prototype.finish = function finish(shared) {
+        if (shared)
+          return this.buf.subarray(0, this.pos);
+        var buf = this.constructor.alloc(this.pos);
+        buf.set(this.buf.subarray(0, this.pos), 0);
+        return buf;
+      };
+      Writer2.prototype.finishInto = function finishInto(buf, offset3) {
+        if (offset3 === void 0)
+          offset3 = 0;
+        buf.set(this.buf.subarray(0, this.pos), offset3);
         return buf;
       };
       Writer2._configure = function(BufferWriter_) {
@@ -1397,49 +2695,64 @@ const MODULES = `
 
   // node_modules/protobufjs/src/writer_buffer.js
   var require_writer_buffer = __commonJS({
-    "node_modules/protobufjs/src/writer_buffer.js"(exports2, module2) {
+    "node_modules/protobufjs/src/writer_buffer.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = BufferWriter;
+      module.exports = BufferWriter;
       var Writer2 = require_writer();
-      (BufferWriter.prototype = Object.create(Writer2.prototype)).constructor = BufferWriter;
+      BufferWriter.prototype = Object.create(Writer2.prototype, {
+        constructor: {
+          value: BufferWriter,
+          writable: true,
+          enumerable: false,
+          configurable: true
+        }
+      });
       var util = require_minimal();
       function BufferWriter() {
         Writer2.call(this);
       }
+      var writeStringBuffer;
       BufferWriter._configure = function() {
-        BufferWriter.alloc = util._Buffer_allocUnsafe;
-        BufferWriter.writeBytesBuffer = util.Buffer && util.Buffer.prototype instanceof Uint8Array && util.Buffer.prototype.set.name === "set" ? function writeBytesBuffer_set(val, buf, pos) {
-          buf.set(val, pos);
-        } : function writeBytesBuffer_copy(val, buf, pos) {
-          if (val.copy)
-            val.copy(buf, pos, 0, val.length);
-          else for (var i = 0; i < val.length; )
-            buf[pos++] = val[i++];
+        BufferWriter.alloc = util.Buffer && util.Buffer.allocUnsafe;
+        writeStringBuffer = util.Buffer && util.Buffer.prototype.utf8Write ? function writeStringBuffer_utf8Write(val, buf, pos) {
+          return buf.utf8Write(val, pos);
+        } : function writeStringBuffer_write(val, buf, pos) {
+          return buf.write(val, pos);
         };
       };
       BufferWriter.prototype.bytes = function write_bytes_buffer(value) {
         if (util.isString(value))
-          value = util._Buffer_from(value, "base64");
+          value = util.Buffer.from(value, "base64");
         var len = value.length >>> 0;
         this.uint32(len);
-        if (len)
-          this._push(BufferWriter.writeBytesBuffer, len, value);
+        if (len) {
+          this._reserve(len);
+          this.buf.set(value, this.pos);
+          this.pos += len;
+        }
         return this;
       };
-      function writeStringBuffer(val, buf, pos) {
-        if (val.length < 40)
-          util.utf8.write(val, buf, pos);
-        else if (buf.utf8Write)
-          buf.utf8Write(val, pos);
-        else
-          buf.write(val, pos);
-      }
       BufferWriter.prototype.string = function write_string_buffer(value) {
+        var n = value.length;
+        if (!n) {
+          this._reserve(1);
+          this.buf[this.pos++] = 0;
+          return this;
+        }
+        if (n < 128) {
+          this._reserve(n * 3 + 5);
+          var pos = this.pos, buf = this.buf;
+          return this._delim(
+            pos,
+            n < 40 ? util.utf8.write(value, buf, pos + 1) : writeStringBuffer(value, buf, pos + 1)
+          );
+        }
         var len = util.Buffer.byteLength(value);
         this.uint32(len);
-        if (len)
-          this._push(writeStringBuffer, len, value);
+        this._reserve(len);
+        writeStringBuffer(value, this.buf, this.pos);
+        this.pos += len;
         return this;
       };
       BufferWriter._configure();
@@ -1448,10 +2761,10 @@ const MODULES = `
 
   // node_modules/protobufjs/src/reader.js
   var require_reader = __commonJS({
-    "node_modules/protobufjs/src/reader.js"(exports2, module2) {
+    "node_modules/protobufjs/src/reader.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = Reader2;
+      module.exports = Reader2;
       var util = require_minimal();
       var BufferReader;
       var LongBits = util.LongBits;
@@ -1463,16 +2776,16 @@ const MODULES = `
         this.buf = buffer;
         this.pos = 0;
         this.len = buffer.length;
+        this.view = null;
+        this.discardUnknown = Reader2.discardUnknown;
       }
-      var create_array = typeof Uint8Array !== "undefined" ? function create_typed_array(buffer) {
-        if (buffer instanceof Uint8Array || Array.isArray(buffer))
-          return new Reader2(buffer);
-        throw Error("illegal buffer");
-      } : function create_array2(buffer) {
+      function create_array(buffer) {
         if (Array.isArray(buffer))
+          buffer = new Uint8Array(buffer);
+        if (buffer instanceof Uint8Array)
           return new Reader2(buffer);
         throw Error("illegal buffer");
-      };
+      }
       var create = function create2() {
         return util.Buffer ? function create_buffer_setup(buffer) {
           return (Reader2.create = function create_buffer(buffer2) {
@@ -1481,28 +2794,77 @@ const MODULES = `
         } : create_array;
       };
       Reader2.create = create();
-      Reader2.prototype._slice = util.Array.prototype.subarray || /* istanbul ignore next */
-      util.Array.prototype.slice;
-      Reader2.prototype.uint32 = /* @__PURE__ */ (function read_uint32_setup() {
-        var value = 4294967295;
-        return function read_uint32() {
-          value = (this.buf[this.pos] & 127) >>> 0;
-          if (this.buf[this.pos++] < 128) return value;
-          value = (value | (this.buf[this.pos] & 127) << 7) >>> 0;
-          if (this.buf[this.pos++] < 128) return value;
-          value = (value | (this.buf[this.pos] & 127) << 14) >>> 0;
-          if (this.buf[this.pos++] < 128) return value;
-          value = (value | (this.buf[this.pos] & 127) << 21) >>> 0;
-          if (this.buf[this.pos++] < 128) return value;
-          value = (value | (this.buf[this.pos] & 15) << 28) >>> 0;
-          if (this.buf[this.pos++] < 128) return value;
-          if ((this.pos += 5) > this.len) {
-            this.pos = this.len;
-            throw indexOutOfRange(this, 10);
-          }
+      Reader2.prototype.raw = function read_raw(start, end) {
+        return this.buf.subarray(start, end);
+      };
+      Reader2.prototype.uint32 = function read_uint32() {
+        var buf = this.buf, pos = this.pos, value = (buf[pos] & 127) >>> 0;
+        if (buf[pos++] < 128) {
+          this.pos = pos;
           return value;
-        };
-      })();
+        }
+        value = (value | (buf[pos] & 127) << 7) >>> 0;
+        if (buf[pos++] < 128) {
+          this.pos = pos;
+          return value;
+        }
+        value = (value | (buf[pos] & 127) << 14) >>> 0;
+        if (buf[pos++] < 128) {
+          this.pos = pos;
+          return value;
+        }
+        value = (value | (buf[pos] & 127) << 21) >>> 0;
+        if (buf[pos++] < 128) {
+          this.pos = pos;
+          return value;
+        }
+        value = (value | (buf[pos] & 15) << 28) >>> 0;
+        if (buf[pos++] < 128) {
+          this.pos = pos;
+          return value;
+        }
+        for (var i2 = 0; i2 < 5; ++i2) {
+          if (pos >= this.len) {
+            this.pos = pos;
+            throw indexOutOfRange(this);
+          }
+          if (buf[pos++] < 128) {
+            this.pos = pos;
+            return value;
+          }
+        }
+        this.pos = pos;
+        throw Error("invalid varint encoding");
+      };
+      Reader2.prototype.tag = function read_tag() {
+        var buf = this.buf, pos = this.pos, value = (buf[pos] & 127) >>> 0;
+        if (buf[pos++] < 128) {
+          this.pos = pos;
+          return value;
+        }
+        value = (value | (buf[pos] & 127) << 7) >>> 0;
+        if (buf[pos++] < 128) {
+          this.pos = pos;
+          return value;
+        }
+        value = (value | (buf[pos] & 127) << 14) >>> 0;
+        if (buf[pos++] < 128) {
+          this.pos = pos;
+          return value;
+        }
+        value = (value | (buf[pos] & 127) << 21) >>> 0;
+        if (buf[pos++] < 128) {
+          this.pos = pos;
+          return value;
+        }
+        value = (value | (buf[pos] & 15) << 28) >>> 0;
+        if (buf[pos] < 128 && (buf[pos] & 112) === 0) {
+          this.pos = pos + 1;
+          return value;
+        }
+        this.pos = pos + 1;
+        throw Error("invalid tag encoding");
+      };
       Reader2.prototype.int32 = function read_int32() {
         return this.uint32() | 0;
       };
@@ -1512,10 +2874,10 @@ const MODULES = `
       };
       function readLongVarint() {
         var bits2 = new LongBits(0, 0);
-        var i = 0;
+        var i2 = 0;
         if (this.len - this.pos > 4) {
-          for (; i < 4; ++i) {
-            bits2.lo = (bits2.lo | (this.buf[this.pos] & 127) << i * 7) >>> 0;
+          for (; i2 < 4; ++i2) {
+            bits2.lo = (bits2.lo | (this.buf[this.pos] & 127) << i2 * 7) >>> 0;
             if (this.buf[this.pos++] < 128)
               return bits2;
           }
@@ -1523,29 +2885,28 @@ const MODULES = `
           bits2.hi = (bits2.hi | (this.buf[this.pos] & 127) >> 4) >>> 0;
           if (this.buf[this.pos++] < 128)
             return bits2;
-          i = 0;
+          i2 = 0;
         } else {
-          for (; i < 3; ++i) {
+          for (; i2 < 4; ++i2) {
             if (this.pos >= this.len)
               throw indexOutOfRange(this);
-            bits2.lo = (bits2.lo | (this.buf[this.pos] & 127) << i * 7) >>> 0;
+            bits2.lo = (bits2.lo | (this.buf[this.pos] & 127) << i2 * 7) >>> 0;
             if (this.buf[this.pos++] < 128)
               return bits2;
           }
-          bits2.lo = (bits2.lo | (this.buf[this.pos++] & 127) << i * 7) >>> 0;
-          return bits2;
+          throw indexOutOfRange(this);
         }
         if (this.len - this.pos > 4) {
-          for (; i < 5; ++i) {
-            bits2.hi = (bits2.hi | (this.buf[this.pos] & 127) << i * 7 + 3) >>> 0;
+          for (; i2 < 5; ++i2) {
+            bits2.hi = (bits2.hi | (this.buf[this.pos] & 127) << i2 * 7 + 3) >>> 0;
             if (this.buf[this.pos++] < 128)
               return bits2;
           }
         } else {
-          for (; i < 5; ++i) {
+          for (; i2 < 5; ++i2) {
             if (this.pos >= this.len)
               throw indexOutOfRange(this);
-            bits2.hi = (bits2.hi | (this.buf[this.pos] & 127) << i * 7 + 3) >>> 0;
+            bits2.hi = (bits2.hi | (this.buf[this.pos] & 127) << i2 * 7 + 3) >>> 0;
             if (this.buf[this.pos++] < 128)
               return bits2;
           }
@@ -1553,7 +2914,17 @@ const MODULES = `
         throw Error("invalid varint encoding");
       }
       Reader2.prototype.bool = function read_bool() {
-        return this.uint32() !== 0;
+        var value = false, b;
+        for (var i2 = 0; i2 < 10; ++i2) {
+          if (this.pos >= this.len)
+            throw indexOutOfRange(this);
+          b = this.buf[this.pos++];
+          if (b & 127)
+            value = true;
+          if (b < 128)
+            return value;
+        }
+        throw Error("invalid varint encoding");
       };
       function readFixed32_end(buf, end) {
         return (buf[end - 4] | buf[end - 3] << 8 | buf[end - 2] << 16 | buf[end - 1] << 24) >>> 0;
@@ -1587,22 +2958,174 @@ const MODULES = `
         this.pos += 8;
         return value;
       };
+      Reader2.prototype.uint32s = function read_uint32s(array) {
+        if (array === void 0) array = [];
+        var end = this.uint32() + this.pos;
+        while (this.pos < end)
+          array.push(this.uint32());
+        return array;
+      };
+      Reader2.prototype.int32s = function read_int32s(array) {
+        if (array === void 0) array = [];
+        var end = this.uint32() + this.pos;
+        while (this.pos < end)
+          array.push(this.int32());
+        return array;
+      };
+      Reader2.prototype.sint32s = function read_sint32s(array) {
+        if (array === void 0) array = [];
+        var end = this.uint32() + this.pos;
+        while (this.pos < end)
+          array.push(this.sint32());
+        return array;
+      };
+      Reader2.prototype.bools = function read_bools(array) {
+        if (array === void 0) array = [];
+        var end = this.uint32() + this.pos;
+        while (this.pos < end)
+          array.push(this.bool());
+        return array;
+      };
+      var VIEW_THRESHOLD_FLOAT = 8;
+      var VIEW_THRESHOLD_INT = 128;
+      function getLazyView(reader, count, threshold) {
+        var view = reader.view;
+        if (view || count < threshold)
+          return view;
+        var buf = reader.buf;
+        return reader.view = new DataView(buf.buffer, buf.byteOffset, buf.byteLength);
+      }
+      Reader2.prototype.fixed32s = function read_fixed32s(array) {
+        if (array === void 0) array = [];
+        var len = this.uint32(), end = this.pos + len;
+        if (end > this.len) throw indexOutOfRange(this, len);
+        var count = len >>> 2, i2 = array.length, pos = this.pos;
+        array.length = i2 + count;
+        var dv = getLazyView(this, count, VIEW_THRESHOLD_INT);
+        if (dv)
+          for (var k = 0; k < count; ++k, pos += 4) array[i2++] = dv.getUint32(pos, true);
+        else {
+          var buf = this.buf;
+          for (var j = 0; j < count; ++j, pos += 4) array[i2++] = readFixed32_end(buf, pos + 4);
+        }
+        this.pos = pos;
+        if (pos !== end) throw indexOutOfRange(this, 4);
+        return array;
+      };
+      Reader2.prototype.sfixed32s = function read_sfixed32s(array) {
+        if (array === void 0) array = [];
+        var len = this.uint32(), end = this.pos + len;
+        if (end > this.len) throw indexOutOfRange(this, len);
+        var count = len >>> 2, i2 = array.length, pos = this.pos;
+        array.length = i2 + count;
+        var dv = getLazyView(this, count, VIEW_THRESHOLD_INT);
+        if (dv)
+          for (var k = 0; k < count; ++k, pos += 4) array[i2++] = dv.getInt32(pos, true);
+        else {
+          var buf = this.buf;
+          for (var j = 0; j < count; ++j, pos += 4) array[i2++] = readFixed32_end(buf, pos + 4) | 0;
+        }
+        this.pos = pos;
+        if (pos !== end) throw indexOutOfRange(this, 4);
+        return array;
+      };
+      Reader2.prototype.floats = function read_floats(array) {
+        if (array === void 0) array = [];
+        var len = this.uint32(), end = this.pos + len;
+        if (end > this.len) throw indexOutOfRange(this, len);
+        var count = len >>> 2, i2 = array.length, pos = this.pos;
+        array.length = i2 + count;
+        var dv = getLazyView(this, count, VIEW_THRESHOLD_FLOAT);
+        if (dv)
+          for (var k = 0; k < count; ++k, pos += 4) array[i2++] = dv.getFloat32(pos, true);
+        else {
+          var buf = this.buf;
+          for (var j = 0; j < count; ++j, pos += 4) array[i2++] = util.float.readFloatLE(buf, pos);
+        }
+        this.pos = pos;
+        if (pos !== end) throw indexOutOfRange(this, 4);
+        return array;
+      };
+      Reader2.prototype.doubles = function read_doubles(array) {
+        if (array === void 0) array = [];
+        var len = this.uint32(), end = this.pos + len;
+        if (end > this.len) throw indexOutOfRange(this, len);
+        var count = len >>> 3, i2 = array.length, pos = this.pos;
+        array.length = i2 + count;
+        var dv = getLazyView(this, count, VIEW_THRESHOLD_FLOAT);
+        if (dv)
+          for (var k = 0; k < count; ++k, pos += 8) array[i2++] = dv.getFloat64(pos, true);
+        else {
+          var buf = this.buf;
+          for (var j = 0; j < count; ++j, pos += 8) array[i2++] = util.float.readDoubleLE(buf, pos);
+        }
+        this.pos = pos;
+        if (pos !== end) throw indexOutOfRange(this, 8);
+        return array;
+      };
+      Reader2.prototype.uint64s = function read_uint64s(array) {
+        if (array === void 0) array = [];
+        var end = this.uint32() + this.pos;
+        while (this.pos < end)
+          array.push(this.uint64());
+        return array;
+      };
+      Reader2.prototype.int64s = function read_int64s(array) {
+        if (array === void 0) array = [];
+        var end = this.uint32() + this.pos;
+        while (this.pos < end)
+          array.push(this.int64());
+        return array;
+      };
+      Reader2.prototype.sint64s = function read_sint64s(array) {
+        if (array === void 0) array = [];
+        var end = this.uint32() + this.pos;
+        while (this.pos < end)
+          array.push(this.sint64());
+        return array;
+      };
+      Reader2.prototype.fixed64s = function read_fixed64s(array) {
+        if (array === void 0) array = [];
+        var len = this.uint32(), end = this.pos + len, i2 = array.length;
+        if (end > this.len) throw indexOutOfRange(this, len);
+        var count = len >>> 3;
+        array.length = i2 + count;
+        for (var j = 0; j < count; ++j)
+          array[i2++] = this.fixed64();
+        if (this.pos !== end) throw indexOutOfRange(this, 8);
+        return array;
+      };
+      Reader2.prototype.sfixed64s = function read_sfixed64s(array) {
+        if (array === void 0) array = [];
+        var len = this.uint32(), end = this.pos + len, i2 = array.length;
+        if (end > this.len) throw indexOutOfRange(this, len);
+        var count = len >>> 3;
+        array.length = i2 + count;
+        for (var j = 0; j < count; ++j)
+          array[i2++] = this.sfixed64();
+        if (this.pos !== end) throw indexOutOfRange(this, 8);
+        return array;
+      };
       Reader2.prototype.bytes = function read_bytes() {
         var length2 = this.uint32(), start = this.pos, end = this.pos + length2;
         if (end > this.len)
           throw indexOutOfRange(this, length2);
-        this.pos += length2;
-        if (Array.isArray(this.buf))
-          return this.buf.slice(start, end);
-        if (start === end) {
-          var nativeBuffer = util.Buffer;
-          return nativeBuffer ? nativeBuffer.alloc(0) : new this.buf.constructor(0);
-        }
-        return this._slice.call(this.buf, start, end);
+        this.pos = end;
+        return this.raw(start, end);
       };
       Reader2.prototype.string = function read_string() {
-        var bytes = this.bytes();
-        return utf8.read(bytes, 0, bytes.length);
+        var length2 = this.uint32(), start = this.pos, end = this.pos + length2;
+        if (end > this.len)
+          throw indexOutOfRange(this, length2);
+        this.pos = end;
+        return utf8.read(this.buf, start, end);
+      };
+      Reader2.prototype.stringVerify = function read_string_verify() {
+        var length2 = this.uint32(), start = this.pos, end = this.pos + length2;
+        if (end > this.len)
+          throw indexOutOfRange(this, length2);
+        this.pos = end;
+        return utf8.readStrict(this.buf, start, end);
       };
       Reader2.prototype.skip = function skip(length2) {
         if (typeof length2 === "number") {
@@ -1617,7 +3140,14 @@ const MODULES = `
         }
         return this;
       };
-      Reader2.prototype.skipType = function(wireType) {
+      Reader2.recursionLimit = util.recursionLimit;
+      Reader2.discardUnknown = true;
+      Reader2.prototype.skipType = function(wireType, depth, fieldNumber) {
+        if (depth === void 0) depth = 0;
+        if (depth > Reader2.recursionLimit)
+          throw Error("max depth exceeded");
+        if (fieldNumber === 0)
+          throw Error("illegal tag: field number 0");
         switch (wireType) {
           case 0:
             this.skip();
@@ -1629,8 +3159,18 @@ const MODULES = `
             this.skip(this.uint32());
             break;
           case 3:
-            while ((wireType = this.uint32() & 7) !== 4) {
-              this.skipType(wireType);
+            while (true) {
+              var tag = this.tag();
+              var nestedField = tag >>> 3;
+              wireType = tag & 7;
+              if (!nestedField)
+                throw Error("illegal tag: field number 0");
+              if (wireType === 4) {
+                if (fieldNumber !== void 0 && nestedField !== fieldNumber)
+                  throw Error("invalid end group tag");
+                break;
+              }
+              this.skipType(wireType, depth + 1, nestedField);
             }
             break;
           case 5:
@@ -1673,12 +3213,19 @@ const MODULES = `
 
   // node_modules/protobufjs/src/reader_buffer.js
   var require_reader_buffer = __commonJS({
-    "node_modules/protobufjs/src/reader_buffer.js"(exports2, module2) {
+    "node_modules/protobufjs/src/reader_buffer.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = BufferReader;
+      module.exports = BufferReader;
       var Reader2 = require_reader();
-      (BufferReader.prototype = Object.create(Reader2.prototype)).constructor = BufferReader;
+      BufferReader.prototype = Object.create(Reader2.prototype, {
+        constructor: {
+          value: BufferReader,
+          writable: true,
+          enumerable: false,
+          configurable: true
+        }
+      });
       var util = require_minimal();
       function BufferReader(buffer) {
         Reader2.call(this, buffer);
@@ -1687,9 +3234,15 @@ const MODULES = `
         if (util.Buffer)
           BufferReader.prototype._slice = util.Buffer.prototype.slice;
       };
+      BufferReader.prototype.raw = function read_raw_buffer(start, end) {
+        return this._slice.call(this.buf, start, end);
+      };
       BufferReader.prototype.string = function read_string_buffer() {
-        var len = this.uint32();
-        return this.buf.utf8Slice ? this.buf.utf8Slice(this.pos, this.pos = Math.min(this.pos + len, this.len)) : this.buf.toString("utf-8", this.pos, this.pos = Math.min(this.pos + len, this.len));
+        var len = this.uint32(), start = this.pos, end = this.pos + len;
+        if (end > this.len)
+          throw RangeError("index out of range: " + this.pos + " + " + len + " > " + this.len);
+        this.pos = end;
+        return this.buf.utf8Slice ? this.buf.utf8Slice(start, end) : this.buf.toString("utf-8", start, end);
       };
       BufferReader._configure();
     }
@@ -1697,12 +3250,19 @@ const MODULES = `
 
   // node_modules/protobufjs/src/rpc/service.js
   var require_service = __commonJS({
-    "node_modules/protobufjs/src/rpc/service.js"(exports2, module2) {
+    "node_modules/protobufjs/src/rpc/service.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = Service;
+      module.exports = Service;
       var util = require_minimal();
-      (Service.prototype = Object.create(util.EventEmitter.prototype)).constructor = Service;
+      Service.prototype = Object.create(util.EventEmitter.prototype, {
+        constructor: {
+          value: Service,
+          writable: true,
+          enumerable: false,
+          configurable: true
+        }
+      });
       function Service(rpcImpl, requestDelimited, responseDelimited) {
         if (typeof rpcImpl !== "function")
           throw TypeError("rpcImpl must be a function");
@@ -1773,53 +3333,65 @@ const MODULES = `
 
   // node_modules/protobufjs/src/rpc.js
   var require_rpc = __commonJS({
-    "node_modules/protobufjs/src/rpc.js"(exports2) {
+    "node_modules/protobufjs/src/rpc.js"(exports) {
       "use strict";
       init_tampermonkey();
-      var rpc = exports2;
+      var rpc = exports;
       rpc.Service = require_service();
     }
   });
 
   // node_modules/protobufjs/src/roots.js
   var require_roots = __commonJS({
-    "node_modules/protobufjs/src/roots.js"(exports2, module2) {
+    "node_modules/protobufjs/src/roots.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = {};
+      module.exports = /* @__PURE__ */ Object.create(null);
     }
   });
 
   // node_modules/protobufjs/src/index-minimal.js
   var require_index_minimal = __commonJS({
-    "node_modules/protobufjs/src/index-minimal.js"(exports2) {
+    "node_modules/protobufjs/src/index-minimal.js"(exports) {
       "use strict";
       init_tampermonkey();
-      var protobuf = exports2;
-      protobuf.build = "minimal";
-      protobuf.Writer = require_writer();
-      protobuf.BufferWriter = require_writer_buffer();
-      protobuf.Reader = require_reader();
-      protobuf.BufferReader = require_reader_buffer();
-      protobuf.util = require_minimal();
-      protobuf.rpc = require_rpc();
-      protobuf.roots = require_roots();
-      protobuf.configure = configure;
+      exports.build = "minimal";
+      exports.Writer = require_writer();
+      exports.BufferWriter = require_writer_buffer();
+      exports.Reader = require_reader();
+      exports.BufferReader = require_reader_buffer();
+      exports.util = require_minimal();
+      exports.rpc = require_rpc();
+      exports.roots = require_roots();
+      exports.configure = configure;
       function configure() {
-        protobuf.util._configure();
-        protobuf.Writer._configure(protobuf.BufferWriter);
-        protobuf.Reader._configure(protobuf.BufferReader);
+        exports.Writer._configure(exports.BufferWriter);
+        exports.Reader._configure(exports.BufferReader);
       }
       configure();
     }
   });
 
-  // node_modules/@protobufjs/codegen/index.js
-  var require_codegen = __commonJS({
-    "node_modules/@protobufjs/codegen/index.js"(exports2, module2) {
+  // node_modules/protobufjs/src/util/patterns.js
+  var require_patterns = __commonJS({
+    "node_modules/protobufjs/src/util/patterns.js"(exports) {
       "use strict";
       init_tampermonkey();
-      module2.exports = codegen;
+      var patterns = exports;
+      patterns.numberRe = /^(?![eE])[0-9]*(?:\\.[0-9]*)?(?:[eE][+-]?[0-9]+)?\$/;
+      patterns.typeRefRe = /^(?:\\.?[a-zA-Z_][a-zA-Z_0-9]*)(?:\\.[a-zA-Z_][a-zA-Z_0-9]*)*\$/;
+      patterns.reservedRe = /^(?:do|if|in|for|let|new|try|var|case|else|enum|eval|false|null|this|true|void|with|break|catch|class|const|super|throw|while|yield|delete|export|import|public|return|static|switch|typeof|default|extends|finally|package|private|continue|debugger|function|arguments|interface|protected|implements|instanceof)\$/;
+    }
+  });
+
+  // node_modules/protobufjs/src/util/codegen.js
+  var require_codegen = __commonJS({
+    "node_modules/protobufjs/src/util/codegen.js"(exports, module) {
+      "use strict";
+      init_tampermonkey();
+      module.exports = codegen;
+      var patterns = require_patterns();
+      var reservedRe = patterns.reservedRe;
       function codegen(functionParams, functionName) {
         if (typeof functionParams === "string") {
           functionName = functionParams;
@@ -1868,24 +3440,61 @@ const MODULES = `
           return Codegen;
         }
         function toString2(functionNameOverride) {
-          return "function " + (functionNameOverride || functionName || "") + "(" + (functionParams && functionParams.join(",") || "") + "){\\n  " + body.join("\\n  ") + "\\n}";
+          return "function " + safeFunctionName(functionNameOverride || functionName) + "(" + (functionParams && functionParams.join(",") || "") + "){\\n  " + body.join("\\n  ") + "\\n}";
         }
-        Codegen.toString = toString2;
+        Object.defineProperty(Codegen, "toString", {
+          value: toString2,
+          writable: true,
+          enumerable: true,
+          configurable: true
+        });
         return Codegen;
       }
       codegen.verbose = false;
+      function safeFunctionName(name) {
+        if (!name)
+          return "";
+        name = String(name).replace(/[^\\w\$]/g, "");
+        if (!name)
+          return "";
+        if (/^\\d/.test(name))
+          name = "_" + name;
+        return reservedRe.test(name) ? name + "_" : name;
+      }
     }
   });
 
-  // node_modules/@protobufjs/fetch/index.js
-  var require_fetch = __commonJS({
-    "node_modules/@protobufjs/fetch/index.js"(exports2, module2) {
+  // (disabled):fs
+  var require_fs = __commonJS({
+    "(disabled):fs"() {
+      init_tampermonkey();
+    }
+  });
+
+  // node_modules/protobufjs/src/util/fs.js
+  var require_fs2 = __commonJS({
+    "node_modules/protobufjs/src/util/fs.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = fetch2;
+      var fs = null;
+      try {
+        fs = require_fs();
+        if (!fs || !fs.readFile || !fs.readFileSync)
+          fs = null;
+      } catch (e) {
+      }
+      module.exports = fs;
+    }
+  });
+
+  // node_modules/protobufjs/src/util/fetch.js
+  var require_fetch = __commonJS({
+    "node_modules/protobufjs/src/util/fetch.js"(exports, module) {
+      "use strict";
+      init_tampermonkey();
+      module.exports = fetch2;
       var asPromise = require_aspromise();
-      var inquire2 = require_inquire();
-      var fs = inquire2("fs");
+      var fs = require_fs2();
       function fetch2(filename, options, callback) {
         if (typeof options === "function") {
           callback = options;
@@ -1911,8 +3520,8 @@ const MODULES = `
             var buffer = xhr.response;
             if (!buffer) {
               buffer = [];
-              for (var i = 0; i < xhr.responseText.length; ++i)
-                buffer.push(xhr.responseText.charCodeAt(i) & 255);
+              for (var i2 = 0; i2 < xhr.responseText.length; ++i2)
+                buffer.push(xhr.responseText.charCodeAt(i2) & 255);
             }
             return callback(null, typeof Uint8Array !== "undefined" ? new Uint8Array(buffer) : buffer);
           }
@@ -1929,12 +3538,31 @@ const MODULES = `
     }
   });
 
-  // node_modules/@protobufjs/path/index.js
+  // node_modules/protobufjs/src/util/path.js
   var require_path = __commonJS({
-    "node_modules/@protobufjs/path/index.js"(exports2) {
+    "node_modules/protobufjs/src/util/path.js"(exports) {
       "use strict";
       init_tampermonkey();
-      var path = exports2;
+      var path = exports;
+      var urlRe = /^[a-zA-Z][a-zA-Z0-9+.-]+:\\/\\//;
+      function normalizeUrl(path2) {
+        if (typeof URL === "undefined" || !urlRe.test(path2))
+          return null;
+        try {
+          return new URL(path2).href;
+        } catch (e) {
+          return null;
+        }
+      }
+      function resolveUrl(originPath, includePath) {
+        if (typeof URL === "undefined" || !urlRe.test(originPath) || urlRe.test(includePath))
+          return null;
+        try {
+          return new URL(includePath, originPath).href;
+        } catch (e) {
+          return null;
+        }
+      }
       var isAbsolute = (
         /**
          * Tests if the specified path is absolute.
@@ -1942,7 +3570,7 @@ const MODULES = `
          * @returns {boolean} \`true\` if path is absolute
          */
         path.isAbsolute = function isAbsolute2(path2) {
-          return /^(?:\\/|\\w+:)/.test(path2);
+          return /^(?:\\/|\\w+:|\\\\\\\\\\w+)/.test(path2);
         }
       );
       var normalize = (
@@ -1952,27 +3580,39 @@ const MODULES = `
          * @returns {string} Normalized path
          */
         path.normalize = function normalize2(path2) {
+          var normalizedUrl = normalizeUrl(path2);
+          if (normalizedUrl)
+            return normalizedUrl;
+          var firstTwoCharacters = path2.substring(0, 2);
+          var uncPrefix = "";
+          if (firstTwoCharacters === "\\\\\\\\") {
+            uncPrefix = firstTwoCharacters;
+            path2 = path2.substring(2);
+          }
           path2 = path2.replace(/\\\\/g, "/").replace(/\\/{2,}/g, "/");
           var parts = path2.split("/"), absolute = isAbsolute(path2), prefix = "";
           if (absolute)
             prefix = parts.shift() + "/";
-          for (var i = 0; i < parts.length; ) {
-            if (parts[i] === "..") {
-              if (i > 0 && parts[i - 1] !== "..")
-                parts.splice(--i, 2);
+          for (var i2 = 0; i2 < parts.length; ) {
+            if (parts[i2] === "..") {
+              if (i2 > 0 && parts[i2 - 1] !== "..")
+                parts.splice(--i2, 2);
               else if (absolute)
-                parts.splice(i, 1);
+                parts.splice(i2, 1);
               else
-                ++i;
-            } else if (parts[i] === ".")
-              parts.splice(i, 1);
+                ++i2;
+            } else if (parts[i2] === ".")
+              parts.splice(i2, 1);
             else
-              ++i;
+              ++i2;
           }
-          return prefix + parts.join("/");
+          return uncPrefix + prefix + parts.join("/");
         }
       );
       path.resolve = function resolve(originPath, includePath, alreadyNormalized) {
+        var resolvedUrl = resolveUrl(originPath, includePath);
+        if (resolvedUrl)
+          return resolvedUrl;
         if (!alreadyNormalized)
           includePath = normalize(includePath);
         if (isAbsolute(includePath))
@@ -1986,42 +3626,54 @@ const MODULES = `
 
   // node_modules/protobufjs/src/namespace.js
   var require_namespace = __commonJS({
-    "node_modules/protobufjs/src/namespace.js"(exports2, module2) {
+    "node_modules/protobufjs/src/namespace.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = Namespace;
+      module.exports = Namespace;
       var ReflectionObject2 = require_object();
-      ((Namespace.prototype = Object.create(ReflectionObject2.prototype)).constructor = Namespace).className = "Namespace";
+      Namespace.prototype = Object.create(ReflectionObject2.prototype, {
+        constructor: {
+          value: Namespace,
+          writable: true,
+          enumerable: false,
+          configurable: true
+        }
+      });
+      Namespace.className = "Namespace";
       var Field2 = require_field();
       var util = require_util();
       var OneOf2 = require_oneof();
       var Type3;
       var Service;
       var Enum;
-      Namespace.fromJSON = function fromJSON(name, json) {
-        return new Namespace(name, json.options).addJSON(json.nested);
+      Namespace.fromJSON = function fromJSON(name, json, depth) {
+        if (depth === void 0)
+          depth = 0;
+        if (depth > util.recursionLimit)
+          throw Error("max depth exceeded");
+        return new Namespace(name, json.options).addJSON(json.nested, depth);
       };
       function arrayToJSON(array, toJSONOptions) {
         if (!(array && array.length))
           return void 0;
         var obj = {};
-        for (var i = 0; i < array.length; ++i)
-          obj[array[i].name] = array[i].toJSON(toJSONOptions);
+        for (var i2 = 0; i2 < array.length; ++i2)
+          obj[array[i2].name] = array[i2].toJSON(toJSONOptions);
         return obj;
       }
       Namespace.arrayToJSON = arrayToJSON;
       Namespace.isReservedId = function isReservedId(reserved, id) {
         if (reserved) {
-          for (var i = 0; i < reserved.length; ++i)
-            if (typeof reserved[i] !== "string" && reserved[i][0] <= id && reserved[i][1] > id)
+          for (var i2 = 0; i2 < reserved.length; ++i2)
+            if (typeof reserved[i2] !== "string" && reserved[i2][0] <= id && reserved[i2][1] >= id)
               return true;
         }
         return false;
       };
       Namespace.isReservedName = function isReservedName(reserved, name) {
         if (reserved) {
-          for (var i = 0; i < reserved.length; ++i)
-            if (reserved[i] === name)
+          for (var i2 = 0; i2 < reserved.length; ++i2)
+            if (reserved[i2] === name)
               return true;
         }
         return false;
@@ -2030,16 +3682,16 @@ const MODULES = `
         ReflectionObject2.call(this, name, options);
         this.nested = void 0;
         this._nestedArray = null;
-        this._lookupCache = {};
+        this._lookupCache = /* @__PURE__ */ Object.create(null);
         this._needsRecursiveFeatureResolution = true;
         this._needsRecursiveResolve = true;
       }
       function clearCache(namespace) {
         namespace._nestedArray = null;
-        namespace._lookupCache = {};
+        namespace._lookupCache = /* @__PURE__ */ Object.create(null);
         var parent = namespace;
         while (parent = parent.parent) {
-          parent._lookupCache = {};
+          parent._lookupCache = /* @__PURE__ */ Object.create(null);
         }
         return namespace;
       }
@@ -2056,30 +3708,36 @@ const MODULES = `
           arrayToJSON(this.nestedArray, toJSONOptions)
         ]);
       };
-      Namespace.prototype.addJSON = function addJSON(nestedJson) {
+      Namespace.prototype.addJSON = function addJSON(nestedJson, depth) {
+        if (depth === void 0)
+          depth = 0;
+        if (depth > util.recursionLimit)
+          throw Error("max depth exceeded");
         var ns = this;
         if (nestedJson) {
-          for (var names = Object.keys(nestedJson), i = 0, nested; i < names.length; ++i) {
-            nested = nestedJson[names[i]];
+          for (var names = Object.keys(nestedJson), i2 = 0, nested; i2 < names.length; ++i2) {
+            nested = nestedJson[names[i2]];
             ns.add(
               // most to least likely
-              (nested.fields !== void 0 ? Type3.fromJSON : nested.values !== void 0 ? Enum.fromJSON : nested.methods !== void 0 ? Service.fromJSON : nested.id !== void 0 ? Field2.fromJSON : Namespace.fromJSON)(names[i], nested)
+              (nested.fields !== void 0 ? Type3.fromJSON : nested.values !== void 0 ? Enum.fromJSON : nested.methods !== void 0 ? Service.fromJSON : nested.id !== void 0 ? Field2.fromJSON : Namespace.fromJSON)(names[i2], nested, depth + 1)
             );
           }
         }
         return this;
       };
       Namespace.prototype.get = function get(name) {
-        return this.nested && this.nested[name] || null;
+        return this.nested && Object.prototype.hasOwnProperty.call(this.nested, name) ? this.nested[name] : null;
       };
       Namespace.prototype.getEnum = function getEnum(name) {
-        if (this.nested && this.nested[name] instanceof Enum)
+        if (this.nested && Object.prototype.hasOwnProperty.call(this.nested, name) && this.nested[name] instanceof Enum)
           return this.nested[name].values;
         throw Error("no such enum: " + name);
       };
       Namespace.prototype.add = function add(object) {
         if (!(object instanceof Field2 && object.extend !== void 0 || object instanceof Type3 || object instanceof OneOf2 || object instanceof Enum || object instanceof Service || object instanceof Namespace))
           throw TypeError("object must be a valid nested object");
+        if (object.name === "__proto__")
+          return this;
         if (!this.nested)
           this.nested = {};
         else {
@@ -2087,8 +3745,8 @@ const MODULES = `
           if (prev) {
             if (prev instanceof Namespace && object instanceof Namespace && !(prev instanceof Type3 || prev instanceof Service)) {
               var nested = prev.nestedArray;
-              for (var i = 0; i < nested.length; ++i)
-                object.add(nested[i]);
+              for (var i2 = 0; i2 < nested.length; ++i2)
+                object.add(nested[i2]);
               this.remove(prev);
               if (!this.nested)
                 this.nested = {};
@@ -2118,19 +3776,22 @@ const MODULES = `
           throw TypeError("object must be a ReflectionObject");
         if (object.parent !== this)
           throw Error(object + " is not a member of " + this);
-        delete this.nested[object.name];
+        if (!util.remove(this.nested, object, object.name))
+          throw Error(object + " is not a member of " + this);
         if (!Object.keys(this.nested).length)
           this.nested = void 0;
         object.onRemove(this);
         return clearCache(this);
       };
-      Namespace.prototype.define = function define(path, json) {
+      Namespace.prototype.define = function define2(path, json) {
         if (util.isString(path))
           path = path.split(".");
         else if (!Array.isArray(path))
           throw TypeError("illegal path");
         if (path && path.length && path[0] === "")
           throw Error("path must be relative");
+        if (path.length > util.recursionLimit)
+          throw Error("max depth exceeded");
         var ptr = this;
         while (path.length > 0) {
           var part = path.shift();
@@ -2147,14 +3808,15 @@ const MODULES = `
       };
       Namespace.prototype.resolveAll = function resolveAll() {
         if (!this._needsRecursiveResolve) return this;
-        this._resolveFeaturesRecursive(this._edition);
-        var nested = this.nestedArray, i = 0;
+        if (this._needsRecursiveFeatureResolution)
+          this._resolveFeaturesRecursive(this._edition);
+        var nested = this.nestedArray, i2 = 0;
         this.resolve();
-        while (i < nested.length)
-          if (nested[i] instanceof Namespace)
-            nested[i++].resolveAll();
+        while (i2 < nested.length)
+          if (nested[i2] instanceof Namespace)
+            nested[i2++].resolveAll();
           else
-            nested[i++].resolve();
+            nested[i2++].resolve();
         this._needsRecursiveResolve = false;
         return this;
       };
@@ -2183,11 +3845,11 @@ const MODULES = `
         var flatPath = path.join(".");
         if (path[0] === "")
           return this.root.lookup(path.slice(1), filterTypes);
-        var found = this.root._fullyQualifiedObjects && this.root._fullyQualifiedObjects["." + flatPath];
+        var found = this._lookupImpl(path, flatPath);
         if (found && (!filterTypes || filterTypes.indexOf(found.constructor) > -1)) {
           return found;
         }
-        found = this._lookupImpl(path, flatPath);
+        found = this.root._fullyQualifiedObjects && this.root._fullyQualifiedObjects["." + flatPath];
         if (found && (!filterTypes || filterTypes.indexOf(found.constructor) > -1)) {
           return found;
         }
@@ -2217,9 +3879,11 @@ const MODULES = `
             exact = found._lookupImpl(path, path.join("."));
           }
         } else {
-          for (var i = 0; i < this.nestedArray.length; ++i)
-            if (this._nestedArray[i] instanceof Namespace && (found = this._nestedArray[i]._lookupImpl(path, flatPath)))
+          for (var i2 = 0; i2 < this.nestedArray.length; ++i2)
+            if (this._nestedArray[i2] instanceof Namespace && (found = this._nestedArray[i2]._lookupImpl(path, flatPath))) {
               exact = found;
+              break;
+            }
         }
         this._lookupCache[flatPath] = exact;
         return exact;
@@ -2258,12 +3922,20 @@ const MODULES = `
 
   // node_modules/protobufjs/src/mapfield.js
   var require_mapfield = __commonJS({
-    "node_modules/protobufjs/src/mapfield.js"(exports2, module2) {
+    "node_modules/protobufjs/src/mapfield.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = MapField;
+      module.exports = MapField;
       var Field2 = require_field();
-      ((MapField.prototype = Object.create(Field2.prototype)).constructor = MapField).className = "MapField";
+      MapField.prototype = Object.create(Field2.prototype, {
+        constructor: {
+          value: MapField,
+          writable: true,
+          enumerable: false,
+          configurable: true
+        }
+      });
+      MapField.className = "MapField";
       var types = require_types();
       var util = require_util();
       function MapField(name, id, keyType, type, options, comment) {
@@ -2275,7 +3947,14 @@ const MODULES = `
         this.map = true;
       }
       MapField.fromJSON = function fromJSON(name, json) {
-        return new MapField(name, json.id, json.keyType, json.type, json.options, json.comment);
+        var field = new MapField(name, json.id, json.keyType, json.type, json.options, json.comment);
+        if (json.protoName)
+          field.protoName = json.protoName;
+        if (json.jsonName !== void 0)
+          field.jsonName = json.jsonName;
+        else if (json.options && json.options.json_name !== void 0)
+          field.jsonName = json.options.json_name;
+        return field;
       };
       MapField.prototype.toJSON = function toJSON(toJSONOptions) {
         var keepComments = toJSONOptions ? Boolean(toJSONOptions.keepComments) : false;
@@ -2288,6 +3967,10 @@ const MODULES = `
           this.id,
           "extend",
           this.extend,
+          "protoName",
+          this.protoName !== this.name ? this.protoName : void 0,
+          "jsonName",
+          this.jsonName !== util.jsonName(this.protoName || this.name) ? this.jsonName : void 0,
           "options",
           this.options,
           "comment",
@@ -2315,12 +3998,20 @@ const MODULES = `
 
   // node_modules/protobufjs/src/method.js
   var require_method = __commonJS({
-    "node_modules/protobufjs/src/method.js"(exports2, module2) {
+    "node_modules/protobufjs/src/method.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = Method;
+      module.exports = Method;
       var ReflectionObject2 = require_object();
-      ((Method.prototype = Object.create(ReflectionObject2.prototype)).constructor = Method).className = "Method";
+      Method.prototype = Object.create(ReflectionObject2.prototype, {
+        constructor: {
+          value: Method,
+          writable: true,
+          enumerable: false,
+          configurable: true
+        }
+      });
+      Method.className = "Method";
       var util = require_util();
       function Method(name, type, requestType, responseType, requestStream, responseStream, options, comment, parsedOptions) {
         if (util.isObject(requestStream)) {
@@ -2342,6 +4033,7 @@ const MODULES = `
         this.requestStream = requestStream ? true : void 0;
         this.responseType = responseType;
         this.responseStream = responseStream ? true : void 0;
+        this.path = "/" + this.name;
         this.resolvedRequestType = null;
         this.resolvedResponseType = null;
         this.comment = comment;
@@ -2375,6 +4067,13 @@ const MODULES = `
       Method.prototype.resolve = function resolve() {
         if (this.resolved)
           return this;
+        if (this.parent) {
+          var serviceName = this.parent.fullName;
+          if (serviceName.charAt(0) === ".")
+            serviceName = serviceName.substring(1);
+          this.path = "/" + serviceName + "/" + this.name;
+        } else
+          this.path = "/" + this.name;
         this.resolvedRequestType = this.parent.lookupType(this.requestType);
         this.resolvedResponseType = this.parent.lookupType(this.responseType);
         return ReflectionObject2.prototype.resolve.call(this);
@@ -2384,12 +4083,20 @@ const MODULES = `
 
   // node_modules/protobufjs/src/service.js
   var require_service2 = __commonJS({
-    "node_modules/protobufjs/src/service.js"(exports2, module2) {
+    "node_modules/protobufjs/src/service.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = Service;
+      module.exports = Service;
       var Namespace = require_namespace();
-      ((Service.prototype = Object.create(Namespace.prototype)).constructor = Service).className = "Service";
+      Service.prototype = Object.create(Namespace.prototype, {
+        constructor: {
+          value: Service,
+          writable: true,
+          enumerable: false,
+          configurable: true
+        }
+      });
+      Service.className = "Service";
       var Method = require_method();
       var util = require_util();
       var rpc = require_rpc();
@@ -2398,13 +4105,17 @@ const MODULES = `
         this.methods = {};
         this._methodsArray = null;
       }
-      Service.fromJSON = function fromJSON(name, json) {
+      Service.fromJSON = function fromJSON(name, json, depth) {
+        if (depth === void 0)
+          depth = 0;
+        if (depth > util.recursionLimit)
+          throw Error("max depth exceeded");
         var service = new Service(name, json.options);
         if (json.methods)
-          for (var names = Object.keys(json.methods), i = 0; i < names.length; ++i)
-            service.add(Method.fromJSON(names[i], json.methods[names[i]]));
+          for (var names = Object.keys(json.methods), i2 = 0; i2 < names.length; ++i2)
+            service.add(Method.fromJSON(names[i2], json.methods[names[i2]]));
         if (json.nested)
-          service.addJSON(json.nested);
+          service.addJSON(json.nested, depth);
         if (json.edition)
           service._edition = json.edition;
         service.comment = json.comment;
@@ -2438,14 +4149,14 @@ const MODULES = `
         return service;
       }
       Service.prototype.get = function get(name) {
-        return this.methods[name] || Namespace.prototype.get.call(this, name);
+        return Object.prototype.hasOwnProperty.call(this.methods, name) ? this.methods[name] : Namespace.prototype.get.call(this, name);
       };
       Service.prototype.resolveAll = function resolveAll() {
         if (!this._needsRecursiveResolve) return this;
         Namespace.prototype.resolve.call(this);
         var methods = this.methodsArray;
-        for (var i = 0; i < methods.length; ++i)
-          methods[i].resolve();
+        for (var i2 = 0; i2 < methods.length; ++i2)
+          methods[i2].resolve();
         return this;
       };
       Service.prototype._resolveFeaturesRecursive = function _resolveFeaturesRecursive(edition) {
@@ -2461,6 +4172,8 @@ const MODULES = `
         if (this.get(object.name))
           throw Error("duplicate name '" + object.name + "' in " + this);
         if (object instanceof Method) {
+          if (object.name === "__proto__")
+            return this;
           this.methods[object.name] = object;
           object.parent = this;
           return clearCache(this);
@@ -2479,14 +4192,14 @@ const MODULES = `
       };
       Service.prototype.create = function create(rpcImpl, requestDelimited, responseDelimited) {
         var rpcService = new rpc.Service(rpcImpl, requestDelimited, responseDelimited);
-        for (var i = 0, method; i < /* initializes */
-        this.methodsArray.length; ++i) {
-          var methodName = util.lcFirst((method = this._methodsArray[i]).resolve().name).replace(/[^\$\\w_]/g, "");
-          rpcService[methodName] = util.codegen(["r", "c"], util.isReserved(methodName) ? methodName + "_" : methodName)("return this.rpcCall(m,q,s,r,c)")({
-            m: method,
-            q: method.resolvedRequestType.ctor,
-            s: method.resolvedResponseType.ctor
-          });
+        for (var i2 = 0, method; i2 < /* initializes */
+        this.methodsArray.length; ++i2) {
+          var methodName = util.lcFirst((method = this._methodsArray[i2]).resolve().name).replace(/[^\$\\w_]/g, "");
+          rpcService[methodName] = /* @__PURE__ */ (function(method2, requestType, responseType) {
+            return function rpcMethod(request, callback) {
+              return rpc.Service.prototype.rpcCall.call(this, method2, requestType, responseType, request, callback);
+            };
+          })(method, method.resolvedRequestType.ctor, method.resolvedResponseType.ctor);
         }
         return rpcService;
       };
@@ -2495,15 +4208,17 @@ const MODULES = `
 
   // node_modules/protobufjs/src/message.js
   var require_message = __commonJS({
-    "node_modules/protobufjs/src/message.js"(exports2, module2) {
+    "node_modules/protobufjs/src/message.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = Message2;
+      module.exports = Message2;
       var util = require_minimal();
       function Message2(properties) {
-        if (properties)
-          for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-            this[keys[i]] = properties[keys[i]];
+        if (properties) {
+          for (var keys = Object.keys(properties), i2 = 0; i2 < keys.length; ++i2)
+            if (properties[keys[i2]] != null && keys[i2] !== "__proto__")
+              this[keys[i2]] = properties[keys[i2]];
+        }
       }
       Message2.create = function create(properties) {
         return this.\$type.create(properties);
@@ -2537,50 +4252,114 @@ const MODULES = `
 
   // node_modules/protobufjs/src/decoder.js
   var require_decoder = __commonJS({
-    "node_modules/protobufjs/src/decoder.js"(exports2, module2) {
+    "node_modules/protobufjs/src/decoder.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = decoder;
+      module.exports = decoder;
       var Enum = require_enum();
       var types = require_types();
       var util = require_util();
       function missing(field) {
         return "missing required '" + field.name + "'";
       }
+      function stringMethod(field) {
+        return field._features.utf8_validation === "VERIFY" ? "stringVerify" : "string";
+      }
+      function genPreserveUnknown(gen, ref) {
+        return gen("if(!r.discardUnknown){")('util.makeProp(m,"\$unknowns",false);')("(m.\$unknowns||(m.\$unknowns=[])).push(%s)", ref)("}");
+      }
       function decoder(mtype) {
-        var gen = util.codegen(["r", "l", "e"], mtype.name + "\$decode")("if(!(r instanceof Reader))")("r=Reader.create(r)")("var c=l===undefined?r.len:r.pos+l,m=new this.ctor" + (mtype.fieldsArray.filter(function(field2) {
-          return field2.map;
-        }).length ? ",k,value" : ""))("while(r.pos<c){")("var t=r.uint32()")("if(t===e)")("break")("switch(t>>>3){");
-        var i = 0;
-        for (; i < /* initializes */
-        mtype.fieldsArray.length; ++i) {
-          var field = mtype._fieldsArray[i].resolve(), type = field.resolvedType instanceof Enum ? "int32" : field.type, ref = "m" + util.safeProp(field.name);
-          gen("case %i: {", field.id);
+        var hasMapField = false, needsValueVar = false, i2 = 0;
+        for (; i2 < mtype.fieldsArray.length; ++i2) {
+          var pfield = mtype._fieldsArray[i2];
+          if (pfield.map)
+            hasMapField = true;
+          if (pfield.resolvedType instanceof Enum || !pfield.repeated && !pfield.map && !pfield.hasPresence)
+            needsValueVar = true;
+        }
+        var gen = util.codegen(["r", "l", "z", "q", "g"])("if(!(r instanceof Reader))")("r=Reader.create(r)")("if(q===undefined)q=0")("if(q>Reader.recursionLimit)")('throw Error("max depth exceeded")')("var c=l===undefined?r.len:r.pos+l,m=g||new C" + (hasMapField ? ",k,v" : needsValueVar ? ",v" : ""))("while(r.pos<c){")("var s=r.pos")("var t=r.tag()")("if(t===z){")("z=undefined")("break")("}");
+        if (mtype.fieldsArray.length) gen("var u=t&7")("switch(t>>>=3){");
+        for (i2 = 0; i2 < /* initializes */
+        mtype.fieldsArray.length; ++i2) {
+          var field = mtype._fieldsArray[i2].resolve(), type = field.resolvedType instanceof Enum ? "int32" : field.type, ref = "m" + util.safeProp(field.name), closed = field.resolvedType instanceof Enum && field.resolvedType._features.enum_type === "CLOSED";
           if (field.map) {
-            gen("if(%s===util.emptyObject)", ref)("%s={}", ref)("var c2 = r.uint32()+r.pos");
+            gen("case %i:{", field.id)("if(u!==2)")("break");
+            if (!closed) gen("if(%s===util.emptyObject)", ref)("%s={}", ref);
+            gen("var c2=r.uint32()+r.pos");
             if (types.defaults[field.keyType] !== void 0) gen("k=%j", types.defaults[field.keyType]);
             else gen("k=null");
-            if (types.defaults[type] !== void 0) gen("value=%j", types.defaults[type]);
-            else gen("value=null");
-            gen("while(r.pos<c2){")("var tag2=r.uint32()")("switch(tag2>>>3){")("case 1: k=r.%s(); break", field.keyType)("case 2:");
-            if (types.basic[type] === void 0) gen("value=types[%i].decode(r,r.uint32())", i);
-            else gen("value=r.%s()", type);
-            gen("break")("default:")("r.skipType(tag2&7)")("break")("}")("}");
-            if (types.long[field.keyType] !== void 0) gen('%s[typeof k==="object"?util.longToHash(k):k]=value', ref);
-            else gen("%s[k]=value", ref);
+            if (types.long[type] !== void 0) gen("v=util.Long?util.Long.fromNumber(0,%j):0", type === "uint64" || type === "fixed64");
+            else if (types.defaults[type] !== void 0) gen("v=%j", types.defaults[type]);
+            else gen("v=null");
+            gen("while(r.pos<c2){")("var t2=r.tag()")("u=t2&7")("switch(t2>>>=3){")("case 1:")("if(u!==%i)", types.mapKey[field.keyType])("break")("k=r.%s()", field.keyType === "string" ? stringMethod(field) : field.keyType)("continue")("case 2:")("if(u!==%i)", types.basic[type] === void 0 ? 2 : types.basic[type])("break");
+            if (types.basic[type] === void 0) gen("v=types[%i].decode(r,r.uint32(),undefined,q+1)", i2);
+            else gen("v=r.%s()", type === "string" ? stringMethod(field) : type);
+            gen("continue")("}")("r.skipType(u,q,t2)")("}");
+            if (closed) {
+              gen("if(types[%i].valuesById[v]===undefined){", i2);
+              genPreserveUnknown(gen, "r.raw(s,r.pos)")("continue")("}")("if(%s===util.emptyObject)", ref)("%s={}", ref);
+            }
+            var val = types.basic[type] === void 0 ? "v||new types[" + i2 + "].ctor" : "v";
+            if (types.long[field.keyType] !== void 0) gen('%s[typeof k==="object"?util.longToHash(k):k]=%s', ref, val);
+            else {
+              if (field.keyType === "string") gen('if(k==="__proto__")')("util.makeProp(%s,k)", ref);
+              gen("%s[k]=%s", ref, val);
+            }
           } else if (field.repeated) {
-            gen("if(!(%s&&%s.length))", ref, ref)("%s=[]", ref);
-            if (types.packed[type] !== void 0) gen("if((t&7)===2){")("var c2=r.uint32()+r.pos")("while(r.pos<c2)")("%s.push(r.%s())", ref, type)("}else");
-            if (types.basic[type] === void 0) gen(field.delimited ? "%s.push(types[%i].decode(r,undefined,((t&~7)|4)))" : "%s.push(types[%i].decode(r,r.uint32()))", ref, i);
-            else gen("%s.push(r.%s())", ref, type);
-          } else if (types.basic[type] === void 0) gen(field.delimited ? "%s=types[%i].decode(r,undefined,((t&~7)|4))" : "%s=types[%i].decode(r,r.uint32())", ref, i);
-          else gen("%s=r.%s()", ref, type);
-          gen("break")("}");
+            gen("case %i:", field.id)("{");
+            if (types.packed[type] !== void 0) {
+              gen("if(u===2){");
+              if (closed) {
+                gen("var c2=r.uint32()+r.pos")("while(r.pos<c2){")("s=r.pos")("v=r.%s()", type)("if(types[%i].valuesById[v]!==undefined){", i2)("if(!(%s&&%s.length))", ref, ref)("%s=[]", ref)("%s.push(v)", ref)("}else");
+                genPreserveUnknown(gen, "util.rawField(" + field.id + ",0,r.raw(s,r.pos))")("}");
+              } else gen("if(!(%s&&%s.length))", ref, ref)("%s=[]", ref)("r.%ss(%s)", type, ref);
+              gen("continue")("}");
+            }
+            gen("if(u!==%i)", types.basic[type] === void 0 ? field.delimited ? 3 : 2 : types.basic[type])("break");
+            if (!closed) gen("if(!(%s&&%s.length))", ref, ref)("%s=[]", ref);
+            if (types.basic[type] === void 0) {
+              if (field.delimited) gen("%s.push(types[%i].decode(r,undefined,%i,q+1))", ref, i2, field.id * 8 + 4);
+              else gen("%s.push(types[%i].decode(r,r.uint32(),undefined,q+1))", ref, i2);
+            } else if (closed) {
+              gen("v=r.%s()", type)("if(types[%i].valuesById[v]!==undefined){", i2)("if(!(%s&&%s.length))", ref, ref)("%s=[]", ref)("%s.push(v)", ref)("}else");
+              genPreserveUnknown(gen, "r.raw(s,r.pos)");
+            } else gen("%s.push(r.%s())", ref, type === "string" ? stringMethod(field) : type);
+          } else if (types.basic[type] === void 0) {
+            gen("case %i:{", field.id)("if(u!==%i)", field.delimited ? 3 : 2)("break");
+            if (field.delimited) gen("%s=types[%i].decode(r,undefined,%i,q+1,%s)", ref, i2, field.id * 8 + 4, ref);
+            else gen("%s=types[%i].decode(r,r.uint32(),undefined,q+1,%s)", ref, i2, ref);
+          } else if (field.hasPresence) {
+            gen("case %i:{", field.id)("if(u!==%i)", types.basic[type])("break");
+            if (closed) {
+              gen("v=r.%s()", type)("if(types[%i].valuesById[v]!==undefined){", i2)("%s=v", ref);
+              if (field.partOf) gen("m%s=%j", util.safeProp(field.partOf.name), field.name);
+              gen("}else");
+              genPreserveUnknown(gen, "r.raw(s,r.pos)");
+            } else gen("%s=r.%s()", ref, type === "string" ? stringMethod(field) : type);
+          } else {
+            gen("case %i:{", field.id)("if(u!==%i)", types.basic[type])("break");
+            if (closed) {
+              gen("v=r.%s()", type)("if(types[%i].valuesById[v]!==undefined){", i2)("if(v!==%j)", field.typeDefault)("%s=v", ref)("else")("delete %s", ref)("}else{");
+              genPreserveUnknown(gen, "r.raw(s,r.pos)")("}");
+            } else {
+              if (field.resolvedType instanceof Enum && field.typeDefault !== 0) gen("if((v=r.%s())!==%j)", type, field.typeDefault);
+              else if (type === "string") gen("if((v=r.%s()).length)", stringMethod(field));
+              else if (type === "bytes") gen("if((v=r.%s()).length)", type);
+              else if (types.long[type] !== void 0) gen('if(typeof(v=r.%s())==="object"?v.low||v.high:v!==0)', type);
+              else if (type === "double" || type === "float") gen("if(!Object.is(v=r.%s(),0))", type);
+              else gen("if(v=r.%s())", type);
+              gen("%s=v", ref)("else")("delete %s", ref);
+            }
+          }
+          if (field.partOf && !closed) gen("m%s=%j", util.safeProp(field.partOf.name), field.name);
+          gen("continue")("}");
         }
-        gen("default:")("r.skipType(t&7)")("break")("}")("}");
-        for (i = 0; i < mtype._fieldsArray.length; ++i) {
-          var rfield = mtype._fieldsArray[i];
-          if (rfield.required) gen("if(!m.hasOwnProperty(%j))", rfield.name)("throw util.ProtocolError(%j,{instance:m})", missing(rfield));
+        if (i2) gen("}");
+        gen("r.skipType(%s,q,t)", i2 ? "u" : "t&7");
+        genPreserveUnknown(gen, "r.raw(s,r.pos)")("}")("if(z!==undefined)")('throw Error("missing end group")');
+        for (i2 = 0; i2 < mtype._fieldsArray.length; ++i2) {
+          var rfield = mtype._fieldsArray[i2];
+          if (rfield.required) gen("if(!Object.hasOwnProperty.call(m,%j))", rfield.name)("throw util.ProtocolError(%j,{instance:m})", missing(rfield));
         }
         return gen("return m");
       }
@@ -2589,23 +4368,26 @@ const MODULES = `
 
   // node_modules/protobufjs/src/verifier.js
   var require_verifier = __commonJS({
-    "node_modules/protobufjs/src/verifier.js"(exports2, module2) {
+    "node_modules/protobufjs/src/verifier.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = verifier;
+      module.exports = verifier;
       var Enum = require_enum();
       var util = require_util();
       function invalid(field, expected) {
         return field.name + ": " + expected + (field.repeated && expected !== "array" ? "[]" : field.map && expected !== "object" ? "{k:" + field.keyType + "}" : "") + " expected";
       }
       function genVerifyValue(gen, field, fieldIndex, ref) {
-        if (field.resolvedType) {
-          if (field.resolvedType instanceof Enum) {
-            gen("switch(%s){", ref)("default:")("return%j", invalid(field, "enum value"));
-            for (var keys = Object.keys(field.resolvedType.values), j = 0; j < keys.length; ++j) gen("case %i:", field.resolvedType.values[keys[j]]);
-            gen("break")("}");
+        var resolvedType = field.resolvedType;
+        if (resolvedType) {
+          if (resolvedType instanceof Enum) {
+            if (resolvedType._features.enum_type === "CLOSED") {
+              gen("switch(%s){", ref)("default:")("return%j", invalid(field, "enum value"));
+              for (var keys = Object.keys(resolvedType.values), j = 0; j < keys.length; ++j) gen("case %i:", resolvedType.values[keys[j]]);
+              gen("break")("}");
+            } else gen('if(typeof %s!=="number"||(%s|0)!==%s)', ref, ref, ref)("return%j", invalid(field, "enum value"));
           } else {
-            gen("{")("var e=types[%i].verify(%s);", fieldIndex, ref)("if(e)")("return%j+e", field.name + ".")("}");
+            gen("{")("var e=types[%i].verify(%s,q+1);", fieldIndex, ref)("if(e)")("return%j+e", field.name + ".")("}");
           }
         } else {
           switch (field.type) {
@@ -2663,20 +4445,20 @@ const MODULES = `
         return gen;
       }
       function verifier(mtype) {
-        var gen = util.codegen(["m"], mtype.name + "\$verify")('if(typeof m!=="object"||m===null)')("return%j", "object expected");
+        var gen = util.codegen(["m", "q"])('if(typeof m!=="object"||m===null)')("return%j", "object expected")("if(q===undefined)q=0")("if(q>util.recursionLimit)")("return%j", "max depth exceeded");
         var oneofs = mtype.oneofsArray, seenFirstField = {};
         if (oneofs.length) gen("var p={}");
-        for (var i = 0; i < /* initializes */
-        mtype.fieldsArray.length; ++i) {
-          var field = mtype._fieldsArray[i].resolve(), ref = "m" + util.safeProp(field.name);
-          if (field.optional) gen("if(%s!=null&&m.hasOwnProperty(%j)){", ref, field.name);
+        for (var i2 = 0; i2 < /* initializes */
+        mtype.fieldsArray.length; ++i2) {
+          var field = mtype._fieldsArray[i2].resolve(), ref = "m" + util.safeProp(field.name);
+          if (field.optional) gen("if(%s!=null&&Object.hasOwnProperty.call(m,%j)){", ref, field.name);
           if (field.map) {
             gen("if(!util.isObject(%s))", ref)("return%j", invalid(field, "object"))("var k=Object.keys(%s)", ref)("for(var i=0;i<k.length;++i){");
             genVerifyKey(gen, field, "k[i]");
-            genVerifyValue(gen, field, i, ref + "[k[i]]")("}");
+            genVerifyValue(gen, field, i2, ref + "[k[i]]")("}");
           } else if (field.repeated) {
             gen("if(!Array.isArray(%s))", ref)("return%j", invalid(field, "array"))("for(var i=0;i<%s.length;++i){", ref);
-            genVerifyValue(gen, field, i, ref + "[i]")("}");
+            genVerifyValue(gen, field, i2, ref + "[i]")("}");
           } else {
             if (field.partOf) {
               var oneofProp = util.safeProp(field.partOf.name);
@@ -2684,7 +4466,7 @@ const MODULES = `
               seenFirstField[field.partOf.name] = 1;
               gen("p%s=1", oneofProp);
             }
-            genVerifyValue(gen, field, i, ref);
+            genVerifyValue(gen, field, i2, ref);
           }
           if (field.optional) gen("}");
         }
@@ -2695,27 +4477,27 @@ const MODULES = `
 
   // node_modules/protobufjs/src/converter.js
   var require_converter = __commonJS({
-    "node_modules/protobufjs/src/converter.js"(exports2) {
+    "node_modules/protobufjs/src/converter.js"(exports) {
       "use strict";
       init_tampermonkey();
-      var converter = exports2;
+      var converter = exports;
       var Enum = require_enum();
+      var types = require_types();
       var util = require_util();
-      function genValuePartial_fromObject(gen, field, fieldIndex, prop) {
-        var defaultAlreadyEmitted = false;
+      function genValuePartial_fromObject(gen, field, fieldIndex, prop, dstProp) {
         if (field.resolvedType) {
           if (field.resolvedType instanceof Enum) {
+            var dst = dstProp ? "m" + dstProp + "[m" + dstProp + ".length]" : "m" + prop;
             gen("switch(d%s){", prop);
-            for (var values = field.resolvedType.values, keys = Object.keys(values), i = 0; i < keys.length; ++i) {
-              if (values[keys[i]] === field.typeDefault && !defaultAlreadyEmitted) {
-                gen("default:")('if(typeof(d%s)==="number"){m%s=d%s;break}', prop, prop, prop);
-                if (!field.repeated) gen("break");
-                defaultAlreadyEmitted = true;
-              }
-              gen("case%j:", keys[i])("case %i:", values[keys[i]])("m%s=%j", prop, values[keys[i]])("break");
+            for (var values = field.resolvedType.values, keys = Object.keys(values), i2 = 0; i2 < keys.length; ++i2) {
+              gen("case%j:", keys[i2])("case %i:", values[keys[i2]])("%s=%j", dst, values[keys[i2]])("break");
+            }
+            gen("default:");
+            if (field.resolvedType._features.enum_type !== "CLOSED") {
+              gen('if(typeof d%s==="number"&&(d%s|0)===d%s)', prop, prop, prop)("%s=d%s", dst, prop);
             }
             gen("}");
-          } else gen('if(typeof d%s!=="object")', prop)("throw TypeError(%j)", field.fullName + ": object expected")("m%s=types[%i].fromObject(d%s)", prop, fieldIndex, prop);
+          } else gen("if(!util.isObject(d%s))", prop)("throw TypeError(%j)", field.fullName + ": object expected")("m%s=types[%i].fromObject(d%s,q+1)", prop, fieldIndex, prop);
         } else {
           var isUnsigned = false;
           switch (field.type) {
@@ -2733,16 +4515,16 @@ const MODULES = `
               gen("m%s=d%s|0", prop, prop);
               break;
             case "uint64":
+            case "fixed64":
               isUnsigned = true;
             // eslint-disable-next-line no-fallthrough
             case "int64":
             case "sint64":
-            case "fixed64":
             case "sfixed64":
-              gen("if(util.Long)")("(m%s=util.Long.fromValue(d%s)).unsigned=%j", prop, prop, isUnsigned)('else if(typeof d%s==="string")', prop)("m%s=parseInt(d%s,10)", prop, prop)('else if(typeof d%s==="number")', prop)("m%s=d%s", prop, prop)('else if(typeof d%s==="object")', prop)("m%s=new util.LongBits(d%s.low>>>0,d%s.high>>>0).toNumber(%s)", prop, prop, prop, isUnsigned ? "true" : "");
+              gen("if(util.Long)")("m%s=util.Long.fromValue(d%s,%j)", prop, prop, isUnsigned)('else if(typeof d%s==="string")', prop)("m%s=parseInt(d%s,10)", prop, prop)('else if(typeof d%s==="number")', prop)("m%s=d%s", prop, prop)('else if(typeof d%s==="object")', prop)("m%s=new util.LongBits(d%s.low>>>0,d%s.high>>>0).toNumber(%s)", prop, prop, prop, isUnsigned ? "true" : "");
               break;
             case "bytes":
-              gen('if(typeof d%s==="string")', prop)("util.base64.decode(d%s,m%s=util.newBuffer(util.base64.length(d%s)),0)", prop, prop, prop)("else if(d%s.length >= 0)", prop)("m%s=d%s", prop, prop);
+              gen('if(typeof d%s==="string")', prop)("util.base64.decode(d%s,m%s=util.newBuffer(util.base64.length(d%s)),0)", prop, prop, prop)("else if(d%s.length>=0)", prop)("m%s=d%s", prop, prop);
               break;
             case "string":
               gen("m%s=String(d%s)", prop, prop);
@@ -2756,68 +4538,85 @@ const MODULES = `
       }
       converter.fromObject = function fromObject(mtype) {
         var fields = mtype.fieldsArray;
-        var gen = util.codegen(["d"], mtype.name + "\$fromObject")("if(d instanceof this.ctor)")("return d");
-        if (!fields.length) return gen("return new this.ctor");
-        gen("var m=new this.ctor");
-        for (var i = 0; i < fields.length; ++i) {
-          var field = fields[i].resolve(), prop = util.safeProp(field.name);
+        var gen = util.codegen(["d", "q"])("if(d instanceof C)")("return d")("if(!util.isObject(d))")("throw TypeError(%j)", mtype.fullName + ": object expected")("if(q===undefined)q=0")("if(q>util.recursionLimit)")('throw Error("max depth exceeded")');
+        if (!fields.length) return gen("return new C");
+        gen("var m=new C");
+        for (var i2 = 0; i2 < fields.length; ++i2) {
+          var field = fields[i2].resolve(), prop = util.safeProp(field.name), implicitPresence = !field.hasPresence && !field.repeated && !field.map && (field.resolvedType instanceof Enum || types.basic[field.type] !== void 0);
           if (field.map) {
-            gen("if(d%s){", prop)('if(typeof d%s!=="object")', prop)("throw TypeError(%j)", field.fullName + ": object expected")("m%s={}", prop)("for(var ks=Object.keys(d%s),i=0;i<ks.length;++i){", prop);
+            gen("if(d%s){", prop)("if(!util.isObject(d%s))", prop)("throw TypeError(%j)", field.fullName + ": object expected")("m%s={}", prop)("for(var ks=Object.keys(d%s),i=0;i<ks.length;++i){", prop);
+            gen('if(ks[i]==="__proto__")')("util.makeProp(m%s,ks[i])", prop);
             genValuePartial_fromObject(
               gen,
               field,
               /* not sorted */
-              i,
+              i2,
               prop + "[ks[i]]"
             )("}")("}");
           } else if (field.repeated) {
-            gen("if(d%s){", prop)("if(!Array.isArray(d%s))", prop)("throw TypeError(%j)", field.fullName + ": array expected")("m%s=[]", prop)("for(var i=0;i<d%s.length;++i){", prop);
+            gen("if(d%s){", prop)("if(!Array.isArray(d%s))", prop)("throw TypeError(%j)", field.fullName + ": array expected");
+            if (field.resolvedType instanceof Enum) gen("m%s=[]", prop);
+            else gen("m%s=Array(d%s.length)", prop, prop);
+            gen("for(var i=0;i<d%s.length;++i){", prop);
             genValuePartial_fromObject(
               gen,
               field,
               /* not sorted */
-              i,
-              prop + "[i]"
+              i2,
+              prop + "[i]",
+              field.resolvedType instanceof Enum ? prop : void 0
             )("}")("}");
           } else {
             if (!(field.resolvedType instanceof Enum)) gen("if(d%s!=null){", prop);
+            if (implicitPresence) {
+              if (field.resolvedType instanceof Enum) gen('if(d%s!==%j&&(typeof d%s!=="string"||types[%i].values[d%s]!==%j)){', prop, field.typeDefault, prop, i2, prop, field.typeDefault);
+              else if (field.type === "string") gen('if(typeof d%s!=="string"||d%s.length){', prop, prop);
+              else if (field.type === "bytes") gen("if(d%s.length){", prop);
+              else if (field.type === "bool") gen("if(d%s){", prop);
+              else if (field.type === "double" || field.type === "float") gen("if(!Object.is(Number(d%s),0)){", prop);
+              else if (types.long[field.type] !== void 0) gen('if(typeof d%s==="object"?d%s.low||d%s.high:Number(d%s)!==0){', prop, prop, prop, prop);
+              else gen("if(Number(d%s)!==0){", prop);
+            }
             genValuePartial_fromObject(
               gen,
               field,
               /* not sorted */
-              i,
+              i2,
               prop
             );
+            if (implicitPresence) gen("}");
             if (!(field.resolvedType instanceof Enum)) gen("}");
           }
         }
         return gen("return m");
       };
-      function genValuePartial_toObject(gen, field, fieldIndex, prop) {
+      function genValuePartial_toObject(gen, field, fieldIndex, dstProp, srcProp) {
+        if (!srcProp)
+          srcProp = dstProp;
         if (field.resolvedType) {
-          if (field.resolvedType instanceof Enum) gen("d%s=o.enums===String?(types[%i].values[m%s]===undefined?m%s:types[%i].values[m%s]):m%s", prop, fieldIndex, prop, prop, fieldIndex, prop, prop);
-          else gen("d%s=types[%i].toObject(m%s,o)", prop, fieldIndex, prop);
+          if (field.resolvedType instanceof Enum) gen("d%s=o.enums===String?(types[%i].values[m%s]===undefined?m%s:types[%i].values[m%s]):m%s", dstProp, fieldIndex, srcProp, srcProp, fieldIndex, srcProp, srcProp);
+          else gen("d%s=types[%i].toObject(m%s,o,q+1)", dstProp, fieldIndex, srcProp);
         } else {
           var isUnsigned = false;
           switch (field.type) {
             case "double":
             case "float":
-              gen("d%s=o.json&&!isFinite(m%s)?String(m%s):m%s", prop, prop, prop, prop);
+              gen("d%s=o.json&&!isFinite(m%s)?String(m%s):m%s", dstProp, srcProp, srcProp, srcProp);
               break;
             case "uint64":
+            case "fixed64":
               isUnsigned = true;
             // eslint-disable-next-line no-fallthrough
             case "int64":
             case "sint64":
-            case "fixed64":
             case "sfixed64":
-              gen('if(typeof m%s==="number")', prop)("d%s=o.longs===String?String(m%s):m%s", prop, prop, prop)("else")("d%s=o.longs===String?util.Long.prototype.toString.call(m%s):o.longs===Number?new util.LongBits(m%s.low>>>0,m%s.high>>>0).toNumber(%s):m%s", prop, prop, prop, prop, isUnsigned ? "true" : "", prop);
+              gen('if(typeof BigInt!=="undefined"&&o.longs===BigInt)')('d%s=typeof m%s==="number"?BigInt(m%s):util.Long.fromBits(m%s.low>>>0,m%s.high>>>0,%j).toBigInt()', dstProp, srcProp, srcProp, srcProp, srcProp, isUnsigned)('else if(typeof m%s==="number")', srcProp)("d%s=o.longs===String?String(m%s):m%s", dstProp, srcProp, srcProp)("else")("d%s=o.longs===String?util.Long.prototype.toString.call(m%s):o.longs===Number?new util.LongBits(m%s.low>>>0,m%s.high>>>0).toNumber(%s):m%s", dstProp, srcProp, srcProp, srcProp, isUnsigned ? "true" : "", srcProp);
               break;
             case "bytes":
-              gen("d%s=o.bytes===String?util.base64.encode(m%s,0,m%s.length):o.bytes===Array?Array.prototype.slice.call(m%s):m%s", prop, prop, prop, prop, prop);
+              gen("d%s=o.bytes===String?util.base64.encode(m%s,0,m%s.length):o.bytes===Array?Array.prototype.slice.call(m%s):m%s", dstProp, srcProp, srcProp, srcProp, srcProp);
               break;
             default:
-              gen("d%s=m%s", prop, prop);
+              gen("d%s=m%s", dstProp, srcProp);
               break;
           }
         }
@@ -2827,52 +4626,57 @@ const MODULES = `
         var fields = mtype.fieldsArray.slice().sort(util.compareFieldsById);
         if (!fields.length)
           return util.codegen()("return {}");
-        var gen = util.codegen(["m", "o"], mtype.name + "\$toObject")("if(!o)")("o={}")("var d={}");
-        var repeatedFields = [], mapFields = [], normalFields = [], i = 0;
-        for (; i < fields.length; ++i)
-          if (!fields[i].partOf)
-            (fields[i].resolve().repeated ? repeatedFields : fields[i].map ? mapFields : normalFields).push(fields[i]);
+        var gen = util.codegen(["m", "o", "q"])("if(!o)")("o={}")("if(q===undefined)q=0")("if(q>util.recursionLimit)")('throw Error("max depth exceeded")')("var d={}");
+        var repeatedFields = [], mapFields = [], normalFields = [], i2 = 0;
+        for (; i2 < fields.length; ++i2)
+          if (!fields[i2].partOf)
+            (fields[i2].resolve().repeated ? repeatedFields : fields[i2].map ? mapFields : normalFields).push(fields[i2]);
         if (repeatedFields.length) {
           gen("if(o.arrays||o.defaults){");
-          for (i = 0; i < repeatedFields.length; ++i) gen("d%s=[]", util.safeProp(repeatedFields[i].name));
+          for (i2 = 0; i2 < repeatedFields.length; ++i2) gen("d%s=[]", util.safeProp(repeatedFields[i2].name));
           gen("}");
         }
         if (mapFields.length) {
           gen("if(o.objects||o.defaults){");
-          for (i = 0; i < mapFields.length; ++i) gen("d%s={}", util.safeProp(mapFields[i].name));
+          for (i2 = 0; i2 < mapFields.length; ++i2) gen("d%s={}", util.safeProp(mapFields[i2].name));
           gen("}");
         }
         if (normalFields.length) {
           gen("if(o.defaults){");
-          for (i = 0; i < normalFields.length; ++i) {
-            var field = normalFields[i], prop = util.safeProp(field.name);
+          for (i2 = 0; i2 < normalFields.length; ++i2) {
+            var field = normalFields[i2], prop = util.safeProp(field.name);
             if (field.resolvedType instanceof Enum) gen("d%s=o.enums===String?%j:%j", prop, field.resolvedType.valuesById[field.typeDefault], field.typeDefault);
-            else if (field.long) gen("if(util.Long){")("var n=new util.Long(%i,%i,%j)", field.typeDefault.low, field.typeDefault.high, field.typeDefault.unsigned)("d%s=o.longs===String?n.toString():o.longs===Number?n.toNumber():n", prop)("}else")("d%s=o.longs===String?%j:%i", prop, field.typeDefault.toString(), field.typeDefault.toNumber());
+            else if (field.long) gen("if(util.Long){")("var n=new util.Long(%i,%i,%j)", field.typeDefault.low, field.typeDefault.high, field.typeDefault.unsigned)('d%s=o.longs===String?n.toString():o.longs===Number?n.toNumber():typeof BigInt!=="undefined"&&o.longs===BigInt?n.toBigInt():n', prop)("}else")('d%s=o.longs===String?%j:typeof BigInt!=="undefined"&&o.longs===BigInt?BigInt(%j):%i', prop, field.typeDefault.toString(), field.typeDefault.toString(), field.typeDefault.toNumber());
             else if (field.bytes) {
-              var arrayDefault = "[" + Array.prototype.slice.call(field.typeDefault).join(",") + "]";
-              gen("if(o.bytes===String)d%s=%j", prop, String.fromCharCode.apply(String, field.typeDefault))("else{")("d%s=%s", prop, arrayDefault)("if(o.bytes!==Array)d%s=util.newBuffer(d%s)", prop, prop)("}");
+              var arrayDefault = Array.prototype.slice.call(field.typeDefault);
+              gen("if(o.bytes===String)d%s=%j", prop, String.fromCharCode.apply(String, field.typeDefault))("else{")("d%s=%j", prop, arrayDefault)("if(o.bytes!==Array)d%s=util.newBuffer(d%s)", prop, prop)("}");
             } else gen("d%s=%j", prop, field.typeDefault);
           }
           gen("}");
         }
         var hasKs2 = false;
-        for (i = 0; i < fields.length; ++i) {
-          var field = fields[i], index = mtype._fieldsArray.indexOf(field), prop = util.safeProp(field.name);
+        for (i2 = 0; i2 < fields.length; ++i2) {
+          var field = fields[i2], index = mtype._fieldsArray.indexOf(field), prop = util.safeProp(field.name);
           if (field.map) {
             if (!hasKs2) {
               hasKs2 = true;
               gen("var ks2");
             }
-            gen("if(m%s&&(ks2=Object.keys(m%s)).length){", prop, prop)("d%s={}", prop)("for(var j=0;j<ks2.length;++j){");
+            gen("if(m%s&&(ks2=Object.keys(m%s)).length){", prop, prop)("d%s={}", prop);
+            var longKey = types.long[field.keyType] !== void 0, srcProp = prop + "[ks2[j]]";
+            gen("for(var j=0;j<ks2.length;++j){");
+            if (longKey) gen("var k2=util.longFromKey(ks2[j],%j).toString()", field.keyType === "uint64" || field.keyType === "fixed64");
+            gen('if(ks2[j]==="__proto__")')("util.makeProp(d%s,ks2[j])", prop);
             genValuePartial_toObject(
               gen,
               field,
               /* sorted */
               index,
-              prop + "[ks2[j]]"
+              longKey ? prop + "[k2]" : srcProp,
+              srcProp
             )("}");
           } else if (field.repeated) {
-            gen("if(m%s&&m%s.length){", prop, prop)("d%s=[]", prop)("for(var j=0;j<m%s.length;++j){", prop);
+            gen("if(m%s&&m%s.length){", prop, prop)("d%s=Array(m%s.length)", prop, prop)("for(var j=0;j<m%s.length;++j){", prop);
             genValuePartial_toObject(
               gen,
               field,
@@ -2881,7 +4685,7 @@ const MODULES = `
               prop + "[j]"
             )("}");
           } else {
-            gen("if(m%s!=null&&m.hasOwnProperty(%j)){", prop, field.name);
+            gen("if(m%s!=null&&Object.hasOwnProperty.call(m,%j)){", prop, field.name);
             genValuePartial_toObject(
               gen,
               field,
@@ -2889,7 +4693,7 @@ const MODULES = `
               index,
               prop
             );
-            if (field.partOf) gen("if(o.oneofs)")("d%s=%j", util.safeProp(field.partOf.name), field.name);
+            if (field.partOf && !field.partOf.isProto3Optional) gen("if(o.oneofs)")("d%s=%j", util.safeProp(field.partOf.name), field.name);
           }
           gen("}");
         }
@@ -2900,16 +4704,17 @@ const MODULES = `
 
   // node_modules/protobufjs/src/wrappers.js
   var require_wrappers = __commonJS({
-    "node_modules/protobufjs/src/wrappers.js"(exports2) {
+    "node_modules/protobufjs/src/wrappers.js"(exports) {
       "use strict";
       init_tampermonkey();
-      var wrappers = exports2;
+      var wrappers = exports;
       var Message2 = require_message();
+      var util = require_minimal();
       wrappers[".google.protobuf.Any"] = {
-        fromObject: function(object) {
+        fromObject: function(object, depth) {
           if (object && object["@type"]) {
             var name = object["@type"].substring(object["@type"].lastIndexOf("/") + 1);
-            var type = this.lookup(name);
+            var type = this.lookup(name, [this.constructor]);
             if (type) {
               var type_url = object["@type"].charAt(0) === "." ? object["@type"].slice(1) : object["@type"];
               if (type_url.indexOf("/") === -1) {
@@ -2917,25 +4722,29 @@ const MODULES = `
               }
               return this.create({
                 type_url,
-                value: type.encode(type.fromObject(object)).finish()
+                value: type.encode(type.fromObject(object, depth === void 0 ? 1 : depth + 1)).finish()
               });
             }
           }
-          return this.fromObject(object);
+          return this.fromObject(object, depth);
         },
-        toObject: function(message, options) {
+        toObject: function(message, options, depth) {
+          if (depth === void 0)
+            depth = 0;
+          if (depth > util.recursionLimit)
+            throw Error("max depth exceeded");
           var googleApi = "type.googleapis.com/";
           var prefix = "";
           var name = "";
           if (options && options.json && message.type_url && message.value) {
             name = message.type_url.substring(message.type_url.lastIndexOf("/") + 1);
             prefix = message.type_url.substring(0, message.type_url.lastIndexOf("/") + 1);
-            var type = this.lookup(name);
+            var type = this.lookup(name, [this.constructor]);
             if (type)
-              message = type.decode(message.value);
+              message = type.decode(message.value, void 0, void 0, depth + 1);
           }
           if (!(message instanceof this.ctor) && message instanceof Message2) {
-            var object = message.\$type.toObject(message, options);
+            var object = message.\$type.toObject(message, options, depth + 1);
             var messageName = message.\$type.fullName[0] === "." ? message.\$type.fullName.slice(1) : message.\$type.fullName;
             if (prefix === "") {
               prefix = googleApi;
@@ -2944,7 +4753,7 @@ const MODULES = `
             object["@type"] = name;
             return object;
           }
-          return this.toObject(message, options);
+          return this.toObject(message, options, depth);
         }
       };
     }
@@ -2952,12 +4761,20 @@ const MODULES = `
 
   // node_modules/protobufjs/src/type.js
   var require_type = __commonJS({
-    "node_modules/protobufjs/src/type.js"(exports2, module2) {
+    "node_modules/protobufjs/src/type.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = Type3;
+      module.exports = Type3;
       var Namespace = require_namespace();
-      ((Type3.prototype = Object.create(Namespace.prototype)).constructor = Type3).className = "Type";
+      Type3.prototype = Object.create(Namespace.prototype, {
+        constructor: {
+          value: Type3,
+          writable: true,
+          enumerable: false,
+          configurable: true
+        }
+      });
+      Type3.className = "Type";
       var Enum = require_enum();
       var OneOf2 = require_oneof();
       var Field2 = require_field();
@@ -2973,6 +4790,7 @@ const MODULES = `
       var converter = require_converter();
       var wrappers = require_wrappers();
       function Type3(name, options) {
+        name = name.replace(/\\W/g, "");
         Namespace.call(this, name, options);
         this.fields = {};
         this.oneofs = void 0;
@@ -2983,6 +4801,7 @@ const MODULES = `
         this._fieldsArray = null;
         this._oneofsArray = null;
         this._ctor = null;
+        this._fieldsByJsonName = null;
       }
       Object.defineProperties(Type3.prototype, {
         /**
@@ -2996,8 +4815,8 @@ const MODULES = `
             if (this._fieldsById)
               return this._fieldsById;
             this._fieldsById = {};
-            for (var names = Object.keys(this.fields), i = 0; i < names.length; ++i) {
-              var field = this.fields[names[i]], id = field.id;
+            for (var names = Object.keys(this.fields), i2 = 0; i2 < names.length; ++i2) {
+              var field = this.fields[names[i2]], id = field.id;
               if (this._fieldsById[id])
                 throw Error("duplicate id " + id + " in " + this);
               this._fieldsById[id] = field;
@@ -3030,6 +4849,7 @@ const MODULES = `
         /**
          * The registered constructor, if any registered, otherwise a generic constructor.
          * Assigning a function replaces the internal constructor. If the function does not extend {@link Message} yet, its prototype will be setup accordingly and static methods will be populated. If it already extends {@link Message}, it will just replace the internal constructor.
+         * When assigning manually, add the type to its parent namespace/root first if fields reference other reflected types, because constructor setup resolves field defaults.
          * @name Type#ctor
          * @type {Constructor<{}>}
          */
@@ -3040,60 +4860,74 @@ const MODULES = `
           set: function(ctor) {
             var prototype = ctor.prototype;
             if (!(prototype instanceof Message2)) {
-              (ctor.prototype = new Message2()).constructor = ctor;
+              ctor.prototype = new Message2();
+              Object.defineProperty(ctor.prototype, "constructor", {
+                value: ctor,
+                writable: true,
+                enumerable: false,
+                configurable: true
+              });
               util.merge(ctor.prototype, prototype);
             }
             ctor.\$type = ctor.prototype.\$type = this;
             util.merge(ctor, Message2, true);
             this._ctor = ctor;
-            var i = 0;
-            for (; i < /* initializes */
-            this.fieldsArray.length; ++i)
-              this._fieldsArray[i].resolve();
+            delete this.decode;
+            delete this.fromObject;
+            var i2 = 0;
+            for (var field; i2 < /* initializes */
+            this.fieldsArray.length; ++i2) {
+              field = this._fieldsArray[i2].resolve();
+              ctor.prototype[field.name] = field.defaultValue;
+            }
             var ctorProperties = {};
-            for (i = 0; i < /* initializes */
-            this.oneofsArray.length; ++i)
-              ctorProperties[this._oneofsArray[i].resolve().name] = {
-                get: util.oneOfGetter(this._oneofsArray[i].oneof),
-                set: util.oneOfSetter(this._oneofsArray[i].oneof)
+            for (i2 = 0; i2 < /* initializes */
+            this.oneofsArray.length; ++i2)
+              ctorProperties[this._oneofsArray[i2].resolve().name] = {
+                get: util.oneOfGetter(this._oneofsArray[i2].oneof),
+                set: util.oneOfSetter(this._oneofsArray[i2].oneof)
               };
-            if (i)
+            if (i2)
               Object.defineProperties(ctor.prototype, ctorProperties);
           }
         }
       });
       Type3.generateConstructor = function generateConstructor(mtype) {
-        var gen = util.codegen(["p"], mtype.name);
-        for (var i = 0, field; i < mtype.fieldsArray.length; ++i)
-          if ((field = mtype._fieldsArray[i]).map) gen("this%s={}", util.safeProp(field.name));
+        var gen = util.codegen(["p"]);
+        for (var i2 = 0, field; i2 < mtype.fieldsArray.length; ++i2)
+          if ((field = mtype._fieldsArray[i2]).map) gen("this%s={}", util.safeProp(field.name));
           else if (field.repeated) gen("this%s=[]", util.safeProp(field.name));
-        return gen("if(p)for(var ks=Object.keys(p),i=0;i<ks.length;++i)if(p[ks[i]]!=null)")("this[ks[i]]=p[ks[i]]");
+        return gen('if(p)for(var ks=Object.keys(p),i=0;i<ks.length;++i)if(p[ks[i]]!=null&&ks[i]!=="__proto__")')("this[ks[i]]=p[ks[i]]");
       };
       function clearCache(type) {
-        type._fieldsById = type._fieldsArray = type._oneofsArray = null;
+        type._fieldsById = type._fieldsArray = type._oneofsArray = type._fieldsByJsonName = null;
         delete type.encode;
         delete type.decode;
         delete type.verify;
         return type;
       }
-      Type3.fromJSON = function fromJSON(name, json) {
+      Type3.fromJSON = function fromJSON(name, json, depth) {
+        if (depth === void 0)
+          depth = 0;
+        if (depth > util.nestingLimit)
+          throw Error("max depth exceeded");
         var type = new Type3(name, json.options);
         type.extensions = json.extensions;
         type.reserved = json.reserved;
-        var names = Object.keys(json.fields), i = 0;
-        for (; i < names.length; ++i)
+        var names = Object.keys(json.fields), i2 = 0;
+        for (; i2 < names.length; ++i2)
           type.add(
-            (typeof json.fields[names[i]].keyType !== "undefined" ? MapField.fromJSON : Field2.fromJSON)(names[i], json.fields[names[i]])
+            (typeof json.fields[names[i2]].keyType !== "undefined" ? MapField.fromJSON : Field2.fromJSON)(names[i2], json.fields[names[i2]])
           );
         if (json.oneofs)
-          for (names = Object.keys(json.oneofs), i = 0; i < names.length; ++i)
-            type.add(OneOf2.fromJSON(names[i], json.oneofs[names[i]]));
+          for (names = Object.keys(json.oneofs), i2 = 0; i2 < names.length; ++i2)
+            type.add(OneOf2.fromJSON(names[i2], json.oneofs[names[i2]]));
         if (json.nested)
-          for (names = Object.keys(json.nested), i = 0; i < names.length; ++i) {
-            var nested = json.nested[names[i]];
+          for (names = Object.keys(json.nested), i2 = 0; i2 < names.length; ++i2) {
+            var nested = json.nested[names[i2]];
             type.add(
               // most to least likely
-              (nested.id !== void 0 ? Field2.fromJSON : nested.fields !== void 0 ? Type3.fromJSON : nested.values !== void 0 ? Enum.fromJSON : nested.methods !== void 0 ? Service.fromJSON : Namespace.fromJSON)(names[i], nested)
+              (nested.id !== void 0 ? Field2.fromJSON : nested.fields !== void 0 ? Type3.fromJSON : nested.values !== void 0 ? Enum.fromJSON : nested.methods !== void 0 ? Service.fromJSON : Namespace.fromJSON)(names[i2], nested, depth + 1)
             );
           }
         if (json.extensions && json.extensions.length)
@@ -3139,12 +4973,12 @@ const MODULES = `
         if (!this._needsRecursiveResolve) return this;
         Namespace.prototype.resolveAll.call(this);
         var oneofs = this.oneofsArray;
-        i = 0;
-        while (i < oneofs.length)
-          oneofs[i++].resolve();
-        var fields = this.fieldsArray, i = 0;
-        while (i < fields.length)
-          fields[i++].resolve();
+        i2 = 0;
+        while (i2 < oneofs.length)
+          oneofs[i2++].resolve();
+        var fields = this.fieldsArray, i2 = 0;
+        while (i2 < fields.length)
+          fields[i2++].resolve();
         return this;
       };
       Type3.prototype._resolveFeaturesRecursive = function _resolveFeaturesRecursive(edition) {
@@ -3160,7 +4994,13 @@ const MODULES = `
         return this;
       };
       Type3.prototype.get = function get(name) {
-        return this.fields[name] || this.oneofs && this.oneofs[name] || this.nested && this.nested[name] || null;
+        if (Object.prototype.hasOwnProperty.call(this.fields, name))
+          return this.fields[name];
+        if (this.oneofs && Object.prototype.hasOwnProperty.call(this.oneofs, name))
+          return this.oneofs[name];
+        if (this.nested && Object.prototype.hasOwnProperty.call(this.nested, name))
+          return this.nested[name];
+        return null;
       };
       Type3.prototype.add = function add(object) {
         if (this.get(object.name))
@@ -3173,8 +5013,10 @@ const MODULES = `
             throw Error("duplicate id " + object.id + " in " + this);
           if (this.isReservedId(object.id))
             throw Error("id " + object.id + " is reserved in " + this);
-          if (this.isReservedName(object.name))
+          if (this.isReservedName(object.name) || object.name.charAt(0) === "\$")
             throw Error("name '" + object.name + "' is reserved in " + this);
+          if (object.name === "__proto__")
+            return this;
           if (object.parent)
             object.parent.remove(object);
           this.fields[object.name] = object;
@@ -3183,6 +5025,10 @@ const MODULES = `
           return clearCache(this);
         }
         if (object instanceof OneOf2) {
+          if (object.name.charAt(0) === "\$")
+            throw Error("name '" + object.name + "' is reserved in " + this);
+          if (object.name === "__proto__")
+            return this;
           if (!this.oneofs)
             this.oneofs = {};
           this.oneofs[object.name] = object;
@@ -3193,17 +5039,15 @@ const MODULES = `
       };
       Type3.prototype.remove = function remove(object) {
         if (object instanceof Field2 && object.extend === void 0) {
-          if (!this.fields || this.fields[object.name] !== object)
+          if (!util.remove(this.fields, object, object.name))
             throw Error(object + " is not a member of " + this);
-          delete this.fields[object.name];
           object.parent = null;
           object.onRemove(this);
           return clearCache(this);
         }
         if (object instanceof OneOf2) {
-          if (!this.oneofs || this.oneofs[object.name] !== object)
+          if (!util.remove(this.oneofs, object, object.name))
             throw Error(object + " is not a member of " + this);
-          delete this.oneofs[object.name];
           object.parent = null;
           object.onRemove(this);
           return clearCache(this);
@@ -3220,10 +5064,16 @@ const MODULES = `
         return new this.ctor(properties);
       };
       Type3.prototype.setup = function setup() {
+        var root = this.root;
+        if (root && root._needsRecursiveFeatureResolution) {
+          var edition = root._edition || this._edition;
+          if (edition)
+            root._resolveFeaturesRecursive(edition);
+        }
         var fullName = this.fullName, types = [];
-        for (var i = 0; i < /* initializes */
-        this.fieldsArray.length; ++i)
-          types.push(this._fieldsArray[i].resolve().resolvedType);
+        for (var i2 = 0; i2 < /* initializes */
+        this.fieldsArray.length; ++i2)
+          types.push(this._fieldsArray[i2].resolve().resolvedType);
         this.encode = encoder(this)({
           Writer: Writer2,
           types,
@@ -3232,7 +5082,8 @@ const MODULES = `
         this.decode = decoder(this)({
           Reader: Reader2,
           types,
-          util
+          util,
+          C: this.ctor
         });
         this.verify = verifier(this)({
           types,
@@ -3240,7 +5091,8 @@ const MODULES = `
         });
         this.fromObject = converter.fromObject(this)({
           types,
-          util
+          util,
+          C: this.ctor
         });
         this.toObject = converter.toObject(this)({
           types,
@@ -3248,22 +5100,23 @@ const MODULES = `
         });
         var wrapper = wrappers[fullName];
         if (wrapper) {
-          var originalThis = Object.create(this);
-          originalThis.fromObject = this.fromObject;
-          this.fromObject = wrapper.fromObject.bind(originalThis);
-          originalThis.toObject = this.toObject;
-          this.toObject = wrapper.toObject.bind(originalThis);
+          var wrapperThis = Object.create(this);
+          wrapperThis._ctor = this.ctor;
+          wrapperThis.fromObject = this.fromObject;
+          this.fromObject = wrapper.fromObject.bind(wrapperThis);
+          wrapperThis.toObject = this.toObject;
+          this.toObject = wrapper.toObject.bind(wrapperThis);
         }
         return this;
       };
       Type3.prototype.encode = function encode_setup(message, writer) {
-        return this.setup().encode(message, writer);
+        return this.setup().encode.apply(this, arguments);
       };
       Type3.prototype.encodeDelimited = function encodeDelimited(message, writer) {
-        return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        return this.encode(message, (writer || Writer2.create()).fork()).ldelim();
       };
       Type3.prototype.decode = function decode_setup(reader, length2) {
-        return this.setup().decode(reader, length2);
+        return this.setup().decode.apply(this, arguments);
       };
       Type3.prototype.decodeDelimited = function decodeDelimited(reader) {
         if (!(reader instanceof Reader2))
@@ -3271,13 +5124,19 @@ const MODULES = `
         return this.decode(reader, reader.uint32());
       };
       Type3.prototype.verify = function verify_setup(message) {
-        return this.setup().verify(message);
+        return this.setup().verify.apply(this, arguments);
       };
       Type3.prototype.fromObject = function fromObject(object) {
-        return this.setup().fromObject(object);
+        return this.setup().fromObject.apply(this, arguments);
       };
       Type3.prototype.toObject = function toObject2(message, options) {
-        return this.setup().toObject(message, options);
+        return this.setup().toObject.apply(this, arguments);
+      };
+      Type3.prototype.getTypeUrl = function getTypeUrl(prefix) {
+        if (prefix === void 0)
+          prefix = "type.googleapis.com";
+        var fullName = this.fullName;
+        return prefix + "/" + (fullName.charAt(0) === "." ? fullName.substring(1) : fullName);
       };
       Type3.d = function decorateType(typeName) {
         return function typeDecorator(target) {
@@ -3289,12 +5148,20 @@ const MODULES = `
 
   // node_modules/protobufjs/src/root.js
   var require_root = __commonJS({
-    "node_modules/protobufjs/src/root.js"(exports2, module2) {
+    "node_modules/protobufjs/src/root.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = Root4;
+      module.exports = Root4;
       var Namespace = require_namespace();
-      ((Root4.prototype = Object.create(Namespace.prototype)).constructor = Root4).className = "Root";
+      Root4.prototype = Object.create(Namespace.prototype, {
+        constructor: {
+          value: Root4,
+          writable: true,
+          enumerable: false,
+          configurable: true
+        }
+      });
+      Root4.className = "Root";
       var Field2 = require_field();
       var Enum = require_enum();
       var OneOf2 = require_oneof();
@@ -3309,12 +5176,16 @@ const MODULES = `
         this._edition = "proto2";
         this._fullyQualifiedObjects = {};
       }
-      Root4.fromJSON = function fromJSON(json, root) {
+      Root4.fromJSON = function fromJSON(json, root, depth) {
+        if (depth === void 0)
+          depth = 0;
+        if (depth > util.recursionLimit)
+          throw Error("max depth exceeded");
         if (!root)
           root = new Root4();
         if (json.options)
           root.setOptions(json.options);
-        return root.addJSON(json.nested).resolveAll();
+        return root.addJSON(json.nested, depth).resolveAll();
       };
       Root4.prototype.resolvePath = util.path.resolve;
       Root4.prototype.fetch = util.fetch;
@@ -3348,28 +5219,33 @@ const MODULES = `
           var idx = filename2.lastIndexOf("google/protobuf/");
           if (idx > -1) {
             var altname = filename2.substring(idx);
-            if (altname in common) return altname;
+            if (Object.prototype.hasOwnProperty.call(common, altname)) return altname;
           }
+          if (Object.prototype.hasOwnProperty.call(common, filename2)) return filename2;
           return null;
         }
-        function process(filename2, source) {
+        function process(filename2, source, depth) {
+          if (depth === void 0)
+            depth = 0;
           try {
+            if (depth > util.recursionLimit)
+              throw Error("max depth exceeded");
             if (util.isString(source) && source.charAt(0) === "{")
               source = JSON.parse(source);
             if (!util.isString(source))
               self2.setOptions(source.options).addJSON(source.nested);
             else {
               parse.filename = filename2;
-              var parsed = parse(source, self2, options), resolved2, i2 = 0;
+              var parsed = parse(source, self2, options), resolved2, i3 = 0;
               if (parsed.imports) {
-                for (; i2 < parsed.imports.length; ++i2)
-                  if (resolved2 = getBundledFileName(parsed.imports[i2]) || self2.resolvePath(filename2, parsed.imports[i2]))
-                    fetch2(resolved2);
+                for (; i3 < parsed.imports.length; ++i3)
+                  if (resolved2 = getBundledFileName(parsed.imports[i3]) || self2.resolvePath(filename2, parsed.imports[i3]))
+                    fetch2(resolved2, false, depth + 1);
               }
               if (parsed.weakImports) {
-                for (i2 = 0; i2 < parsed.weakImports.length; ++i2)
-                  if (resolved2 = getBundledFileName(parsed.weakImports[i2]) || self2.resolvePath(filename2, parsed.weakImports[i2]))
-                    fetch2(resolved2, true);
+                for (i3 = 0; i3 < parsed.weakImports.length; ++i3)
+                  if (resolved2 = getBundledFileName(parsed.weakImports[i3]) || self2.resolvePath(filename2, parsed.weakImports[i3]))
+                    fetch2(resolved2, true, depth + 1);
               }
             }
           } catch (err2) {
@@ -3379,20 +5255,22 @@ const MODULES = `
             finish(null, self2);
           }
         }
-        function fetch2(filename2, weak) {
+        function fetch2(filename2, weak, depth) {
+          if (depth === void 0)
+            depth = 0;
           filename2 = getBundledFileName(filename2) || filename2;
           if (self2.files.indexOf(filename2) > -1) {
             return;
           }
           self2.files.push(filename2);
-          if (filename2 in common) {
+          if (Object.prototype.hasOwnProperty.call(common, filename2)) {
             if (sync) {
-              process(filename2, common[filename2]);
+              process(filename2, common[filename2], depth);
             } else {
               ++queued;
               setTimeout(function() {
                 --queued;
-                process(filename2, common[filename2]);
+                process(filename2, common[filename2], depth);
               });
             }
             return;
@@ -3406,7 +5284,7 @@ const MODULES = `
                 finish(err2);
               return;
             }
-            process(filename2, source);
+            process(filename2, source, depth);
           } else {
             ++queued;
             self2.fetch(filename2, function(err2, source2) {
@@ -3421,7 +5299,7 @@ const MODULES = `
                   finish(null, self2);
                 return;
               }
-              process(filename2, source2);
+              process(filename2, source2, depth);
             });
           }
         }
@@ -3429,8 +5307,8 @@ const MODULES = `
         if (util.isString(filename)) {
           filename = [filename];
         }
-        for (var i = 0, resolved; i < filename.length; ++i)
-          if (resolved = self2.resolvePath("", filename[i]))
+        for (var i2 = 0, resolved; i2 < filename.length; ++i2)
+          if (resolved = self2.resolvePath("", filename[i2]))
             fetch2(resolved);
         if (sync) {
           self2.resolveAll();
@@ -3484,11 +5362,11 @@ const MODULES = `
             object.parent[object.name] = object.values;
         } else if (!(object instanceof OneOf2)) {
           if (object instanceof Type3)
-            for (var i = 0; i < this.deferred.length; )
-              if (tryHandleExtension(this, this.deferred[i]))
-                this.deferred.splice(i, 1);
+            for (var i2 = 0; i2 < this.deferred.length; )
+              if (tryHandleExtension(this, this.deferred[i2]))
+                this.deferred.splice(i2, 1);
               else
-                ++i;
+                ++i2;
           for (var j = 0; j < /* initializes */
           object.nestedArray.length; ++j)
             this._handleAdd(object._nestedArray[j]);
@@ -3521,9 +5399,9 @@ const MODULES = `
           if (exposeRe.test(object.name))
             delete object.parent[object.name];
         } else if (object instanceof Namespace) {
-          for (var i = 0; i < /* initializes */
-          object.nestedArray.length; ++i)
-            this._handleRemove(object._nestedArray[i]);
+          for (var i2 = 0; i2 < /* initializes */
+          object.nestedArray.length; ++i2)
+            this._handleRemove(object._nestedArray[i2]);
           if (exposeRe.test(object.name))
             delete object.parent[object.name];
         }
@@ -3539,17 +5417,19 @@ const MODULES = `
 
   // node_modules/protobufjs/src/util.js
   var require_util = __commonJS({
-    "node_modules/protobufjs/src/util.js"(exports2, module2) {
+    "node_modules/protobufjs/src/util.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      var util = module2.exports = require_minimal();
+      var util = module.exports = require_minimal();
       var roots = require_roots();
       var Type3;
       var Enum;
       util.codegen = require_codegen();
       util.fetch = require_fetch();
       util.path = require_path();
-      util.fs = util.inquire("fs");
+      util.patterns = require_patterns();
+      var reservedRe = util.patterns.reservedRe;
+      util.fs = require_fs2();
       util.toArray = function toArray(object) {
         if (object) {
           var keys = Object.keys(object), array = new Array(keys.length), index = 0;
@@ -3568,14 +5448,26 @@ const MODULES = `
         }
         return object;
       };
-      var safePropBackslashRe = /\\\\/g;
-      var safePropQuoteRe = /"/g;
+      util.remove = function remove(object, value, key) {
+        if (!object)
+          return false;
+        if (key !== void 0 && Object.prototype.hasOwnProperty.call(object, key) && object[key] === value) {
+          delete object[key];
+          return true;
+        }
+        for (var names = Object.keys(object), i2 = 0; i2 < names.length; ++i2)
+          if (object[names[i2]] === value) {
+            delete object[names[i2]];
+            return true;
+          }
+        return false;
+      };
       util.isReserved = function isReserved(name) {
-        return /^(?:do|if|in|for|let|new|try|var|case|else|enum|eval|false|null|this|true|void|with|break|catch|class|const|super|throw|while|yield|delete|export|import|public|return|static|switch|typeof|default|extends|finally|package|private|continue|debugger|function|arguments|interface|protected|implements|instanceof)\$/.test(name);
+        return reservedRe.test(name);
       };
       util.safeProp = function safeProp(prop) {
-        if (!/^[\$\\w_]+\$/.test(prop) || util.isReserved(prop))
-          return '["' + prop.replace(safePropBackslashRe, "\\\\\\\\").replace(safePropQuoteRe, '\\\\"') + '"]';
+        if (!/^[\$\\w_]+\$/.test(prop) || reservedRe.test(prop))
+          return "[" + JSON.stringify(prop) + "]";
         return "." + prop;
       };
       util.ucFirst = function ucFirst(str) {
@@ -3586,6 +5478,20 @@ const MODULES = `
         return str.substring(0, 1) + str.substring(1).replace(camelCaseRe, function(\$0, \$1) {
           return \$1.toUpperCase();
         });
+      };
+      util.jsonName = function jsonName(str) {
+        var result = "", upperNext = false, i2 = 0;
+        for (; i2 < str.length; ++i2) {
+          var ch = str.charAt(i2);
+          if (ch === "_")
+            upperNext = true;
+          else if (upperNext) {
+            result += ch.toUpperCase();
+            upperNext = false;
+          } else
+            result += ch;
+        }
+        return result;
       };
       util.compareFieldsById = function compareFieldsById(a, b) {
         return a.id - b.id;
@@ -3622,9 +5528,8 @@ const MODULES = `
       util.setProperty = function setProperty(dst, path, value, ifNotSet) {
         function setProp(dst2, path2, value2) {
           var part = path2.shift();
-          if (part === "__proto__" || part === "prototype") {
+          if (util.isUnsafeProperty(part))
             return dst2;
-          }
           if (path2.length > 0) {
             dst2[part] = setProp(dst2[part] || {}, path2, value2);
           } else {
@@ -3642,6 +5547,8 @@ const MODULES = `
         if (!path)
           throw TypeError("path must be specified");
         path = path.split(".");
+        if (path.length > util.recursionLimit)
+          throw Error("max depth exceeded");
         return setProp(dst, path, value);
       };
       Object.defineProperty(util, "decorateRoot", {
@@ -3654,10 +5561,10 @@ const MODULES = `
 
   // node_modules/protobufjs/src/types.js
   var require_types = __commonJS({
-    "node_modules/protobufjs/src/types.js"(exports2) {
+    "node_modules/protobufjs/src/types.js"(exports) {
       "use strict";
       init_tampermonkey();
-      var types = exports2;
+      var types = exports;
       var util = require_util();
       var s = [
         "double",
@@ -3692,9 +5599,9 @@ const MODULES = `
         // 14
       ];
       function bake(values, offset3) {
-        var i = 0, o = {};
+        var i2 = 0, o = /* @__PURE__ */ Object.create(null);
         offset3 |= 0;
-        while (i < values.length) o[s[i + offset3]] = values[i++];
+        while (i2 < values.length) o[s[i2 + offset3]] = values[i2++];
         return o;
       }
       types.basic = bake([
@@ -3834,21 +5741,35 @@ const MODULES = `
 
   // node_modules/protobufjs/src/field.js
   var require_field = __commonJS({
-    "node_modules/protobufjs/src/field.js"(exports2, module2) {
+    "node_modules/protobufjs/src/field.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = Field2;
+      module.exports = Field2;
       var ReflectionObject2 = require_object();
-      ((Field2.prototype = Object.create(ReflectionObject2.prototype)).constructor = Field2).className = "Field";
+      Field2.prototype = Object.create(ReflectionObject2.prototype, {
+        constructor: {
+          value: Field2,
+          writable: true,
+          enumerable: false,
+          configurable: true
+        }
+      });
+      Field2.className = "Field";
       var Enum = require_enum();
       var types = require_types();
       var util = require_util();
       var Type3;
-      var ruleRe = /^required|optional|repeated\$/;
+      var ruleRe = /^(?:required|optional|repeated)\$/;
       Field2.fromJSON = function fromJSON(name, json) {
         var field = new Field2(name, json.id, json.type, json.rule, json.extend, json.options, json.comment);
         if (json.edition)
           field._edition = json.edition;
+        if (json.protoName)
+          field.protoName = json.protoName;
+        if (json.jsonName !== void 0)
+          field.jsonName = json.jsonName;
+        else if (json.options && json.options.json_name !== void 0)
+          field.jsonName = json.options.json_name;
         field._defaultEdition = "proto3";
         return field;
       };
@@ -3871,9 +5792,6 @@ const MODULES = `
           throw TypeError("rule must be a string rule");
         if (extend !== void 0 && !util.isString(extend))
           throw TypeError("extend must be a string");
-        if (rule === "proto3_optional") {
-          rule = "optional";
-        }
         this.rule = rule && rule !== "optional" ? rule : void 0;
         this.type = type;
         this.id = id;
@@ -3893,6 +5811,8 @@ const MODULES = `
         this.extensionField = null;
         this.declaringField = null;
         this.comment = comment;
+        this.protoName = void 0;
+        this.jsonName = void 0;
       }
       Object.defineProperty(Field2.prototype, "required", {
         get: function() {
@@ -3940,6 +5860,10 @@ const MODULES = `
           this.id,
           "extend",
           this.extend,
+          "protoName",
+          this.protoName !== this.name ? this.protoName : void 0,
+          "jsonName",
+          this.jsonName !== util.jsonName(this.protoName || this.name) ? this.jsonName : void 0,
           "options",
           this.options,
           "comment",
@@ -3970,7 +5894,7 @@ const MODULES = `
             this.options = void 0;
         }
         if (this.long) {
-          this.typeDefault = util.Long.fromNumber(this.typeDefault, this.type.charAt(0) === "u");
+          this.typeDefault = util.Long.fromNumber(this.typeDefault, this.type === "uint64" || this.type === "fixed64");
           if (Object.freeze)
             Object.freeze(this.typeDefault);
         } else if (this.bytes && typeof this.typeDefault === "string") {
@@ -3987,8 +5911,12 @@ const MODULES = `
           this.defaultValue = util.emptyArray;
         else
           this.defaultValue = this.typeDefault;
-        if (this.parent instanceof Type3)
-          this.parent.ctor.prototype[this.name] = this.defaultValue;
+        if (this.parent instanceof Type3 && this.parent._ctor)
+          this.parent._ctor.prototype[this.name] = this.defaultValue;
+        if (this.protoName === void 0)
+          this.protoName = this.name;
+        if (this.jsonName === void 0)
+          this.jsonName = util.jsonName(this.protoName);
         return ReflectionObject2.prototype.resolve.call(this);
       };
       Field2.prototype._inferLegacyProtoFeatures = function _inferLegacyProtoFeatures(edition) {
@@ -4032,12 +5960,20 @@ const MODULES = `
 
   // node_modules/protobufjs/src/oneof.js
   var require_oneof = __commonJS({
-    "node_modules/protobufjs/src/oneof.js"(exports2, module2) {
+    "node_modules/protobufjs/src/oneof.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = OneOf2;
+      module.exports = OneOf2;
       var ReflectionObject2 = require_object();
-      ((OneOf2.prototype = Object.create(ReflectionObject2.prototype)).constructor = OneOf2).className = "OneOf";
+      OneOf2.prototype = Object.create(ReflectionObject2.prototype, {
+        constructor: {
+          value: OneOf2,
+          writable: true,
+          enumerable: false,
+          configurable: true
+        }
+      });
+      OneOf2.className = "OneOf";
       var Field2 = require_field();
       var util = require_util();
       function OneOf2(name, fieldNames, options, comment) {
@@ -4068,9 +6004,9 @@ const MODULES = `
       };
       function addFieldsToParent(oneof) {
         if (oneof.parent) {
-          for (var i = 0; i < oneof.fieldsArray.length; ++i)
-            if (!oneof.fieldsArray[i].parent)
-              oneof.parent.add(oneof.fieldsArray[i]);
+          for (var i2 = 0; i2 < oneof.fieldsArray.length; ++i2)
+            if (!oneof.fieldsArray[i2].parent)
+              oneof.parent.add(oneof.fieldsArray[i2]);
         }
       }
       OneOf2.prototype.add = function add(field) {
@@ -4100,8 +6036,8 @@ const MODULES = `
       OneOf2.prototype.onAdd = function onAdd(parent) {
         ReflectionObject2.prototype.onAdd.call(this, parent);
         var self2 = this;
-        for (var i = 0; i < this.oneof.length; ++i) {
-          var field = parent.get(this.oneof[i]);
+        for (var i2 = 0; i2 < this.oneof.length; ++i2) {
+          var field = parent.get(this.oneof[i2]);
           if (field && !field.partOf) {
             field.partOf = self2;
             self2.fieldsArray.push(field);
@@ -4110,8 +6046,8 @@ const MODULES = `
         addFieldsToParent(this);
       };
       OneOf2.prototype.onRemove = function onRemove(parent) {
-        for (var i = 0, field; i < this.fieldsArray.length; ++i)
-          if ((field = this.fieldsArray[i]).parent)
+        for (var i2 = 0, field; i2 < this.fieldsArray.length; ++i2)
+          if ((field = this.fieldsArray[i2]).parent)
             field.parent.remove(field);
         ReflectionObject2.prototype.onRemove.call(this, parent);
       };
@@ -4141,10 +6077,10 @@ const MODULES = `
 
   // node_modules/protobufjs/src/object.js
   var require_object = __commonJS({
-    "node_modules/protobufjs/src/object.js"(exports2, module2) {
+    "node_modules/protobufjs/src/object.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = ReflectionObject2;
+      module.exports = ReflectionObject2;
       ReflectionObject2.className = "ReflectionObject";
       var OneOf2 = require_oneof();
       var util = require_util();
@@ -4240,8 +6176,9 @@ const MODULES = `
         if (!edition) {
           throw new Error("Unknown edition for " + this.fullName);
         }
-        var protoFeatures = Object.assign(
-          this.options ? Object.assign({}, this.options.features) : {},
+        var protoFeatures = util.merge(
+          {},
+          this.options && this.options.features,
           this._inferLegacyProtoFeatures(edition)
         );
         if (this._edition) {
@@ -4256,19 +6193,18 @@ const MODULES = `
           } else {
             throw new Error("Unknown edition: " + edition);
           }
-          this._features = Object.assign(defaults, protoFeatures || {});
-          this._featuresResolved = true;
-          return;
-        }
-        if (this.partOf instanceof OneOf2) {
-          var lexicalParentFeaturesCopy = Object.assign({}, this.partOf._features);
-          this._features = Object.assign(lexicalParentFeaturesCopy, protoFeatures || {});
-        } else if (this.declaringField) {
-        } else if (this.parent) {
-          var parentFeaturesCopy = Object.assign({}, this.parent._features);
-          this._features = Object.assign(parentFeaturesCopy, protoFeatures || {});
+          this._features = util.merge(defaults, protoFeatures);
         } else {
-          throw new Error("Unable to find a parent for " + this.fullName);
+          if (this.partOf instanceof OneOf2) {
+            var lexicalParentFeaturesCopy = util.merge({}, this.partOf._features);
+            this._features = util.merge(lexicalParentFeaturesCopy, protoFeatures);
+          } else if (this.declaringField) {
+          } else if (this.parent) {
+            var parentFeaturesCopy = util.merge({}, this.parent._features);
+            this._features = util.merge(parentFeaturesCopy, protoFeatures);
+          } else {
+            throw new Error("Unable to find a parent for " + this.fullName);
+          }
         }
         if (this.extensionField) {
           this.extensionField._features = this._features;
@@ -4279,22 +6215,29 @@ const MODULES = `
         return {};
       };
       ReflectionObject2.prototype.getOption = function getOption(name) {
-        if (this.options)
+        if (this.options && Object.prototype.hasOwnProperty.call(this.options, name))
           return this.options[name];
         return void 0;
       };
       ReflectionObject2.prototype.setOption = function setOption(name, value, ifNotSet) {
+        if (name === "__proto__")
+          return this;
         if (!this.options)
           this.options = {};
         if (/^features\\./.test(name)) {
           util.setProperty(this.options, name, value, ifNotSet);
-        } else if (!ifNotSet || this.options[name] === void 0) {
-          if (this.getOption(name) !== value) this.resolved = false;
-          this.options[name] = value;
+        } else {
+          var prev = this.getOption(name);
+          if (!ifNotSet || prev === void 0) {
+            if (prev !== value) this.resolved = false;
+            this.options[name] = value;
+          }
         }
         return this;
       };
       ReflectionObject2.prototype.setParsedOption = function setParsedOption(name, value, propName) {
+        if (name === "__proto__")
+          return this;
         if (!this.parsedOptions) {
           this.parsedOptions = [];
         }
@@ -4320,16 +6263,21 @@ const MODULES = `
       };
       ReflectionObject2.prototype.setOptions = function setOptions(options, ifNotSet) {
         if (options)
-          for (var keys = Object.keys(options), i = 0; i < keys.length; ++i)
-            this.setOption(keys[i], options[keys[i]], ifNotSet);
+          for (var keys = Object.keys(options), i2 = 0; i2 < keys.length; ++i2)
+            this.setOption(keys[i2], options[keys[i2]], ifNotSet);
         return this;
       };
-      ReflectionObject2.prototype.toString = function toString2() {
-        var className = this.constructor.className, fullName = this.fullName;
-        if (fullName.length)
-          return className + " " + fullName;
-        return className;
-      };
+      Object.defineProperty(ReflectionObject2.prototype, "toString", {
+        value: function toString2() {
+          var className = this.constructor.className, fullName = this.fullName;
+          if (fullName.length)
+            return className + " " + fullName;
+          return className;
+        },
+        writable: true,
+        enumerable: false,
+        configurable: true
+      });
       ReflectionObject2.prototype._editionToJSON = function _editionToJSON() {
         if (!this._edition || this._edition === "proto3") {
           return void 0;
@@ -4344,19 +6292,27 @@ const MODULES = `
 
   // node_modules/protobufjs/src/enum.js
   var require_enum = __commonJS({
-    "node_modules/protobufjs/src/enum.js"(exports2, module2) {
+    "node_modules/protobufjs/src/enum.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = Enum;
+      module.exports = Enum;
       var ReflectionObject2 = require_object();
-      ((Enum.prototype = Object.create(ReflectionObject2.prototype)).constructor = Enum).className = "Enum";
+      Enum.prototype = Object.create(ReflectionObject2.prototype, {
+        constructor: {
+          value: Enum,
+          writable: true,
+          enumerable: false,
+          configurable: true
+        }
+      });
+      Enum.className = "Enum";
       var Namespace = require_namespace();
       var util = require_util();
       function Enum(name, values, options, comment, comments, valuesOptions) {
         ReflectionObject2.call(this, name, options);
         if (values && typeof values !== "object")
           throw TypeError("values must be an object");
-        this.valuesById = {};
+        this.valuesById = /* @__PURE__ */ Object.create(null);
         this.values = Object.create(this.valuesById);
         this.comment = comment;
         this.comments = comments || {};
@@ -4364,22 +6320,22 @@ const MODULES = `
         this._valuesFeatures = {};
         this.reserved = void 0;
         if (values) {
-          for (var keys = Object.keys(values), i = 0; i < keys.length; ++i)
-            if (typeof values[keys[i]] === "number")
-              this.valuesById[this.values[keys[i]] = values[keys[i]]] = keys[i];
+          for (var keys = Object.keys(values), i2 = 0; i2 < keys.length; ++i2)
+            if (keys[i2] !== "__proto__" && typeof values[keys[i2]] === "number")
+              this.valuesById[this.values[keys[i2]] = values[keys[i2]]] = keys[i2];
         }
       }
       Enum.prototype._resolveFeatures = function _resolveFeatures(edition) {
         edition = this._edition || edition;
         ReflectionObject2.prototype._resolveFeatures.call(this, edition);
         Object.keys(this.values).forEach((key) => {
-          var parentFeaturesCopy = Object.assign({}, this._features);
-          this._valuesFeatures[key] = Object.assign(parentFeaturesCopy, this.valuesOptions && this.valuesOptions[key] && this.valuesOptions[key].features);
+          var parentFeaturesCopy = util.merge({}, this._features);
+          this._valuesFeatures[key] = util.merge(parentFeaturesCopy, this.valuesOptions && this.valuesOptions[key] && this.valuesOptions[key].features || {});
         });
         return this;
       };
       Enum.fromJSON = function fromJSON(name, json) {
-        var enm = new Enum(name, json.values, json.options, json.comment, json.comments);
+        var enm = new Enum(name, json.values, json.options, json.comment, json.comments, json.valuesOptions);
         enm.reserved = json.reserved;
         if (json.edition)
           enm._edition = json.edition;
@@ -4410,6 +6366,8 @@ const MODULES = `
           throw TypeError("name must be a string");
         if (!util.isInteger(id))
           throw TypeError("id must be an integer");
+        if (name === "__proto__")
+          return this;
         if (this.values[name] !== void 0)
           throw Error("duplicate name '" + name + "' in " + this);
         if (this.isReservedId(id))
@@ -4454,35 +6412,38 @@ const MODULES = `
 
   // node_modules/protobufjs/src/encoder.js
   var require_encoder = __commonJS({
-    "node_modules/protobufjs/src/encoder.js"(exports2, module2) {
+    "node_modules/protobufjs/src/encoder.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = encoder;
+      module.exports = encoder;
       var Enum = require_enum();
       var types = require_types();
       var util = require_util();
       function genTypePartial(gen, field, fieldIndex, ref) {
-        return field.delimited ? gen("types[%i].encode(%s,w.uint32(%i)).uint32(%i)", fieldIndex, ref, (field.id << 3 | 3) >>> 0, (field.id << 3 | 4) >>> 0) : gen("types[%i].encode(%s,w.uint32(%i).fork()).ldelim()", fieldIndex, ref, (field.id << 3 | 2) >>> 0);
+        return field.delimited ? gen("types[%i].encode(%s,w.uint32(%i),q+1).uint32(%i)", fieldIndex, ref, (field.id << 3 | 3) >>> 0, (field.id << 3 | 4) >>> 0) : gen("types[%i].encode(%s,w.uint32(%i).fork(),q+1).ldelim()", fieldIndex, ref, (field.id << 3 | 2) >>> 0);
       }
       function encoder(mtype) {
-        var gen = util.codegen(["m", "w"], mtype.name + "\$encode")("if(!w)")("w=Writer.create()");
-        var i, ref;
+        var gen = util.codegen(["m", "w", "q"])("if(!w)")("w=Writer.create()")("if(q===undefined)q=0")("if(q>util.recursionLimit)")('throw Error("max depth exceeded")');
+        var i2, ref;
         var fields = (
           /* initializes */
           mtype.fieldsArray.slice().sort(util.compareFieldsById)
         );
-        for (var i = 0; i < fields.length; ++i) {
-          var field = fields[i].resolve(), index = mtype._fieldsArray.indexOf(field), type = field.resolvedType instanceof Enum ? "int32" : field.type, wireType = types.basic[type];
+        for (var i2 = 0; i2 < fields.length; ++i2) {
+          var field = fields[i2].resolve(), index = mtype._fieldsArray.indexOf(field), type = field.resolvedType instanceof Enum ? "int32" : field.type, wireType = types.basic[type];
           ref = "m" + util.safeProp(field.name);
           if (field.map) {
-            gen("if(%s!=null&&Object.hasOwnProperty.call(m,%j)){", ref, field.name)("for(var ks=Object.keys(%s),i=0;i<ks.length;++i){", ref)("w.uint32(%i).fork().uint32(%i).%s(ks[i])", (field.id << 3 | 2) >>> 0, 8 | types.mapKey[field.keyType], field.keyType);
-            if (wireType === void 0) gen("types[%i].encode(%s[ks[i]],w.uint32(18).fork()).ldelim().ldelim()", index, ref);
+            gen("if(%s!=null&&Object.hasOwnProperty.call(m,%j)){", ref, field.name)("for(var ks=Object.keys(%s),i=0;i<ks.length;++i){", ref);
+            if (field.keyType === "bool") gen("w.uint32(%i).fork().uint32(%i).bool(util.boolFromKey(ks[i]))", (field.id << 3 | 2) >>> 0, 8 | types.mapKey[field.keyType]);
+            else if (types.long[field.keyType] !== void 0) gen("w.uint32(%i).fork().uint32(%i).%s(util.longFromKey(ks[i],%j))", (field.id << 3 | 2) >>> 0, 8 | types.mapKey[field.keyType], field.keyType, field.keyType === "uint64" || field.keyType === "fixed64");
+            else gen("w.uint32(%i).fork().uint32(%i).%s(ks[i])", (field.id << 3 | 2) >>> 0, 8 | types.mapKey[field.keyType], field.keyType);
+            if (wireType === void 0) gen("types[%i].encode(%s[ks[i]],w.uint32(18).fork(),q+1).ldelim().ldelim()", index, ref);
             else gen(".uint32(%i).%s(%s[ks[i]]).ldelim()", 16 | wireType, type, ref);
             gen("}")("}");
           } else if (field.repeated) {
             gen("if(%s!=null&&%s.length){", ref, ref);
             if (field.packed && types.packed[type] !== void 0) {
-              gen("w.uint32(%i).fork()", (field.id << 3 | 2) >>> 0)("for(var i=0;i<%s.length;++i)", ref)("w.%s(%s[i])", type, ref)("w.ldelim()");
+              gen("w.uint32(%i).%ss(%s)", (field.id << 3 | 2) >>> 0, type, ref);
             } else {
               gen("for(var i=0;i<%s.length;++i)", ref);
               if (wireType === void 0)
@@ -4491,81 +6452,89 @@ const MODULES = `
             }
             gen("}");
           } else {
-            if (field.optional) gen("if(%s!=null&&Object.hasOwnProperty.call(m,%j))", ref, field.name);
+            if (!field.required)
+              if (field.hasPresence || !(field.resolvedType instanceof Enum || types.basic[type] !== void 0)) gen("if(%s!=null&&Object.hasOwnProperty.call(m,%j))", ref, field.name);
+              else if (field.resolvedType instanceof Enum) gen("if(%s!=null&&Object.hasOwnProperty.call(m,%j)&&%s!==%j)", ref, field.name, ref, field.typeDefault);
+              else if (type === "bool") gen("if(%s!=null&&Object.hasOwnProperty.call(m,%j)&&%s!==false)", ref, field.name, ref);
+              else if (type === "string") gen('if(%s!=null&&Object.hasOwnProperty.call(m,%j)&&%s!=="")', ref, field.name, ref);
+              else if (type === "bytes") gen("if(%s!=null&&Object.hasOwnProperty.call(m,%j)&&%s.length)", ref, field.name, ref);
+              else if (type === "double" || type === "float") gen("if(%s!=null&&Object.hasOwnProperty.call(m,%j)&&!Object.is(%s,0))", ref, field.name, ref);
+              else if (types.long[type] !== void 0) gen('if(%s!=null&&Object.hasOwnProperty.call(m,%j)&&(typeof %s==="object"?%s.low||%s.high:%s!==0))', ref, field.name, ref, ref, ref, ref);
+              else gen("if(%s!=null&&Object.hasOwnProperty.call(m,%j)&&%s!==0)", ref, field.name, ref);
             if (wireType === void 0)
               genTypePartial(gen, field, index, ref);
             else gen("w.uint32(%i).%s(%s)", (field.id << 3 | wireType) >>> 0, type, ref);
           }
         }
-        return gen("return w");
+        return gen('if(m.\$unknowns!=null&&Object.hasOwnProperty.call(m,"\$unknowns"))')("for(var i=0;i<m.\$unknowns.length;++i)")("w.raw(m.\$unknowns[i])")("return w");
       }
     }
   });
 
   // node_modules/protobufjs/src/index-light.js
   var require_index_light = __commonJS({
-    "node_modules/protobufjs/src/index-light.js"(exports2, module2) {
+    "node_modules/protobufjs/src/index-light.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      var protobuf = module2.exports = require_index_minimal();
-      protobuf.build = "light";
+      exports = module.exports = require_index_minimal();
+      exports.build = "light";
       function load2(filename, root, callback) {
         if (typeof root === "function") {
           callback = root;
-          root = new protobuf.Root();
+          root = new exports.Root();
         } else if (!root)
-          root = new protobuf.Root();
+          root = new exports.Root();
         return root.load(filename, callback);
       }
-      protobuf.load = load2;
+      exports.load = load2;
       function loadSync(filename, root) {
         if (!root)
-          root = new protobuf.Root();
+          root = new exports.Root();
         return root.loadSync(filename);
       }
-      protobuf.loadSync = loadSync;
-      protobuf.encoder = require_encoder();
-      protobuf.decoder = require_decoder();
-      protobuf.verifier = require_verifier();
-      protobuf.converter = require_converter();
-      protobuf.ReflectionObject = require_object();
-      protobuf.Namespace = require_namespace();
-      protobuf.Root = require_root();
-      protobuf.Enum = require_enum();
-      protobuf.Type = require_type();
-      protobuf.Field = require_field();
-      protobuf.OneOf = require_oneof();
-      protobuf.MapField = require_mapfield();
-      protobuf.Service = require_service2();
-      protobuf.Method = require_method();
-      protobuf.Message = require_message();
-      protobuf.wrappers = require_wrappers();
-      protobuf.types = require_types();
-      protobuf.util = require_util();
-      protobuf.ReflectionObject._configure(protobuf.Root);
-      protobuf.Namespace._configure(protobuf.Type, protobuf.Service, protobuf.Enum);
-      protobuf.Root._configure(protobuf.Type);
-      protobuf.Field._configure(protobuf.Type);
+      exports.loadSync = loadSync;
+      exports.encoder = require_encoder();
+      exports.decoder = require_decoder();
+      exports.verifier = require_verifier();
+      exports.converter = require_converter();
+      exports.ReflectionObject = require_object();
+      exports.Namespace = require_namespace();
+      exports.Root = require_root();
+      exports.Enum = require_enum();
+      exports.Type = require_type();
+      exports.Field = require_field();
+      exports.OneOf = require_oneof();
+      exports.MapField = require_mapfield();
+      exports.Service = require_service2();
+      exports.Method = require_method();
+      exports.Message = require_message();
+      exports.wrappers = require_wrappers();
+      exports.types = require_types();
+      exports.util = require_util();
+      exports.ReflectionObject._configure(exports.Root);
+      exports.Namespace._configure(exports.Type, exports.Service, exports.Enum);
+      exports.Root._configure(exports.Type, void 0, {});
+      exports.Field._configure(exports.Type);
     }
   });
 
   // node_modules/protobufjs/light.js
   var require_light = __commonJS({
-    "node_modules/protobufjs/light.js"(exports2, module2) {
+    "node_modules/protobufjs/light.js"(exports, module) {
       "use strict";
       init_tampermonkey();
-      module2.exports = require_index_light();
+      module.exports = require_index_light();
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/value-types.js
   var require_value_types = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/value-types.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/value-types.js"(exports) {
       "use strict";
       init_tampermonkey();
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       var NewLine = "\\n";
-      exports2.NewLine = NewLine;
+      exports.NewLine = NewLine;
       var ListType;
       (function(ListType2) {
         ListType2["Ordered"] = "ordered";
@@ -4573,18 +6542,18 @@ const MODULES = `
         ListType2["Checked"] = "checked";
         ListType2["Unchecked"] = "unchecked";
       })(ListType || (ListType = {}));
-      exports2.ListType = ListType;
+      exports.ListType = ListType;
       var ScriptType;
       (function(ScriptType2) {
         ScriptType2["Sub"] = "sub";
         ScriptType2["Super"] = "super";
       })(ScriptType || (ScriptType = {}));
-      exports2.ScriptType = ScriptType;
+      exports.ScriptType = ScriptType;
       var DirectionType;
       (function(DirectionType2) {
         DirectionType2["Rtl"] = "rtl";
       })(DirectionType || (DirectionType = {}));
-      exports2.DirectionType = DirectionType;
+      exports.DirectionType = DirectionType;
       var AlignType;
       (function(AlignType2) {
         AlignType2["Left"] = "left";
@@ -4592,7 +6561,7 @@ const MODULES = `
         AlignType2["Right"] = "right";
         AlignType2["Justify"] = "justify";
       })(AlignType || (AlignType = {}));
-      exports2.AlignType = AlignType;
+      exports.AlignType = AlignType;
       var DataType;
       (function(DataType2) {
         DataType2["Image"] = "image";
@@ -4600,7 +6569,7 @@ const MODULES = `
         DataType2["Formula"] = "formula";
         DataType2["Text"] = "text";
       })(DataType || (DataType = {}));
-      exports2.DataType = DataType;
+      exports.DataType = DataType;
       var GroupType;
       (function(GroupType2) {
         GroupType2["Block"] = "block";
@@ -4609,16 +6578,16 @@ const MODULES = `
         GroupType2["Video"] = "video";
         GroupType2["Table"] = "table";
       })(GroupType || (GroupType = {}));
-      exports2.GroupType = GroupType;
+      exports.GroupType = GroupType;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/InsertData.js
   var require_InsertData = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/InsertData.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/InsertData.js"(exports) {
       "use strict";
       init_tampermonkey();
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       var InsertDataQuill = /* @__PURE__ */ (function() {
         function InsertDataQuill2(type, value) {
           this.type = type;
@@ -4626,7 +6595,7 @@ const MODULES = `
         }
         return InsertDataQuill2;
       })();
-      exports2.InsertDataQuill = InsertDataQuill;
+      exports.InsertDataQuill = InsertDataQuill;
       var InsertDataCustom = /* @__PURE__ */ (function() {
         function InsertDataCustom2(type, value) {
           this.type = type;
@@ -4634,13 +6603,13 @@ const MODULES = `
         }
         return InsertDataCustom2;
       })();
-      exports2.InsertDataCustom = InsertDataCustom;
+      exports.InsertDataCustom = InsertDataCustom;
     }
   });
 
   // node_modules/lodash.isequal/index.js
   var require_lodash = __commonJS({
-    "node_modules/lodash.isequal/index.js"(exports2, module2) {
+    "node_modules/lodash.isequal/index.js"(exports, module) {
       init_tampermonkey();
       var LARGE_ARRAY_SIZE = 200;
       var HASH_UNDEFINED = "__lodash_hash_undefined__";
@@ -4687,8 +6656,8 @@ const MODULES = `
       var freeGlobal = typeof global == "object" && global && global.Object === Object && global;
       var freeSelf = typeof self == "object" && self && self.Object === Object && self;
       var root = freeGlobal || freeSelf || Function("return this")();
-      var freeExports = typeof exports2 == "object" && exports2 && !exports2.nodeType && exports2;
-      var freeModule = freeExports && typeof module2 == "object" && module2 && !module2.nodeType && module2;
+      var freeExports = typeof exports == "object" && exports && !exports.nodeType && exports;
+      var freeModule = freeExports && typeof module == "object" && module && !module.nodeType && module;
       var moduleExports = freeModule && freeModule.exports === freeExports;
       var freeProcess = moduleExports && freeGlobal.process;
       var nodeUtil = (function() {
@@ -5336,19 +7305,19 @@ const MODULES = `
       function stubFalse() {
         return false;
       }
-      module2.exports = isEqual;
+      module.exports = isEqual;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/DeltaInsertOp.js
   var require_DeltaInsertOp = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/DeltaInsertOp.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/DeltaInsertOp.js"(exports) {
       "use strict";
       init_tampermonkey();
-      var __importDefault = exports2 && exports2.__importDefault || function(mod2) {
-        return mod2 && mod2.__esModule ? mod2 : { "default": mod2 };
+      var __importDefault = exports && exports.__importDefault || function(mod) {
+        return mod && mod.__esModule ? mod : { "default": mod };
       };
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       var value_types_1 = require_value_types();
       var InsertData_1 = require_InsertData();
       var lodash_isequal_1 = __importDefault(require_lodash());
@@ -5459,16 +7428,16 @@ const MODULES = `
         };
         return DeltaInsertOp2;
       })();
-      exports2.DeltaInsertOp = DeltaInsertOp;
+      exports.DeltaInsertOp = DeltaInsertOp;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/mentions/MentionSanitizer.js
   var require_MentionSanitizer = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/mentions/MentionSanitizer.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/mentions/MentionSanitizer.js"(exports) {
       "use strict";
       init_tampermonkey();
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       var OpAttributeSanitizer_1 = require_OpAttributeSanitizer();
       var MentionSanitizer = (function() {
         function MentionSanitizer2() {
@@ -5509,16 +7478,16 @@ const MODULES = `
         };
         return MentionSanitizer2;
       })();
-      exports2.MentionSanitizer = MentionSanitizer;
+      exports.MentionSanitizer = MentionSanitizer;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/url.js
   var require_url = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/url.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/url.js"(exports) {
       "use strict";
       init_tampermonkey();
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       function sanitize(str) {
         var val = str;
         val = val.replace(/^\\s*/gm, "");
@@ -5528,16 +7497,16 @@ const MODULES = `
         }
         return "unsafe:" + val;
       }
-      exports2.sanitize = sanitize;
+      exports.sanitize = sanitize;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/funcs-html.js
   var require_funcs_html = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/funcs-html.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/funcs-html.js"(exports) {
       "use strict";
       init_tampermonkey();
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       var EncodeTarget;
       (function(EncodeTarget2) {
         EncodeTarget2[EncodeTarget2["Html"] = 0] = "Html";
@@ -5563,18 +7532,18 @@ const MODULES = `
         }
         return attrsStr ? "<" + tag + " " + attrsStr + closing : "<" + tag + closing;
       }
-      exports2.makeStartTag = makeStartTag;
+      exports.makeStartTag = makeStartTag;
       function makeEndTag(tag) {
         if (tag === void 0) {
           tag = "";
         }
         return tag && "</" + tag + ">" || "";
       }
-      exports2.makeEndTag = makeEndTag;
+      exports.makeEndTag = makeEndTag;
       function decodeHtml(str) {
         return encodeMappings(EncodeTarget.Html).reduce(decodeMapping, str);
       }
-      exports2.decodeHtml = decodeHtml;
+      exports.decodeHtml = decodeHtml;
       function encodeHtml(str, preventDoubleEncoding) {
         if (preventDoubleEncoding === void 0) {
           preventDoubleEncoding = true;
@@ -5584,13 +7553,13 @@ const MODULES = `
         }
         return encodeMappings(EncodeTarget.Html).reduce(encodeMapping, str);
       }
-      exports2.encodeHtml = encodeHtml;
+      exports.encodeHtml = encodeHtml;
       function encodeLink(str) {
         var linkMaps = encodeMappings(EncodeTarget.Url);
         var decoded = linkMaps.reduce(decodeMapping, str);
         return linkMaps.reduce(encodeMapping, decoded);
       }
-      exports2.encodeLink = encodeLink;
+      exports.encodeLink = encodeLink;
       function encodeMappings(mtype) {
         var maps = [
           ["&", "&amp;"],
@@ -5625,40 +7594,40 @@ const MODULES = `
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/array.js
   var require_array = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/array.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/array.js"(exports) {
       "use strict";
       init_tampermonkey();
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       function preferSecond(arr2) {
         if (arr2.length === 0) {
           return null;
         }
         return arr2.length >= 2 ? arr2[1] : arr2[0];
       }
-      exports2.preferSecond = preferSecond;
+      exports.preferSecond = preferSecond;
       function flatten(arr2) {
         return arr2.reduce(function(pv, v) {
           return pv.concat(Array.isArray(v) ? flatten(v) : v);
         }, []);
       }
-      exports2.flatten = flatten;
+      exports.flatten = flatten;
       function find(arr2, predicate) {
         if (Array.prototype.find) {
           return Array.prototype.find.call(arr2, predicate);
         }
-        for (var i = 0; i < arr2.length; i++) {
-          if (predicate(arr2[i]))
-            return arr2[i];
+        for (var i2 = 0; i2 < arr2.length; i2++) {
+          if (predicate(arr2[i2]))
+            return arr2[i2];
         }
         return void 0;
       }
-      exports2.find = find;
+      exports.find = find;
       function groupConsecutiveElementsWhile(arr2, predicate) {
         var groups = [];
         var currElm, currGroup;
-        for (var i = 0; i < arr2.length; i++) {
-          currElm = arr2[i];
-          if (i > 0 && predicate(currElm, arr2[i - 1])) {
+        for (var i2 = 0; i2 < arr2.length; i2++) {
+          currElm = arr2[i2];
+          if (i2 > 0 && predicate(currElm, arr2[i2 - 1])) {
             currGroup = groups[groups.length - 1];
             currGroup.push(currElm);
           } else {
@@ -5669,22 +7638,22 @@ const MODULES = `
           return g.length === 1 ? g[0] : g;
         });
       }
-      exports2.groupConsecutiveElementsWhile = groupConsecutiveElementsWhile;
+      exports.groupConsecutiveElementsWhile = groupConsecutiveElementsWhile;
       function sliceFromReverseWhile(arr2, startIndex, predicate) {
         var result = {
           elements: [],
           sliceStartsAt: -1
         };
-        for (var i = startIndex; i >= 0; i--) {
-          if (!predicate(arr2[i])) {
+        for (var i2 = startIndex; i2 >= 0; i2--) {
+          if (!predicate(arr2[i2])) {
             break;
           }
-          result.sliceStartsAt = i;
-          result.elements.unshift(arr2[i]);
+          result.sliceStartsAt = i2;
+          result.elements.unshift(arr2[i2]);
         }
         return result;
       }
-      exports2.sliceFromReverseWhile = sliceFromReverseWhile;
+      exports.sliceFromReverseWhile = sliceFromReverseWhile;
       function intersperse(arr2, item) {
         return arr2.reduce(function(pv, v, index) {
           pv.push(v);
@@ -5694,25 +7663,25 @@ const MODULES = `
           return pv;
         }, []);
       }
-      exports2.intersperse = intersperse;
+      exports.intersperse = intersperse;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/OpAttributeSanitizer.js
   var require_OpAttributeSanitizer = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/OpAttributeSanitizer.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/OpAttributeSanitizer.js"(exports) {
       "use strict";
       init_tampermonkey();
-      var __importStar = exports2 && exports2.__importStar || function(mod2) {
-        if (mod2 && mod2.__esModule) return mod2;
+      var __importStar = exports && exports.__importStar || function(mod) {
+        if (mod && mod.__esModule) return mod;
         var result = {};
-        if (mod2 != null) {
-          for (var k in mod2) if (Object.hasOwnProperty.call(mod2, k)) result[k] = mod2[k];
+        if (mod != null) {
+          for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
         }
-        result["default"] = mod2;
+        result["default"] = mod;
         return result;
       };
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       var value_types_1 = require_value_types();
       var MentionSanitizer_1 = require_MentionSanitizer();
       var url = __importStar(require_url());
@@ -5870,16 +7839,16 @@ const MODULES = `
         };
         return OpAttributeSanitizer2;
       })();
-      exports2.OpAttributeSanitizer = OpAttributeSanitizer;
+      exports.OpAttributeSanitizer = OpAttributeSanitizer;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/string.js
   var require_string = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/string.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/string.js"(exports) {
       "use strict";
       init_tampermonkey();
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       function tokenizeWithNewLines(str) {
         var NewLine = "\\n";
         if (str === NewLine) {
@@ -5903,16 +7872,16 @@ const MODULES = `
           return pv;
         }, []);
       }
-      exports2.tokenizeWithNewLines = tokenizeWithNewLines;
+      exports.tokenizeWithNewLines = tokenizeWithNewLines;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/object.js
   var require_object2 = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/object.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/helpers/object.js"(exports) {
       "use strict";
       init_tampermonkey();
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       function assign(target) {
         var sources = [];
         for (var _i = 1; _i < arguments.length; _i++) {
@@ -5934,25 +7903,25 @@ const MODULES = `
         }
         return to;
       }
-      exports2.assign = assign;
+      exports.assign = assign;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpDenormalizer.js
   var require_InsertOpDenormalizer = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpDenormalizer.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpDenormalizer.js"(exports) {
       "use strict";
       init_tampermonkey();
-      var __importStar = exports2 && exports2.__importStar || function(mod2) {
-        if (mod2 && mod2.__esModule) return mod2;
+      var __importStar = exports && exports.__importStar || function(mod) {
+        if (mod && mod.__esModule) return mod;
         var result = {};
-        if (mod2 != null) {
-          for (var k in mod2) if (Object.hasOwnProperty.call(mod2, k)) result[k] = mod2[k];
+        if (mod != null) {
+          for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
         }
-        result["default"] = mod2;
+        result["default"] = mod;
         return result;
       };
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       var value_types_1 = require_value_types();
       var str = __importStar(require_string());
       var obj = __importStar(require_object2());
@@ -5982,16 +7951,16 @@ const MODULES = `
         };
         return InsertOpDenormalizer2;
       })();
-      exports2.InsertOpDenormalizer = InsertOpDenormalizer;
+      exports.InsertOpDenormalizer = InsertOpDenormalizer;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpsConverter.js
   var require_InsertOpsConverter = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpsConverter.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/InsertOpsConverter.js"(exports) {
       "use strict";
       init_tampermonkey();
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       var DeltaInsertOp_1 = require_DeltaInsertOp();
       var value_types_1 = require_value_types();
       var InsertData_1 = require_InsertData();
@@ -6036,25 +8005,25 @@ const MODULES = `
         };
         return InsertOpsConverter2;
       })();
-      exports2.InsertOpsConverter = InsertOpsConverter;
+      exports.InsertOpsConverter = InsertOpsConverter;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/OpToHtmlConverter.js
   var require_OpToHtmlConverter = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/OpToHtmlConverter.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/OpToHtmlConverter.js"(exports) {
       "use strict";
       init_tampermonkey();
-      var __importStar = exports2 && exports2.__importStar || function(mod2) {
-        if (mod2 && mod2.__esModule) return mod2;
+      var __importStar = exports && exports.__importStar || function(mod) {
+        if (mod && mod.__esModule) return mod;
         var result = {};
-        if (mod2 != null) {
-          for (var k in mod2) if (Object.hasOwnProperty.call(mod2, k)) result[k] = mod2[k];
+        if (mod != null) {
+          for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
         }
-        result["default"] = mod2;
+        result["default"] = mod;
         return result;
       };
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       var funcs_html_1 = require_funcs_html();
       var value_types_1 = require_value_types();
       var obj = __importStar(require_object2());
@@ -6064,7 +8033,7 @@ const MODULES = `
         serif: "font-family: Georgia, Times New Roman, serif",
         monospace: "font-family: Monaco, Courier New, monospace"
       };
-      exports2.DEFAULT_INLINE_STYLES = {
+      exports.DEFAULT_INLINE_STYLES = {
         font: function(value) {
           return DEFAULT_INLINE_FONTS[value] || "font-family:" + value;
         },
@@ -6188,7 +8157,7 @@ const MODULES = `
           }).map(function(item) {
             var attribute = item[0];
             var attrValue = attrs[attribute];
-            var attributeConverter = _this.options.inlineStyles && _this.options.inlineStyles[attribute] || exports2.DEFAULT_INLINE_STYLES[attribute];
+            var attributeConverter = _this.options.inlineStyles && _this.options.inlineStyles[attribute] || exports.DEFAULT_INLINE_STYLES[attribute];
             if (typeof attributeConverter === "object") {
               return attributeConverter[attrValue];
             } else if (typeof attributeConverter === "function") {
@@ -6353,16 +8322,16 @@ const MODULES = `
         };
         return OpToHtmlConverter2;
       })();
-      exports2.OpToHtmlConverter = OpToHtmlConverter;
+      exports.OpToHtmlConverter = OpToHtmlConverter;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/group-types.js
   var require_group_types = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/group-types.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/group-types.js"(exports) {
       "use strict";
       init_tampermonkey();
-      var __extends = exports2 && exports2.__extends || (function() {
+      var __extends = exports && exports.__extends || (function() {
         var extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d, b) {
           d.__proto__ = b;
         } || function(d, b) {
@@ -6376,14 +8345,14 @@ const MODULES = `
           d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
         };
       })();
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       var InlineGroup = /* @__PURE__ */ (function() {
         function InlineGroup2(ops) {
           this.ops = ops;
         }
         return InlineGroup2;
       })();
-      exports2.InlineGroup = InlineGroup;
+      exports.InlineGroup = InlineGroup;
       var SingleItem = /* @__PURE__ */ (function() {
         function SingleItem2(op) {
           this.op = op;
@@ -6397,7 +8366,7 @@ const MODULES = `
         }
         return VideoItem2;
       })(SingleItem);
-      exports2.VideoItem = VideoItem;
+      exports.VideoItem = VideoItem;
       var BlotBlock = (function(_super) {
         __extends(BlotBlock2, _super);
         function BlotBlock2() {
@@ -6405,7 +8374,7 @@ const MODULES = `
         }
         return BlotBlock2;
       })(SingleItem);
-      exports2.BlotBlock = BlotBlock;
+      exports.BlotBlock = BlotBlock;
       var BlockGroup = /* @__PURE__ */ (function() {
         function BlockGroup2(op, ops) {
           this.op = op;
@@ -6413,14 +8382,14 @@ const MODULES = `
         }
         return BlockGroup2;
       })();
-      exports2.BlockGroup = BlockGroup;
+      exports.BlockGroup = BlockGroup;
       var ListGroup = /* @__PURE__ */ (function() {
         function ListGroup2(items) {
           this.items = items;
         }
         return ListGroup2;
       })();
-      exports2.ListGroup = ListGroup;
+      exports.ListGroup = ListGroup;
       var ListItem = /* @__PURE__ */ (function() {
         function ListItem2(item, innerList) {
           if (innerList === void 0) {
@@ -6431,37 +8400,37 @@ const MODULES = `
         }
         return ListItem2;
       })();
-      exports2.ListItem = ListItem;
+      exports.ListItem = ListItem;
       var TableGroup = /* @__PURE__ */ (function() {
         function TableGroup2(rows) {
           this.rows = rows;
         }
         return TableGroup2;
       })();
-      exports2.TableGroup = TableGroup;
+      exports.TableGroup = TableGroup;
       var TableRow = /* @__PURE__ */ (function() {
         function TableRow2(cells) {
           this.cells = cells;
         }
         return TableRow2;
       })();
-      exports2.TableRow = TableRow;
+      exports.TableRow = TableRow;
       var TableCell = /* @__PURE__ */ (function() {
         function TableCell2(item) {
           this.item = item;
         }
         return TableCell2;
       })();
-      exports2.TableCell = TableCell;
+      exports.TableCell = TableCell;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/Grouper.js
   var require_Grouper = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/Grouper.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/Grouper.js"(exports) {
       "use strict";
       init_tampermonkey();
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       var DeltaInsertOp_1 = require_DeltaInsertOp();
       var array_1 = require_array();
       var group_types_1 = require_group_types();
@@ -6478,20 +8447,20 @@ const MODULES = `
           };
           var lastInd = ops.length - 1;
           var opsSlice;
-          for (var i = lastInd; i >= 0; i--) {
-            var op = ops[i];
+          for (var i2 = lastInd; i2 >= 0; i2--) {
+            var op = ops[i2];
             if (op.isVideo()) {
               result.push(new group_types_1.VideoItem(op));
             } else if (op.isCustomEmbedBlock()) {
               result.push(new group_types_1.BlotBlock(op));
             } else if (op.isContainerBlock()) {
-              opsSlice = array_1.sliceFromReverseWhile(ops, i - 1, canBeInBlock);
+              opsSlice = array_1.sliceFromReverseWhile(ops, i2 - 1, canBeInBlock);
               result.push(new group_types_1.BlockGroup(op, opsSlice.elements));
-              i = opsSlice.sliceStartsAt > -1 ? opsSlice.sliceStartsAt : i;
+              i2 = opsSlice.sliceStartsAt > -1 ? opsSlice.sliceStartsAt : i2;
             } else {
-              opsSlice = array_1.sliceFromReverseWhile(ops, i - 1, isInlineData);
+              opsSlice = array_1.sliceFromReverseWhile(ops, i2 - 1, isInlineData);
               result.push(new group_types_1.InlineGroup(opsSlice.elements.concat(op)));
-              i = opsSlice.sliceStartsAt > -1 ? opsSlice.sliceStartsAt : i;
+              i2 = opsSlice.sliceStartsAt > -1 ? opsSlice.sliceStartsAt : i2;
             }
           }
           result.reverse();
@@ -6523,11 +8492,11 @@ const MODULES = `
               return elm;
             }
             var groupsLastInd = elm.length - 1;
-            elm[0].ops = array_1.flatten(elm.map(function(g, i) {
+            elm[0].ops = array_1.flatten(elm.map(function(g, i2) {
               if (!g.ops.length) {
                 return [newLineOp];
               }
-              return g.ops.concat(i < groupsLastInd ? [newLineOp] : []);
+              return g.ops.concat(i2 < groupsLastInd ? [newLineOp] : []);
             }));
             return elm[0];
           });
@@ -6546,16 +8515,16 @@ const MODULES = `
         };
         return Grouper2;
       })();
-      exports2.Grouper = Grouper;
+      exports.Grouper = Grouper;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/ListNester.js
   var require_ListNester = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/ListNester.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/ListNester.js"(exports) {
       "use strict";
       init_tampermonkey();
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       var group_types_1 = require_group_types();
       var array_1 = require_array();
       var ListNester = (function() {
@@ -6632,8 +8601,8 @@ const MODULES = `
           }, {});
         };
         ListNester2.prototype.placeUnderParent = function(target, items) {
-          for (var i = items.length - 1; i >= 0; i--) {
-            var elm = items[i];
+          for (var i2 = items.length - 1; i2 >= 0; i2--) {
+            var elm = items[i2];
             if (target.items[0].item.op.hasHigherIndentThan(elm.items[0].item.op)) {
               var parent = elm.items[elm.items.length - 1];
               if (parent.innerList) {
@@ -6648,16 +8617,16 @@ const MODULES = `
         };
         return ListNester2;
       })();
-      exports2.ListNester = ListNester;
+      exports.ListNester = ListNester;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/TableGrouper.js
   var require_TableGrouper = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/TableGrouper.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/grouper/TableGrouper.js"(exports) {
       "use strict";
       init_tampermonkey();
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       var group_types_1 = require_group_types();
       var array_1 = require_array();
       var TableGrouper = (function() {
@@ -6694,25 +8663,25 @@ const MODULES = `
         };
         return TableGrouper2;
       })();
-      exports2.TableGrouper = TableGrouper;
+      exports.TableGrouper = TableGrouper;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/QuillDeltaToHtmlConverter.js
   var require_QuillDeltaToHtmlConverter = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/QuillDeltaToHtmlConverter.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/QuillDeltaToHtmlConverter.js"(exports) {
       "use strict";
       init_tampermonkey();
-      var __importStar = exports2 && exports2.__importStar || function(mod2) {
-        if (mod2 && mod2.__esModule) return mod2;
+      var __importStar = exports && exports.__importStar || function(mod) {
+        if (mod && mod.__esModule) return mod;
         var result = {};
-        if (mod2 != null) {
-          for (var k in mod2) if (Object.hasOwnProperty.call(mod2, k)) result[k] = mod2[k];
+        if (mod != null) {
+          for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
         }
-        result["default"] = mod2;
+        result["default"] = mod;
         return result;
       };
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       var InsertOpsConverter_1 = require_InsertOpsConverter();
       var OpToHtmlConverter_1 = require_OpToHtmlConverter();
       var Grouper_1 = require_Grouper();
@@ -6886,8 +8855,8 @@ const MODULES = `
             isInlineGroup = true;
           }
           var opsLen = ops.length - 1;
-          var html = ops.map(function(op, i) {
-            if (i > 0 && i === opsLen && op.isJustNewline()) {
+          var html = ops.map(function(op, i2) {
+            if (i2 > 0 && i2 === opsLen && op.isJustNewline()) {
               return "";
             }
             return _this._renderInline(op, null);
@@ -6933,40 +8902,40 @@ const MODULES = `
         };
         return QuillDeltaToHtmlConverter3;
       })();
-      exports2.QuillDeltaToHtmlConverter = QuillDeltaToHtmlConverter2;
+      exports.QuillDeltaToHtmlConverter = QuillDeltaToHtmlConverter2;
     }
   });
 
   // node_modules/quill-delta-to-html-cb/dist/commonjs/main.js
   var require_main = __commonJS({
-    "node_modules/quill-delta-to-html-cb/dist/commonjs/main.js"(exports2) {
+    "node_modules/quill-delta-to-html-cb/dist/commonjs/main.js"(exports) {
       "use strict";
       init_tampermonkey();
-      Object.defineProperty(exports2, "__esModule", { value: true });
+      Object.defineProperty(exports, "__esModule", { value: true });
       var QuillDeltaToHtmlConverter_1 = require_QuillDeltaToHtmlConverter();
-      exports2.QuillDeltaToHtmlConverter = QuillDeltaToHtmlConverter_1.QuillDeltaToHtmlConverter;
+      exports.QuillDeltaToHtmlConverter = QuillDeltaToHtmlConverter_1.QuillDeltaToHtmlConverter;
       var OpToHtmlConverter_1 = require_OpToHtmlConverter();
-      exports2.OpToHtmlConverter = OpToHtmlConverter_1.OpToHtmlConverter;
+      exports.OpToHtmlConverter = OpToHtmlConverter_1.OpToHtmlConverter;
       var group_types_1 = require_group_types();
-      exports2.InlineGroup = group_types_1.InlineGroup;
-      exports2.VideoItem = group_types_1.VideoItem;
-      exports2.BlockGroup = group_types_1.BlockGroup;
-      exports2.ListGroup = group_types_1.ListGroup;
-      exports2.ListItem = group_types_1.ListItem;
-      exports2.BlotBlock = group_types_1.BlotBlock;
+      exports.InlineGroup = group_types_1.InlineGroup;
+      exports.VideoItem = group_types_1.VideoItem;
+      exports.BlockGroup = group_types_1.BlockGroup;
+      exports.ListGroup = group_types_1.ListGroup;
+      exports.ListItem = group_types_1.ListItem;
+      exports.BlotBlock = group_types_1.BlotBlock;
       var DeltaInsertOp_1 = require_DeltaInsertOp();
-      exports2.DeltaInsertOp = DeltaInsertOp_1.DeltaInsertOp;
+      exports.DeltaInsertOp = DeltaInsertOp_1.DeltaInsertOp;
       var InsertData_1 = require_InsertData();
-      exports2.InsertDataQuill = InsertData_1.InsertDataQuill;
-      exports2.InsertDataCustom = InsertData_1.InsertDataCustom;
+      exports.InsertDataQuill = InsertData_1.InsertDataQuill;
+      exports.InsertDataCustom = InsertData_1.InsertDataCustom;
       var value_types_1 = require_value_types();
-      exports2.NewLine = value_types_1.NewLine;
-      exports2.ListType = value_types_1.ListType;
-      exports2.ScriptType = value_types_1.ScriptType;
-      exports2.DirectionType = value_types_1.DirectionType;
-      exports2.AlignType = value_types_1.AlignType;
-      exports2.DataType = value_types_1.DataType;
-      exports2.GroupType = value_types_1.GroupType;
+      exports.NewLine = value_types_1.NewLine;
+      exports.ListType = value_types_1.ListType;
+      exports.ScriptType = value_types_1.ScriptType;
+      exports.DirectionType = value_types_1.DirectionType;
+      exports.AlignType = value_types_1.AlignType;
+      exports.DataType = value_types_1.DataType;
+      exports.GroupType = value_types_1.GroupType;
     }
   });
 
@@ -7752,9 +9721,9 @@ const MODULES = `
       if (num1.length > num2.length) return true;
       else if (num1.length < num2.length) return false;
       else {
-        for (let i = 0; i < num1.length; i++) {
-          if (num1[i] > num2[i]) return true;
-          if (num1[i] < num2[i]) return false;
+        for (let i2 = 0; i2 < num1.length; i2++) {
+          if (num1[i2] > num2[i2]) return true;
+          if (num1[i2] < num2[i2]) return false;
         }
         return false;
       }
@@ -7920,6 +9889,8 @@ const MODULES = `
       this.cid = cid;
       _ApiDmWeb.Root || _ApiDmWeb.RootInit();
     }
+    aid;
+    cid;
     static Root;
     static DmWebViewReply;
     static DmSegMobileReply;
@@ -7937,12 +9908,12 @@ const MODULES = `
         const pageSize = dmWebView.dmSge.pageSize ? dmWebView.dmSge.pageSize / 1e3 : 360;
         const total = this.aid == window.aid && ((_b2 = (_a3 = window.player) == null ? void 0 : _a3.getDuration) == null ? void 0 : _b2.call(_a3)) / pageSize + 1 || dmWebView.dmSge.total;
         const promises = [];
-        for (let i = 1; i <= total; i++) {
+        for (let i2 = 1; i2 <= total; i2++) {
           promises.push(
-            this.DmSegMobileReply(i).then((d) => {
+            this.DmSegMobileReply(i2).then((d) => {
               d.elems && (this.danmaku = this.danmaku.concat(d.elems));
             }).catch((e) => {
-              console.warn("弹幕丢包：", \`segment_index=\${i}\`, e);
+              console.warn("弹幕丢包：", \`segment_index=\${i2}\`, e);
             })
           );
         }
@@ -8049,7 +10020,7 @@ const MODULES = `
   // src/utils/format/size.ts
   init_tampermonkey();
   function sizeFormat(size = 0) {
-    let unit = ["B", "K", "M", "G"], i = unit.length - 1, dex = 1024 ** i, vor = 1e3 ** i;
+    let unit = ["B", "K", "M", "G"], i2 = unit.length - 1, dex = 1024 ** i2, vor = 1e3 ** i2;
     while (dex > 1) {
       if (size >= vor) {
         size = Number((size / dex).toFixed(2));
@@ -8057,9 +10028,9 @@ const MODULES = `
       }
       dex = dex / 1024;
       vor = vor / 1e3;
-      i--;
+      i2--;
     }
-    return size ? size + unit[i] : "N/A";
+    return size ? size + unit[i2] : "N/A";
   }
 
   // src/utils/hook/method.ts
@@ -8452,6 +10423,7 @@ const MODULES = `
         id: aid
       }));
     }
+    aid;
     fetch;
     async getDate() {
       const respense = await this.fetch;
@@ -8675,8 +10647,8 @@ const MODULES = `
         bvid = "BV" + bvid;
       }
       let r = 0n;
-      for (let i = 3; i < BV_LEN; i++) {
-        r = r * BASE + BigInt(ALPHABET.indexOf(bvid[DIGIT_MAP[i]]));
+      for (let i2 = 3; i2 < BV_LEN; i2++) {
+        r = r * BASE + BigInt(ALPHABET.indexOf(bvid[DIGIT_MAP[i2]]));
       }
       return \`\${r & MASK_CODE ^ XOR_CODE}\`;
     }
@@ -8875,9 +10847,9 @@ const MODULES = `
     value(v) {
       isArray(v) || (v = [v]);
       let html = "";
-      v.forEach((d, i) => {
+      v.forEach((d, i2) => {
         d = toString(d);
-        html += i ? \`<br>\${d}\` : \`<label>\${d}</label>\`;
+        html += i2 ? \`<br>\${d}\` : \`<label>\${d}</label>\`;
       });
       v.length || this.fadeOut();
       const close = this.message.contains(this.closeButton);
@@ -9460,6 +11432,7 @@ const MODULES = `
       this.target = target;
       target.addEventListener("click", (e) => e.stopPropagation());
     }
+    target;
     /** 已启用监听 */
     enabled = false;
     /** 移除节点 */
@@ -9735,11 +11708,11 @@ const MODULES = `
       const album = data.title;
       const artist = data.owner.name;
       const pic = data.pic.replace("http:", "");
-      data.pages ? data.pages.forEach((d, i) => {
+      data.pages ? data.pages.forEach((d, i2) => {
         this.cids[d.cid] = {
           album,
           artist,
-          title: d.part || \`#\${i + 1}\`,
+          title: d.part || \`#\${i2 + 1}\`,
           artwork: [{ src: pic }]
         };
       }) : this.cids[data.cid] = {
@@ -9756,11 +11729,11 @@ const MODULES = `
       const album = data.title;
       const artist = data.upper.name;
       const pic = data.cover.replace("http:", "");
-      data.pages ? data.pages.forEach((d, i) => {
+      data.pages ? data.pages.forEach((d, i2) => {
         this.cids[d.id] = {
           album,
           artist,
-          title: d.title || \`#\${i + 1}\`,
+          title: d.title || \`#\${i2 + 1}\`,
           artwork: [{ src: pic }]
         };
       }) : this.cids[data.id] = {
@@ -9800,7 +11773,7 @@ const MODULES = `
         const title = d.title;
         const cover = d.pic.replace("http:", "");
         const artist = d.owner.name;
-        d.pages.forEach((d2, i) => {
+        d.pages.forEach((d2, i2) => {
           this.cids[d2.cid] = {
             album,
             artist,
@@ -10008,6 +11981,8 @@ const MODULES = `
       this.url = url;
       this.appkey = appkey;
     }
+    url;
+    appkey;
     get ts() {
       return (/* @__PURE__ */ new Date()).getTime();
     }
@@ -10368,6 +12343,7 @@ const MODULES = `
         fnval
       }, data, pgc ? { module: "bangumi", season_type: 1 } : {});
     }
+    data;
     async getData() {
       const response2 = await fetch(this.sign().toJSON(), { credentials: "include" });
       return await response2.json();
@@ -10392,6 +12368,8 @@ const MODULES = `
         otype: "json"
       }, data, dash ? { fnval, fnver } : {});
     }
+    data;
+    pgc;
     async getData() {
       const response2 = await GM.fetch(this.sign().toJSON());
       const json = await response2.json();
@@ -10417,6 +12395,7 @@ const MODULES = `
         build: 102801
       }, data, dash ? { fnval, fnver } : {});
     }
+    data;
     async getData() {
       const response2 = await fetch(this.sign().toJSON());
       const json = await response2.json();
@@ -10440,6 +12419,7 @@ const MODULES = `
       }, data);
       pgc && (this.data.module = "bangumi");
     }
+    data;
     async getData() {
       const response2 = await fetch(this.sign().toJSON());
       return await response2.json();
@@ -12106,13 +14086,13 @@ const MODULES = `
   var clim = new u8([16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15]);
   var freb = function(eb, start) {
     var b = new u16(31);
-    for (var i = 0; i < 31; ++i) {
-      b[i] = start += 1 << eb[i - 1];
+    for (var i2 = 0; i2 < 31; ++i2) {
+      b[i2] = start += 1 << eb[i2 - 1];
     }
     var r = new i32(b[30]);
-    for (var i = 1; i < 30; ++i) {
-      for (var j = b[i]; j < b[i + 1]; ++j) {
-        r[j] = j - b[i] << 5 | i;
+    for (var i2 = 1; i2 < 30; ++i2) {
+      for (var j = b[i2]; j < b[i2 + 1]; ++j) {
+        r[j] = j - b[i2] << 5 | i2;
       }
     }
     return { b, r };
@@ -12135,25 +14115,25 @@ const MODULES = `
   var i;
   var hMap = (function(cd, mb, r) {
     var s = cd.length;
-    var i = 0;
+    var i2 = 0;
     var l = new u16(mb);
-    for (; i < s; ++i) {
-      if (cd[i])
-        ++l[cd[i] - 1];
+    for (; i2 < s; ++i2) {
+      if (cd[i2])
+        ++l[cd[i2] - 1];
     }
     var le = new u16(mb);
-    for (i = 1; i < mb; ++i) {
-      le[i] = le[i - 1] + l[i - 1] << 1;
+    for (i2 = 1; i2 < mb; ++i2) {
+      le[i2] = le[i2 - 1] + l[i2 - 1] << 1;
     }
     var co;
     if (r) {
       co = new u16(1 << mb);
       var rvb = 15 - mb;
-      for (i = 0; i < s; ++i) {
-        if (cd[i]) {
-          var sv = i << 4 | cd[i];
-          var r_1 = mb - cd[i];
-          var v = le[cd[i] - 1]++ << r_1;
+      for (i2 = 0; i2 < s; ++i2) {
+        if (cd[i2]) {
+          var sv = i2 << 4 | cd[i2];
+          var r_1 = mb - cd[i2];
+          var v = le[cd[i2] - 1]++ << r_1;
           for (var m = v | (1 << r_1) - 1; v <= m; ++v) {
             co[rev[v] >> rvb] = sv;
           }
@@ -12161,9 +14141,9 @@ const MODULES = `
       }
     } else {
       co = new u16(s);
-      for (i = 0; i < s; ++i) {
-        if (cd[i]) {
-          co[i] = rev[le[cd[i] - 1]++] >> 15 - cd[i];
+      for (i2 = 0; i2 < s; ++i2) {
+        if (cd[i2]) {
+          co[i2] = rev[le[cd[i2] - 1]++] >> 15 - cd[i2];
         }
       }
     }
@@ -12192,9 +14172,9 @@ const MODULES = `
   var fdrm = /* @__PURE__ */ hMap(fdt, 5, 1);
   var max = function(a) {
     var m = a[0];
-    for (var i = 1; i < a.length; ++i) {
-      if (a[i] > m)
-        m = a[i];
+    for (var i2 = 1; i2 < a.length; ++i2) {
+      if (a[i2] > m)
+        m = a[i2];
     }
     return m;
   };
@@ -12224,6 +14204,7 @@ const MODULES = `
     "stream finished",
     "no stream handler",
     ,
+    // determined by compression function
     "no callback",
     "invalid UTF-8 data",
     "extra field too long",
@@ -12286,28 +14267,28 @@ const MODULES = `
           pos += 14;
           var ldt = new u8(tl);
           var clt = new u8(19);
-          for (var i = 0; i < hcLen; ++i) {
-            clt[clim[i]] = bits(dat, pos + i * 3, 7);
+          for (var i2 = 0; i2 < hcLen; ++i2) {
+            clt[clim[i2]] = bits(dat, pos + i2 * 3, 7);
           }
           pos += hcLen * 3;
           var clb = max(clt), clbmsk = (1 << clb) - 1;
           var clm = hMap(clt, clb, 1);
-          for (var i = 0; i < tl; ) {
+          for (var i2 = 0; i2 < tl; ) {
             var r = clm[bits(dat, pos, clbmsk)];
             pos += r & 15;
             var s = r >> 4;
             if (s < 16) {
-              ldt[i++] = s;
+              ldt[i2++] = s;
             } else {
               var c = 0, n = 0;
               if (s == 16)
-                n = 3 + bits(dat, pos, 3), pos += 2, c = ldt[i - 1];
+                n = 3 + bits(dat, pos, 3), pos += 2, c = ldt[i2 - 1];
               else if (s == 17)
                 n = 3 + bits(dat, pos, 7), pos += 3;
               else if (s == 18)
                 n = 11 + bits(dat, pos, 127), pos += 7;
               while (n--)
-                ldt[i++] = c;
+                ldt[i2++] = c;
             }
           }
           var lt = ldt.subarray(0, hLit), dt = ldt.subarray(hLit);
@@ -12345,8 +14326,8 @@ const MODULES = `
         } else {
           var add = sym - 254;
           if (sym > 264) {
-            var i = sym - 257, b = fleb[i];
-            add = bits(dat, pos, (1 << b) - 1) + fl[i];
+            var i2 = sym - 257, b = fleb[i2];
+            add = bits(dat, pos, (1 << b) - 1) + fl[i2];
             pos += b;
           }
           var d = dm[bits16(dat, pos) & dms], dsym = d >> 4;
@@ -12398,9 +14379,9 @@ const MODULES = `
   };
   var hTree = function(d, mb) {
     var t = [];
-    for (var i = 0; i < d.length; ++i) {
-      if (d[i])
-        t.push({ s: i, f: d[i] });
+    for (var i2 = 0; i2 < d.length; ++i2) {
+      if (d[i2])
+        t.push({ s: i2, f: d[i2] });
     }
     var s = t.length;
     var t2 = t.slice();
@@ -12415,28 +14396,28 @@ const MODULES = `
       return a.f - b.f;
     });
     t.push({ s: -1, f: 25001 });
-    var l = t[0], r = t[1], i0 = 0, i1 = 1, i2 = 2;
+    var l = t[0], r = t[1], i0 = 0, i1 = 1, i22 = 2;
     t[0] = { s: -1, f: l.f + r.f, l, r };
     while (i1 != s - 1) {
-      l = t[t[i0].f < t[i2].f ? i0++ : i2++];
-      r = t[i0 != i1 && t[i0].f < t[i2].f ? i0++ : i2++];
+      l = t[t[i0].f < t[i22].f ? i0++ : i22++];
+      r = t[i0 != i1 && t[i0].f < t[i22].f ? i0++ : i22++];
       t[i1++] = { s: -1, f: l.f + r.f, l, r };
     }
     var maxSym = t2[0].s;
-    for (var i = 1; i < s; ++i) {
-      if (t2[i].s > maxSym)
-        maxSym = t2[i].s;
+    for (var i2 = 1; i2 < s; ++i2) {
+      if (t2[i2].s > maxSym)
+        maxSym = t2[i2].s;
     }
     var tr = new u16(maxSym + 1);
     var mbt = ln(t[i1 - 1], tr, 0);
     if (mbt > mb) {
-      var i = 0, dt = 0;
+      var i2 = 0, dt = 0;
       var lft = mbt - mb, cst = 1 << lft;
       t2.sort(function(a, b) {
         return tr[b.s] - tr[a.s] || a.f - b.f;
       });
-      for (; i < s; ++i) {
-        var i2_1 = t2[i].s;
+      for (; i2 < s; ++i2) {
+        var i2_1 = t2[i2].s;
         if (tr[i2_1] > mb) {
           dt += cst - (1 << mbt - tr[i2_1]);
           tr[i2_1] = mb;
@@ -12445,14 +14426,14 @@ const MODULES = `
       }
       dt >>= lft;
       while (dt > 0) {
-        var i2_2 = t2[i].s;
+        var i2_2 = t2[i2].s;
         if (tr[i2_2] < mb)
           dt -= 1 << mb - tr[i2_2]++ - 1;
         else
-          ++i;
+          ++i2;
       }
-      for (; i >= 0 && dt; --i) {
-        var i2_3 = t2[i].s;
+      for (; i2 >= 0 && dt; --i2) {
+        var i2_3 = t2[i2].s;
         if (tr[i2_3] == mb) {
           --tr[i2_3];
           ++dt;
@@ -12474,8 +14455,8 @@ const MODULES = `
     var w = function(v) {
       cl[cli++] = v;
     };
-    for (var i = 1; i <= s; ++i) {
-      if (c[i] == cln && i != s)
+    for (var i2 = 1; i2 <= s; ++i2) {
+      if (c[i2] == cln && i2 != s)
         ++cls;
       else {
         if (!cln && cls > 2) {
@@ -12495,15 +14476,15 @@ const MODULES = `
         while (cls--)
           w(cln);
         cls = 1;
-        cln = c[i];
+        cln = c[i2];
       }
     }
     return { c: cl.subarray(0, cli), n: s };
   };
   var clen = function(cf, cl) {
     var l = 0;
-    for (var i = 0; i < cl.length; ++i)
-      l += cf[i] * cl[i];
+    for (var i2 = 0; i2 < cl.length; ++i2)
+      l += cf[i2] * cl[i2];
     return l;
   };
   var wfblk = function(out, pos, dat) {
@@ -12513,8 +14494,8 @@ const MODULES = `
     out[o + 1] = s >> 8;
     out[o + 2] = out[o] ^ 255;
     out[o + 3] = out[o + 1] ^ 255;
-    for (var i = 0; i < s; ++i)
-      out[o + i + 4] = dat[i];
+    for (var i2 = 0; i2 < s; ++i2)
+      out[o + i2 + 4] = dat[i2];
     return (o + 4 + s) * 8;
   };
   var wblk = function(dat, out, final, syms, lf, df, eb, li, bs, bl, p) {
@@ -12525,10 +14506,10 @@ const MODULES = `
     var _c = lc(dlt), lclt = _c.c, nlc = _c.n;
     var _d = lc(ddt), lcdt = _d.c, ndc = _d.n;
     var lcfreq = new u16(19);
-    for (var i = 0; i < lclt.length; ++i)
-      ++lcfreq[lclt[i] & 31];
-    for (var i = 0; i < lcdt.length; ++i)
-      ++lcfreq[lcdt[i] & 31];
+    for (var i2 = 0; i2 < lclt.length; ++i2)
+      ++lcfreq[lclt[i2] & 31];
+    for (var i2 = 0; i2 < lcdt.length; ++i2)
+      ++lcfreq[lcdt[i2] & 31];
     var _e = hTree(lcfreq, 7), lct = _e.t, mlcb = _e.l;
     var nlcc = 19;
     for (; nlcc > 4 && !lct[clim[nlcc - 1]]; --nlcc)
@@ -12547,24 +14528,24 @@ const MODULES = `
       wbits(out, p + 5, ndc - 1);
       wbits(out, p + 10, nlcc - 4);
       p += 14;
-      for (var i = 0; i < nlcc; ++i)
-        wbits(out, p + 3 * i, lct[clim[i]]);
+      for (var i2 = 0; i2 < nlcc; ++i2)
+        wbits(out, p + 3 * i2, lct[clim[i2]]);
       p += 3 * nlcc;
       var lcts = [lclt, lcdt];
       for (var it = 0; it < 2; ++it) {
         var clct = lcts[it];
-        for (var i = 0; i < clct.length; ++i) {
-          var len = clct[i] & 31;
+        for (var i2 = 0; i2 < clct.length; ++i2) {
+          var len = clct[i2] & 31;
           wbits(out, p, llm[len]), p += lct[len];
           if (len > 15)
-            wbits(out, p, clct[i] >> 5 & 127), p += clct[i] >> 12;
+            wbits(out, p, clct[i2] >> 5 & 127), p += clct[i2] >> 12;
         }
       }
     } else {
       lm = flm, ll = flt, dm = fdm, dl = fdt;
     }
-    for (var i = 0; i < li; ++i) {
-      var sym = syms[i];
+    for (var i2 = 0; i2 < li; ++i2) {
+      var sym = syms[i2];
       if (sym > 255) {
         var len = sym >> 18 & 31;
         wbits16(out, p, lm[len + 257]), p += ll[len + 257];
@@ -12597,36 +14578,36 @@ const MODULES = `
       var msk_1 = (1 << plvl) - 1;
       var prev = st.p || new u16(32768), head = st.h || new u16(msk_1 + 1);
       var bs1_1 = Math.ceil(plvl / 3), bs2_1 = 2 * bs1_1;
-      var hsh = function(i2) {
-        return (dat[i2] ^ dat[i2 + 1] << bs1_1 ^ dat[i2 + 2] << bs2_1) & msk_1;
+      var hsh = function(i3) {
+        return (dat[i3] ^ dat[i3 + 1] << bs1_1 ^ dat[i3 + 2] << bs2_1) & msk_1;
       };
       var syms = new i32(25e3);
       var lf = new u16(288), df = new u16(32);
-      var lc_1 = 0, eb = 0, i = st.i || 0, li = 0, wi = st.w || 0, bs = 0;
-      for (; i + 2 < s; ++i) {
-        var hv = hsh(i);
-        var imod = i & 32767, pimod = head[hv];
+      var lc_1 = 0, eb = 0, i2 = st.i || 0, li = 0, wi = st.w || 0, bs = 0;
+      for (; i2 + 2 < s; ++i2) {
+        var hv = hsh(i2);
+        var imod = i2 & 32767, pimod = head[hv];
         prev[imod] = pimod;
         head[hv] = imod;
-        if (wi <= i) {
-          var rem = s - i;
+        if (wi <= i2) {
+          var rem = s - i2;
           if ((lc_1 > 7e3 || li > 24576) && (rem > 423 || !lst)) {
-            pos = wblk(dat, w, 0, syms, lf, df, eb, li, bs, i - bs, pos);
-            li = lc_1 = eb = 0, bs = i;
+            pos = wblk(dat, w, 0, syms, lf, df, eb, li, bs, i2 - bs, pos);
+            li = lc_1 = eb = 0, bs = i2;
             for (var j = 0; j < 286; ++j)
               lf[j] = 0;
             for (var j = 0; j < 30; ++j)
               df[j] = 0;
           }
           var l = 2, d = 0, ch_1 = c, dif = imod - pimod & 32767;
-          if (rem > 2 && hv == hsh(i - dif)) {
+          if (rem > 2 && hv == hsh(i2 - dif)) {
             var maxn = Math.min(n, rem) - 1;
-            var maxd = Math.min(32767, i);
+            var maxd = Math.min(32767, i2);
             var ml = Math.min(258, rem);
             while (dif <= maxd && --ch_1 && imod != pimod) {
-              if (dat[i + l] == dat[i + l - dif]) {
+              if (dat[i2 + l] == dat[i2 + l - dif]) {
                 var nl = 0;
-                for (; nl < ml && dat[i + nl] == dat[i + nl - dif]; ++nl)
+                for (; nl < ml && dat[i2 + nl] == dat[i2 + nl - dif]; ++nl)
                   ;
                 if (nl > l) {
                   l = nl, d = dif;
@@ -12635,7 +14616,7 @@ const MODULES = `
                   var mmd = Math.min(dif, nl - 2);
                   var md = 0;
                   for (var j = 0; j < mmd; ++j) {
-                    var ti = i - dif + j & 32767;
+                    var ti = i2 - dif + j & 32767;
                     var pti = prev[ti];
                     var cd = ti - pti & 32767;
                     if (cd > md)
@@ -12653,32 +14634,32 @@ const MODULES = `
             eb += fleb[lin] + fdeb[din];
             ++lf[257 + lin];
             ++df[din];
-            wi = i + l;
+            wi = i2 + l;
             ++lc_1;
           } else {
-            syms[li++] = dat[i];
-            ++lf[dat[i]];
+            syms[li++] = dat[i2];
+            ++lf[dat[i2]];
           }
         }
       }
-      for (i = Math.max(i, wi); i < s; ++i) {
-        syms[li++] = dat[i];
-        ++lf[dat[i]];
+      for (i2 = Math.max(i2, wi); i2 < s; ++i2) {
+        syms[li++] = dat[i2];
+        ++lf[dat[i2]];
       }
-      pos = wblk(dat, w, lst, syms, lf, df, eb, li, bs, i - bs, pos);
+      pos = wblk(dat, w, lst, syms, lf, df, eb, li, bs, i2 - bs, pos);
       if (!lst) {
         st.r = pos & 7 | w[pos / 8 | 0] << 3;
         pos -= 7;
-        st.h = head, st.p = prev, st.i = i, st.w = wi;
+        st.h = head, st.p = prev, st.i = i2, st.w = wi;
       }
     } else {
-      for (var i = st.w || 0; i < s + lst; i += 65535) {
-        var e = i + 65535;
+      for (var i2 = st.w || 0; i2 < s + lst; i2 += 65535) {
+        var e = i2 + 65535;
         if (e >= s) {
           w[pos / 8 | 0] = lst;
           e = s;
         }
-        pos = wfblk(w, pos + 1, dat.subarray(i, e));
+        pos = wfblk(w, pos + 1, dat.subarray(i2, e));
       }
       st.i = s;
     }
@@ -12686,11 +14667,11 @@ const MODULES = `
   };
   var crct = /* @__PURE__ */ (function() {
     var t = new Int32Array(256);
-    for (var i = 0; i < 256; ++i) {
-      var c = i, k = 9;
+    for (var i2 = 0; i2 < 256; ++i2) {
+      var c = i2, k = 9;
       while (--k)
         c = (c & 1 && -306674912) ^ c >>> 1;
-      t[i] = c;
+      t[i2] = c;
     }
     return t;
   })();
@@ -12699,8 +14680,8 @@ const MODULES = `
     return {
       p: function(d) {
         var cr = c;
-        for (var i = 0; i < d.length; ++i)
-          cr = crct[cr & 255 ^ d[i]] ^ cr >>> 8;
+        for (var i2 = 0; i2 < d.length; ++i2)
+          cr = crct[cr & 255 ^ d[i2]] ^ cr >>> 8;
         c = cr;
       },
       d: function() {
@@ -12733,8 +14714,8 @@ const MODULES = `
       wbytes(c, 4, Math.floor(new Date(o.mtime || Date.now()) / 1e3));
     if (fn) {
       c[3] = 8;
-      for (var i = 0; i <= fn.length; ++i)
-        c[i + 10] = fn.charCodeAt(i);
+      for (var i2 = 0; i2 <= fn.length; ++i2)
+        c[i2 + 10] = fn.charCodeAt(i2);
     }
   };
   var gzs = function(d) {
@@ -12784,6 +14765,7 @@ const MODULES = `
       _BAPIMetadata.Root || _BAPIMetadata.RootInit();
       accessKey && (this.metadata.accessKey = accessKey);
     }
+    accessKey;
     /** 命名空间 */
     static Root;
     /** Type<Metadata> */
@@ -12878,6 +14860,7 @@ const MODULES = `
       this.accessKey = accessKey;
       _BAPIAppPlayurlV1.Root || (_BAPIAppPlayurlV1.Root = import_light3.Root.fromJSON(playurl_default));
     }
+    accessKey;
     /** 命名空间 */
     static Root;
     package = "bilibili.app.playurl.v1";
@@ -12952,6 +14935,14 @@ const MODULES = `
       this.split = split;
       this.size = size;
     }
+    userAgent;
+    referer;
+    dir;
+    server;
+    port;
+    token;
+    split;
+    size;
     get url() {
       return \`\${this.server}:\${this.port}/jsonrpc\`;
     }
@@ -13016,6 +15007,9 @@ const MODULES = `
       this.referer = referer;
       this.dir = dir;
     }
+    userAgent;
+    referer;
+    dir;
     /** 命令行 */
     cmdlet(data) {
       const arr2 = ["curl", "-C", "-", \`"\${data.url}"\`];
@@ -13038,6 +15032,11 @@ const MODULES = `
       this.delay = delay;
       this.silence = silence;
     }
+    userAgent;
+    referer;
+    dir;
+    delay;
+    silence;
     /** 拉起IDM */
     sendLinkToIDM(data) {
       this.rebuildData(data);
@@ -13167,50 +15166,50 @@ const MODULES = `
       ef2str = base64.decode(ef2str);
       const arr2 = ef2str.split(" ");
       const data = {};
-      for (let i = 0; i < arr2.length; i++) {
-        if (/-\\w/.test(arr2[i])) {
-          switch (arr2[i]) {
+      for (let i2 = 0; i2 < arr2.length; i2++) {
+        if (/-\\w/.test(arr2[i2])) {
+          switch (arr2[i2]) {
             case "-c":
-              data.cookie = arr2[i + 1];
-              i++;
+              data.cookie = arr2[i2 + 1];
+              i2++;
               break;
             case "-q":
               data.delay = true;
               break;
             case "-o":
-              data.dir = arr2[i + 1];
-              i++;
+              data.dir = arr2[i2 + 1];
+              i2++;
               break;
             case "-s":
-              data.out = arr2[i + 1];
-              i++;
+              data.out = arr2[i2 + 1];
+              i2++;
               break;
             case "-P":
-              data.password = arr2[i + 1];
-              i++;
+              data.password = arr2[i2 + 1];
+              i2++;
               break;
             case "-d":
-              data.body = arr2[i + 1];
-              i++;
+              data.body = arr2[i2 + 1];
+              i2++;
               break;
             case "-r":
-              data.referer = arr2[i + 1];
-              i++;
+              data.referer = arr2[i2 + 1];
+              i2++;
               break;
             case "-f":
               data.silence = true;
               break;
             case "-u":
-              data.url = arr2[i + 1];
-              i++;
+              data.url = arr2[i2 + 1];
+              i2++;
               break;
             case "-a":
-              data.userAgent = arr2[i + 1];
-              i++;
+              data.userAgent = arr2[i2 + 1];
+              i2++;
               break;
             case "-U":
-              data.userName = arr2[i + 1];
-              i++;
+              data.userName = arr2[i2 + 1];
+              i2++;
               break;
             default:
               break;
@@ -13227,6 +15226,7 @@ const MODULES = `
     constructor(fileName) {
       this.fileName = fileName;
     }
+    fileName;
     /** 数据 */
     record = [];
     /** id => 质量 */
@@ -13557,9 +15557,9 @@ const MODULES = `
      * @param y 是否显示纵滚动条
      * @param side 复制样式到目标节点旁边，用于默认样式不生效的情况，比如ShadowRoot环境
      */
-    constructor(ele, x = true, y = true, side = false) {
+    constructor(ele, x2 = true, y = true, side = false) {
       this.ele = ele;
-      this.x = x;
+      this.x = x2;
       this.y = y;
       this.side = side;
       _Scrollbar.style || _Scrollbar.init();
@@ -13567,6 +15567,10 @@ const MODULES = `
       side && ele.insertAdjacentElement("afterend", _Scrollbar.style.cloneNode(true));
       this.flesh();
     }
+    ele;
+    x;
+    y;
+    side;
     static mutex = getMetux();
     static prefix = "scrollbar-" + _Scrollbar.mutex;
     static style;
@@ -13663,8 +15667,8 @@ const MODULES = `
      * @param thumb 滑块颜色
      * @param track 轨道颜色
      */
-    update(x = true, y = true) {
-      this.x = x;
+    update(x2 = true, y = true) {
+      this.x = x2;
       this.y = y;
       this.flesh();
     }
@@ -13711,21 +15715,21 @@ const MODULES = `
     togger(e, right = true) {
       const list = this._list.querySelectorAll(".preview-item-box");
       if (list.length) {
-        let i = 0;
+        let i2 = 0;
         list.forEach((d, j) => {
           if (d.classList.contains("active")) {
             d.classList.remove("active");
             if (right) {
-              i = j + 1;
-              i < list.length || (i = 0);
+              i2 = j + 1;
+              i2 < list.length || (i2 = 0);
             } else {
-              i = j - 1;
-              i < 0 && (i = list.length - 1);
+              i2 = j - 1;
+              i2 < 0 && (i2 = list.length - 1);
             }
           }
         });
-        list[i].classList.add("active");
-        const img = list[i].querySelector("img");
+        list[i2].classList.add("active");
+        const img = list[i2].querySelector("img");
         if (img) {
           this._image.innerHTML = \`<img class="image-content" src="\${img.src}">\`;
         }
@@ -13744,9 +15748,9 @@ const MODULES = `
       this._image.innerHTML = \`<img class="image-content" src="\${imgs[active]}">\`;
       vertical ? this.classList.add("vertical") : this.classList.remove("vertical");
       this._list.innerHTML = "";
-      imgs.forEach((d, i) => {
+      imgs.forEach((d, i2) => {
         const item = addElement("div", {
-          class: \`preview-item-box\${i === active ? " active" : ""}\`,
+          class: \`preview-item-box\${i2 === active ? " active" : ""}\`,
           style: "min-width: 54px; max-width: 54px; height: 54px;"
         }, this._list, \`<div class="preview-item-wrap\${vertical ? " vertical" : ""}"><img src="\${d}"></div>\`);
         item.addEventListener("click", (e) => {
@@ -13787,6 +15791,8 @@ const MODULES = `
       this.url = url;
       this.size = size;
     }
+    url;
+    size;
     /** range索引结束点 */
     end = 5999;
     /** range索引开始点 */
@@ -13809,7 +15815,7 @@ const MODULES = `
         return d.arrayBuffer();
       }).then((d) => {
         const data = new Uint8Array(d);
-        this.hex_data += Array.prototype.map.call(data, (x) => ("00" + x.toString(16)).slice(-2)).join("");
+        this.hex_data += Array.prototype.map.call(data, (x2) => ("00" + x2.toString(16)).slice(-2)).join("");
         if (this.hex_data.indexOf("73696478") > -1 && this.hex_data.indexOf("6d6f6f66") > -1) {
           const indexRangeStart = this.hex_data.indexOf("73696478") / 2 - 4;
           const indexRagneEnd = this.hex_data.indexOf("6d6f6f66") / 2 - 5;
@@ -13847,6 +15853,7 @@ const MODULES = `
         platform: "android"
       }, data);
     }
+    data;
     response;
     async getDate() {
       if (this.response) return this.response;
@@ -13949,9 +15956,9 @@ const MODULES = `
               else hev.push(d2);
             });
             let length2 = avc.length > hev.length ? avc.length : hev.length;
-            for (let i = length2 - 1; i >= 0; i--) {
-              if (avc[i]) video.push(avc[i]);
-              if (hev[i]) video.push(hev[i]);
+            for (let i2 = length2 - 1; i2 >= 0; i2--) {
+              if (avc[i2]) video.push(avc[i2]);
+              if (hev[i2]) video.push(hev[i2]);
             }
             playurl.dash.video = video;
             playurl.accept_format = set.join(",");
@@ -23959,22 +25966,22 @@ const MODULES = `
   function getSlope(t, a1, a2) {
     return 3 * calcA(a1, a2) * t * t + 2 * calcB(a1, a2) * t + calcC(a1);
   }
-  function binarySubdivide(x, a, b, mX1, mX2) {
+  function binarySubdivide(x2, a, b, mX1, mX2) {
     let currentT = a + (b - a) / 2;
-    let currentX = calcBezier(currentT, mX1, mX2) - x;
-    let i = 0;
-    while (Math.abs(currentX) > SUBDIVISION_PRECISION && ++i < SUBDIVISION_MAX_ITERATIONS) {
+    let currentX = calcBezier(currentT, mX1, mX2) - x2;
+    let i2 = 0;
+    while (Math.abs(currentX) > SUBDIVISION_PRECISION && ++i2 < SUBDIVISION_MAX_ITERATIONS) {
       currentX > 0 ? b = currentT : a = currentT;
       currentT = a + (b - a) / 2;
-      currentX = calcBezier(currentT, mX1, mX2) - x;
+      currentX = calcBezier(currentT, mX1, mX2) - x2;
     }
     return currentT;
   }
-  function newtonRaphsonIterate(x, guessT, mX1, mX2) {
-    for (let i = 0; i < NEWTON_ITERATIONS; ++i) {
+  function newtonRaphsonIterate(x2, guessT, mX1, mX2) {
+    for (let i2 = 0; i2 < NEWTON_ITERATIONS; ++i2) {
       const slope = getSlope(guessT, mX1, mX2);
       if (slope === 0) return guessT;
-      guessT -= (calcBezier(guessT, mX1, mX2) - x) / slope;
+      guessT -= (calcBezier(guessT, mX1, mX2) - x2) / slope;
     }
     return guessT;
   }
@@ -23982,36 +25989,36 @@ const MODULES = `
     if (!(mX1 >= 0 && mX1 <= 1 && mX2 >= 0 && mX2 <= 1)) {
       throw new Error("bezier x values must be in [0, 1] range");
     }
-    if (mX1 === mY1 && mX2 === mY2) return (x) => x;
+    if (mX1 === mY1 && mX2 === mY2) return (x2) => x2;
     const sampleValues = new Float32Array(K_SPLINE_TABLE_SIZE);
-    for (let i = 0; i < K_SPLINE_TABLE_SIZE; ++i) {
-      sampleValues[i] = calcBezier(i * K_SAMPLE_STEP_SIZE, mX1, mX2);
+    for (let i2 = 0; i2 < K_SPLINE_TABLE_SIZE; ++i2) {
+      sampleValues[i2] = calcBezier(i2 * K_SAMPLE_STEP_SIZE, mX1, mX2);
     }
-    function getTForX(x) {
+    function getTForX(x2) {
       let intervalStart = 0;
       let currentSample = 1;
       const lastSample = K_SPLINE_TABLE_SIZE - 1;
-      for (; currentSample !== lastSample && sampleValues[currentSample] <= x; ++currentSample) {
+      for (; currentSample !== lastSample && sampleValues[currentSample] <= x2; ++currentSample) {
         intervalStart += K_SAMPLE_STEP_SIZE;
       }
       --currentSample;
-      const dist = (x - sampleValues[currentSample]) / (sampleValues[currentSample + 1] - sampleValues[currentSample]);
+      const dist = (x2 - sampleValues[currentSample]) / (sampleValues[currentSample + 1] - sampleValues[currentSample]);
       const guessT = intervalStart + dist * K_SAMPLE_STEP_SIZE;
       const slope = getSlope(guessT, mX1, mX2);
-      if (slope >= NEWTON_MIN_SLOPE) return newtonRaphsonIterate(x, guessT, mX1, mX2);
+      if (slope >= NEWTON_MIN_SLOPE) return newtonRaphsonIterate(x2, guessT, mX1, mX2);
       else if (slope === 0) return guessT;
-      else return binarySubdivide(x, intervalStart, intervalStart + K_SAMPLE_STEP_SIZE, mX1, mX2);
+      else return binarySubdivide(x2, intervalStart, intervalStart + K_SAMPLE_STEP_SIZE, mX1, mX2);
     }
-    return (x) => {
-      if (x === 0 || x === 1) return x;
-      return calcBezier(getTForX(x), mY1, mY2);
+    return (x2) => {
+      if (x2 === 0 || x2 === 1) return x2;
+      return calcBezier(getTForX(x2), mY1, mY2);
     };
   }
   function makeCurve(curve) {
     const bezierCurve = bezier(...curve);
-    return (x) => x > 0 ? bezierCurve(x) : -bezierCurve(-x);
+    return (x2) => x2 > 0 ? bezierCurve(x2) : -bezierCurve(-x2);
   }
-  var IDENTITY_CURVE = (x) => x;
+  var IDENTITY_CURVE = (x2) => x2;
   function resolveScalarCurve(prop) {
     return (prop == null ? void 0 : prop.offsetCurve) ? makeCurve(prop.offsetCurve) : IDENTITY_CURVE;
   }
@@ -24496,41 +26503,41 @@ const MODULES = `
     static primaryMenu() {
       poll(() => document.querySelector("#primary_menu"), (d) => {
         const vue = d.__vue__;
-        vue.menuList.forEach((d2, i, s) => {
+        vue.menuList.forEach((d2, i2, s) => {
           switch (d2.name) {
             case "动画":
-              s[i].sub = [{ "name": "MAD·AMV", "route": "mad", "tid": 24, "ps": 15, "rps": 10, "ad": { "active": true, "dataLocId": 151 }, "desc": "具有一定制作程度的动画或静画的二次创作视频", "url": "//www.bilibili.com/video/douga-mad-1.html" }, { "name": "MMD·3D", "route": "mmd", "tid": 25, "ps": 15, "rps": 10, "ad": { "active": true, "dataLocId": 152 }, "desc": "使用MMD（MikuMikuDance）和其他3D建模类软件制作的视频", "url": "//www.bilibili.com/video/douga-mmd-1.html" }, { "name": "短片·手书·配音", "route": "voice", "tid": 47, "ps": 15, "rps": 10, "desc": "追求创新并具有强烈特色的短片、手书（绘）及ACG相关配音", "url": "//www.bilibili.com/video/douga-voice-1.html" }, { "name": "手办·模玩", "route": "garage_kit", "tid": 210, "ps": 15, "rps": 10, "desc": "手办模玩的测评、改造或其他衍生内容", "url": "" }, { "name": "特摄", "route": "tokusatsu", "tid": 86, "ps": 15, "rps": 10, "desc": "特摄相关衍生视频", "url": "//www.bilibili.com/video/cinephile-tokusatsu.html" }, { "name": "综合", "route": "other", "tid": 27, "ps": 15, "rps": 10, "ad": { "active": true, "dataLocId": 153 }, "desc": "以动画及动画相关内容为素材，包括但不仅限于音频替换、杂谈、排行榜等内容", "url": "//www.bilibili.com/video/douga-else-1.html" }];
+              s[i2].sub = [{ "name": "MAD·AMV", "route": "mad", "tid": 24, "ps": 15, "rps": 10, "ad": { "active": true, "dataLocId": 151 }, "desc": "具有一定制作程度的动画或静画的二次创作视频", "url": "//www.bilibili.com/video/douga-mad-1.html" }, { "name": "MMD·3D", "route": "mmd", "tid": 25, "ps": 15, "rps": 10, "ad": { "active": true, "dataLocId": 152 }, "desc": "使用MMD（MikuMikuDance）和其他3D建模类软件制作的视频", "url": "//www.bilibili.com/video/douga-mmd-1.html" }, { "name": "短片·手书·配音", "route": "voice", "tid": 47, "ps": 15, "rps": 10, "desc": "追求创新并具有强烈特色的短片、手书（绘）及ACG相关配音", "url": "//www.bilibili.com/video/douga-voice-1.html" }, { "name": "手办·模玩", "route": "garage_kit", "tid": 210, "ps": 15, "rps": 10, "desc": "手办模玩的测评、改造或其他衍生内容", "url": "" }, { "name": "特摄", "route": "tokusatsu", "tid": 86, "ps": 15, "rps": 10, "desc": "特摄相关衍生视频", "url": "//www.bilibili.com/video/cinephile-tokusatsu.html" }, { "name": "综合", "route": "other", "tid": 27, "ps": 15, "rps": 10, "ad": { "active": true, "dataLocId": 153 }, "desc": "以动画及动画相关内容为素材，包括但不仅限于音频替换、杂谈、排行榜等内容", "url": "//www.bilibili.com/video/douga-else-1.html" }];
               break;
             case "音乐":
-              s[i].sub = [{ "name": "原创音乐", "route": "original", "tid": 28, "ps": 15, "rps": 10, "viewHotTag": true, "ad": { "active": true, "dataLocId": 243 }, "dpConfig": [{ "name": "一日", "value": 1 }, { "name": "三日", "value": 3 }], "desc": "原创歌曲及纯音乐，包括改编、重编曲及remix", "url": "//www.bilibili.com/video/music-original-1.html" }, { "name": "翻唱", "route": "cover", "tid": 31, "ps": 15, "rps": 10, "ad": { "active": true, "dataLocId": 245 }, "viewHotTag": true, "dpConfig": [{ "name": "一日", "value": 1 }, { "name": "三日", "value": 3 }], "desc": "对曲目的人声再演绎视频", "url": "//www.bilibili.com/video/music-Cover-1.html" }, { "name": "演奏", "route": "perform", "tid": 59, "ps": 15, "rps": 10, "viewHotTag": true, "dpConfig": [{ "name": "一日", "value": 1 }, { "name": "三日", "value": 3 }], "desc": "乐器和非传统乐器器材的演奏作品", "url": "//www.bilibili.com/video/music-perform-1.html" }, { "name": "VOCALOID·UTAU", "route": "vocaloid", "tid": 30, "ps": 15, "rps": 10, "viewHotTag": true, "ad": { "active": true, "dataLocId": 247 }, "dpConfig": [{ "name": "一日", "value": 1 }, { "name": "三日", "value": 3 }], "desc": "以VOCALOID等歌声合成引擎为基础，运用各类音源进行的创作", "url": "//www.bilibili.com/video/music-vocaloid-1.html" }, { "name": "音乐现场", "route": "live", "tid": 29, "ps": 15, "rps": 10, "viewHotTag": true, "dpConfig": [{ "name": "一日", "value": 1 }, { "name": "三日", "value": 3 }], "desc": "音乐表演的实况视频，包括官方/个人拍摄的综艺节目、音乐剧、音乐节、演唱会等", "url": "//www.bilibili.com/video/music-oped-1.html" }, { "name": "MV", "route": "mv", "tid": 193, "ps": 15, "rps": 10, "viewHotTag": true, "dpConfig": [{ "name": "一日", "value": 1 }, { "name": "三日", "value": 3 }], "desc": "为音乐作品配合拍摄或制作的音乐录影带（Music Video），以及自制拍摄、剪辑、翻拍MV", "url": "//www.bilibili.com/video/music-coordinate-1.html" }, { "name": "乐评盘点", "route": "commentary", "tid": 243, "ps": 15, "rps": 10, "viewHotTag": true, "dpConfig": [{ "name": "一日", "value": 1 }, { "name": "三日", "value": 3 }], "desc": "音乐类新闻、盘点、点评、reaction、榜单、采访、幕后故事、唱片开箱等", "url": "//www.bilibili.com/video/music-collection-1.html" }, { "name": "音乐教学", "route": "tutorial", "tid": 244, "ps": 15, "rps": 10, "viewHotTag": true, "dpConfig": [{ "name": "一日", "value": 1 }, { "name": "三日", "value": 3 }], "desc": "以音乐教学为目的的内容", "url": "//www.bilibili.com/video/music-collection-1.html" }, { "name": "音乐综合", "route": "other", "tid": 130, "ps": 15, "rps": 10, "viewHotTag": true, "dpConfig": [{ "name": "一日", "value": 1 }, { "name": "三日", "value": 3 }], "desc": "所有无法被收纳到其他音乐二级分区的音乐类视频", "url": "//www.bilibili.com/video/music-collection-1.html" }, { "name": "音频", "customZone": "Audio", "route": "audio", "url": "//www.bilibili.com/audio/home?musicType=music" }, { "name": "说唱", "url": "//www.bilibili.com/v/rap" }];
+              s[i2].sub = [{ "name": "原创音乐", "route": "original", "tid": 28, "ps": 15, "rps": 10, "viewHotTag": true, "ad": { "active": true, "dataLocId": 243 }, "dpConfig": [{ "name": "一日", "value": 1 }, { "name": "三日", "value": 3 }], "desc": "原创歌曲及纯音乐，包括改编、重编曲及remix", "url": "//www.bilibili.com/video/music-original-1.html" }, { "name": "翻唱", "route": "cover", "tid": 31, "ps": 15, "rps": 10, "ad": { "active": true, "dataLocId": 245 }, "viewHotTag": true, "dpConfig": [{ "name": "一日", "value": 1 }, { "name": "三日", "value": 3 }], "desc": "对曲目的人声再演绎视频", "url": "//www.bilibili.com/video/music-Cover-1.html" }, { "name": "演奏", "route": "perform", "tid": 59, "ps": 15, "rps": 10, "viewHotTag": true, "dpConfig": [{ "name": "一日", "value": 1 }, { "name": "三日", "value": 3 }], "desc": "乐器和非传统乐器器材的演奏作品", "url": "//www.bilibili.com/video/music-perform-1.html" }, { "name": "VOCALOID·UTAU", "route": "vocaloid", "tid": 30, "ps": 15, "rps": 10, "viewHotTag": true, "ad": { "active": true, "dataLocId": 247 }, "dpConfig": [{ "name": "一日", "value": 1 }, { "name": "三日", "value": 3 }], "desc": "以VOCALOID等歌声合成引擎为基础，运用各类音源进行的创作", "url": "//www.bilibili.com/video/music-vocaloid-1.html" }, { "name": "音乐现场", "route": "live", "tid": 29, "ps": 15, "rps": 10, "viewHotTag": true, "dpConfig": [{ "name": "一日", "value": 1 }, { "name": "三日", "value": 3 }], "desc": "音乐表演的实况视频，包括官方/个人拍摄的综艺节目、音乐剧、音乐节、演唱会等", "url": "//www.bilibili.com/video/music-oped-1.html" }, { "name": "MV", "route": "mv", "tid": 193, "ps": 15, "rps": 10, "viewHotTag": true, "dpConfig": [{ "name": "一日", "value": 1 }, { "name": "三日", "value": 3 }], "desc": "为音乐作品配合拍摄或制作的音乐录影带（Music Video），以及自制拍摄、剪辑、翻拍MV", "url": "//www.bilibili.com/video/music-coordinate-1.html" }, { "name": "乐评盘点", "route": "commentary", "tid": 243, "ps": 15, "rps": 10, "viewHotTag": true, "dpConfig": [{ "name": "一日", "value": 1 }, { "name": "三日", "value": 3 }], "desc": "音乐类新闻、盘点、点评、reaction、榜单、采访、幕后故事、唱片开箱等", "url": "//www.bilibili.com/video/music-collection-1.html" }, { "name": "音乐教学", "route": "tutorial", "tid": 244, "ps": 15, "rps": 10, "viewHotTag": true, "dpConfig": [{ "name": "一日", "value": 1 }, { "name": "三日", "value": 3 }], "desc": "以音乐教学为目的的内容", "url": "//www.bilibili.com/video/music-collection-1.html" }, { "name": "音乐综合", "route": "other", "tid": 130, "ps": 15, "rps": 10, "viewHotTag": true, "dpConfig": [{ "name": "一日", "value": 1 }, { "name": "三日", "value": 3 }], "desc": "所有无法被收纳到其他音乐二级分区的音乐类视频", "url": "//www.bilibili.com/video/music-collection-1.html" }, { "name": "音频", "customZone": "Audio", "route": "audio", "url": "//www.bilibili.com/audio/home?musicType=music" }, { "name": "说唱", "url": "//www.bilibili.com/v/rap" }];
               break;
             case "科技":
-              s[i].name = "知识";
-              s[i].route = "knowledge";
-              s[i].sub = [{ "name": "科学科普", "route": "science", "tid": 201, "ps": 15, "rps": 10, "ad": { "active": true, "dataLocId": 261 }, "desc": "回答你的十万个为什么" }, { "name": "社科·法律·心理", "route": "social_science", "tid": 124, "ps": 15, "rps": 10, "ad": { "active": true, "dataLocId": 263 }, "desc": "基于社会科学、法学、心理学展开或个人观点输出的知识视频" }, { "name": "人文历史", "route": "humanity_history", "tid": 228, "ps": 15, "rps": 10, "desc": "看看古今人物，聊聊历史过往，品品文学典籍" }, { "name": "财经商业", "route": "business", "tid": 207, "ps": 15, "rps": 10, "desc": "说金融市场，谈宏观经济，一起畅聊商业故事" }, { "name": "校园学习", "route": "campus", "tid": 208, "ps": 15, "rps": 10, "ad": { "active": true, "dataLocId": 265 }, "desc": "老师很有趣，学生也有才，我们一起搞学习" }, { "name": "职业职场", "route": "career", "tid": 209, "ps": 15, "rps": 10, "desc": "职业分享、升级指南，一起成为最有料的职场人" }, { "name": "设计·创意", "route": "design", "tid": 229, "ps": 15, "rps": 10, "desc": "天马行空，创意设计，都在这里" }, { "name": "野生技能协会", "route": "skill", "tid": 122, "ps": 15, "rps": 10, "desc": "技能党集合，是时候展示真正的技术了" }];
+              s[i2].name = "知识";
+              s[i2].route = "knowledge";
+              s[i2].sub = [{ "name": "科学科普", "route": "science", "tid": 201, "ps": 15, "rps": 10, "ad": { "active": true, "dataLocId": 261 }, "desc": "回答你的十万个为什么" }, { "name": "社科·法律·心理", "route": "social_science", "tid": 124, "ps": 15, "rps": 10, "ad": { "active": true, "dataLocId": 263 }, "desc": "基于社会科学、法学、心理学展开或个人观点输出的知识视频" }, { "name": "人文历史", "route": "humanity_history", "tid": 228, "ps": 15, "rps": 10, "desc": "看看古今人物，聊聊历史过往，品品文学典籍" }, { "name": "财经商业", "route": "business", "tid": 207, "ps": 15, "rps": 10, "desc": "说金融市场，谈宏观经济，一起畅聊商业故事" }, { "name": "校园学习", "route": "campus", "tid": 208, "ps": 15, "rps": 10, "ad": { "active": true, "dataLocId": 265 }, "desc": "老师很有趣，学生也有才，我们一起搞学习" }, { "name": "职业职场", "route": "career", "tid": 209, "ps": 15, "rps": 10, "desc": "职业分享、升级指南，一起成为最有料的职场人" }, { "name": "设计·创意", "route": "design", "tid": 229, "ps": 15, "rps": 10, "desc": "天马行空，创意设计，都在这里" }, { "name": "野生技能协会", "route": "skill", "tid": 122, "ps": 15, "rps": 10, "desc": "技能党集合，是时候展示真正的技术了" }];
               break;
             case "数码":
-              s[i].name = "科技";
-              s[i].route = "tech";
-              s[i].sub = [{ "name": "数码", "route": "digital", "tid": 95, "ps": 15, "rps": 10, "viewHotTag": true, "desc": "科技数码产品大全，一起来做发烧友", "url": "#" }, { "name": "软件应用", "route": "application", "tid": 230, "ps": 15, "rps": 10, "viewHotTag": true, "desc": "超全软件应用指南", "url": "#" }, { "name": "计算机技术", "route": "computer_tech", "tid": 231, "ps": 15, "rps": 10, "viewHotTag": true, "desc": "研究分析、教学演示、经验分享......有关计算机技术的都在这里", "url": "#" }, { "name": "科工机械", "route": "industry", "tid": 232, "ps": 15, "rps": 10, "viewHotTag": true, "desc": "从小芯片到大工程，一起见证科工力量", "url": "#" }, { "name": "极客DIY", "route": "diy", "tid": 233, "ps": 15, "rps": 10, "viewHotTag": true, "desc": "炫酷技能，极客文化，硬核技巧，准备好你的惊讶", "url": "#" }];
+              s[i2].name = "科技";
+              s[i2].route = "tech";
+              s[i2].sub = [{ "name": "数码", "route": "digital", "tid": 95, "ps": 15, "rps": 10, "viewHotTag": true, "desc": "科技数码产品大全，一起来做发烧友", "url": "#" }, { "name": "软件应用", "route": "application", "tid": 230, "ps": 15, "rps": 10, "viewHotTag": true, "desc": "超全软件应用指南", "url": "#" }, { "name": "计算机技术", "route": "computer_tech", "tid": 231, "ps": 15, "rps": 10, "viewHotTag": true, "desc": "研究分析、教学演示、经验分享......有关计算机技术的都在这里", "url": "#" }, { "name": "科工机械", "route": "industry", "tid": 232, "ps": 15, "rps": 10, "viewHotTag": true, "desc": "从小芯片到大工程，一起见证科工力量", "url": "#" }, { "name": "极客DIY", "route": "diy", "tid": 233, "ps": 15, "rps": 10, "viewHotTag": true, "desc": "炫酷技能，极客文化，硬核技巧，准备好你的惊讶", "url": "#" }];
               break;
             case "生活":
-              s[i].sub = [{ "name": "搞笑", "route": "funny", "tid": 138, "ps": 15, "rps": 10, "ad": { "active": true, "dataLocId": 273 }, "desc": "各种沙雕有趣的搞笑剪辑，挑战，表演，配音等视频", "url": "//www.bilibili.com/video/ent_funny_1.html", "locid": 4204, "recommendId": 4210, "slider": { "width": 620, "height": 220 }, "customComponent": { "name": "Energy", "leftId": 4212, "rightId": 4218, "rightType": "slide" } }, { "name": "家居房产", "route": "home", "tid": 239, "ps": 15, "rps": 10, "ad": { "active": true, "dataLocId": 275 }, "desc": "与买房、装修、居家生活相关的分享", "url": "#" }, { "name": "手工", "route": "handmake", "tid": 161, "ps": 15, "rps": 10, "desc": "手工制品的制作过程或成品展示、教程、测评类视频", "url": "//www.bilibili.com/video/ent-handmake-1.html" }, { "name": "绘画", "route": "painting", "tid": 162, "ps": 15, "rps": 10, "desc": "绘画过程或绘画教程，以及绘画相关的所有视频", "url": "//www.bilibili.com/video/ent-painting-1.html" }, { "name": "日常", "route": "daily", "tid": 21, "ps": 15, "rps": 10, "desc": "记录日常生活，分享生活故事", "url": "//www.bilibili.com/video/ent-life-1.html" }];
+              s[i2].sub = [{ "name": "搞笑", "route": "funny", "tid": 138, "ps": 15, "rps": 10, "ad": { "active": true, "dataLocId": 273 }, "desc": "各种沙雕有趣的搞笑剪辑，挑战，表演，配音等视频", "url": "//www.bilibili.com/video/ent_funny_1.html", "locid": 4204, "recommendId": 4210, "slider": { "width": 620, "height": 220 }, "customComponent": { "name": "Energy", "leftId": 4212, "rightId": 4218, "rightType": "slide" } }, { "name": "家居房产", "route": "home", "tid": 239, "ps": 15, "rps": 10, "ad": { "active": true, "dataLocId": 275 }, "desc": "与买房、装修、居家生活相关的分享", "url": "#" }, { "name": "手工", "route": "handmake", "tid": 161, "ps": 15, "rps": 10, "desc": "手工制品的制作过程或成品展示、教程、测评类视频", "url": "//www.bilibili.com/video/ent-handmake-1.html" }, { "name": "绘画", "route": "painting", "tid": 162, "ps": 15, "rps": 10, "desc": "绘画过程或绘画教程，以及绘画相关的所有视频", "url": "//www.bilibili.com/video/ent-painting-1.html" }, { "name": "日常", "route": "daily", "tid": 21, "ps": 15, "rps": 10, "desc": "记录日常生活，分享生活故事", "url": "//www.bilibili.com/video/ent-life-1.html" }];
               break;
             case "鬼畜":
-              s[i].sub = [{ "name": "鬼畜调教", "route": "guide", "tid": 22, "ps": 15, "rps": 10, "ad": { "active": true, "dataLocId": 285 }, "desc": "使用素材在音频、画面上做一定处理，达到与BGM一定的同步感", "url": "//www.bilibili.com/video/ent-Kichiku-1.html" }, { "name": "音MAD", "route": "mad", "tid": 26, "ps": 15, "rps": 10, "ad": { "active": true, "dataLocId": 287 }, "desc": "使用素材音频进行一定的二次创作来达到还原原曲的非商业性质稿件", "url": "//www.bilibili.com/video/douga-kichiku-1.html" }, { "name": "人力VOCALOID", "route": "manual_vocaloid", "tid": 126, "ps": 15, "rps": 10, "desc": "将人物或者角色的无伴奏素材进行人工调音，使其就像VOCALOID一样歌唱的技术", "url": "//www.bilibili.com/video/kichiku-manual_vocaloid-1.html" }, { "name": "鬼畜剧场", "route": "theatre", "tid": 216, "ps": 15, "rps": 10, "desc": "使用素材进行人工剪辑编排的有剧情的作品" }, { "name": "教程演示", "route": "course", "tid": 127, "ps": 10, "rps": 6, "rightComponent": { "name": "CmImgList", "id": 148 }, "ad": { "active": true, "dataLocId": 289 }, "hideDropdown": false, "desc": "鬼畜相关的教程演示", "url": "//www.bilibili.com/video/kichiku-course-1.html" }];
+              s[i2].sub = [{ "name": "鬼畜调教", "route": "guide", "tid": 22, "ps": 15, "rps": 10, "ad": { "active": true, "dataLocId": 285 }, "desc": "使用素材在音频、画面上做一定处理，达到与BGM一定的同步感", "url": "//www.bilibili.com/video/ent-Kichiku-1.html" }, { "name": "音MAD", "route": "mad", "tid": 26, "ps": 15, "rps": 10, "ad": { "active": true, "dataLocId": 287 }, "desc": "使用素材音频进行一定的二次创作来达到还原原曲的非商业性质稿件", "url": "//www.bilibili.com/video/douga-kichiku-1.html" }, { "name": "人力VOCALOID", "route": "manual_vocaloid", "tid": 126, "ps": 15, "rps": 10, "desc": "将人物或者角色的无伴奏素材进行人工调音，使其就像VOCALOID一样歌唱的技术", "url": "//www.bilibili.com/video/kichiku-manual_vocaloid-1.html" }, { "name": "鬼畜剧场", "route": "theatre", "tid": 216, "ps": 15, "rps": 10, "desc": "使用素材进行人工剪辑编排的有剧情的作品" }, { "name": "教程演示", "route": "course", "tid": 127, "ps": 10, "rps": 6, "rightComponent": { "name": "CmImgList", "id": 148 }, "ad": { "active": true, "dataLocId": 289 }, "hideDropdown": false, "desc": "鬼畜相关的教程演示", "url": "//www.bilibili.com/video/kichiku-course-1.html" }];
               break;
             case "时尚":
-              s[i].sub = [{ "name": "美妆护肤", "route": "makeup", "tid": 157, "ps": 15, "rps": 10, "ad": { "active": true, "dataLocId": 279 }, "desc": "彩妆护肤、美甲美发、仿妆、医美相关内容分享或产品测评", "url": "//www.bilibili.com/video/fashion-makeup-fitness-1.html" }, { "name": "穿搭", "route": "clothing", "tid": 158, "ps": 15, "rps": 10, "ad": { "active": true, "dataLocId": 281 }, "desc": "穿搭风格、穿搭技巧的展示分享，涵盖衣服、鞋靴、箱包配件、配饰（帽子、钟表、珠宝首饰）等", "url": "//www.bilibili.com/video/fashion-clothing-1.html" }, { "name": "时尚潮流", "route": "trend", "tid": 159, "ps": 15, "rps": 10, "desc": "时尚街拍、时装周、时尚大片，时尚品牌、潮流等行业相关记录及知识科普", "url": "#" }];
+              s[i2].sub = [{ "name": "美妆护肤", "route": "makeup", "tid": 157, "ps": 15, "rps": 10, "ad": { "active": true, "dataLocId": 279 }, "desc": "彩妆护肤、美甲美发、仿妆、医美相关内容分享或产品测评", "url": "//www.bilibili.com/video/fashion-makeup-fitness-1.html" }, { "name": "穿搭", "route": "clothing", "tid": 158, "ps": 15, "rps": 10, "ad": { "active": true, "dataLocId": 281 }, "desc": "穿搭风格、穿搭技巧的展示分享，涵盖衣服、鞋靴、箱包配件、配饰（帽子、钟表、珠宝首饰）等", "url": "//www.bilibili.com/video/fashion-clothing-1.html" }, { "name": "时尚潮流", "route": "trend", "tid": 159, "ps": 15, "rps": 10, "desc": "时尚街拍、时装周、时尚大片，时尚品牌、潮流等行业相关记录及知识科普", "url": "#" }];
               break;
             case "广告":
-              s[i].name = "资讯";
-              s[i].route = "information";
-              s[i].tid = 202;
-              s[i].sub = [{ "name": "热点", "route": "hotspot", "tid": 203, "ps": 18, "rps": 10, "desc": "全民关注的时政热门资讯" }, { "name": "环球", "route": "global", "tid": 204, "ps": 18, "rps": 10, "desc": "全球范围内发生的具有重大影响力的事件动态" }, { "name": "社会", "route": "social", "tid": 205, "ps": 18, "rps": 10, "desc": "日常生活的社会事件、社会问题、社会风貌的报道" }, { "name": "综合", "route": "multiple", "tid": 206, "ps": 18, "rps": 10, "desc": "除上述领域外其它垂直领域的综合资讯" }];
+              s[i2].name = "资讯";
+              s[i2].route = "information";
+              s[i2].tid = 202;
+              s[i2].sub = [{ "name": "热点", "route": "hotspot", "tid": 203, "ps": 18, "rps": 10, "desc": "全民关注的时政热门资讯" }, { "name": "环球", "route": "global", "tid": 204, "ps": 18, "rps": 10, "desc": "全球范围内发生的具有重大影响力的事件动态" }, { "name": "社会", "route": "social", "tid": 205, "ps": 18, "rps": 10, "desc": "日常生活的社会事件、社会问题、社会风貌的报道" }, { "name": "综合", "route": "multiple", "tid": 206, "ps": 18, "rps": 10, "desc": "除上述领域外其它垂直领域的综合资讯" }];
               break;
             case "娱乐":
-              s[i].sub = [{ "name": "综艺", "route": "variety", "tid": 71, "ps": 15, "rps": 10, "ad": { "active": true, "dataLocId": 267 }, "desc": "所有综艺相关，全部一手掌握！", "url": "//www.bilibili.com/video/ent-variety-1.html" }, { "name": "娱乐杂谈", "route": "talker", "tid": 241, "ps": 15, "rps": 10, "ad": { "active": true, "dataLocId": 269 }, "desc": "娱乐人物解读、娱乐热点点评、娱乐行业分析" }, { "name": "粉丝创作", "route": "fans", "tid": 242, "ps": 15, "rps": 10, "desc": "粉丝向创作视频" }, { "name": "明星综合", "route": "celebrity", "tid": 137, "ps": 15, "rps": 10, "desc": "娱乐圈动态、明星资讯相关" }];
+              s[i2].sub = [{ "name": "综艺", "route": "variety", "tid": 71, "ps": 15, "rps": 10, "ad": { "active": true, "dataLocId": 267 }, "desc": "所有综艺相关，全部一手掌握！", "url": "//www.bilibili.com/video/ent-variety-1.html" }, { "name": "娱乐杂谈", "route": "talker", "tid": 241, "ps": 15, "rps": 10, "ad": { "active": true, "dataLocId": 269 }, "desc": "娱乐人物解读、娱乐热点点评、娱乐行业分析" }, { "name": "粉丝创作", "route": "fans", "tid": 242, "ps": 15, "rps": 10, "desc": "粉丝向创作视频" }, { "name": "明星综合", "route": "celebrity", "tid": 137, "ps": 15, "rps": 10, "desc": "娱乐圈动态、明星资讯相关" }];
               break;
           }
         });
@@ -24894,8 +26901,8 @@ const MODULES = `
     async styleClear() {
       var _a3;
       const d = document.styleSheets;
-      for (let i = 0; i < d.length; i++) {
-        ((_a3 = d[i].href) == null ? void 0 : _a3.includes("laputa-header")) && (d[i].disabled = true);
+      for (let i2 = 0; i2 < d.length; i2++) {
+        ((_a3 = d[i2].href) == null ? void 0 : _a3.includes("laputa-header")) && (d[i2].disabled = true);
       }
       _Header.styleFix();
     }
@@ -25241,9 +27248,9 @@ const MODULES = `
         let dom = this.vdom;
         let ele;
         while (dom && arr2.length) {
-          const i = Number(arr2.shift());
-          if (i) {
-            ele = dom[i];
+          const i2 = Number(arr2.shift());
+          if (i2) {
+            ele = dom[i2];
             dom = ele.children;
           }
         }
@@ -25260,9 +27267,9 @@ const MODULES = `
         let dom = this.vdom;
         let ele;
         while (dom && arr2.length) {
-          const i = Number(arr2.shift());
-          if (i) {
-            ele = dom[i];
+          const i2 = Number(arr2.shift());
+          if (i2) {
+            ele = dom[i2];
             dom = ele.children;
           }
         }
@@ -25570,9 +27577,9 @@ const MODULES = `
           return s;
         }, []);
         setTimeout(() => {
-          document.querySelectorAll(".album-card").forEach((d, i) => {
-            d.firstChild.href = \`//h.bilibili.com/\${data[i]}\`;
-            d.children[1].href = \`//h.bilibili.com/\${data[i]}\`;
+          document.querySelectorAll(".album-card").forEach((d, i2) => {
+            d.firstChild.href = \`//h.bilibili.com/\${data[i2]}\`;
+            d.children[1].href = \`//h.bilibili.com/\${data[i2]}\`;
           });
         }, 1e3);
       }, false);
@@ -26048,6 +28055,7 @@ const MODULES = `
 
   // src/page/dynamic.ts
   var PageDynamic = class extends Page {
+    imageRecoveryInstalled = false;
     constructor() {
       super(dynamic_default);
       user.addCallback((status) => {
@@ -26060,10 +28068,21 @@ const MODULES = `
     }
     /** 重写为旧版动态页 */
     rewrite() {
+      this.installImageRecovery();
       urlCleaner.updateLocation(location.href);
       Header.primaryMenu();
       Header.banner();
       this.updateDom();
+    }
+    installImageRecovery() {
+      if (this.imageRecoveryInstalled) return;
+      this.imageRecoveryInstalled = true;
+      document.addEventListener("load", (event) => {
+        var _a3;
+        const image = event.target;
+        if (!(image instanceof HTMLImageElement) || image.naturalWidth <= 0) return;
+        (_a3 = image.closest(".b-img.sleepy")) == null ? void 0 : _a3.classList.remove("sleepy");
+      }, true);
     }
     /** 过滤直播录屏动态 */
     liveRecord() {
@@ -26168,16 +28187,16 @@ const MODULES = `
   init_tampermonkey();
   function unitFormat(num = 0) {
     num = 1 * num || 0;
-    let unit = ["", "万", "亿"], i = unit.length - 1, dex = 1e4 ** i;
+    let unit = ["", "万", "亿"], i2 = unit.length - 1, dex = 1e4 ** i2;
     while (dex > 1) {
       if (num >= dex) {
         num = Number((num / dex).toFixed(1));
         break;
       }
       dex = dex / 1e4;
-      i--;
+      i2--;
     }
-    return num + unit[i];
+    return num + unit[i2];
   }
 
   // src/page/region-feed.ts
@@ -26254,7 +28273,7 @@ const MODULES = `
     const from_region = fromRegion(rid);
     if (!from_region) throw new Error(\`旧版分区\${rid}没有对应的新版分区！\`);
     let archives = [];
-    for (let i = 0; i < 3; i++) {
+    for (let i2 = 0; i2 < 3; i2++) {
       const response2 = await fetch(objUrl(URLS.REGION_FEED_RCMD, {
         display_id: pn,
         request_cnt: ps,
@@ -26458,12 +28477,12 @@ const MODULES = `
           response2 = JSON.parse(response2);
           response2.data.text_link = { text: "233秒居然能做这些！", link: "//vc.bilibili.com" };
           if (response2.data.recommend) {
-            for (let i = 0; i < response2.data.recommend.length; i++) {
-              response2.data.recommend[i].pic = response2.data.recommend[i].cover;
-              response2.data.recommend[i].link = "//live.bilibili.com" + response2.data.recommend[i].link;
+            for (let i2 = 0; i2 < response2.data.recommend.length; i2++) {
+              response2.data.recommend[i2].pic = response2.data.recommend[i2].cover;
+              response2.data.recommend[i2].link = "//live.bilibili.com" + response2.data.recommend[i2].link;
             }
           }
-          if (response2.data.preview) for (let i = 0; i < response2.data.preview.length; i++) response2.data.preview[i].url = response2.data.preview[i].link;
+          if (response2.data.preview) for (let i2 = 0; i2 < response2.data.preview.length; i2++) response2.data.preview[i2].url = response2.data.preview[i2].link;
           obj.response = obj.responseText = JSON.stringify(response2);
         }
       }, false);
@@ -26492,17 +28511,17 @@ const MODULES = `
           apiSeasonRankList({ season_type: arr2[1] }).then((d) => {
             var _a3;
             let html = \`<header class="rank-head"><h3>排行</h3><div class="bili-dropdown rank-dropdown"><span class="selected">三日</span><i class="icon icon-arrow-down"></i><ul class="dropdown-list"><li class="dropdown-item" style="display: none;">三日</li><li class="dropdown-item">一周</li></ul></div></header><div class="rank-list-wrap"><ul class="bangumi-rank-list rank-list">\`;
-            for (let i = 0; i < 8; i++) {
-              html += \`<li class="rank-item\${i < 3 ? " highlight" : ""}"><i class="ri-num">\${i + 1}</i><a href="\${d[i].url}" target="_blank" title="\${d[i].title} 播放:\${d[i].stat.view}" class="ri-info-wrap"><p class="ri-title">\${d[i].title}</p><span class="ri-total">\${d[i].new_ep.index_show}</span></a></li>\`;
+            for (let i2 = 0; i2 < 8; i2++) {
+              html += \`<li class="rank-item\${i2 < 3 ? " highlight" : ""}"><i class="ri-num">\${i2 + 1}</i><a href="\${d[i2].url}" target="_blank" title="\${d[i2].title} 播放:\${d[i2].stat.view}" class="ri-info-wrap"><p class="ri-title">\${d[i2].title}</p><span class="ri-total">\${d[i2].new_ep.index_show}</span></a></li>\`;
             }
             html += \`</ul></div><a href="\${arr2[2]}" target="_blank" class="more-link">查看更多<i class="icon icon-arrow-r"></i></a>\`;
             const vnode = htmlVnode(html);
-            (_a3 = vnode[1].children[0].children) == null ? void 0 : _a3.forEach((t, i) => {
+            (_a3 = vnode[1].children[0].children) == null ? void 0 : _a3.forEach((t, i2) => {
               let node;
               t.event = {
                 "mouseover": (e) => {
                   const target = e.target;
-                  const nodes = \`<div class="bangumi-info-module" style="left: \${target.getBoundingClientRect().left}px; top: \${offset(target).top - 150}px;"><div class="v-preview clearfix"><div class="lazy-img cover"><img alt="\${d[i].title}" src="\${d[i].cover.replace("http:", "")}@72w_72h.webp" /></div><div><p class="title">\${d[i].title}</p><p class="desc">\${d[i].new_ep.index_show}</p></div></div><div class="v-data"><span class="play"><i class="icon"></i>\${unitFormat(d[i].stat.view)}</span><span class="danmu"><i class="icon"></i>\${unitFormat(d[i].stat.danmaku)}</span><span class="fav"><i class="icon"></i>\${unitFormat(d[i].stat.follow)}</span></div></div>\`;
+                  const nodes = \`<div class="bangumi-info-module" style="left: \${target.getBoundingClientRect().left}px; top: \${offset(target).top - 150}px;"><div class="v-preview clearfix"><div class="lazy-img cover"><img alt="\${d[i2].title}" src="\${d[i2].cover.replace("http:", "")}@72w_72h.webp" /></div><div><p class="title">\${d[i2].title}</p><p class="desc">\${d[i2].new_ep.index_show}</p></div></div><div class="v-data"><span class="play"><i class="icon"></i>\${unitFormat(d[i2].stat.view)}</span><span class="danmu"><i class="icon"></i>\${unitFormat(d[i2].stat.danmaku)}</span><span class="fav"><i class="icon"></i>\${unitFormat(d[i2].stat.follow)}</span></div></div>\`;
                   node = new VdomTool(nodes).toFragment().children[0];
                   document.body.appendChild(node);
                 },
@@ -26547,9 +28566,9 @@ const MODULES = `
           const timingData = vue.timingData;
           Object.values(eps).forEach((d2) => {
             const date = new Date(d2.pubdate * 1e3);
-            for (let i = timingData.length - 1; i >= 0; i--) {
-              if (date.getDay() + 1 === timingData[i].day_of_week) {
-                timingData[i].episodes.push({
+            for (let i2 = timingData.length - 1; i2 >= 0; i2--) {
+              if (date.getDay() + 1 === timingData[i2].day_of_week) {
+                timingData[i2].episodes.push({
                   cover: d2.cover || d2.pic,
                   delay: 0,
                   delay_id: 0,
@@ -26613,6 +28632,9 @@ const MODULES = `
       this.hash = hash;
       this.protocol = protocol;
     }
+    host;
+    hash;
+    protocol;
     /**
      * 获取cdn链接
      * @param path 文件相对路径
@@ -30298,20 +32320,20 @@ const MODULES = `
                 "> 如果弹出跨域提醒，推荐【总是允许全部域名】",
                 "> 如果多次更新失败，请禁用【重构播放器】功能！"
               );
-              let i = 1;
+              let i2 = 1;
               await Promise.all([
                 GM.fetch(cdn.encode("/chrome/player/video.js")).then((d) => d.text()).then((d) => {
                   data[0] = d;
-                  msg.push(\`> 加载播放器组件：\${i++}/2\`);
+                  msg.push(\`> 加载播放器组件：\${i2++}/2\`);
                 }).catch((e) => {
-                  msg.push(\`> 获取播放器组件出错！\${i++}/2\`, e);
+                  msg.push(\`> 获取播放器组件出错！\${i2++}/2\`, e);
                   msg.type = "error";
                 }),
                 GM.fetch(cdn.encode("/chrome/player/video.css")).then((d) => d.text()).then((d) => {
                   data[1] = d;
-                  msg.push(\`> 加载播放器组件：\${i++}/2\`);
+                  msg.push(\`> 加载播放器组件：\${i2++}/2\`);
                 }).catch((e) => {
-                  msg.push(\`> 获取播放器组件出错！\${i++}/2\`, e);
+                  msg.push(\`> 获取播放器组件出错！\${i2++}/2\`, e);
                   msg.type = "error";
                 })
               ]);
@@ -30502,6 +32524,7 @@ const MODULES = `
               super();
               this.arg = arg;
             }
+            arg;
             \$parent;
             mount(parent) {
               if (load) {
@@ -30688,11 +32711,11 @@ const MODULES = `
     }
     /** 顶层评论ip属地 */
     _createListCon() {
-      Feedback.prototype._createListCon = function(item, i, pos) {
+      Feedback.prototype._createListCon = function(item, i2, pos) {
         var _a3, _b2;
-        const blCon = this._parentBlacklistDom(item, i, pos);
+        const blCon = this._parentBlacklistDom(item, i2, pos);
         const con = [
-          '<div class="con ' + (pos == i ? "no-border" : "") + '">',
+          '<div class="con ' + (pos == i2 ? "no-border" : "") + '">',
           '<div class="user">' + this._createNickNameDom(item),
           this._createLevelLink(item),
           this._identity(item.mid, item.assist, item.member.fans_detail),
@@ -30727,13 +32750,13 @@ const MODULES = `
     }
     /** 楼中楼评论ip属地 */
     _createSubReplyItem() {
-      Feedback.prototype._createSubReplyItem = function(item, i) {
+      Feedback.prototype._createSubReplyItem = function(item, i2) {
         var _a3, _b2;
         if (item.invisible) {
           return "";
         }
         return [
-          '<div class="reply-item reply-wrap" data-id="' + item.rpid + '" data-index="' + i + '">',
+          '<div class="reply-item reply-wrap" data-id="' + item.rpid + '" data-index="' + i2 + '">',
           this._createSubReplyUserFace(item),
           '<div class="reply-con">',
           '<div class="user">',
@@ -38349,6 +40372,7 @@ const MODULES = `
         s_locale: "zh_SG"
       }, data);
     }
+    data;
     async getDate() {
       const response2 = await fetch(this.sign().toJSON());
       const json = await response2.json();
@@ -38372,6 +40396,9 @@ const MODULES = `
       this.cid = cid;
       this.has_next = has_next;
     }
+    aid;
+    cid;
+    has_next;
     allow_bp = false;
     answer_status = 0;
     bgm_info;
@@ -38831,8 +40858,8 @@ const MODULES = `
         const t = window.__INITIAL_STATE__;
         const status = d[0];
         if (status) {
-          const i = status.progress ? status.progress.last_ep_id : -1, n = status.progress ? status.progress.last_ep_index : "", s = status.progress ? status.progress.last_time : 0, o = status.vip_info || {};
-          !this.epid && i > 0 && (this.epid = i);
+          const i2 = status.progress ? status.progress.last_ep_id : -1, n = status.progress ? status.progress.last_ep_index : "", s = status.progress ? status.progress.last_time : 0, o = status.vip_info || {};
+          !this.epid && i2 > 0 && (this.epid = i2);
           t.userStat = {
             loaded: true,
             error: void 0 === status.pay,
@@ -38841,7 +40868,7 @@ const MODULES = `
             payPackPaid: status.pay_pack_paid || 0,
             sponsor: status.sponsor || 0,
             watchProgress: {
-              lastEpId: 0 === i ? -1 : i,
+              lastEpId: 0 === i2 ? -1 : i2,
               lastEpIndex: n,
               lastTime: s
             },
@@ -38861,8 +40888,8 @@ const MODULES = `
             const t2 = window.__INITIAL_STATE__;
             const status2 = bangumi.user_status;
             if (status2) {
-              const i2 = status2.progress ? status2.progress.last_ep_id : -1, n = status2.progress ? status2.progress.last_ep_index : "", s = status2.progress ? status2.progress.last_time : 0, o = status2.vip_info || {};
-              !this.epid && i2 > 0 && (this.epid = i2);
+              const i3 = status2.progress ? status2.progress.last_ep_id : -1, n = status2.progress ? status2.progress.last_ep_index : "", s = status2.progress ? status2.progress.last_time : 0, o = status2.vip_info || {};
+              !this.epid && i3 > 0 && (this.epid = i3);
               t2.userStat = {
                 loaded: true,
                 error: void 0 === status2.pay,
@@ -38871,7 +40898,7 @@ const MODULES = `
                 payPackPaid: status2.pay_pack_paid || 0,
                 sponsor: status2.sponsor || 0,
                 watchProgress: {
-                  lastEpId: 0 === i2 ? -1 : i2,
+                  lastEpId: 0 === i3 ? -1 : i3,
                   lastEpIndex: n,
                   lastTime: s
                 },
@@ -38889,25 +40916,25 @@ const MODULES = `
                 return (_a3 = this.syncFollowState) == null ? void 0 : _a3.call(this);
               }, 0);
             }
-            const i = JSON.parse(JSON.stringify(bangumi));
-            delete i.episodes;
-            delete i.seasons;
-            delete i.up_info;
-            delete i.rights;
-            delete i.publish;
-            delete i.newest_ep;
-            delete i.rating;
-            delete i.pay_pack;
-            delete i.payment;
-            delete i.activity;
-            i.paster_text = i.record;
-            i.season_status = i.status;
-            i.season_type = i.type;
-            i.series_title = i.series.series_title;
-            i.total_ep = i.total !== -1 ? i.total : bangumi.episodes.length;
-            if (user.userStatus.bangumiEplist) delete i.bkg_cover;
+            const i2 = JSON.parse(JSON.stringify(bangumi));
+            delete i2.episodes;
+            delete i2.seasons;
+            delete i2.up_info;
+            delete i2.rights;
+            delete i2.publish;
+            delete i2.newest_ep;
+            delete i2.rating;
+            delete i2.pay_pack;
+            delete i2.payment;
+            delete i2.activity;
+            i2.paster_text = i2.record;
+            i2.season_status = i2.status;
+            i2.season_type = i2.type;
+            i2.series_title = i2.series.series_title;
+            i2.total_ep = i2.total !== -1 ? i2.total : bangumi.episodes.length;
+            if (user.userStatus.bangumiEplist) delete i2.bkg_cover;
             user.userStatus.videoLimit.status && bangumi.rights && (bangumi.rights.watch_platform = 0);
-            t2.mediaInfo = i;
+            t2.mediaInfo = i2;
             t2.mediaInfo.bkg_cover && (t2.special = true);
             t2.ssId = bangumi.season_id || -1;
             t2.mdId = bangumi.media_id;
@@ -38980,14 +41007,14 @@ const MODULES = `
       };
     }
     /** 更新标题 */
-    setTitle(t, e, i, n) {
+    setTitle(t, e, i2, n) {
       var s = !(arguments.length > 4 && void 0 !== arguments[4]) || arguments[4], o = "";
-      if (i = void 0 === i ? "番剧" : i, e && i)
+      if (i2 = void 0 === i2 ? "番剧" : i2, e && i2)
         if (s && t) {
-          var a = this.V(t, i);
-          o = "".concat(e, "：").concat(a, "_").concat(i).concat(n ? "_bilibili" : "", "_哔哩哔哩");
+          var a = this.V(t, i2);
+          o = "".concat(e, "：").concat(a, "_").concat(i2).concat(n ? "_bilibili" : "", "_哔哩哔哩");
         } else
-          o = "".concat(e, "_").concat(i).concat(n ? "_bilibili" : "", "_哔哩哔哩");
+          o = "".concat(e, "_").concat(i2).concat(n ? "_bilibili" : "", "_哔哩哔哩");
       else
         o = "番剧".concat(n ? "_bilibili" : "", "_哔哩哔哩");
       if ("undefined" != typeof window) {
@@ -38997,7 +41024,7 @@ const MODULES = `
       return o;
     }
     Q(t, e) {
-      var i = {
+      var i2 = {
         1: "番剧",
         2: "电影",
         3: "纪录片",
@@ -39006,11 +41033,11 @@ const MODULES = `
         7: "综艺",
         music: "音乐"
       };
-      return [26484, 26481].indexOf(e) > -1 ? i.music : i[t] || "番剧";
+      return [26484, 26481].indexOf(e) > -1 ? i2.music : i2[t] || "番剧";
     }
     V(t, e) {
-      var i = Number(t), n = 1 === e || 4 === e || "番剧" === e || "国创" === e ? "话" : "集";
-      return isNaN(i) ? t : "第".concat(i).concat(n);
+      var i2 = Number(t), n = 1 === e || 4 === e || "番剧" === e || "国创" === e ? "话" : "集";
+      return isNaN(i2) ? t : "第".concat(i2).concat(n);
     }
     /** 尝试东南亚接口 */
     async initGlobal() {
@@ -39021,7 +41048,7 @@ const MODULES = `
       networkMock();
       await new Promise((r) => poll(() => window.__INITIAL_STATE__, r));
       const t = window.__INITIAL_STATE__;
-      const i = JSON.parse(JSON.stringify(d));
+      const i2 = JSON.parse(JSON.stringify(d));
       const episodes = d.modules.reduce((s, d_1) => {
         d_1.data.episodes.forEach((d_2) => {
           s.push({
@@ -39055,31 +41082,31 @@ const MODULES = `
         return s;
       }, []);
       t.mediaInfo = {
-        actors: (_a3 = i.actor) == null ? void 0 : _a3.info,
-        alias: i.alias,
-        areas: i.areas,
-        cover: i.cover,
-        evaluate: i.evaluate,
+        actors: (_a3 = i2.actor) == null ? void 0 : _a3.info,
+        alias: i2.alias,
+        areas: i2.areas,
+        cover: i2.cover,
+        evaluate: i2.evaluate,
         is_paster_ads: 0,
-        jp_title: i.origin_name,
-        link: i.link,
+        jp_title: i2.origin_name,
+        link: i2.link,
         media_id: -1,
-        mode: i.mode,
+        mode: i2.mode,
         paster_text: "",
-        season_id: i.season_id,
-        season_status: i.status,
-        season_title: i.season_title,
-        season_type: i.type,
-        series_title: i.title,
-        square_cover: i.square_cover,
-        staff: (_b2 = i.actor) == null ? void 0 : _b2.info,
-        stat: i.stat,
-        style: (_c = i.styles) == null ? void 0 : _c.map((d_3) => d_3.name),
-        title: i.title,
-        total_ep: i.total
+        season_id: i2.season_id,
+        season_status: i2.status,
+        season_title: i2.season_title,
+        season_type: i2.type,
+        series_title: i2.title,
+        square_cover: i2.square_cover,
+        staff: (_b2 = i2.actor) == null ? void 0 : _b2.info,
+        stat: i2.stat,
+        style: (_c = i2.styles) == null ? void 0 : _c.map((d_3) => d_3.name),
+        title: i2.title,
+        total_ep: i2.total
       };
       t.mediaInfo.bkg_cover && (t.special = true);
-      t.ssId = i.season_id || -1;
+      t.ssId = i2.season_id || -1;
       t.epInfo = this.epid && episodes.find((d_4) => d_4.ep_id == this.epid) || episodes[0] || {};
       t.epList = episodes;
       t.seasonList = ((_e = (_d = d.series) == null ? void 0 : _d.seasons) == null ? void 0 : _e.map((d_5) => {
@@ -39131,7 +41158,7 @@ const MODULES = `
         });
       }
       loopTitle();
-      videoInfo.bangumiEpisode(episodes, i.title, (_g = i.actor) == null ? void 0 : _g.info, i.cover, t.mediaInfo.bkg_cover);
+      videoInfo.bangumiEpisode(episodes, i2.title, (_g = i2.actor) == null ? void 0 : _g.info, i2.cover, t.mediaInfo.bkg_cover);
     }
     /** 修复泰区player接口 */
     player() {
@@ -39585,12 +41612,16 @@ const MODULES = `
   // src/page/watchalter.ts
   var PageWatchlater = class extends Page {
     like;
+    /** 合作UP主模式 */
+    _isStaffMode = false;
     constructor() {
       super(watchlater_default);
       this.like = new Like();
       new Comment2();
       this.toAv();
       this.enLike();
+      this.staffHook();
+      this.recommendHook();
       this.toview();
       this.living();
       this.commentAgent();
@@ -39659,6 +41690,81 @@ const MODULES = `
         const response2 = JSON.stringify(json);
         return { response: response2, responseText: response2, responseType: "json" };
       });
+    }
+    /** 合作UP主 */
+    staffHook() {
+      jsonpHook("x/web-interface/view?", void 0, (d) => {
+        setTimeout(() => {
+          const data = jsonCheck(d).data;
+          if (user.userStatus.staff && Array.isArray(data.staff) && data.staff.length) {
+            this.staff(data.staff);
+          } else if (this._isStaffMode) {
+            this.restoreSingleUp(data.owner);
+          }
+        });
+        return d;
+      }, false);
+    }
+    /** 修复相关推荐接口 */
+    recommendHook() {
+      xhrHook.async("comment.bilibili.com/recommendnew", void 0, async (args) => {
+        const m = args[1].match(/recommendnew[,\\/](\\d+)/);
+        if (m && m[1]) {
+          const data = await apiViewDetail(Number(m[1]));
+          const response2 = JSON.stringify({ code: 0, message: "0", ttl: 1, data: data.Related });
+          return { response: response2, responseText: response2, responseType: "json" };
+        }
+        throw new Error("recommendnew 未找到aid");
+      }, false);
+    }
+    /** 合作UP主卡片 */
+    staff(staff) {
+      poll(() => document.querySelector(".up-info-module"), (upinfo) => {
+        var _a3;
+        this._isStaffMode = true;
+        const width = upinfo.offsetWidth;
+        upinfo.style.display = "none";
+        let container = document.querySelector("#v_upinfo_staff");
+        if (!container) {
+          container = document.createElement("div");
+          container.id = "v_upinfo_staff";
+          container.className = "up-info-m report-wrap-module report-scroll-module";
+          (_a3 = upinfo.parentNode) == null ? void 0 : _a3.insertBefore(container, upinfo.nextSibling);
+          addCss(uplist_default, "up-list");
+        }
+        if (width) {
+          container.style.width = width + "px";
+        }
+        container.style.float = "right";
+        container.style.flex = "0 0 auto";
+        let fl2 = '<span class="title">UP主列表</span><div class="up-card-box">';
+        fl2 = staff.reduce((s, d) => {
+          s = s + \`<div class="up-card">
+                    <a href="//space.bilibili.com/\${d.mid}" data-usercard-mid="\${d.mid}" target="_blank" class="avatar">
+                    <img src="\${d.face}@48w_48h.webp" /><!---->
+                    <span class="info-tag">\${d.title}</span><!----></a>
+                    <div class="avatar">
+                    <a href="//space.bilibili.com/\${d.mid}" data-usercard-mid="\${d.mid}" target="_blank" class="\${d.vip && d.vip.status ? "name-text is-vip" : "name-text"}">\${d.name}</a>
+                    </div></div>\`;
+          return s;
+        }, fl2) + \`</div>\`;
+        container.innerHTML = fl2;
+        container.style.display = "";
+        const box = container.querySelector(".up-card-box");
+        box && new Scrollbar(box, true, false);
+      });
+    }
+    /** 合作UP切单UP */
+    restoreSingleUp(up) {
+      this._isStaffMode = false;
+      const upinfo = document.querySelector(".up-info-module");
+      const staffContainer = document.querySelector("#v_upinfo_staff");
+      if (staffContainer) {
+        staffContainer.style.display = "none";
+      }
+      if (upinfo) {
+        upinfo.style.display = "";
+      }
     }
   };
 
@@ -41054,6 +43160,7 @@ const MODULES = `
       this.api = api;
       this.api = encodeURIComponent(api);
     }
+    api;
     async getData() {
       const response2 = await fetch(this.sign({ api: this.api }, this.api).toJSON(), { credentials: "include" });
       const json = await response2.json();
@@ -41499,7 +43606,7 @@ const MODULES = `
      * @param item 设置项
      * @param i 容器序号
      */
-    addSetting(item, i = 0) {
+    addSetting(item, i2 = 0) {
       isArray(item) || (item = [item]);
       item.forEach((d) => {
         d.addEventListener("show", (e) => {
@@ -41509,8 +43616,8 @@ const MODULES = `
           });
         });
       });
-      i = Math.min(this.container.length - 1, i);
-      this.container[i].addSetting(item);
+      i2 = Math.min(this.container.length - 1, i2);
+      this.container[i2].addSetting(item);
     }
     /** 显示容器中的设置 */
     show() {
@@ -41638,8 +43745,8 @@ const MODULES = `
             if (checkbox.value) {
               this.\$value.includes(d) || this.\$value.push(d);
             } else {
-              const i = this.\$value.indexOf(d);
-              i >= 0 && this.\$value.splice(i, 1);
+              const i2 = this.\$value.indexOf(d);
+              i2 >= 0 && this.\$value.splice(i2, 1);
             }
             this.dispatchEvent(new Event("change"));
           });
@@ -41651,8 +43758,8 @@ const MODULES = `
         var _a3;
         if (!labels.includes(d)) {
           (_a3 = this.checkboxs[d]) == null ? void 0 : _a3.remove();
-          const i = this.\$value.indexOf(d);
-          i >= 0 && this.\$value.splice(i, 1);
+          const i2 = this.\$value.indexOf(d);
+          i2 >= 0 && this.\$value.splice(i2, 1);
         }
       });
     }
@@ -41707,7 +43814,7 @@ const MODULES = `
     }
     set candidate(v) {
       this.\$candidate = v;
-      this._ul.replaceChildren(...v.map((d, i, t) => {
+      this._ul.replaceChildren(...v.map((d, i2, t) => {
         const li = document.createElement("li");
         li.className = "input-list-row";
         li.addEventListener("click", (e) => {
@@ -41720,7 +43827,7 @@ const MODULES = `
         const div = document.createElement("div");
         div.className = "cancel";
         div.addEventListener("click", (e) => {
-          t.splice(i, 1);
+          t.splice(i2, 1);
           li.remove();
           e.stopPropagation();
         });
@@ -41772,7 +43879,7 @@ const MODULES = `
     }
     set candidate(v) {
       this.\$candidate = v;
-      this._list.replaceChildren(...v.map((d, i, t) => {
+      this._list.replaceChildren(...v.map((d, i2, t) => {
         const li = document.createElement("li");
         li.className = "selectmenu-list-row";
         li.addEventListener("click", (e) => {
@@ -42728,6 +44835,8 @@ const MODULES = `
       comment && new Comment();
       typeof this.path === "string" && this.init();
     }
+    path;
+    url;
     toast = toast.list();
     init() {
       this.toast.push("页面重构 >>>", "> " + this.url, "> 已失效~", "> 请求远程备份~");
@@ -43005,7 +45114,7 @@ const MODULES = `
   init_tampermonkey();
 
   // src/html/online.html
-  var online_default = '<!DOCTYPE html>\\r\\n<html>\\r\\n<head>\\r\\n  <title>当前在线 - 哔哩哔哩 (゜-゜)つロ 干杯~-bilibili</title>\\r\\n  <meta charset="utf-8">\\r\\n  <meta http-equiv="X-UA-Compatible" content="IE=edge">\\r\\n  <meta name="renderer" content="webkit">\\r\\n  <meta name="description" content="bilibili是国内知名的视频弹幕网站，这里有最及时的动漫新番，最棒的ACG氛围，最有创意的Up主。大家可以在这里找到许多欢乐。">\\r\\n  <meta name="keywords" content="B站,弹幕,字幕,AMV,MAD,MTV,ANIME,动漫,动漫音乐,游戏,游戏解说,ACG,galgame,动画,番组,新番,初音,洛天依,vocaloid">\\r\\n  <meta name="spm_prefix" content="333.155">\\r\\n  <script type="text/javascript">\\r\\n    window.spmReportData = {};\\r\\n    window.reportConfig = { sample: 1, scrollTracker: true, msgObjects: "spmReportData", errorTracker: true };\\r\\n  <\\/script>\\r\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/jinkela/short/config/biliconfig.js"><\\/script>\\r\\n  <script type="text/javascript">window.isForceNarrow = true;<\\/script>\\r\\n  <link href="https://s1.hdslb.com/bfs/static/jinkela/online/css/online.0.a1513c351b5a8523705a0ee1793b4f1bcd064865.css" rel="stylesheet">\\r\\n</head>\\r\\n<body>\\r\\n  <div id="biliMainHeader" type="all" style="height:263px"></div>\\r\\n  <div id="online-app"></div>\\r\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/static/jinkela/long/js/jquery/jquery1.7.2.min.js"><\\/script>\\r\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/log/report/log-reporter.js" crossorigin><\\/script>\\r\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/jinkela/header-v2/header.js" defer><\\/script>\\r\\n  <div class="footer bili-footer report-wrap-module"></div>\\r\\n  <script type="text/javascript" charset="utf-8" src="https://s1.hdslb.com/bfs/seed/jinkela/footer-v2/footer.js"><\\/script>\\r\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/jinkela/short/auto-append-spmid.js"><\\/script>\\r\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/static/jinkela/online/1.online.a1513c351b5a8523705a0ee1793b4f1bcd064865.js"><\\/script>\\r\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/static/jinkela/online/online.a1513c351b5a8523705a0ee1793b4f1bcd064865.js"><\\/script>\\r\\n\\r\\n</body>\\r\\n</html>\\r\\n';
+  var online_default = '<!DOCTYPE html>\\n<html>\\n<head>\\n  <title>当前在线 - 哔哩哔哩 (゜-゜)つロ 干杯~-bilibili</title>\\n  <meta charset="utf-8">\\n  <meta http-equiv="X-UA-Compatible" content="IE=edge">\\n  <meta name="renderer" content="webkit">\\n  <meta name="description" content="bilibili是国内知名的视频弹幕网站，这里有最及时的动漫新番，最棒的ACG氛围，最有创意的Up主。大家可以在这里找到许多欢乐。">\\n  <meta name="keywords" content="B站,弹幕,字幕,AMV,MAD,MTV,ANIME,动漫,动漫音乐,游戏,游戏解说,ACG,galgame,动画,番组,新番,初音,洛天依,vocaloid">\\n  <meta name="spm_prefix" content="333.155">\\n  <script type="text/javascript">\\n    window.spmReportData = {};\\n    window.reportConfig = { sample: 1, scrollTracker: true, msgObjects: "spmReportData", errorTracker: true };\\n  <\\/script>\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/jinkela/short/config/biliconfig.js"><\\/script>\\n  <script type="text/javascript">window.isForceNarrow = true;<\\/script>\\n  <link href="https://s1.hdslb.com/bfs/static/jinkela/online/css/online.0.a1513c351b5a8523705a0ee1793b4f1bcd064865.css" rel="stylesheet">\\n</head>\\n<body>\\n  <div id="biliMainHeader" type="all" style="height:263px"></div>\\n  <div id="online-app"></div>\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/static/jinkela/long/js/jquery/jquery1.7.2.min.js"><\\/script>\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/log/report/log-reporter.js" crossorigin><\\/script>\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/jinkela/header-v2/header.js" defer><\\/script>\\n  <div class="footer bili-footer report-wrap-module"></div>\\n  <script type="text/javascript" charset="utf-8" src="https://s1.hdslb.com/bfs/seed/jinkela/footer-v2/footer.js"><\\/script>\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/seed/jinkela/short/auto-append-spmid.js"><\\/script>\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/static/jinkela/online/1.online.a1513c351b5a8523705a0ee1793b4f1bcd064865.js"><\\/script>\\n  <script type="text/javascript" src="https://s1.hdslb.com/bfs/static/jinkela/online/online.a1513c351b5a8523705a0ee1793b4f1bcd064865.js"><\\/script>\\n\\n</body>\\n</html>\\n';
 
   // src/page/online.ts
   var PageOnline = class extends Page {
@@ -43153,6 +45262,27 @@ is-buffer/index.js:
    *
    * @author   Feross Aboukhadijeh <https://feross.org>
    * @license  MIT
+   *)
+
+long/umd/index.js:
+  (**
+   * @license
+   * Copyright 2009 The Closure Library Authors
+   * Copyright 2020 Daniel Wirtz / The long.js Authors.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *     http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *
+   * SPDX-License-Identifier: Apache-2.0
    *)
 */
 
