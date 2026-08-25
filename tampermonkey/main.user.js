@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bilibili 旧播放页
 // @namespace    MotooriKashin
-// @version      10.13.7-c3dd748427ccbbefce8d3423714030e5ad97afd7
+// @version      10.13.8-c3dd748427ccbbefce8d3423714030e5ad97afd7
 // @description  恢复Bilibili旧版页面，为了那些念旧的人。
 // @author       MotooriKashin, wly5556, FMPeach
 // @homepage     https://github.com/FMPeach/Bilibili-Old
@@ -9856,6 +9856,7 @@ const MODULES = `
     static PGC_PLAYURL = _URLS.P_AUTO + _URLS.D_API + "/pgc/player/web/playurl";
     static PLAYURL = _URLS.P_AUTO + _URLS.D_API + "/x/player/playurl";
     static INTL_PLAYURL = _URLS.P_AUTO + _URLS.D_APP + "/x/intl/playurl";
+    static FEED_INDEX = _URLS.P_AUTO + _URLS.D_APP + "/x/v2/feed/index";
     static INTL_OGV_PLAYURL = _URLS.P_AUTO + _URLS.D_INTL + "/intl/gateway/ogv/player/api/playurl";
     static PLAYURL_INTERFACE = _URLS.P_AUTO + _URLS.D_INTERFACE + "/v2/playurl";
     static PLAYURL_BANGUMI = _URLS.P_AUTO + _URLS.D_BANGUMI + "/player/web_api/v2/playurl";
@@ -28183,6 +28184,82 @@ const MODULES = `
     return jsonCheck(AV.fromStr(text)).data;
   }
 
+  // src/io/api-feed-index.ts
+  init_tampermonkey();
+
+  // src/io/android.ts
+  init_tampermonkey();
+  var import_md53 = __toESM(require_md5());
+  var _buvid = "";
+  function buvid() {
+    if (_buvid) return _buvid;
+    const buvid2 = (0, import_md53.default)(Math.random().toString()).toUpperCase();
+    return _buvid = "XX" + buvid2[2] + buvid2[12] + buvid2[22] + buvid2;
+  }
+
+  // src/io/api-feed-index.ts
+  var ApiFeedIndex = class extends ApiSign {
+    constructor() {
+      super(URLS.FEED_INDEX, "1d8b6e7d45233436");
+      this.data = {
+        build: "7540300" /* build */,
+        mobi_app: "android" /* mobi_app */,
+        platform: "android" /* platform */,
+        c_locale: "zh-Hans_CN" /* c_locale */,
+        s_locale: "zh-Hans_CN" /* s_locale */,
+        idx: 0,
+        pull: true,
+        login_event: 0,
+        open_event: "",
+        qn: 32,
+        fnval: 4048,
+        fnver: 0,
+        fourk: 0
+      };
+    }
+    async getData() {
+      const response2 = await GM.fetch(this.sign().toJSON(), {
+        headers: {
+          "user-agent": "Mozilla/5.0 BiliDroid/7.54.0 (bbcallen@gmail.com) os/android model/XQ-CT72 mobi_app/android build/7540300 channel/bilih5 innerVer/7540310 osVer/12 network/2" /* user-agent */,
+          "buvid": buvid()
+        }
+      });
+      const json = await response2.json();
+      return jsonCheck(json);
+    }
+    /**
+     * 将 APP Feed 推荐/推广数据转换为旧版推广位 locsData 格式
+     */
+    static toLocsData(data) {
+      var _a3;
+      if (!((_a3 = data == null ? void 0 : data.data) == null ? void 0 : _a3.items)) return [];
+      return data.data.items.filter((item) => item && (item.cover || item.title)).map((item, index) => {
+        var _a4, _b2;
+        const aid = item.param || ((_a4 = item.args) == null ? void 0 : _a4.aid) || ((_b2 = item.player_args) == null ? void 0 : _b2.aid) || item.id;
+        let url = item.uri || "";
+        if (url.startsWith("bilibili://video/")) {
+          const vid = url.replace("bilibili://video/", "").split("?")[0];
+          url = vid.startsWith("BV") ? \`//www.bilibili.com/video/\${vid}\` : \`//www.bilibili.com/video/av\${vid}\`;
+        } else if (!url.startsWith("http") && !url.startsWith("//")) {
+          url = aid ? \`//www.bilibili.com/video/av\${aid}\` : url;
+        }
+        return {
+          id: Number(aid) || index + 1,
+          name: item.title || "",
+          title: item.title || "",
+          pic: item.cover || "",
+          litpic: item.cover || "",
+          url,
+          is_ad: false,
+          is_ad_loc: false,
+          pos_num: index + 1,
+          creative_type: 0,
+          null_frame: false
+        };
+      });
+    }
+  };
+
   // src/utils/format/unit.ts
   init_tampermonkey();
   function unitFormat(num = 0) {
@@ -28367,6 +28444,7 @@ const MODULES = `
       this.avcheck();
       window.__INITIAL_STATE__ = __INITIAL_STATE__;
       this.locsData();
+      this.promote();
       this.recommendData();
       this.roomRecommend();
       this.ranking();
@@ -28384,12 +28462,48 @@ const MODULES = `
         __INITIAL_STATE__.locsData[23] = this.adblock(d[4694]);
         __INITIAL_STATE__.locsData[29] = this.adblock(d[29]);
         __INITIAL_STATE__.locsData[31] = this.adblock(d[31]);
-        __INITIAL_STATE__.locsData[34] = this.adblock(d[34]);
         __INITIAL_STATE__.locsData[40] = this.adblock(d[40]);
         __INITIAL_STATE__.locsData[42] = this.adblock(d[42]);
         __INITIAL_STATE__.locsData[44] = this.adblock(d[44]);
       }).catch((e) => {
         toast.error("locsData Error!", e)();
+      });
+    }
+    /** 修复推广栏位（使用 APP Feed 推荐/必火推广数据替换已失效的 34 推广位） */
+    promote() {
+      new ApiFeedIndex().getData().then((d) => {
+        const data = ApiFeedIndex.toLocsData(d);
+        __INITIAL_STATE__.locsData[34] = data;
+        poll(() => document.querySelector('.home-match, #bili_report_specrec, [report-id="specrec"]'), (matchEl) => {
+          const vue = matchEl.__vue__;
+          if (vue) {
+            try {
+              if ("locs" in vue) vue.locs = data;
+              if ("list" in vue) vue.list = data;
+              if ("cards" in vue) vue.cards = data;
+              if ("locsData" in vue && vue.locsData) vue.locsData[34] = data;
+              if (vue.\$set && vue.locsData) vue.\$set(vue.locsData, "34", data);
+              if (vue.\$forceUpdate) vue.\$forceUpdate();
+            } catch (e) {
+              debug.error("Promote Vue update error", e);
+            }
+          }
+          setTimeout(() => {
+            const storeyBox = matchEl.querySelector(".storey-box");
+            const loading2 = matchEl.querySelector(".load-state, .b-loading");
+            if (loading2 && storeyBox) {
+              let html = \`<div class="storey-box clearfix">\`;
+              data.slice(0, 5).forEach((item) => {
+                html += \`<div class="card-item match-spread-card"><a href="\${item.url}" target="_blank"><div class="pic"><div class="lazy-img"><img alt="\${item.name}" src="\${item.pic.replace("http:", "")}@160w_100h.webp" /></div><div class="mask-video"></div><span class="promote">推广</span></div><p title="\${item.name}" class="t">\${item.name}</p></a></div>\`;
+              });
+              html += \`</div>\`;
+              const vnode = htmlVnode(html);
+              storeyBox.replaceWith(new VdomTool(vnode).toFragment());
+            }
+          }, 200);
+        });
+      }).catch((e) => {
+        debug.error("APP Feed 推广位替换 Error!", e);
       });
     }
     recommendData() {
@@ -41272,6 +41386,7 @@ const MODULES = `
       location.href.includes("/s/video") && urlCleaner.updateLocation(location.href.replace("s/video", "video"));
       this.enLike();
       this.aidLostCheck();
+      this.activityHook();
       this.favCode();
       this.tagTopic();
       this.menuConfig();
@@ -41394,6 +41509,25 @@ const MODULES = `
             }
           }
         }
+      }, false);
+    }
+    /** 修复活动卡片接口 */
+    activityHook() {
+      xhrHook.async("www.bilibili.com/activity/subject/", void 0, async (args) => {
+        const m = args[1].match(/activity\\/subject\\/(\\d+)\\?aid=(\\d+)/);
+        if (m && m[1] && m[2]) {
+          const url = \`https://api.bilibili.com/x/activity/subject/info?sid=\${m[1]}&aid=\${m[2]}\`;
+          const res = await fetch(url, { credentials: "include" });
+          const json = await res.json();
+          if (json == null ? void 0 : json.data) {
+            const toStr = (ts) => new Date((ts + 8 * 3600) * 1e3).toISOString().slice(0, 19).replace("T", " ");
+            if (typeof json.data.letime === "number") json.data.letime = toStr(json.data.letime);
+            if (typeof json.data.lstime === "number") json.data.lstime = toStr(json.data.lstime);
+          }
+          const response2 = JSON.stringify(json);
+          return { response: response2, responseText: response2, responseType: "json" };
+        }
+        throw new Error("activity subject 未找到");
       }, false);
     }
     /** 通过其他接口获取aid数据 */
@@ -43170,18 +43304,6 @@ const MODULES = `
 
   // src/io/passport.bilibili.com/x/passport-tv-login/h5/qrcode/confirm.ts
   init_tampermonkey();
-
-  // src/io/android.ts
-  init_tampermonkey();
-  var import_md53 = __toESM(require_md5());
-  var _buvid = "";
-  function buvid() {
-    if (_buvid) return _buvid;
-    const buvid2 = (0, import_md53.default)(Math.random().toString()).toUpperCase();
-    return _buvid = "XX" + buvid2[2] + buvid2[12] + buvid2[22] + buvid2;
-  }
-
-  // src/io/passport.bilibili.com/x/passport-tv-login/h5/qrcode/confirm.ts
   async function confirm(authCode2, csrf = getCookies().bili_jct) {
     const response2 = await GM.fetch(URLS.PASSPORT_QRCODE_CONFIRM, {
       method: "POST",
