@@ -59,6 +59,7 @@ export class URLS {
     static readonly PGC_PLAYURL = URLS.P_AUTO + URLS.D_API + '/pgc/player/web/playurl';
     static readonly PLAYURL = URLS.P_AUTO + URLS.D_API + '/x/player/playurl';
     static readonly INTL_PLAYURL = URLS.P_AUTO + URLS.D_APP + '/x/intl/playurl';
+    static readonly FEED_INDEX = URLS.P_AUTO + URLS.D_APP + '/x/v2/feed/index';
     static readonly INTL_OGV_PLAYURL = URLS.P_AUTO + URLS.D_INTL + '/intl/gateway/ogv/player/api/playurl';
     static readonly PLAYURL_INTERFACE = URLS.P_AUTO + URLS.D_INTERFACE + '/v2/playurl';
     static readonly PLAYURL_BANGUMI = URLS.P_AUTO + URLS.D_BANGUMI + '/player/web_api/v2/playurl';

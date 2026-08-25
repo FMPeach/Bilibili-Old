@@ -8,6 +8,7 @@ import { apiIndexTopRcmd } from "../io/api-index-top-rcmd";
 import { apiNewlist } from "../io/api-newlist";
 import { apiSeasonRankList } from "../io/api-season-rank-list";
 import { apiWebshowLocs, IApiWebshowLocsResponse } from "../io/api-webshow-locs";
+import { ApiFeedIndex } from "../io/api-feed-index";
 import { uid } from "../utils/conf/uid";
 import { debug } from "../utils/debug";
 import { addElement, offset } from "../utils/element";
@@ -47,6 +48,7 @@ export class PageIndex extends Page {
         this.avcheck();
         (<any>window).__INITIAL_STATE__ = __INITIAL_STATE__;
         this.locsData();
+        this.promote();
         this.recommendData();
         this.roomRecommend();
         this.ranking();
@@ -63,16 +65,57 @@ export class PageIndex extends Page {
     protected locsData() {
         apiWebshowLocs({ ids: [4694, 29, 31, 34, 40, 42, 44] })
             .then(d => {
+                // 轮播图使用 4694 数据源（对应 locsData[23]）
                 __INITIAL_STATE__.locsData[23] = this.adblock(d[4694]);
                 __INITIAL_STATE__.locsData[29] = this.adblock(d[29]);
                 __INITIAL_STATE__.locsData[31] = this.adblock(d[31]);
-                __INITIAL_STATE__.locsData[34] = this.adblock(d[34]);
                 __INITIAL_STATE__.locsData[40] = this.adblock(d[40]);
                 __INITIAL_STATE__.locsData[42] = this.adblock(d[42]);
                 __INITIAL_STATE__.locsData[44] = this.adblock(d[44]);
             })
             .catch(e => {
                 toast.error('locsData Error!', e)();
+            });
+    }
+    /** 修复推广栏位（使用 APP Feed 推荐/必火推广数据替换已失效的 34 推广位） */
+    protected promote() {
+        new ApiFeedIndex().getData()
+            .then(d => {
+                const data = ApiFeedIndex.toLocsData(d);
+                // 推广位对应 locsData[34]
+                __INITIAL_STATE__.locsData[34] = data;
+                poll(() => document.querySelector<HTMLElement>('.home-match, #bili_report_specrec, [report-id="specrec"]'), matchEl => {
+                    const vue = (<any>matchEl).__vue__;
+                    if (vue) {
+                        try {
+                            if ('locs' in vue) vue.locs = data;
+                            if ('list' in vue) vue.list = data;
+                            if ('cards' in vue) vue.cards = data;
+                            if ('locsData' in vue && vue.locsData) vue.locsData[34] = data;
+                            if (vue.$set && vue.locsData) vue.$set(vue.locsData, '34', data);
+                            if (vue.$forceUpdate) vue.$forceUpdate();
+                        } catch (e) {
+                            debug.error('Promote Vue update error', e);
+                        }
+                    }
+                    // 兜底：如果 DOM 中仍有 loading 状态或未渲染卡片，直接注入规范的 card-item
+                    setTimeout(() => {
+                        const storeyBox = matchEl.querySelector<HTMLElement>('.storey-box');
+                        const loading = matchEl.querySelector('.load-state, .b-loading');
+                        if (loading && storeyBox) {
+                            let html = `<div class="storey-box clearfix">`;
+                            data.slice(0, 5).forEach(item => {
+                                html += `<div class="card-item match-spread-card"><a href="${item.url}" target="_blank"><div class="pic"><div class="lazy-img"><img alt="${item.name}" src="${item.pic.replace('http:', '')}@160w_100h.webp" /></div><div class="mask-video"></div><span class="promote">推广</span></div><p title="${item.name}" class="t">${item.name}</p></a></div>`;
+                            });
+                            html += `</div>`;
+                            const vnode = htmlVnode(html);
+                            storeyBox.replaceWith(new VdomTool(vnode).toFragment());
+                        }
+                    }, 200);
+                });
+            })
+            .catch(e => {
+                debug.error('APP Feed 推广位替换 Error!', e);
             });
     }
     protected recommendData() {
