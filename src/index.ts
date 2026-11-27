@@ -39,10 +39,40 @@ import { PageOnline } from './page/online';
 
 document.domain = 'bilibili.com';
 
+/** 国际版页面的语言前缀 */
+const I18N_PREFIX = /^\/(zh-Hans|zh-Hant|ja|en)(?=\/)/;
+/** 需要注入旧版页面的路径，判断时语言前缀已被去掉 */
+const I18N_RESTORE_PATH = /^\/(s\/)?(video\/|list\/|bangumi\/play\/|watchlater|read\/|history|account\/history|playlist\/|v\/popular|festival\/|online)/;
+/** 刚重定向过的时间戳，防止站点又把前缀加回来造成死循环 */
+const I18N_REDIRECT_KEY = '_blod_i18n_redirect';
+
+/**
+ * 国际版页面（`/zh-Hans/video/av123` 等）先跳回规范地址，再注入旧版页面。  
+ * 旧版页面的前端路由不认语言前缀，带前缀注入会取不到aid，页面空白。  
+ * 若跳过去之后站点又把前缀加了回来，改用不重载的改写兜底，避免来回跳。
+ * @returns 是否已发起跳转（是则本次不注入）
+ */
+function i18nRedirect() {
+    const pathname = location.pathname;
+    if (!I18N_PREFIX.test(pathname)) return false;
+    const stripped = pathname.replace(I18N_PREFIX, '');
+    if (!I18N_RESTORE_PATH.test(stripped)) return false;
+    const target = stripped + location.search + location.hash;
+    const last = Number(sessionStorage.getItem(I18N_REDIRECT_KEY) || 0);
+    if (Date.now() - last < 5000) {
+        urlCleaner.updateLocation(target);
+        return false;
+    }
+    sessionStorage.setItem(I18N_REDIRECT_KEY, String(Date.now()));
+    location.replace(target);
+    return true;
+}
+
 // 提取版本哈希（仅限用户脚本）
 BLOD.version = GM.info?.script.version.slice(-40);
 // 获取用户数据后初始化
 user.addCallback(status => {
+    if (i18nRedirect()) return;
     toast.update(status.toast);
     cdn.update(status.cdn, BLOD.version);
     Comment.commentJumpUrlTitle = status.commentJumpUrlTitle;
