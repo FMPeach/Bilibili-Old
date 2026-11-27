@@ -32,6 +32,7 @@ export class PageWatchlater extends Page {
         this.living();
         this.commentAgent();
         this.exp();
+        this.coinLimit();
         Header.primaryMenu();
         Header.banner();
         this.updateDom();
@@ -83,6 +84,20 @@ export class PageWatchlater extends Page {
                 return url;
             });
         }
+    }
+
+    /**
+     * 修复copyright=3视频的投币上限。  
+     * 旧版稍后再看的vacancy按`copyright==1 ? 2 : 1`计算，copyright=3时只能投1枚，投过一枚就提示已用完。
+     */
+    protected coinLimit() {
+        jsonpHook('x/web-interface/view?', undefined, d => {
+            try {
+                const view = <any>jsonCheck(d).data;
+                view && view.copyright === 3 && (view.copyright = 1);
+            } catch (e) { }
+            return d;
+        }, false);
     }
 
     /** 经验值接口 */
