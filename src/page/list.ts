@@ -706,6 +706,9 @@ export class PageList extends Page {
             } else {
                 if (res.data) {
                     if (res.data.View) {
+                        // copyright=3 是后加的类型，旧版投币上限按“3 - copyright - coinMultiply”计算会直接判为已投满；
+                        // 新版规则中 copyright 为 1 或 3 同为 2 枚上限，故按 1 归一化
+                        res.data.View.copyright === 3 && (res.data.View.copyright = 1);
                         const response = `{ "code": 0, "message": "0", "ttl": 1, "data": ${JSON.stringify(res.data.View.stat)} }`;
                         xhrHook.async('/x/web-interface/archive/stat?', undefined, async () => {
                             return { response, responseText: response, responseType: 'json' };
